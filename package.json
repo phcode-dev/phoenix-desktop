@@ -1,0 +1,12 @@
+{
+  "name": "phoenix-code-ide",
+  "private": true,
+  "version": "3.0.0",
+  "type": "module",
+  "scripts": {
+    "tauri": "tauri"
+  },
+  "devDependencies": {
+    "@tauri-apps/cli": "^1.2.2"
+  }
+}
