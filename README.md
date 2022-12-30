@@ -10,14 +10,45 @@ Experimental development- Work in progress, Track status here: https://github.co
  We use [Tauri](https://tauri.app/) as our app shell. Follow the below
  instructions to set up development environment.  
 
+## Prerequisites
+
 1. Setup [node and npm 16+](https://nodejs.org/en/download/).
 2. Setup [tauri prerequisites]( https://tauri.app/v1/guides/getting-started/prerequisites/) for your platform.
 3. Setup Install gulp globally once with `npm install -g gulp-cli` (use `sudo npm install -g gulp-cli` in *nix systems)
 
-# Building Phoenix Desktop
+## Get the code for development
+Get [phoenix](https://github.com/phcode-dev/phoenix) and [phoenix-desktop](https://github.com/phcode-dev/phoenix-desktop) into two folders in your computer.
+```bash
+git clone https://github.com/phcode-dev/phoenix-desktop.git
+git clone https://github.com/phcode-dev/phoenix.git
+```
 
-* run `npm install`
-* To build after npm install: `npm run build`
+## Running Phoenix Desktop Development Builds
+
+1. Setup and run `phoenix` by following the steps.
+   ```bash
+   cd phoenix
+   npm install
+   npm run build
+   npm run serve
+   ```
+   > Detailed instructions on how to setup and run phoenix are available [here](https://github.com/phcode-dev/phoenix#running-phoenix)
+2. To build desktop development build after starting phoenix server:
+   ```bash
+   cd phoenix-desktop
+   npm install
+   npm run serve
+   ``` 
+   Phoenix Desktop will start compiling and the editor window should appear after the build is done.
+3. Now you can make changes to [phoenix](https://github.com/phcode-dev/phoenix) and [phoenix-desktop](https://github.com/phcode-dev/phoenix-desktop) independently and see changes live.
+   * Changes in `phoenix-desktop` folder built with Tauri will be auto compiled and live patched on save.
+   * To load changes in `phoenix` folder, just reload Phoenix by pressing `f5` in the Phoenix window just like you would do on the browser versions of Phoenix.  
+
+## Building release binaries
+wip: hyperlink to the wiki for release generation
+
+## Creating Installers
+wip: hyperlink to the wiki for installer generation
 
 # License
 Discussion: #184

@@ -1,10 +1,13 @@
 {
   "name": "phoenix-code-ide",
   "private": true,
-  "version": "3.0.0",
+  "version": "3.0.2",
   "type": "module",
   "scripts": {
-    "tauri": "tauri"
+    "tauri": "tauri",
+    "build": "",
+    "servePhoenix": "echo -e \"\nEnsure to start phoenix server at http://localhost:8000 for development.\n Follow https://github.com/phcode-dev/phoenix#running-phoenix for instructions.\"",
+    "serve": "tauri dev"
   },
   "devDependencies": {
     "@tauri-apps/cli": "^1.2.2"
