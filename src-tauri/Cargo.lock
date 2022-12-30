@@ -1626,7 +1626,7 @@ dependencies = [
 
 [[package]]
 name = "phoenix-code-ide"
-version = "0.0.0"
+version = "3.0.2"
 dependencies = [
  "serde",
  "serde_json",

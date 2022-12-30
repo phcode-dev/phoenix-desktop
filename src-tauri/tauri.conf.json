@@ -4,15 +4,19 @@
     "beforeBuildCommand": "npm run build",
     "beforeDevCommand": "npm run servePhoenix",
     "devPath": "http://localhost:8000/src",
-    "distDir": "../src/"
+    "distDir": "../src/",
+    "withGlobalTauri": true
   },
   "package": {
     "productName": "Phoenix Code",
-    "version": "0.1.0"
+    "version": "3.0.2"
   },
   "tauri": {
     "allowlist": {
-      "all": false
+      "all": false,
+      "window": {
+        "all": true
+      }
     },
     "bundle": {
       "active": true,
@@ -57,9 +61,11 @@
       {
         "fullscreen": false,
         "height": 768,
+        "minHeight": 600,
         "resizable": true,
         "title": "Phoenix Code",
-        "width": 1024
+        "width": 1024,
+        "minWidth": 800
       }
     ]
   }
