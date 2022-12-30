@@ -1,27 +1,23 @@
 {
+  "$schema": "../node_modules/@tauri-apps/cli/schema.json",
   "build": {
-    "beforeDevCommand": "",
-    "beforeBuildCommand": "",
-    "devPath": "../src",
-    "distDir": "../src",
-    "withGlobalTauri": true
+    "beforeBuildCommand": "npm run build",
+    "beforeDevCommand": "npm run servePhoenix",
+    "devPath": "http://localhost:8000/src",
+    "distDir": "../src/"
   },
   "package": {
-    "productName": "phoenix-code-ide",
-    "version": "0.0.0"
+    "productName": "Phoenix Code",
+    "version": "0.1.0"
   },
   "tauri": {
     "allowlist": {
-      "all": false,
-      "shell": {
-        "all": false,
-        "open": true
-      }
+      "all": false
     },
     "bundle": {
       "active": true,
       "category": "DeveloperTool",
-      "copyright": "",
+      "copyright": "Copyright (c) 2022 - present Core.ai",
       "deb": {
         "depends": []
       },
@@ -60,10 +56,10 @@
     "windows": [
       {
         "fullscreen": false,
-        "height": 600,
+        "height": 768,
         "resizable": true,
-        "title": "phoenix-code-ide",
-        "width": 800
+        "title": "Phoenix Code",
+        "width": 1024
       }
     ]
   }
