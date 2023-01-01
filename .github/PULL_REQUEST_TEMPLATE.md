@@ -1,7 +1,3 @@
-<!--
-Update "[ ]" to "[x]" to check a box
--->
-
 ### What kind of change does this PR introduce?
 <!-- Delete ones that doesnt apply-->
 
