@@ -8,7 +8,7 @@ body:
     attributes:
       value: |
         ## First of all
-        1. Please search for [existing issues](https://github.com/phcode-dev/phoenix/issues) about this problem first.
+        1. Please search for [existing issues](https://github.com/phcode-dev/phoenix-desktop/issues) about this problem first.
         2. Make sure `rustc` and all relevant Tauri packages are up to date.
         3. Make sure it's an issue with Tauri and not something else you are using.
         4. Remember to follow our community guidelines and be friendly.
