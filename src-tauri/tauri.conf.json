@@ -9,7 +9,7 @@
   },
   "package": {
     "productName": "Phoenix Code",
-    "version": "3.0.2"
+    "version": "5.0.0"
   },
   "tauri": {
     "allowlist": {
