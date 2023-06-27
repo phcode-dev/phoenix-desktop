@@ -1,0 +1,13 @@
+{
+  "build": {
+    "macOS": {
+      "target": [
+        "universal"
+      ],
+      "universalBinary": [
+        "x86_64",
+        "arm64"
+      ]
+    }
+  }
+}
