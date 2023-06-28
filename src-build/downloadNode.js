@@ -28,7 +28,8 @@ async function fetchLatestNodeVersion() {
             });
 
             res.on('end', () => {
-                const versionMatch = data.match(/node-v(\d+\.\d+\.\d+)/);
+
+                const versionMatch = /node-v(\d+\.\d+\.\d+)/.exec(data);
                 if (versionMatch) {
                     resolve(versionMatch[1]);
                 } else {
@@ -59,6 +60,7 @@ async function downloadNodeBinary(version, platform, arch) {
         return fileName;
     }
     const MAX_RETRIES = 3
+    console.log(`downloading node ${version} for ${platform} ${arch}`);
     for (let attempt = 0; attempt < MAX_RETRIES; attempt++) {
         try {
             const file = fs.createWriteStream(fullPath);
@@ -96,10 +98,28 @@ async function untarFile(inputFile, outputDir) {
     const file = path.resolve(inputFile);
     const outdir = path.resolve(outputDir);
 
+    const MAX_FILES = 10000;
+    const MAX_SIZE = 1000000000; // 1 GB
+
+    let fileCount = 0;
+    let totalSize = 0;
     try {
         await tar.x({
             file: file,
             cwd: outdir,
+            filter: (path, entry) => {
+                fileCount++;
+                if (fileCount > MAX_FILES) {
+                    throw 'Reached max. number of files';
+                }
+
+                totalSize += entry.size;
+                if (totalSize > MAX_SIZE) {
+                    throw 'Reached max. size';
+                }
+
+                return true;
+            }
         });
         console.log('Extraction complete');
     } catch (err) {
@@ -122,6 +142,7 @@ function unzipFile(zipFilePath, extractPath) {
         console.error(err);
     }
 }
+
 /**
  * Copies the latest version of Node.js binary for a specific platform and architecture.
  * @param {string} platform - The platform for which to download the Node.js binary. (e.g., "win", "linux", "mac")
@@ -199,17 +220,5 @@ async function removeDir(dirPath) {
         console.error(err);
     }
 }
-
-//
-// try {
-//     const version = await fetchLatestNodeVersion();
-//     // const fileName = await downloadNodeBinary(version, 'linux', 'x64');
-//     // await untarFile(fileName, ".");
-//     const fileName = await downloadNodeBinary(version, 'win', 'x64');
-//     unzipFile(fileName, ".");
-//     console.log('Downloaded file:', fileName);
-// } catch (err) {
-//     console.error(err);
-// }
 
 await copyLatestNodeForBuild("linux", "x64");
