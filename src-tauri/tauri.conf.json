@@ -16,6 +16,12 @@
       "all": false,
       "window": {
         "all": true
+      },
+      "fs": {
+        "all": true,
+        "scope": [
+          "$RESOURCE/*"
+        ]
       }
     },
     "bundle": {
@@ -42,7 +48,9 @@
         "providerShortName": null,
         "signingIdentity": null
       },
-      "resources": [],
+      "resources": [
+        "node/*"
+      ],
       "shortDescription": "",
       "targets": "all",
       "windows": {
