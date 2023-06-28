@@ -6,6 +6,7 @@ import AdmZip from 'adm-zip';
 import {fileURLToPath} from 'url';
 import {dirname} from 'path';
 import * as fsExtra from "fs-extra";
+import * as os from "os";
 
 
 const __filename = fileURLToPath(import.meta.url);
@@ -179,7 +180,7 @@ async function copyLatestNodeForBuild(platform, arch) {
         unzipFile(fullPath, ".");
         nodeFolder = fileName.slice(0, -4);
     } else {
-        await untarFile(fullPath, ".");
+        await untarFile(fullPath, __dirname);
         nodeFolder = fileName.slice(0, -7);
     }
     console.log(nodeFolder);
@@ -242,4 +243,23 @@ async function removeDir(dirPath) {
     }
 }
 
-await copyLatestNodeForBuild("linux", "x64");
+/**
+ * Retrieves platform details including the operating system platform and architecture.
+ * @returns {Object} An object containing the platform and architecture details.
+ * @example
+ * const platformDetails = getPlatformDetails();
+ * console.log(platformDetails.platform); // "win" or the actual platform value
+ * console.log(platformDetails.arch); // the architecture value
+ */
+function getPlatformDetails() {
+    const platform = os.platform();
+    const arch = os.arch();
+    return {
+        platform: (platform === "win32") ? "win" : platform,
+        arch: arch
+    }
+}
+
+const platformDetails = getPlatformDetails();
+
+await copyLatestNodeForBuild(platformDetails.platform, platformDetails.arch);
