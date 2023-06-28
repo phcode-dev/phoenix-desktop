@@ -70,8 +70,8 @@ jobs:
         run: |
           rustup target add aarch64-apple-darwin
           npm install
-      - name: build for mac arm
-        if: matrix.platform == 'macos-latest' (Mac only)
+      - name: build for mac arm (Mac only)
+        if: matrix.platform == 'macos-latest'
         uses: tauri-apps/tauri-action@v0
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
