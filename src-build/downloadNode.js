@@ -173,19 +173,19 @@ function unzipFile(zipFilePath, extractPath) {
 async function copyLatestNodeForBuild(platform, arch) {
     const version = await fetchLatestNodeVersion();
     const fileName = await downloadNodeBinary(version, platform, arch);
-    const fullPath = `${__dirname}/${fileName}`
+    const fullPath = (platform === "win") ? `${__dirname}\\${fileName}` : `${__dirname}/${fileName}`;
     let nodeFolder = "";
 
     if (platform === "win") {
-        unzipFile(fullPath, ".");
+        unzipFile(fullPath, __dirname);
         nodeFolder = fileName.slice(0, -4);
     } else {
         await untarFile(fullPath, __dirname);
         nodeFolder = fileName.slice(0, -7);
     }
     console.log(nodeFolder);
-    const fullPathUnzipFolder = `${__dirname}/${nodeFolder}`;
-    const fullPathOfNode = `${__dirname}/node`;
+    const fullPathUnzipFolder = (platform === "win") ? `${__dirname}\\${nodeFolder}` : `${__dirname}/${nodeFolder}`;
+    const fullPathOfNode = (platform === "win") ? `${__dirname}\\node` : `${__dirname}/node`;
     await removeDir(fullPathOfNode);
 
     try {
@@ -193,7 +193,7 @@ async function copyLatestNodeForBuild(platform, arch) {
     } catch (err) {
         console.error('ERROR:', err);
     }
-    const tauriDestFolder = `${__dirname}/../src-tauri/node`;
+    const tauriDestFolder = (platform === "win") ? `${__dirname}\\..\\src-tauri\\node` : `${__dirname}/../src-tauri/node`;
     await removeDir(tauriDestFolder)
 
     await copyDir(fullPathOfNode, tauriDestFolder);
