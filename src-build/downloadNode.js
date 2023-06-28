@@ -110,12 +110,12 @@ async function untarFile(inputFile, outputDir) {
             filter: (path, entry) => {
                 fileCount++;
                 if (fileCount > MAX_FILES) {
-                    throw 'Reached max. number of files';
+                    throw new Error('Reached max. number of files');
                 }
 
                 totalSize += entry.size;
                 if (totalSize > MAX_SIZE) {
-                    throw 'Reached max. size';
+                    throw new Error('Reached max. size');
                 }
 
                 return true;
@@ -145,18 +145,18 @@ function unzipFile(zipFilePath, extractPath) {
     zipEntries.forEach(function (zipEntry) {
         fileCount++;
         if (fileCount > MAX_FILES) {
-            throw 'Reached max. number of files';
+            throw new Error('Reached max. number of files');
         }
 
         let entrySize = zipEntry.getData().length;
         totalSize += entrySize;
         if (totalSize > MAX_SIZE) {
-            throw 'Reached max. size';
+            throw new Error('Reached max. size');
         }
 
         let compressionRatio = entrySize / zipEntry.header.compressedSize;
         if (compressionRatio > THRESHOLD_RATIO) {
-            throw 'Reached max. compression ratio';
+            throw new Error('Reached max. compression ratio');
         }
 
         if (!zipEntry.isDirectory) {
