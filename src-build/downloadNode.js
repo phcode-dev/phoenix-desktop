@@ -26,7 +26,6 @@ async function fetchLatestNodeVersion() {
             res.on('data', (chunk) => {
                 data += chunk;
             });
-
             res.on('end', () => {
 
                 const versionMatch = /node-v(\d+\.\d+\.\d+)/.exec(data);
@@ -112,12 +111,10 @@ async function untarFile(inputFile, outputDir) {
                 if (fileCount > MAX_FILES) {
                     throw new Error('Reached max. number of files');
                 }
-
                 totalSize += entry.size;
                 if (totalSize > MAX_SIZE) {
                     throw new Error('Reached max. size');
                 }
-
                 return true;
             }
         });
@@ -195,10 +192,11 @@ async function copyLatestNodeForBuild(platform, arch) {
     } catch (err) {
         console.error('ERROR:', err);
     }
-    const tauriDestFolder = `${__dirname}/../src/node`;
+    const tauriDestFolder = `${__dirname}/../src-tauri/node`;
     await removeDir(tauriDestFolder)
 
     await copyDir(fullPathOfNode, tauriDestFolder);
+    await removeDir(fullPathOfNode);
 
 }
 
