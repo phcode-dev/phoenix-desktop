@@ -65,13 +65,13 @@ jobs:
         with:
           releaseId: ${{ needs.create-release.outputs.release_id }}
 
-      - name: setup env for mac arm
+      - name: setup env for mac arm (Mac only)
         if: matrix.platform == 'macos-latest'
         run: |
           rustup target add aarch64-apple-darwin
           npm install
       - name: build for mac arm
-        if: matrix.platform == 'macos-latest'
+        if: matrix.platform == 'macos-latest' (Mac only)
         uses: tauri-apps/tauri-action@v0
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
@@ -98,6 +98,6 @@ jobs:
               owner: context.repo.owner,
               repo: context.repo.repo,
               release_id: process.env.release_id,
-              draft: false,
+              draft: true,
               prerelease: false
             })
