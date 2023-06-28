@@ -261,5 +261,6 @@ function getPlatformDetails() {
 }
 
 const platformDetails = getPlatformDetails();
+console.log(platformDetails);
 
 await copyLatestNodeForBuild(platformDetails.platform, platformDetails.arch);
