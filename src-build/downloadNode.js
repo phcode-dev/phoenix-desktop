@@ -64,7 +64,9 @@ async function downloadNodeBinary(version, platform, arch) {
         try {
             const file = fs.createWriteStream(fullPath);
             await new Promise((resolve, reject) => {
-                https.get(`${LTS_URL_PREFIX}node-v${version}-${platform}-${arch}.${extension}`, (res) => {
+                const downloadUrl = `${LTS_URL_PREFIX}node-v${version}-${platform}-${arch}.${extension}`;
+                console.log(downloadUrl);
+                https.get(downloadUrl, (res) => {
                     res.pipe(file);
                     res.on('end', () => resolve(fileName));
                     res.on('error', (err) => {

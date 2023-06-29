@@ -10,8 +10,8 @@
     "serve": "tauri dev",
     "postinstall": "node ./src-build/downloadNode.js",
     "cleanNode": "node src-build/cleanNode.js",
-    "preinstallNodeDarwin": "npm  run cleanNode",
-    "installNodeDarwin": "node ./src-build/downloadNode.js '{\"platform\":\"darwin\",\"arch\":\"x64\"}'"
+    "preinstallNodeArmDarwin": "npm  run cleanNode",
+    "installNodeArmDarwin": "node ./src-build/downloadNode.js '{\"platform\":\"darwin\",\"arch\":\"arm64\"}'"
   },
   "devDependencies": {
     "@tauri-apps/cli": "1.4.0",
