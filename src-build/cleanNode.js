@@ -7,6 +7,7 @@ const __filename = fileURLToPath(import.meta.url);
 const __dirname = dirname(__filename);
 
 async function cleanNode() {
+    console.log('cleaning current node used by phcode from workspace');
     const listOfNodeFolders = await listFolders(__dirname, "node");
     for (let files of listOfNodeFolders) {
         await removeDir(files);
