@@ -69,7 +69,6 @@ jobs:
         if: matrix.platform == 'macos-latest'
         run: |
           rustup target add aarch64-apple-darwin
-          npm install
           npm run installNodeArmDarwin
       - name: build for mac arm (Mac only)
         if: matrix.platform == 'macos-latest'

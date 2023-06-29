@@ -12,10 +12,9 @@ async function cleanNode() {
         await removeDir(files);
     }
     const platform = getPlatformDetails().platform;
-    const tauriDestFolderNode = (platform === "win") ? `${__dirname}\\..\\src-tauri\\node`(args.length === 1)
+    const tauriDestFolderNode = (platform === "win") ? `${__dirname}\\..\\src-tauri\\node`
         : `${__dirname}/../src-tauri/node`;
-    await removeDir(tauriDestFolderNode)
-    console.log(listOfNodeFolders);
+    await removeDir(tauriDestFolderNode);
 }
 
 await cleanNode();
