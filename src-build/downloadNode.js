@@ -6,7 +6,8 @@ import AdmZip from 'adm-zip';
 import {fileURLToPath} from 'url';
 import {dirname} from 'path';
 import * as fsExtra from "fs-extra";
-import * as os from "os";
+import {getPlatformDetails} from "./utils.js";
+import {removeDir} from "./utils.js";
 
 
 const __filename = fileURLToPath(import.meta.url);
@@ -219,48 +220,9 @@ async function copyDir(source, destination) {
     }
 }
 
-/**
- * Asynchronously removes a specified directory if it exists.
- *
- * @async
- * @function
- * @param {string} dirPath - The path of the directory to be removed.
- * @returns {Promise<string>} A promise that resolves to a string indicating whether the directory was not found or was successfully removed.
- * @throws {Error} If an error occurs during the operation, it will be logged to the console.
- */
-async function removeDir(dirPath) {
-    try {
-        const exists = await fsExtra.pathExists(dirPath);
-
-        if (!exists) {
-            return 'Directory not found!';
-        }
-
-        await fsExtra.remove(dirPath);
-        return 'Directory removed!';
-    } catch (err) {
-        console.error(err);
-    }
-}
-
-/**
- * Retrieves platform details including the operating system platform and architecture.
- * @returns {Object} An object containing the platform and architecture details.
- * @example
- * const platformDetails = getPlatformDetails();
- * console.log(platformDetails.platform); // "win" or the actual platform value
- * console.log(platformDetails.arch); // the architecture value
- */
-function getPlatformDetails() {
-    const platform = os.platform();
-    const arch = os.arch();
-    return {
-        platform: (platform === "win32") ? "win" : platform,
-        arch: arch
-    }
-}
-
-const platformDetails = getPlatformDetails();
+let args = process.argv.slice(2);
+console.log(args);
+const platformDetails = (args.length === 1) ? JSON.parse(args[0]) : getPlatformDetails();
 console.log(platformDetails);
 
 await copyLatestNodeForBuild(platformDetails.platform, platformDetails.arch);
