@@ -8,7 +8,10 @@
     "build": "",
     "servePhoenix": "echo -e \"\nEnsure to start phoenix server at http://localhost:8000 for development.\n Follow https://github.com/phcode-dev/phoenix#running-phoenix for instructions.\"",
     "serve": "tauri dev",
-    "postinstall" : "node ./src-build/downloadNode.js"
+    "postinstall": "node ./src-build/downloadNode.js",
+    "cleanNode": "node src-build/cleanNode.js",
+    "preinstallNodeDarwin": "npm  run cleanNode",
+    "installNodeDarwin": "node ./src-build/downloadNode.js '{\"platform\":\"darwin\",\"arch\":\"x64\"}'"
   },
   "devDependencies": {
     "@tauri-apps/cli": "1.4.0",
