@@ -6,9 +6,7 @@ import AdmZip from 'adm-zip';
 import {fileURLToPath} from 'url';
 import {dirname} from 'path';
 import * as fsExtra from "fs-extra";
-import {getPlatformDetails} from "./utils.js";
-import {removeDir} from "./utils.js";
-
+import {getPlatformDetails, removeDir} from "./utils.js";
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = dirname(__filename);
@@ -122,7 +120,7 @@ async function untarFile(inputFile, outputDir) {
         });
         console.log('Extraction complete');
     } catch (err) {
-        console.error(err);
+        throw new Error(err);
     }
 }
 

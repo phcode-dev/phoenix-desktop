@@ -1,7 +1,8 @@
 import * as fsExtra from "fs-extra";
-import { promises as fs } from 'fs';
+import {promises as fs} from 'fs';
 import * as path from "path";
 import * as os from "os";
+
 /**
  * Asynchronously removes a specified directory if it exists.
  *
@@ -25,6 +26,7 @@ export async function removeDir(dirPath) {
         console.error(err);
     }
 }
+
 /**
  * Asynchronously lists all folders in a given start path that start with a specific filter.
  *
@@ -46,10 +48,10 @@ export async function listFolders(startPath, filter) {
     let files = await fs.readdir(startPath);
     let folders = [];
 
-    for(let file of files) {
+    for (let file of files) {
         let fullPath = path.join(startPath, file);
-        let stat = await fs.stat(fullPath);
-        if(file.startsWith(filter)) {
+        await fs.stat(fullPath);
+        if (file.startsWith(filter)) {
             folders.push(fullPath);
         }
     }
