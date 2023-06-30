@@ -82,8 +82,11 @@ export function getSideCarBinName(platform, arch) {
     if (platform === "darwin" && arch === "x64") {
         return "node-x86_64-apple-darwin";
     }
-    if (platform === "win32" && arch === "x64") {
+    if (platform ==="darwin" && arch === "x64"){
+        return "node-aarch64-apple-darwin";
+    }
+    if (platform === "win" && arch === "x64") {
         return "node-x86_64-pc-windows-msvc.exe";
     }
-    return "node";
+   throw new Error(`unsupported ${platform} ${arch}`);
 }
