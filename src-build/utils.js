@@ -44,7 +44,7 @@ export async function removeDir(dirPath) {
  * listFolders('/path/to', 'Foo')
  */
 
-export async function listFolders(startPath, filter) {
+export async function listFilesAndFolders(startPath, filter) {
     let files = await fs.readdir(startPath);
     let folders = [];
 
@@ -73,4 +73,11 @@ export function getPlatformDetails() {
         platform: (platform === "win32") ? "win" : platform,
         arch: arch
     }
+}
+
+export function getSideCarBinName(platform, arch) {
+    if (platform === "linux") {
+        return "node-x86_64-unknown-linux-gnu";
+    }
+    return "node";
 }

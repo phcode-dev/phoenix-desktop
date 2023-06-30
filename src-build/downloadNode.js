@@ -6,7 +6,7 @@ import AdmZip from 'adm-zip';
 import {fileURLToPath} from 'url';
 import {dirname} from 'path';
 import * as fsExtra from "fs-extra";
-import {getPlatformDetails, removeDir} from "./utils.js";
+import {getPlatformDetails, getSideCarBinName, removeDir} from "./utils.js";
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = dirname(__filename);
@@ -194,12 +194,19 @@ async function copyLatestNodeForBuild(platform, arch) {
     } catch (err) {
         console.error('ERROR:', err);
     }
-    const tauriDestFolder = (platform === "win") ? `${__dirname}\\..\\src-tauri\\node` : `${__dirname}/../src-tauri/node`;
-    await removeDir(tauriDestFolder)
 
-    await copyDir(fullPathOfNode, tauriDestFolder);
+    const srcNode = (platform === "win") ? `${fullPathOfNode}\\node.exe` : `${fullPathOfNode}/bin/node`;
+    const destFileName = getSideCarBinName(platform, arch);
+    const tauriDestNode = (platform === "win") ? `${__dirname}\\..\\src-tauri\\${destFileName}` : `${__dirname}/../src-tauri/${destFileName}`;
+
+    try {
+        fs.copyFileSync(srcNode, tauriDestNode);
+        console.log("File copied successfully!");
+    } catch (err) {
+        console.log("Error Found:", err);
+        throw new Error(err);
+    }
     await removeDir(fullPathOfNode);
-
 }
 
 /**
