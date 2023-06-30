@@ -76,8 +76,14 @@ export function getPlatformDetails() {
 }
 
 export function getSideCarBinName(platform, arch) {
-    if (platform === "linux") {
+    if (platform === "linux" && arch === "x64") {
         return "node-x86_64-unknown-linux-gnu";
+    }
+    if (platform === "darwin" && arch === "x64") {
+        return "node-x86_64-apple-darwin";
+    }
+    if (platform === "win32" && arch === "x64") {
+        return "node-x86_64-pc-windows-msvc.exe";
     }
     return "node";
 }
