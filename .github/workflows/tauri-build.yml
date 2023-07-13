@@ -61,11 +61,13 @@ jobs:
         env:
           TAURI_PRIVATE_KEY: ${{ secrets.TAURI_PRIVATE_KEY }}
           TAURI_KEY_PASSWORD: ${{ secrets.TAURI_KEY_PASSWORD }}
+      - name: get version
+        run: echo "PACKAGE_VERSION=$(node -p "require('./package.json').version")" >> $GITHUB_ENV
       - name: Sign Windows App (EV)
         run: |
           dotnet tool install --global AzureSignTool
           # You'll probably want to template in your app version number here somehow
-          AzureSignTool sign -kvu "${{ secrets.AZURE_KEY_VAULT_URI }}" -kvi "${{ secrets.AZURE_CLIENT_ID }}" -kvt "${{ secrets.AZURE_TENANT_ID }}"-kvs "${{ secrets.AZURE_CLIENT_SECRET }}" -kvc ${{ secrets.AZURE_CERT_NAME }} -tr http://timestamp.digicert.com -v src-tauri\target\release\bundle\msi\Phoenix.Code_${process.env.PACKAGE_VERSION}_x64_en-US.msi -d "CORE.AI SCIENTIFIC TECHNOLOGIES PRIVATE LIMITED"
+          AzureSignTool sign -kvu "${{ secrets.AZURE_KEY_VAULT_URI }}" -kvi "${{ secrets.AZURE_CLIENT_ID }}" -kvt "${{ secrets.AZURE_TENANT_ID }}"-kvs "${{ secrets.AZURE_CLIENT_SECRET }}" -kvc ${{ secrets.AZURE_CERT_NAME }} -tr http://timestamp.digicert.com -v src-tauri\target\release\bundle\msi\PhCode_${process.env.PACKAGE_VERSION}_x64_en-US.msi -d "CORE.AI SCIENTIFIC TECHNOLOGIES PRIVATE LIMITED"
 
   publish-release:
     permissions:
