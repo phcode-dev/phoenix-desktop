@@ -11,7 +11,8 @@
     "postinstall": "node ./src-build/downloadNode.js",
     "cleanNode": "node src-build/cleanNode.js",
     "preinstallNodeArmDarwin": "npm  run cleanNode",
-    "installNodeArmDarwin": "node ./src-build/downloadNode.js '{\"platform\":\"darwin\",\"arch\":\"arm64\"}'"
+    "installNodeArmDarwin": "node ./src-build/downloadNode.js '{\"platform\":\"darwin\",\"arch\":\"arm64\"}'",
+    "getPackageVersion" : "node ./src-build/getVersion.js"
   },
   "devDependencies": {
     "@tauri-apps/cli": "1.4.0",
