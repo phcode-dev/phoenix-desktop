@@ -67,7 +67,7 @@ jobs:
         run: |
           dotnet tool install --global AzureSignTool
       - name: Run a one-line script with admin privileges
-        run: Start-Process -Verb RunAs -FilePath "C:\msys64\usr\bin\bash.exe" -ArgumentList '-c "echo Hello, world!"'
+        run: Start-Process -Verb RunAs -FilePath "C:\msys64\usr\bin\bash.exe" -ArgumentList '-c  touch hello.txt; cp hello.txt C:\Program Files\ '
         shell: powershell
 
       - name: Run a multi-line script with admin privileges
