@@ -63,7 +63,7 @@ jobs:
           TAURI_KEY_PASSWORD: ${{ secrets.TAURI_KEY_PASSWORD }}
       - name: get version
         run: echo "PACKAGE_VERSION=$(node -p "require('./package.json').version")" >> $GITHUB_ENV
-      - name: : install AzureSignTool
+      - name: install AzureSignTool
         run: |
           dotnet tool install --global AzureSignTool
       - name: Run a one-line script with admin privileges
