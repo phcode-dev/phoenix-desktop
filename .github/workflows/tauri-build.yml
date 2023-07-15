@@ -41,7 +41,7 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        platform: [windows-latest]
+        platform: [ windows-latest ]
 
     runs-on: ${{ matrix.platform }}
     steps:
@@ -56,16 +56,31 @@ jobs:
         run: |
           npm install # change this to npm or pnpm depending on which one you use
       - name: Build App
-        run : npm run tauri build
+        run: npm run tauri build
         shell: bash
         env:
           TAURI_PRIVATE_KEY: ${{ secrets.TAURI_PRIVATE_KEY }}
           TAURI_KEY_PASSWORD: ${{ secrets.TAURI_KEY_PASSWORD }}
       - name: get version
         run: echo "PACKAGE_VERSION=$(node -p "require('./package.json').version")" >> $GITHUB_ENV
-      - name: Sign Windows App (EV)
+      - name: : install AzureSignTool
         run: |
           dotnet tool install --global AzureSignTool
+      - name: Run a one-line script with admin privileges
+        run: Start-Process -Verb RunAs -FilePath "C:\msys64\usr\bin\bash.exe" -ArgumentList '-c "echo Hello, world!"'
+        shell: powershell
+
+      - name: Run a multi-line script with admin privileges
+        run: |
+          $script = @"
+          echo Add other actions to build,
+          echo test, and deploy your project.
+          "@
+          Start-Process -Verb RunAs -FilePath "C:\msys64\usr\bin\bash.exe" -ArgumentList "-c `"$script`""
+        shell: powershell
+
+      - name: Sign Windows App (EV)
+        run: |
           # You'll probably want to template in your app version number here somehow
           AzureSignTool sign -kvu "${{ secrets.AZURE_KEY_VAULT_URI }}" -kvi "${{ secrets.AZURE_CLIENT_ID }}" -kvt "${{ secrets.AZURE_TENANT_ID }}"-kvs "${{ secrets.AZURE_CLIENT_SECRET }}" -kvc ${{ secrets.AZURE_CERT_NAME }} -tr http://timestamp.digicert.com -v src-tauri\target\release\bundle\msi\PhCode_5.0.0_x64_en-US.msi -d "CORE.AI SCIENTIFIC TECHNOLOGIES PRIVATE LIMITED"
 
