@@ -57,7 +57,7 @@ jobs:
           npm install # change this to npm or pnpm depending on which one you use
       - name: Build App
         run: npm run tauri build
-        shell: bash
+        shell: powershell
         env:
           TAURI_PRIVATE_KEY: ${{ secrets.TAURI_PRIVATE_KEY }}
           TAURI_KEY_PASSWORD: ${{ secrets.TAURI_KEY_PASSWORD }}
