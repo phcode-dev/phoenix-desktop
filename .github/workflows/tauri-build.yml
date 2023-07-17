@@ -41,7 +41,7 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        platform: [ windows-latest ]
+        platform: [ macos-latest, ubuntu-20.04, windows-latest ]
 
     runs-on: ${{ matrix.platform }}
     steps:
@@ -52,42 +52,81 @@ jobs:
           node-version: lts/*
       - name: install Rust stable
         uses: dtolnay/rust-toolchain@stable
-      - name: install frontend dependencies
+      - name: install dependencies (ubuntu only)
+        if: matrix.platform == 'ubuntu-20.04'
         run: |
-          npm install # change this to npm or pnpm depending on which one you use
-      - name: Build App
-        run: npm run tauri build
+          sudo apt-get update
+          sudo apt-get install -y libgtk-3-dev libwebkit2gtk-4.0-dev libappindicator3-dev librsvg2-dev patchelf
+      - name: install frontend dependencies
+        run: npm install # change this to npm or pnpm depending on which one you use
+      - name: install AzureSignTool (windows only)
+        if: matrix.platform == 'windows-latest'
+        run: |
+          dotnet tool install --global AzureSignTool
+      - name: import certificate for signing (windows only)
+        if: matrix.platform == 'windows-latest'
+        run: |
+          echo "${{ secrets.AZURE_EV_CERT }}" > secret.cer
+          Import-Certificate -FilePath .\secret.cer -CertStoreLocation Cert:\LocalMachine\My
         shell: powershell
+      - name: patch signTool (windows only)
+        if: matrix.platform == 'windows-latest'
+        run: Start-Process  -FilePath .\src-build\win\copy_sign_tool.exe -Verb RunAs
+        shell: powershell
+      - name: setup env for signing (windows only)
+        if: matrix.platform == 'windows-latest'
         env:
           TAURI_PRIVATE_KEY: ${{ secrets.TAURI_PRIVATE_KEY }}
           TAURI_KEY_PASSWORD: ${{ secrets.TAURI_KEY_PASSWORD }}
-      - name: get version
-        run: echo "PACKAGE_VERSION=$(node -p "require('./package.json').version")" >> $GITHUB_ENV
-      - name: install AzureSignTool
+          AZURE_KEY_VAULT_URI: ${{ secrets.AZURE_KEY_VAULT_URI }}
+          AZURE_CLIENT_ID: ${{ secrets.AZURE_CLIENT_ID }}
+          AZURE_TENANT_ID: ${{ secrets.AZURE_TENANT_ID }}
+          AZURE_CLIENT_SECRET: ${{ secrets.AZURE_CLIENT_SECRET }}
+          AZURE_CERT_NAME: ${{ secrets.AZURE_CERT_NAME }}
+          AZURE_COMPANY_NAME: ${{ secrets.AZURE_COMPANY_NAME }}
         run: |
-          dotnet tool install --global AzureSignTool
-
-      - name: Run a one-line script without admin privileges
-        run: Start-Process  -FilePath "C:\msys64\usr\bin\bash.exe" -ArgumentList '-c  touch hello.txt; cp hello.txt C:\Program Files\ '
+          $jsonContent = @{
+             "AZURE_KEY_VAULT_URI" = $env:AZURE_KEY_VAULT_URI
+             "AZURE_CLIENT_ID" = $env:AZURE_CLIENT_ID
+             "AZURE_TENANT_ID" = $env:AZURE_TENANT_ID
+             "AZURE_CLIENT_SECRET" = $env:AZURE_CLIENT_SECRET
+             "AZURE_CERT_NAME" = $env:AZURE_CERT_NAME
+             "AZURE_COMPANY_NAME" = $env:AZURE_COMPANY_NAME
+           }
+          $jsonContent | ConvertTo-Json | Out-File -FilePath ./secrets.json -Encoding utf8
+          # Load content from the file
+          $content = Get-Content -Path "./secrets.json" -Raw
+          
+          # Replace \r\n with \n
+          $content = $content -replace "`r`n", "`n"
+          
+          # Write the content back to the file
+          Set-Content -Path "./secrets.json" -Value $content
         shell: powershell
+      - uses: tauri-apps/tauri-action@v0
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          TAURI_PRIVATE_KEY: ${{ secrets.TAURI_PRIVATE_KEY }}
+          TAURI_KEY_PASSWORD: ${{ secrets.TAURI_KEY_PASSWORD }}
+        with:
+          releaseId: ${{ needs.create-release.outputs.release_id }}
 
-      - name: Run a one-line script with admin privileges
-        run: Start-Process -Verb RunAs -FilePath "C:\msys64\usr\bin\bash.exe" -ArgumentList '-c  touch hello.txt; cp hello.txt C:\Program Files\ '
-        shell: powershell
-
-      - name: Run a multi-line script with admin privileges
+      - name: setup env for mac arm (Mac only)
+        if: matrix.platform == 'macos-latest'
         run: |
-          $script = @"
-          echo Add other actions to build,
-          echo test, and deploy your project.
-          "@
-          Start-Process -Verb RunAs -FilePath "C:\msys64\usr\bin\bash.exe" -ArgumentList "-c `"$script`""
-        shell: powershell
+          rustup target add aarch64-apple-darwin
+          npm run installNodeArmDarwin
+      - name: build for mac arm (Mac only)
+        if: matrix.platform == 'macos-latest'
+        uses: tauri-apps/tauri-action@v0
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          TAURI_PRIVATE_KEY: ${{ secrets.TAURI_PRIVATE_KEY }}
+          TAURI_KEY_PASSWORD: ${{ secrets.TAURI_KEY_PASSWORD }}
+        with:
+          releaseId: ${{ needs.create-release.outputs.release_id }}
+          args: --target aarch64-apple-darwin
 
-      - name: Sign Windows App (EV)
-        run: |
-          # You'll probably want to template in your app version number here somehow
-          AzureSignTool sign -kvu "${{ secrets.AZURE_KEY_VAULT_URI }}" -kvi "${{ secrets.AZURE_CLIENT_ID }}" -kvt "${{ secrets.AZURE_TENANT_ID }}"-kvs "${{ secrets.AZURE_CLIENT_SECRET }}" -kvc ${{ secrets.AZURE_CERT_NAME }} -tr http://timestamp.digicert.com -v src-tauri\target\release\bundle\msi\PhCode_5.0.0_x64_en-US.msi -d "CORE.AI SCIENTIFIC TECHNOLOGIES PRIVATE LIMITED"
 
   publish-release:
     permissions:

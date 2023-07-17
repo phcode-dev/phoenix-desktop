@@ -26,7 +26,10 @@
       "shell": {
         "sidecar": true,
         "scope": [
-          { "name": "node", "sidecar": true }
+          {
+            "name": "node",
+            "sidecar": true
+          }
         ]
       }
     },
@@ -37,7 +40,9 @@
       "deb": {
         "depends": []
       },
-      "externalBin": ["./node"],
+      "externalBin": [
+        "./node"
+      ],
       "icon": [
         "icons/32x32.png",
         "icons/128x128.png",
@@ -60,9 +65,9 @@
       "shortDescription": "",
       "targets": "all",
       "windows": {
-        "certificateThumbprint": null,
+        "certificateThumbprint": "AB7D19C00251C1E412594A28DC79D201AAEF50D0",
         "digestAlgorithm": "sha256",
-        "timestampUrl": ""
+        "timestampUrl": "http://timestamp.comodoca.com"
       }
     },
     "security": {
