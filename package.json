@@ -7,7 +7,7 @@
     "tauri": "tauri",
     "build": "",
     "servePhoenix": "echo -e \"\nEnsure to start phoenix server at http://localhost:8000 for development.\n Follow https://github.com/phcode-dev/phoenix#running-phoenix for instructions.\"",
-    "serve": "tauri dev",
+    "serve": "npm run servePhoenix && tauri dev",
     "postinstall": "node ./src-build/downloadNode.js",
     "cleanNode": "node src-build/cleanNode.js",
     "preinstallNodeArmDarwin": "npm  run cleanNode",
@@ -19,6 +19,11 @@
     "tar": "6.1.15",
     "adm-zip": "0.5.10",
     "fs-extra": "11.1.1"
+  },
+  "phoenixRepo" : {
+    "gitClonrUrl": "https://github.com/phcode-dev/phoenix.git",
+    "branch": "tauri",
+    "commit": "2e5dceb684970780204485f3209b1707b19b634a"
   },
   "dependencies": {
   }

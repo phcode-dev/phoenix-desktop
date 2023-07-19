@@ -1,14 +1,19 @@
 # Phoenix Desktop
 This repo deals with Windows, Mac and Linux Desktop builds of [Phoenix IDE](https://github.com/phcode-dev/phoenix).
 
-Please see https://github.com/phcode-dev/phoenix on how to Contribute or get in touch with the community. 
+Please see https://github.com/phcode-dev/phoenix on how to Contribute or get in touch with the community.
 
 ## Status
 Experimental development- Work in progress, Track status here: https://github.com/orgs/phcode-dev/projects/1/views/1
 
 # Development Setup
- We use [Tauri](https://tauri.app/) as our app shell. Follow the below
- instructions to set up development environment.  
+We use [Tauri](https://tauri.app/) as our app shell. We maintain the [phcode-tauri-shell](https://github.com/phcode-dev/phoenix-desktop) and
+[phcode static website](https://github.com/phcode-dev/phoenix) code in two separate repositories. This 
+separation is intended to simplify development by distinctly isolating the shell and phcode. For instance,
+if you are solely developing the shell internals, you can always construct an empty tauri app without having to build phoenix.
+
+Follow the below
+instructions to set up development environment.
 
 ## Prerequisites
 
@@ -24,6 +29,9 @@ git clone https://github.com/phcode-dev/phoenix.git
 ```
 
 ## Running Phoenix Desktop Development Builds
+For development, tauri will directly load the phcode static
+server url "localhost:8000/src" from the phoenix repo. So you
+can quickly iterate changes without rebuilding tauri src for each change. Just a simple reload will suffice.
 
 1. Setup and run `phoenix` by following the steps.
    ```bash
@@ -42,7 +50,7 @@ git clone https://github.com/phcode-dev/phoenix.git
    Phoenix Desktop will start compiling and the editor window should appear after the build is done.
 3. Now you can make changes to [phoenix](https://github.com/phcode-dev/phoenix) and [phoenix-desktop](https://github.com/phcode-dev/phoenix-desktop) independently and see changes live.
    * Changes in `phoenix-desktop` folder built with Tauri will be auto compiled and live patched on save.
-   * To load changes in `phoenix` folder, just reload Phoenix by pressing `f5` in the Phoenix window just like you would do on the browser versions of Phoenix.  
+   * To load changes in `phoenix` folder, just reload Phoenix by pressing `f5` in the Phoenix window just like you would do on the browser versions of Phoenix.
 
 ## Building release binaries
 wip: hyperlink to the wiki for release generation
