@@ -11,6 +11,8 @@ node-bins
 src-build/node-*
 src-tauri/node-*
 src-tauri/tauri-local.conf.json
+src-tauri/tauri-dist.conf.json
+phoenix
 
 node_modules
 dist

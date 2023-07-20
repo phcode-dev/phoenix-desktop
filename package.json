@@ -1,36 +1,40 @@
 {
-  "name": "phoenix-code-ide",
-  "private": true,
-  "version": "5.0.0",
-  "type": "module",
-  "scripts": {
-    "tauri": "tauri",
-    "build": "",
-    "createLocalReleaseConfig": "node ./src-build/createLocalReleaseConfig.js",
-    "createLocalReleaseConfigDist": "node ./src-build/createLocalReleaseConfigDist.js",
-    "releaseLocal": "npm run createLocalReleaseConfig && tauri build --config ./src-tauri/tauri-local.conf.json",
-    "releaseLocalDist": "npm run createLocalReleaseConfigDist && tauri build --config ./src-tauri/tauri-local.conf.json",
-    "releaseLocalDebug": "npm run createLocalReleaseConfig && tauri build --config ./src-tauri/tauri-local.conf.json --debug",
-    "releaseLocalDistDebug": "npm run createLocalReleaseConfigDist && tauri build --config ./src-tauri/tauri-local.conf.json --debug",
-    "servePhoenix": "echo -e \"\nEnsure to start phoenix server at http://localhost:8000 for development.\n Follow https://github.com/phcode-dev/phoenix#running-phoenix for instructions.\"",
-    "serve": "npm run servePhoenix && tauri dev",
-    "postinstall": "node ./src-build/downloadNode.js",
-    "cleanNode": "node src-build/cleanNode.js",
-    "preinstallNodeArmDarwin": "npm  run cleanNode",
-    "installNodeArmDarwin": "node ./src-build/downloadNode.js '{\"platform\":\"darwin\",\"arch\":\"arm64\"}'",
-    "getPackageVersion" : "node ./src-build/getVersion.js"
-  },
-  "devDependencies": {
-    "@tauri-apps/cli": "1.4.0",
-    "tar": "6.1.15",
-    "adm-zip": "0.5.10",
-    "fs-extra": "11.1.1"
-  },
-  "phoenixRepo" : {
-    "gitClonrUrl": "https://github.com/phcode-dev/phoenix.git",
-    "branch": "tauri",
-    "commit": "2e5dceb684970780204485f3209b1707b19b634a"
-  },
-  "dependencies": {
-  }
+    "name": "phoenix-code-ide",
+    "private": true,
+    "version": "3.2.2",
+    "type": "module",
+    "scripts": {
+        "tauri": "tauri",
+        "build": "",
+        "createLocalReleaseConfig": "node ./src-build/createLocalReleaseConfig.js",
+        "createLocalReleaseConfigDist": "node ./src-build/createLocalReleaseConfigDist.js",
+        "ci-createDistReleaseConfig": "node ./src-build/createDistReleaseConfig.js",
+        "releaseLocal": "npm run createLocalReleaseConfig && tauri build --config ./src-tauri/tauri-local.conf.json",
+        "releaseLocalDist": "npm run createLocalReleaseConfigDist && tauri build --config ./src-tauri/tauri-local.conf.json",
+        "releaseLocalDebug": "npm run createLocalReleaseConfig && tauri build --config ./src-tauri/tauri-local.conf.json --debug",
+        "releaseLocalDistDebug": "npm run createLocalReleaseConfigDist && tauri build --config ./src-tauri/tauri-local.conf.json --debug",
+        "servePhoenix": "echo -e \"\nEnsure to start phoenix server at http://localhost:8000 for development.\n Follow https://github.com/phcode-dev/phoenix#running-phoenix for instructions.\"",
+        "ci-cloneAndBuildPhoenix": "node ./src-build/clonePhoenix.js && cd phoenix && npm install && npm run build && cd ..",
+        "ci-release:dev": "npm run ci-cloneAndBuildPhoenix && cd phoenix && npm run release:dev && cd .. && npm run ci-createDistReleaseConfig && tauri build --config ./src-tauri/tauri-dist.conf.json",
+        "ci-release:staging": "npm run ci-cloneAndBuildPhoenix && cd phoenix && npm run release:staging && cd .. && npm run ci-createDistReleaseConfig && tauri build --config ./src-tauri/tauri-dist.conf.json",
+        "ci-release:prod": "npm run ci-cloneAndBuildPhoenix && cd phoenix && npm run release:prod && cd .. && npm run ci-createDistReleaseConfig && tauri build --config ./src-tauri/tauri-dist.conf.json",
+        "serve": "npm run servePhoenix && tauri dev",
+        "postinstall": "node ./src-build/downloadNode.js",
+        "cleanNode": "node src-build/cleanNode.js",
+        "preinstallNodeArmDarwin": "npm  run cleanNode",
+        "installNodeArmDarwin": "node ./src-build/downloadNode.js '{\"platform\":\"darwin\",\"arch\":\"arm64\"}'",
+        "getPackageVersion": "node ./src-build/getVersion.js"
+    },
+    "devDependencies": {
+        "@tauri-apps/cli": "1.4.0",
+        "adm-zip": "0.5.10",
+        "execa": "^7.1.1",
+        "fs-extra": "11.1.1",
+        "tar": "6.1.15"
+    },
+    "phoenixRepo": {
+        "gitClonrUrl": "https://github.com/phcode-dev/phoenix.git",
+        "branch": "tauri",
+        "commit": "2e5dceb684970780204485f3209b1707b19b634a"
+    }
 }
