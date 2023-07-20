@@ -10,6 +10,7 @@ lerna-debug.log*
 node-bins
 src-build/node-*
 src-tauri/node-*
+src-tauri/tauri-local.conf.json
 
 node_modules
 dist
