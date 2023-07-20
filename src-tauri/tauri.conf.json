@@ -1,99 +1,99 @@
 {
-  "$schema": "../node_modules/@tauri-apps/cli/schema.json",
-  "build": {
-    "beforeBuildCommand": "",
-    "beforeDevCommand": "",
-    "devPath": "http://localhost:8000/src/",
-    "distDir": "../src/",
-    "withGlobalTauri": true
-  },
-  "package": {
-    "productName": "PhCode",
-    "version": "3.0.0"
-  },
-  "tauri": {
-    "allowlist": {
-      "all": false,
-      "window": {
-        "all": true
-      },
-      "fs": {
-        "all": true,
-        "scope": [
-          "$RESOURCE/*"
+    "$schema": "../node_modules/@tauri-apps/cli/schema.json",
+    "build": {
+        "beforeBuildCommand": "",
+        "beforeDevCommand": "",
+        "devPath": "http://localhost:8000/src/",
+        "distDir": "../src/",
+        "withGlobalTauri": true
+    },
+    "package": {
+        "productName": "PhCode",
+        "version": "3.2.2"
+    },
+    "tauri": {
+        "allowlist": {
+            "all": false,
+            "window": {
+                "all": true
+            },
+            "fs": {
+                "all": true,
+                "scope": [
+                    "$RESOURCE/*"
+                ]
+            },
+            "shell": {
+                "sidecar": true,
+                "scope": [
+                    {
+                        "name": "node",
+                        "sidecar": true
+                    }
+                ]
+            }
+        },
+        "bundle": {
+            "active": true,
+            "category": "DeveloperTool",
+            "copyright": "Copyright (c) 2022 - present Core.ai",
+            "deb": {
+                "depends": []
+            },
+            "externalBin": [
+                "./node"
+            ],
+            "icon": [
+                "icons/32x32.png",
+                "icons/128x128.png",
+                "icons/128x128@2x.png",
+                "icons/icon.icns",
+                "icons/icon.ico"
+            ],
+            "identifier": "dev.phcode",
+            "longDescription": "",
+            "macOS": {
+                "entitlements": null,
+                "exceptionDomain": "",
+                "frameworks": [],
+                "providerShortName": null,
+                "signingIdentity": null
+            },
+            "resources": [
+                "app/*"
+            ],
+            "shortDescription": "",
+            "targets": "all",
+            "windows": {
+                "certificateThumbprint": "AB7D19C00251C1E412594A28DC79D201AAEF50D0",
+                "digestAlgorithm": "sha256",
+                "timestampUrl": "http://timestamp.comodoca.com"
+            }
+        },
+        "security": {
+            "csp": null
+        },
+        "updater": {
+            "active": true,
+            "windows": {
+                "installMode": "passive"
+            },
+            "endpoints": [
+                "https://releases.phcode.dev/{{target}}/{{arch}}/{{current_version}}"
+            ],
+            "dialog": true,
+            "pubkey": "dW50cnVzdGVkIGNvbW1lbnQ6IG1pbmlzaWduIHB1YmxpYyBrZXk6IDY2QTY2RjMxQUIzQkU0RDQKUldUVTVEdXJNVyttWmc2ODNSODlVcmZhS0dFRW1mYnBkaytvTDcrSDJXSlhYOHVrUWRyaXhHRjcK"
+        },
+        "windows": [
+            {
+                "fullscreen": false,
+                "height": 768,
+                "minHeight": 600,
+                "resizable": true,
+                "title": "Phoenix Code",
+                "width": 1024,
+                "minWidth": 800
+            }
         ]
-      },
-      "shell": {
-        "sidecar": true,
-        "scope": [
-          {
-            "name": "node",
-            "sidecar": true
-          }
-        ]
-      }
-    },
-    "bundle": {
-      "active": true,
-      "category": "DeveloperTool",
-      "copyright": "Copyright (c) 2022 - present Core.ai",
-      "deb": {
-        "depends": []
-      },
-      "externalBin": [
-        "./node"
-      ],
-      "icon": [
-        "icons/32x32.png",
-        "icons/128x128.png",
-        "icons/128x128@2x.png",
-        "icons/icon.icns",
-        "icons/icon.ico"
-      ],
-      "identifier": "dev.phcode",
-      "longDescription": "",
-      "macOS": {
-        "entitlements": null,
-        "exceptionDomain": "",
-        "frameworks": [],
-        "providerShortName": null,
-        "signingIdentity": null
-      },
-      "resources": [
-        "app/*"
-      ],
-      "shortDescription": "",
-      "targets": "all",
-      "windows": {
-        "certificateThumbprint": "AB7D19C00251C1E412594A28DC79D201AAEF50D0",
-        "digestAlgorithm": "sha256",
-        "timestampUrl": "http://timestamp.comodoca.com"
-      }
-    },
-    "security": {
-      "csp": null
-    },
-    "updater": {
-      "active": true,
-      "windows": {
-        "installMode": "passive"
-      },
-      "endpoints": [
-        "https://releases.phcode.dev/{{target}}/{{arch}}/{{current_version}}"
-      ],
-      "dialog": true,
-      "pubkey": "dW50cnVzdGVkIGNvbW1lbnQ6IG1pbmlzaWduIHB1YmxpYyBrZXk6IDY2QTY2RjMxQUIzQkU0RDQKUldUVTVEdXJNVyttWmc2ODNSODlVcmZhS0dFRW1mYnBkaytvTDcrSDJXSlhYOHVrUWRyaXhHRjcK"
-    },
-    "windows": [
-      {
-        "fullscreen": false,
-        "height": 768,
-        "minHeight": 600,
-        "resizable": true,
-        "title": "Phoenix Code",
-        "width": 1024,
-        "minWidth": 800
-      }
-    ]
-  }
+    }
 }

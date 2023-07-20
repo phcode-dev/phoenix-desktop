@@ -10,6 +10,7 @@ async function patchVersionNumbers() {
     const phoenixConfigPath = join(__dirname, '..', 'phoenix', 'dist', 'config.json');
     const packageJSONPath = join(__dirname, '..', 'package.json');
     const tauriTOMLPath = join(__dirname, '..', 'src-tauri', 'Cargo.toml');
+    const tauriConfigPath = join(__dirname, '..', 'src-tauri', 'tauri.conf.json');
     console.log("loading phoenix config: ", phoenixConfigPath);
 
     let configJson = JSON.parse(fs.readFileSync(phoenixConfigPath));
@@ -32,6 +33,11 @@ async function patchVersionNumbers() {
     }
     const patchedTOML = lines.join(EOL);
     fs.writeFileSync(tauriTOMLPath, patchedTOML);
+
+    console.log("write version in tauri.conf.json", tauriConfigPath);
+    configJson = JSON.parse(fs.readFileSync(tauriConfigPath));
+    configJson.package.version = phoenixVersion;
+    fs.writeFileSync(tauriConfigPath, JSON.stringify(configJson, null, 4));
     return phoenixVersion;
 }
 
