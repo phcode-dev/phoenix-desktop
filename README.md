@@ -27,6 +27,7 @@ Get [phoenix](https://github.com/phcode-dev/phoenix) and [phoenix-desktop](https
 git clone https://github.com/phcode-dev/phoenix-desktop.git
 git clone https://github.com/phcode-dev/phoenix.git
 ```
+> **_IMPORTANT:_**  `phoenix` and `phoenix-desktop` should be within the same parent directory!!!
 
 ## Running Phoenix Desktop Development Builds
 For development, tauri will directly load the phcode static
@@ -52,8 +53,41 @@ can quickly iterate changes without rebuilding tauri src for each change. Just a
    * Changes in `phoenix-desktop` folder built with Tauri will be auto compiled and live patched on save.
    * To load changes in `phoenix` folder, just reload Phoenix by pressing `f5` in the Phoenix window just like you would do on the browser versions of Phoenix.
 
-## Building release binaries
-wip: hyperlink to the wiki for release generation
+## Building release binaries locally for development/testing
+Tauri development builds load phcode from `https://` url. But the release build uses packaged assets with custom tauri url
+`tauri://`. So there may be some cases where the behavior is different between the release builds and development builds.
+
+> **_IMPORTANT:_**  `phoenix` and `phoenix-desktop` projects should be within the same parent directory for the below commands to work!!!
+
+### generate release builds from the `phoenix/src` folder
+If you want to generate the release builds locally directly while you are editing the `phoenix/src` folder, run the following command.
+```bash
+cd phoenix-desktop
+# To generate debug builds:
+npm run releaseLocalDebug
+# OR to generate release builds, just run `npm run releaseLocal`
+```
+This is the easiest way to quickly debug issues directly from the phoenix source folder.
+
+### generate dev, staging and prod release builds from `phoenix/dist` folder
+These builds are faithful to the actual binaries that are generated from the github CI pipelines shipped to users.
+If you want to generate the dev, staging and prod builds locally of phcode, run the following command:
+```bash
+# You should first build the appropriate release build in `phoenix`.
+cd phoenix
+npm install
+npm run build
+npm run release:prod
+# Other release options are `npm run release:dev` and `npm run release:staging` 
+
+# Now generate the tauri debug builds:
+cd ../phoenix-desktop
+npm run releaseLocalDistDebug
+# OR to generate release builds, just run `npm run releaseLocalDist`
+```
+
+## Building release binaries in github actions
+WIP: TBD
 
 ## Creating Installers
 wip: hyperlink to the wiki for installer generation

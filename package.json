@@ -6,6 +6,12 @@
   "scripts": {
     "tauri": "tauri",
     "build": "",
+    "createLocalReleaseConfig": "node ./src-build/createLocalReleaseConfig.js",
+    "createLocalReleaseConfigDist": "node ./src-build/createLocalReleaseConfigDist.js",
+    "releaseLocal": "npm run createLocalReleaseConfig && tauri build --config ./src-tauri/tauri-local.conf.json",
+    "releaseLocalDist": "npm run createLocalReleaseConfigDist && tauri build --config ./src-tauri/tauri-local.conf.json",
+    "releaseLocalDebug": "npm run createLocalReleaseConfig && tauri build --config ./src-tauri/tauri-local.conf.json --debug",
+    "releaseLocalDistDebug": "npm run createLocalReleaseConfigDist && tauri build --config ./src-tauri/tauri-local.conf.json --debug",
     "servePhoenix": "echo -e \"\nEnsure to start phoenix server at http://localhost:8000 for development.\n Follow https://github.com/phcode-dev/phoenix#running-phoenix for instructions.\"",
     "serve": "npm run servePhoenix && tauri dev",
     "postinstall": "node ./src-build/downloadNode.js",
