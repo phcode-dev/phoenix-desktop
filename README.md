@@ -86,14 +86,16 @@ npm run releaseLocalDistDebug
 # OR to generate release builds, just run `npm run releaseLocalDist`
 ```
 
-## Building release binaries in github actions
-WIP: TBD
-
-## Creating Installers
-wip: hyperlink to the wiki for installer generation
+## Building release binaries and installers in github actions
+In GitHub actions or ci, run the following commands to build phcode release binaries
+```bash
+cd phoenix-desktop
+npm install
+npm run ci-release:prod
+# Other release options are `ci-release:dev` and `ci-release:staging`
+```
 
 # License
-Discussion: #184
 
 GNU AGPL-3.0 License
 
