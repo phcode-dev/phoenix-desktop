@@ -106,10 +106,12 @@ There are three primary targets for our GitHub actions:
 
 To run the ci-release script, you can use the following steps:
 ```bash
-# Example on how to run the ci-release script.
+# Example on how to run the ci-release script locally.
 cd phoenix-desktop
 npm install
 npm run ci-release:prod
+npm run tauri build --debug
+# or if you want the release builds, use `npm run tauri build`
 ```
 
 ### Execution Workflow
