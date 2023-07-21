@@ -7,7 +7,7 @@ import {getPlatformDetails} from "./utils.js";
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = dirname(__filename);
 
-async function createLocalReleaseConfig() {
+async function createDistReleaseConfig() {
     const platform = getPlatformDetails().platform;
     const tauriConfigPath = (platform === "win") ? `${__dirname}\\..\\src-tauri\\tauri.conf.json`
         : `${__dirname}/../src-tauri/tauri.conf.json`;
@@ -21,4 +21,4 @@ async function createLocalReleaseConfig() {
     fs.writeFileSync(tauriLocalConfigPath, JSON.stringify(configJson, null, 4));
 }
 
-await createLocalReleaseConfig();
+await createDistReleaseConfig();
