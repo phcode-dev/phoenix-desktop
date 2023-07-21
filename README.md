@@ -54,6 +54,12 @@ can quickly iterate changes without rebuilding tauri src for each change. Just a
    * To load changes in `phoenix` folder, just reload Phoenix by pressing `f5` in the Phoenix window just like you would do on the browser versions of Phoenix.
 
 ## Building release binaries locally for development/testing
+
+> Note: For the majority of development tasks, it's not necessary to build the release artifacts locally,
+> as outlined in this section. Most development requirements can be met by simply following the instructions
+> provided in the [Running Phoenix Desktop Development Builds](#running-phoenix-desktop-development-builds) section.
+> This process is mainly required when you want to test something specific that might behave differently under the `tauri://` protocol.
+
 Tauri development builds load phcode from `https://` url. But the release build uses packaged assets with custom tauri url
 `tauri://`. So there may be some cases where the behavior is different between the release builds and development builds.
 
@@ -86,14 +92,37 @@ npm run releaseLocalDistDebug
 # OR to generate release builds, just run `npm run releaseLocalDist`
 ```
 
-## Building release binaries and installers in github actions
-In GitHub actions or ci, run the following commands to build phcode release binaries
+## Building release binaries and installers in GitHub actions
+The npm commands that begin with `ci-*` are exclusively designed to execute in a GitHub Actions environment.
+These commands are not typically executed on your local machine unless you're actively working on the GitHub
+Actions workflows. However, if you need to run these locally for testing, look for `#uncomment_line_for_local_build_1`
+in the codebase and uncomment the corresponding line.
+
+### Primary GitHub Actions Targets
+There are three primary targets for our GitHub actions:
+1. `npm run ci-release:prod`
+2. `npm run ci-release:dev`
+3. `npm run ci-release:staging`
+
+To run the ci-release script, you can use the following steps:
 ```bash
+# Example on how to run the ci-release script.
 cd phoenix-desktop
 npm install
 npm run ci-release:prod
-# Other release options are `ci-release:dev` and `ci-release:staging`
 ```
+
+### Execution Workflow
+The script will begin by cloning the repository identified in the `phoenixRepo` section of the `package.json` file.
+Next, it will build the corresponding stage as specified in the `npm run ci-release:<stage>` command and will
+generate the necessary distribution folders in `phoenix/dist`. Following this, it will patch the Tauri configuration files
+to use the generated distribution folder for creating the release builds.
+
+The actual release artifacts will then be built by the tauri action `tauri-apps/tauri-action@v0` specified in the
+`tauri-build.yml` file. Finally, it will generate a draft release.
+
+Remember, the `npm run ci-*` commands are designed to execute in the GitHub Actions environment.
+They're not typically used for local machine executions unless you're working on or testing the GitHub Actions workflows themselves.
 
 # License
 
