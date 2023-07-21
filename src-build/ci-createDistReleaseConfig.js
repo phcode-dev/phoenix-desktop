@@ -41,15 +41,16 @@ async function patchVersionNumbers() {
     return phoenixVersion;
 }
 
-async function createDistReleaseConfig() {
+async function ciCreateDistReleaseConfig() {
     const tauriConfigPath = join(__dirname, '..', 'src-tauri', 'tauri.conf.json');
     const tauriDistConfigPath = join(__dirname, '..', 'src-tauri', 'tauri-dist.conf.json');
     console.log("Reading config file: ", tauriConfigPath);
     let configJson = JSON.parse(fs.readFileSync(tauriConfigPath));
     configJson.package.version = await patchVersionNumbers() || "3.0.0";
+    // delete configJson.tauri.updater; // #uncomment_line_for_local_build_1
     configJson.build.distDir = '../phoenix/dist/'
     console.log("Writing new dist config json ", tauriDistConfigPath);
     fs.writeFileSync(tauriDistConfigPath, JSON.stringify(configJson, null, 4));
 }
 
-await createDistReleaseConfig();
+await ciCreateDistReleaseConfig();
