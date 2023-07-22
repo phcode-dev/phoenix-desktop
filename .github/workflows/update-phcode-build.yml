@@ -33,7 +33,7 @@ jobs:
 
       - name: Create phcode patch update Pull Request
         id: cpr
-        uses: peter-evans/create-pull-request@v4
+        uses: peter-evans/create-pull-request@v5
         with:
           commit-message: 'ci: update phcode version to ${{ env.PHOENIX_VERSION }}'
           committer: GitHub <noreply@github.com>
