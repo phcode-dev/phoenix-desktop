@@ -41,7 +41,7 @@ jobs:
           title: '[Release BOT] update phcode version to ${{ env.PHOENIX_VERSION }}'
           add-paths: |
             package.json
-            src-tauri/cargo.toml
+            src-tauri/Cargo.toml
             src-tauri/tauri.conf.json
           body: |
             A new version of phcode has been pushed to `${{github.event.client_payload.source}}` repo's `tauri` branch.
