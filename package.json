@@ -19,7 +19,7 @@
         "_ci-release:dev": "npm run _ci-env-warn && npm run _ci-cloneAndBuildPhoenix && cd phoenix && npm run release:dev && cd .. && npm run _ci-createDistReleaseConfig",
         "_ci-release:staging": "npm run _ci-env-warn && npm run _ci-cloneAndBuildPhoenix && cd phoenix && npm run release:staging && cd .. && npm run _ci-createDistReleaseConfig",
         "_ci-release:prod": "npm run _ci-env-warn && npm run _ci-cloneAndBuildPhoenix && cd phoenix && npm run release:prod && cd .. && npm run _ci-createDistReleaseConfig",
-        "_ci_update-phcode-build": "node src-build/update-phcode-build.js",
+        "_ci-update-phcode-build": "node src-build/update-phcode-build.js",
         "serve": "npm run _servePhoenix && tauri dev",
         "postinstall": "node ./src-build/downloadNode.js",
         "cleanNode": "node src-build/cleanNode.js",

@@ -25,7 +25,7 @@ jobs:
       - name: Update phcode and version
         run: |
           npm install
-          npm run update-phcode-build
+          npm run _ci-update-phcode-build
           git status
           phoenix_version=`node -p "require('./package.json').version"`
           echo "PHOENIX_VERSION=${phoenix_version}" >> $GITHUB_ENV
