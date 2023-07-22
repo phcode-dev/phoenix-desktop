@@ -70,8 +70,8 @@ If you want to generate the release builds locally directly while you are editin
 ```bash
 cd phoenix-desktop
 # To generate debug builds:
-npm run releaseLocalDebug
-# OR to generate release builds, just run `npm run releaseLocal`
+npm run releaseSrcDebug
+# OR to generate release builds, just run `npm run releaseSrc`
 ```
 This is the easiest way to quickly debug issues directly from the phoenix source folder.
 
@@ -88,8 +88,8 @@ npm run release:prod
 
 # Now generate the tauri debug builds:
 cd ../phoenix-desktop
-npm run releaseLocalDistDebug
-# OR to generate release builds, just run `npm run releaseLocalDist`
+npm run releaseDistDebug
+# OR to generate release builds, just run `npm run releaseDist`
 ```
 
 ## Building release binaries and installers in GitHub actions
