@@ -4,15 +4,13 @@ import path from 'path'
 
 console.log("Cloning phoenix...");
 async function pwd() {
-    let output = await $`pwd`;
-    const pwd = output.stdout.toString();
-    console.log("pwd ", pwd);
+    const pwd =  process.cwd();
+    console.log("current dir: ", pwd);
     return pwd;
 }
 
 const projectDir = await pwd();
 const phoenixProjectPath = path.join(projectDir, "phoenix");
-console.log("current dir: ", projectDir);
 
 let packageJSONPath = path.join(projectDir, 'package.json');
 console.log('loading package.json: ', packageJSONPath);
