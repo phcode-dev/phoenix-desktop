@@ -118,6 +118,7 @@ jobs:
           APPLE_PASSWORD: ${{ secrets.APPLE_PASSWORD }}
         with:
           releaseId: ${{ needs.create-release.outputs.release_id }}
+          updaterJsonPreferNsis: true
 
       - name: setup env for mac arm (Mac only)
         if: matrix.platform == 'macos-latest'
