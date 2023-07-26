@@ -6,7 +6,39 @@ import fs from 'fs';
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = dirname(__filename);
 
-async function patchVersionNumbers() {
+let productNameSuffixForStage = {
+    // the environment field in phoenix repo: config.json, brackets.config.dist.json and brackets.config.staging.json
+    // forms the keys and the product name suffix corresponding to each stage.
+    dev : "Experimental Build",
+    stage: "Pre-release"
+    //production: "" has no suffix
+};
+
+// if the name is already of the form `Phoenix code Pre-release`, just return `Phoenix Code`
+function _removeSuffixesFromName(name) {
+    name = name.trim();
+    const knownSuffixes = Object.values(productNameSuffixForStage)
+    for(let suffix of knownSuffixes){
+        if(name.endsWith(suffix)){
+            name = name.substring(0, name.length - suffix.length)
+        }
+    }
+    return name.trim();
+}
+
+function _getProductName(name, stage) {
+    name = _removeSuffixesFromName(name);
+    if(stage === 'production') {
+        return name; // Phoenix Code
+    }
+    if(!productNameSuffixForStage[stage]) {
+        throw new Error(`Cannot build Phoenix for unknown environment ${stage}`);
+    }
+    // return `Phoenix code Pre-release` or `Phoenix code Experimental Build`
+    return `${name} ${productNameSuffixForStage[stage]}`;
+}
+
+async function ciCreateDistReleaseConfig() {
     const phoenixConfigPath = join(__dirname, '..', 'phoenix', 'dist', 'config.json');
     const packageJSONPath = join(__dirname, '..', 'package.json');
     const tauriTOMLPath = join(__dirname, '..', 'src-tauri', 'Cargo.toml');
@@ -36,20 +68,15 @@ async function patchVersionNumbers() {
 
     console.log("write version in tauri.conf.json", tauriConfigPath);
     configJson = JSON.parse(fs.readFileSync(tauriConfigPath));
-    configJson.package.version = phoenixVersion;
-    fs.writeFileSync(tauriConfigPath, JSON.stringify(configJson, null, 4));
-    return phoenixVersion;
-}
-
-async function ciCreateDistReleaseConfig() {
-    const tauriConfigPath = join(__dirname, '..', 'src-tauri', 'tauri.conf.json');
-    console.log("Reading config file: ", tauriConfigPath);
-    let configJson = JSON.parse(fs.readFileSync(tauriConfigPath));
-    configJson.package.version = await patchVersionNumbers() || "3.0.0";
-    // delete configJson.tauri.updater; // #uncomment_line_for_local_build_1
     configJson.build.distDir = '../phoenix/dist/'
+    // delete configJson.tauri.updater; // #uncomment_line_for_local_build_1
+    configJson.package.version = phoenixVersion;
+    configJson.package.productName = _getProductName(configJson.package.productName, phoenixStage);
+    console.log("Product name is: ", configJson.package.productName);
+    configJson.tauri.windows[0].title = configJson.package.productName;
     console.log("Writing new dist config json ", tauriConfigPath);
     fs.writeFileSync(tauriConfigPath, JSON.stringify(configJson, null, 4));
+    return phoenixVersion;
 }
 
 await ciCreateDistReleaseConfig();
