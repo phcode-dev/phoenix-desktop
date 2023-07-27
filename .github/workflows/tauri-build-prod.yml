@@ -1,6 +1,8 @@
-name: 'publish'
+name: 'generate production draft GitHub release'
 
-on: pull_request
+on:
+  push:
+    branches: [ prod ]
 
 jobs:
   create-release:
@@ -60,7 +62,7 @@ jobs:
       - name: install frontend dependencies
         run: |
           npm install
-          npm run _ci-release:dev
+          npm run _ci-release:prod
       - name: install AzureSignTool (windows only)
         if: matrix.platform == 'windows-latest'
         run: |
