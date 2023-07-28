@@ -1,25 +1,18 @@
 import {fileURLToPath} from "url";
 import {dirname, join} from "path";
+import {PRODUCT_NAME_SUFFIX_FOR_STAGE} from "./constants.js";
 import { EOL } from "os";
 import fs from 'fs';
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = dirname(__filename);
 
-let productNameSuffixForStage = {
-    // the environment field in phoenix repo: config.json, brackets.config.dist.json and brackets.config.staging.json
-    // forms the keys and the product name suffix corresponding to each stage.
-    dev : "Experimental Build",
-    stage: "Pre-release"
-    //production: "" has no suffix
-};
-
 // if the name is already of the form `Phoenix code Pre-release`, just return `Phoenix Code`
 function _removeSuffixesFromName(name) {
     name = name.trim();
-    const knownSuffixes = Object.values(productNameSuffixForStage)
+    const knownSuffixes = Object.values(PRODUCT_NAME_SUFFIX_FOR_STAGE)
     for(let suffix of knownSuffixes){
-        if(name.endsWith(suffix)){
+        if(suffix && name.endsWith(suffix)){
             name = name.substring(0, name.length - suffix.length)
         }
     }
@@ -31,11 +24,11 @@ function _getProductName(name, stage) {
     if(stage === 'production') {
         return name; // Phoenix Code
     }
-    if(!productNameSuffixForStage[stage]) {
+    if(!PRODUCT_NAME_SUFFIX_FOR_STAGE[stage]) {
         throw new Error(`Cannot build Phoenix for unknown environment ${stage}`);
     }
     // return `Phoenix code Pre-release` or `Phoenix code Experimental Build`
-    return `${name} ${productNameSuffixForStage[stage]}`;
+    return `${name} ${PRODUCT_NAME_SUFFIX_FOR_STAGE[stage]}`;
 }
 
 async function ciCreateDistReleaseConfig() {
