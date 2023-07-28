@@ -1,6 +1,10 @@
 import {fileURLToPath} from "url";
 import {dirname, join} from "path";
-import {PRODUCT_NAME_SUFFIX_FOR_STAGE} from "./constants.js";
+import {
+    PRODUCT_NAME_SUFFIX_FOR_STAGE,
+    UPDATE_NOTIFICATION_LATEST_JSON_FILE_PATH,
+    UPDATE_NOTIFICATIONS_BASE_URL
+} from "./constants.js";
 import { EOL } from "os";
 import fs from 'fs';
 
@@ -67,6 +71,10 @@ async function ciCreateDistReleaseConfig() {
     configJson.package.productName = _getProductName(configJson.package.productName, phoenixStage);
     console.log("Product name is: ", configJson.package.productName);
     configJson.tauri.windows[0].title = configJson.package.productName;
+    configJson.tauri.updater.endpoints = [
+        `${UPDATE_NOTIFICATIONS_BASE_URL}${UPDATE_NOTIFICATION_LATEST_JSON_FILE_PATH[phoenixStage]}`
+    ];
+    console.log("Product update endpoints are: ", configJson.tauri.updater.endpoints);
     console.log("Writing new dist config json ", tauriConfigPath);
     fs.writeFileSync(tauriConfigPath, JSON.stringify(configJson, null, 4));
     return phoenixVersion;
