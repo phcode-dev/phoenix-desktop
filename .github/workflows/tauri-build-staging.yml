@@ -35,7 +35,7 @@ jobs:
               name: `Phoenix Code Pre-release v${process.env.PACKAGE_VERSION}`,
               body: 'Take a look at the assets to download and install Phoenix Code For your platform.\n\n>UpdateNotification: <replace this text to show a 1 line **Release Notes** to the user in the notification dialogue ![image](https://github.com/abose/phoenix-desktop/assets/5336369/c747898a-29ef-43c7-b74e-dddd5104a56c). Wait for a new pull request in the repo.>',
               draft: true,
-              prerelease: false
+              prerelease: true
             })
             return data.id
 
