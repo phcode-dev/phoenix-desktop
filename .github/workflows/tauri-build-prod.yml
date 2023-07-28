@@ -19,7 +19,9 @@ jobs:
         with:
           node-version: lts/*
       - name: get version
-        run: echo "PACKAGE_VERSION=$(node -p "require('./package.json').version")" >> $GITHUB_ENV
+        run: |
+          echo "PACKAGE_VERSION=$(node -p "require('./package.json').version")" >> $GITHUB_ENV
+          echo "GIT_TAG_NAME=prod-app-v$(node -p "require('./package.json').version")" >> $GITHUB_ENV
       - name: create release
         id: create-release
         uses: actions/github-script@v6
@@ -28,7 +30,8 @@ jobs:
             const { data } = await github.rest.repos.createRelease({
               owner: context.repo.owner,
               repo: context.repo.repo,
-              tag_name: `app-v${process.env.PACKAGE_VERSION}`,
+              tag_name: `${process.env.GIT_TAG_NAME}`,
+              target_commitish: 'prod',
               name: `Phoenix Code Stable Release v${process.env.PACKAGE_VERSION}`,
               body: 'Take a look at the assets to download and install Phoenix Code For your platform.\n\n>UpdateNotification: <replace this text to show a 1 line **Release Notes** to the user in the notification dialogue ![image](https://github.com/abose/phoenix-desktop/assets/5336369/c747898a-29ef-43c7-b74e-dddd5104a56c). Wait for a new pull request in the repo.>',
               draft: true,
@@ -121,7 +124,7 @@ jobs:
         with:
           releaseId: ${{ needs.create-release.outputs.release_id }}
           updaterJsonPreferNsis: true
-          tagName: app-v__VERSION__
+          tagName: ${{ env.GIT_TAG_NAME }}
 
       - name: setup env for mac arm (Mac only)
         if: matrix.platform == 'macos-latest'
@@ -144,7 +147,7 @@ jobs:
         with:
           releaseId: ${{ needs.create-release.outputs.release_id }}
           args: --target aarch64-apple-darwin
-          tagName: app-v__VERSION__
+          tagName: ${{ env.GIT_TAG_NAME }}
 
 
   publish-release:
@@ -164,6 +167,8 @@ jobs:
             github.rest.repos.updateRelease({
               owner: context.repo.owner,
               repo: context.repo.repo,
+              tag_name: `${process.env.GIT_TAG_NAME}`,
+              target_commitish: 'dev',
               release_id: process.env.release_id,
               draft: true,
               prerelease: false
