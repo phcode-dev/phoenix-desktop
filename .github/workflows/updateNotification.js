@@ -109,7 +109,7 @@ export default async function printStuff({github, context, githubWorkspaceRoot})
     console.log("Updating tauri update JSON file: ", _identifyUpdateJSONPath(releaseAssets));
     const latestJSON = JSON.parse(await _getLatestJson(releaseAssets));
     latestJSON.notes = _extractSmallReleaseNotes(releaseNotes, releaseTitle);
-    const latestJsonPath = `${githubWorkspaceRoot}/${_identifyUpdateJSONPath(releaseAssets)}`;
+    const latestJsonPath = `${githubWorkspaceRoot}/docs/${_identifyUpdateJSONPath(releaseAssets)}`;
     console.log("writing latest json to path: ", latestJsonPath, " contents: ",  latestJSON)
     fs.writeFileSync(latestJsonPath, JSON.stringify(latestJSON, null, 4));
 }
