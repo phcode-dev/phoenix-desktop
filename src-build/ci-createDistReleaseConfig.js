@@ -67,6 +67,7 @@ async function ciCreateDistReleaseConfig() {
     configJson = JSON.parse(fs.readFileSync(tauriConfigPath));
     configJson.build.distDir = '../phoenix/dist/'
     // delete configJson.tauri.updater; // #uncomment_line_for_local_build_1
+    // delete configJson.tauri.bundle.windows.certificateThumbprint // #uncomment_line_for_local_build_1
     configJson.package.version = phoenixVersion;
     configJson.package.productName = _getProductName(configJson.package.productName, phoenixStage);
     console.log("Product name is: ", configJson.package.productName);

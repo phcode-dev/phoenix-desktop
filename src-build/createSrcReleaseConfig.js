@@ -16,6 +16,7 @@ async function createSrcReleaseConfig() {
     console.log("Reading config file: ", tauriConfigPath);
     let configJson = JSON.parse(fs.readFileSync(tauriConfigPath));
     delete configJson.tauri.updater;
+    delete configJson.tauri.bundle.windows.certificateThumbprint;
     configJson.build.distDir = '../../phoenix/src/'
     console.log("Writing new local config json ", tauriLocalConfigPath);
     fs.writeFileSync(tauriLocalConfigPath, JSON.stringify(configJson, null, 4));
