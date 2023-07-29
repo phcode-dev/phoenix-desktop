@@ -71,14 +71,14 @@
                 "nsis": {
                     "displayLanguageSelector": true,
                     "languages": [
-                        "Afrikaans", "Albanian", "Arabic", "Armenian", "Asturian", "Basque", "Belarusian", "Bosnian", "Breton",
-                        "Bulgarian", "Catalan", "Cibemba", "Corsican", "Croatian", "Czech", "Danish", "Dutch", "Efik", "English",
+                        "English", "Afrikaans", "Albanian", "Arabic", "Armenian", "Asturian", "Basque", "Belarusian", "Bosnian", "Breton",
+                        "Bulgarian", "Catalan", "Corsican", "Croatian", "Czech", "Danish", "Dutch",
                         "Esperanto", "Estonian", "Farsi", "Finnish", "French", "Galician", "Georgian", "German", "Greek", "Hebrew", "Hindi",
-                        "Hungarian", "Icelandic", "Igbo", "Indonesian", "Irish", "Italian", "Japanese", "Khmer", "Korean", "Kurdish", "Latvian",
-                        "Lithuanian", "Luxembourgish", "Macedonian", "Malagasy", "Malay", "Mongolian", "Norwegian", "NorwegianNynorsk", "Pashto",
+                        "Hungarian", "Icelandic", "Indonesian", "Irish", "Italian", "Japanese", "Korean", "Kurdish", "Latvian",
+                        "Lithuanian", "Luxembourgish", "Macedonian", "Malay", "Mongolian", "Norwegian", "NorwegianNynorsk", "Pashto",
                         "Polish", "Portuguese", "PortugueseBR", "Romanian", "Russian", "ScotsGaelic", "Serbian", "SerbianLatin", "SimpChinese",
-                        "Slovak", "Slovenian", "Spanish", "SpanishInternational", "Swahili", "Swedish", "Tatar", "Thai", "TradChinese",
-                        "Turkish", "Ukrainian", "Uzbek", "Valencian", "Vietnamese", "Welsh", "Yoruba"
+                        "Slovak", "Slovenian", "Spanish", "SpanishInternational", "Swedish", "Tatar", "Thai", "TradChinese",
+                        "Turkish", "Ukrainian", "Uzbek", "Vietnamese", "Welsh"
                     ]
 
                 }
