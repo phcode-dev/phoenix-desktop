@@ -51,7 +51,7 @@
                 "icons/icon.ico"
             ],
             "identifier": "dev.phcode",
-            "longDescription": "",
+            "longDescription": "Phoenix is a modern open-source IDE for the web, built for the browser",
             "macOS": {
                 "entitlements": null,
                 "exceptionDomain": "",
@@ -62,12 +62,26 @@
             "resources": [
                 "app/*"
             ],
-            "shortDescription": "",
-            "targets": "all",
+            "shortDescription": "Phoenix is a modern open-source IDE for the web, built for the browser",
+            "targets": ["deb", "appimage", "nsis", "app", "dmg", "updater"],
             "windows": {
                 "certificateThumbprint": "AB7D19C00251C1E412594A28DC79D201AAEF50D0",
                 "digestAlgorithm": "sha256",
-                "timestampUrl": "http://timestamp.comodoca.com"
+                "timestampUrl": "http://timestamp.comodoca.com",
+                "nsis": {
+                    "displayLanguageSelector": true,
+                    "languages": [
+                        "Afrikaans", "Albanian", "Arabic", "Armenian", "Asturian", "Basque", "Belarusian", "Bosnian", "Breton",
+                        "Bulgarian", "Catalan", "Cibemba", "Corsican", "Croatian", "Czech", "Danish", "Dutch", "Efik", "English",
+                        "Esperanto", "Estonian", "Farsi", "Finnish", "French", "Galician", "Georgian", "German", "Greek", "Hebrew", "Hindi",
+                        "Hungarian", "Icelandic", "Igbo", "Indonesian", "Irish", "Italian", "Japanese", "Khmer", "Korean", "Kurdish", "Latvian",
+                        "Lithuanian", "Luxembourgish", "Macedonian", "Malagasy", "Malay", "Mongolian", "Norwegian", "NorwegianNynorsk", "Pashto",
+                        "Polish", "Portuguese", "PortugueseBR", "Romanian", "Russian", "ScotsGaelic", "Serbian", "SerbianLatin", "SimpChinese",
+                        "Slovak", "Slovenian", "Spanish", "SpanishInternational", "Swahili", "Swedish", "Tatar", "Thai", "TradChinese",
+                        "Turkish", "Ukrainian", "Uzbek", "Valencian", "Vietnamese", "Welsh", "Yoruba"
+                    ]
+
+                }
             }
         },
         "security": {
