@@ -77,16 +77,16 @@ export function getPlatformDetails() {
 
 export function getSideCarBinName(platform, arch) {
     if (platform === "linux" && arch === "x64") {
-        return "node-x86_64-unknown-linux-gnu";
+        return "phnode-x86_64-unknown-linux-gnu";
     }
     if (platform === "darwin" && arch === "x64") {
-        return "node-x86_64-apple-darwin";
+        return "phnode-x86_64-apple-darwin";
     }
     if (platform ==="darwin" && arch === "arm64"){
-        return "node-aarch64-apple-darwin";
+        return "phnode-aarch64-apple-darwin";
     }
     if (platform === "win" && arch === "x64") {
-        return "node-x86_64-pc-windows-msvc.exe";
+        return "phnode-x86_64-pc-windows-msvc.exe";
     }
    throw new Error(`unsupported ${platform} ${arch}`);
 }
