@@ -70,8 +70,7 @@ async function downloadNodeBinary(version, platform, arch) {
                     res.pipe(file);
                     res.on('end', () => resolve(fileName));
                     res.on('error', (err) => {
-                        fs.unlink(fileName, () => {
-                        }); // Remove the file on error
+                        fs.unlinkSync(fileName); // Remove the file on error
                         reject(err);
                     });
                 });
