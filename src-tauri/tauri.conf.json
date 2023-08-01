@@ -27,7 +27,7 @@
                 "sidecar": true,
                 "scope": [
                     {
-                        "name": "node",
+                        "name": "phnode",
                         "sidecar": true
                     }
                 ]
