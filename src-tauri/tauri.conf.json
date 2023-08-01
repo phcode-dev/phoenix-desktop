@@ -40,6 +40,9 @@
             "deb": {
                 "depends": []
             },
+            "appimage": {
+                "bundleMediaFramework": true
+            },
             "externalBin": [
                 "./phnode"
             ],
@@ -53,8 +56,8 @@
             "identifier": "dev.phcode",
             "longDescription": "Phoenix is a modern open-source IDE for the web, built for the browser",
             "macOS": {
-                "entitlements": null,
-                "exceptionDomain": "",
+                "entitlements": "../entitlements.plist",
+                "exceptionDomain": "localhost",
                 "frameworks": [],
                 "providerShortName": null,
                 "signingIdentity": null
@@ -63,7 +66,7 @@
                 "app/*"
             ],
             "shortDescription": "Phoenix is a modern open-source IDE for the web, built for the browser",
-            "targets": ["deb", "appimage", "nsis", "app", "dmg", "updater"],
+            "targets": ["appimage", "nsis", "app", "dmg", "updater"],
             "windows": {
                 "certificateThumbprint": "AB7D19C00251C1E412594A28DC79D201AAEF50D0",
                 "digestAlgorithm": "sha256",
