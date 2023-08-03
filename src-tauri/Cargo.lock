@@ -2029,6 +2029,7 @@ dependencies = [
 name = "phoenix-code-ide"
 version = "3.2.5"
 dependencies = [
+ "once_cell",
  "serde",
  "serde_json",
  "tauri",
