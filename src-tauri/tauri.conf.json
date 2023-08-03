@@ -53,7 +53,7 @@
                 "icons/icon.icns",
                 "icons/icon.ico"
             ],
-            "identifier": "dev.phcode",
+            "identifier": "io.phcode",
             "longDescription": "Phoenix is a modern open-source IDE for the web, built for the browser",
             "macOS": {
                 "entitlements": "../entitlements.plist",
