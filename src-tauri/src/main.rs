@@ -42,18 +42,19 @@ fn toggle_devtools(window: tauri::Window) {
 fn process_window_event(event: &GlobalWindowEvent) {
     if let tauri::WindowEvent::CloseRequested { .. } = event.event() {
         let size = event.window().outer_size().unwrap();
-        println!("Window closing {}, {}", size.width, size.height);
+        println!("Window closing size {}, {}", size.width, size.height);
+        boot_config::write_boot_config(size.width, size.height);
     }
 }
 
 fn main() {
     tauri::Builder::default()
+        .on_window_event(|event| process_window_event(&event))
+        .invoke_handler(tauri::generate_handler![greet, toggle_devtools])
         .setup(|app| {
             init::init_app(app);
             Ok(())
         })
-        .on_window_event(|event| process_window_event(&event))
-        .invoke_handler(tauri::generate_handler![greet, toggle_devtools])
         .run(tauri::generate_context!())
         .expect("error while running tauri application");
 }

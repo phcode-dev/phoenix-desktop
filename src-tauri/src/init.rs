@@ -1,21 +1,17 @@
-use std::sync::Arc;
-use once_cell::sync::OnceCell;
 use tauri::Manager;
 use crate::utilities::ensure_dir_exists;
 use crate::boot_config::read_boot_config;
 use crate::boot_config::BootConfig;
+use crate::boot_config::APP_CONSTANTS;
+use crate::boot_config::AppConstants;
 
-struct AppConstants {
-    tauri_config : Arc<tauri::Config>,
-    app_data_dir: std::path::PathBuf
-}
-static APP_CONSTANTS: OnceCell<AppConstants> = OnceCell::new();
 static PREFERRED_WIDTH: u32 = 1366;
 static PREFERRED_HEIGHT: u32 = 900;
 static MAXIMIZE_SIZE: u32 = 0;
 
 fn get_window_size(last_saved_size: u32, screen_size: u32, preferred_size: u32) -> u32 {
-    if last_saved_size != 0 && last_saved_size <= screen_size {
+    if last_saved_size != 0 {
+        // we dont do last_saved_size<screen_size here as we leave it to os to deal with windows larger than screen size
         return last_saved_size;
     }
     if preferred_size < screen_size {
@@ -54,7 +50,7 @@ pub fn init_app(app: &mut tauri::App) {
         println!("Bundle ID is {}", app_constants.tauri_config.tauri.bundle.identifier);
         println!("Appdata Dir is {}", app_constants.app_data_dir.display());
         ensure_dir_exists(&app_constants.app_data_dir);
-        let boot_config = read_boot_config(&app_constants.app_data_dir);
+        let boot_config = read_boot_config();
         restore_window_size(app, &boot_config);
     }
 }
