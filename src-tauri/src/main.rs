@@ -4,6 +4,7 @@ windows_subsystem = "windows"
 )]
 
 use tauri::api::process::Command;
+use tauri::GlobalWindowEvent;
 mod init;
 mod utilities;
 mod boot_config;
@@ -38,12 +39,20 @@ fn toggle_devtools(window: tauri::Window) {
     }
 }
 
+fn process_window_event(event: &GlobalWindowEvent) {
+    if let tauri::WindowEvent::CloseRequested { .. } = event.event() {
+        let size = event.window().outer_size().unwrap();
+        println!("Window closing {}, {}", size.width, size.height);
+    }
+}
+
 fn main() {
     tauri::Builder::default()
         .setup(|app| {
             init::init_app(app);
             Ok(())
         })
+        .on_window_event(|event| process_window_event(&event))
         .invoke_handler(tauri::generate_handler![greet, toggle_devtools])
         .run(tauri::generate_context!())
         .expect("error while running tauri application");
