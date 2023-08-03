@@ -51,6 +51,7 @@ pub fn init_app(app: &mut tauri::App) {
 
     // To get a value
     if let Some(app_constants) = APP_CONSTANTS.get() {
+        println!("Bundle ID is {}", app_constants.tauri_config.tauri.bundle.identifier);
         println!("Appdata Dir is {}", app_constants.app_data_dir.display());
         ensure_dir_exists(&app_constants.app_data_dir);
         let boot_config = read_boot_config(&app_constants.app_data_dir);

@@ -15,7 +15,7 @@ use serde_json::Value;
 ///
 /// ```
 /// let x = 5;
-/// print_type_of(&x);
+/// _print_type_of(&x);
 /// // prints: "i32"
 /// ```
 ///
@@ -26,7 +26,7 @@ use serde_json::Value;
 /// # Errors
 ///
 /// This function does not return any errors.
-pub fn print_type_of<T>(_: &T) {
+pub fn _print_type_of<T>(_: &T) {
     println!("{}", std::any::type_name::<T>());
 }
 

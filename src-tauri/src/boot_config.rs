@@ -14,7 +14,7 @@ fn get_boot_config_file_path(app_data_dir: &PathBuf) -> PathBuf {
     return config_file_path;
 }
 
-fn set_boot_config(boot_config: &mut BootConfig, value: &Value) {
+fn _set_boot_config(boot_config: &mut BootConfig, value: &Value) {
     boot_config.last_window_width = match value["last_window_width"].as_u64() {
         Some(value) => value as u32,
         None => 0
@@ -33,7 +33,7 @@ pub fn read_boot_config(app_data_dir: &PathBuf) -> BootConfig {
     };
     match read_json_file(&boot_config_file_path) {
         Some(value) =>{
-            set_boot_config(&mut boot_config, &value);
+            _set_boot_config(&mut boot_config, &value);
         }
         None => {
             eprintln!("No boot restore config file found {}", boot_config_file_path.display());
