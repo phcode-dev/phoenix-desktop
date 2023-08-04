@@ -6,6 +6,12 @@ export const PRODUCT_NAME_SUFFIX_FOR_STAGE = {
     production: "" // has no suffix
 };
 
+export const BUNDLE_IDENTIFIER_FOR_STAGE = {
+    dev : "io.phcode.dev",
+    stage: "io.phcode.staging",
+    production: "io.phcode"
+};
+
 export const UPDATE_NOTIFICATION_LATEST_JSON_FILE_PATH = {
     // do not change any of these names unless you want to nuke the updater for all the whole installation base!!
     // or you know what you are doing.

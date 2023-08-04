@@ -50,7 +50,7 @@
                 "icons/icon.icns",
                 "icons/icon.ico"
             ],
-            "identifier": "io.phcode",
+            "identifier": "io.phcode.dev",
             "longDescription": "Phoenix is a modern open-source IDE for the web, built for the browser",
             "macOS": {
                 "entitlements": "../entitlements.plist",
@@ -170,7 +170,8 @@
                 "resizable": true,
                 "title": "Phoenix Code",
                 "width": 1024,
-                "minWidth": 800
+                "minWidth": 800,
+                "acceptFirstMouse": true
             }
         ]
     }

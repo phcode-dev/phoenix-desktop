@@ -2,6 +2,7 @@ import {fileURLToPath} from "url";
 import {dirname, join} from "path";
 import {
     PRODUCT_NAME_SUFFIX_FOR_STAGE,
+    BUNDLE_IDENTIFIER_FOR_STAGE,
     UPDATE_NOTIFICATION_LATEST_JSON_FILE_PATH,
     UPDATE_NOTIFICATIONS_BASE_URL
 } from "./constants.js";
@@ -75,6 +76,9 @@ async function ciCreateDistReleaseConfig() {
     configJson.tauri.updater.endpoints = [
         `${UPDATE_NOTIFICATIONS_BASE_URL}${UPDATE_NOTIFICATION_LATEST_JSON_FILE_PATH[phoenixStage]}`
     ];
+    const bundleIdentifier = BUNDLE_IDENTIFIER_FOR_STAGE[phoenixStage] || "io.phcode.unknown.stage";
+    console.log("Product Bundle Identifier is: ", bundleIdentifier);
+    configJson.tauri.bundle.identifier = bundleIdentifier;
     console.log("Product update endpoints are: ", configJson.tauri.updater.endpoints);
     console.log("Writing new dist config json ", tauriConfigPath);
     fs.writeFileSync(tauriConfigPath, JSON.stringify(configJson, null, 4));
