@@ -1,6 +1,6 @@
 [package]
 name = "phoenix-code-ide"
-version = "3.2.5"
+version = "3.2.6"
 description = "Phoenix is a modern open-source IDE for the web, built for the browser."
 authors = ["arun@core.ai, charly@core.ai"]
 license = "GNU AGPL 3.0"
