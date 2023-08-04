@@ -8,7 +8,7 @@
         "withGlobalTauri": true
     },
     "package": {
-        "productName": "Phoenix Code",
+        "productName": "Phoenix Code Experimental Build",
         "version": "3.2.6"
     },
     "tauri": {
@@ -168,7 +168,7 @@
                 "height": 768,
                 "minHeight": 600,
                 "resizable": true,
-                "title": "Phoenix Code",
+                "title": "Phoenix Code Experimental Build",
                 "width": 1024,
                 "minWidth": 800,
                 "acceptFirstMouse": true
