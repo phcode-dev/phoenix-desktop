@@ -13,14 +13,11 @@
     },
     "tauri": {
         "allowlist": {
-            "all": false,
-            "window": {
-                "all": true
-            },
+            "all": true,
             "fs": {
                 "all": true,
                 "scope": [
-                    "$RESOURCE/*"
+                    "**"
                 ]
             },
             "shell": {
