@@ -16,7 +16,7 @@ const LTS_URL_PREFIX = 'https://nodejs.org/dist/latest-v18.x/';
 /**
  Fetches the latest Node.js version by making a request to a specified URL.
  @returns {Promise<string>} A promise that resolves with the latest Node.js version string on success,
- or rejects with an error if the latest version cannot be found.
+  or rejects with an error if the latest version cannot be found.
  */
 async function fetchLatestNodeVersion() {
     return new Promise((resolve, reject) => {
@@ -176,13 +176,19 @@ async function copyLatestNodeForBuild(platform, arch) {
     const fullPath = (platform === "win") ? `${__dirname}\\${fileName}` : `${__dirname}/${fileName}`;
     let nodeFolder = "";
 
-    if (platform === "win") {
-        unzipFile(fullPath, __dirname);
-        nodeFolder = fileName.slice(0, -4);
-    } else {
-        await untarFile(fullPath, __dirname);
-        nodeFolder = fileName.slice(0, -7);
+    try {
+        if (platform === "win") {
+            unzipFile(fullPath, __dirname);
+            nodeFolder = fileName.slice(0, -4);
+        } else {
+            await untarFile(fullPath, __dirname);
+            nodeFolder = fileName.slice(0, -7);
+        }
+    } catch (e) {
+        console.error(e);
+        process.exit(1);
     }
+
     console.log(nodeFolder);
     const fullPathUnzipFolder = (platform === "win") ? `${__dirname}\\${nodeFolder}` : `${__dirname}/${nodeFolder}`;
     const fullPathOfNode = (platform === "win") ? `${__dirname}\\node` : `${__dirname}/node`;
