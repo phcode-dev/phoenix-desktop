@@ -39,18 +39,18 @@ fn restore_window_size(app: &mut tauri::App, boot_config: &BootConfig){
 
 pub fn init_app(app: &mut tauri::App) {
     let config = app.config().clone();
-    println!("Appdata path is {}",  tauri::api::path::app_data_dir(&config).expect("failed to retrieve app_data_dir").display());
-    ensure_dir_exists(&tauri::api::path::app_data_dir(&config).unwrap()); // canonicalize will work only if path exists
+    println!("Appdata path is {}",  tauri::api::path::app_local_data_dir(&config).expect("failed to retrieve app_local_data_dir").display());
+    ensure_dir_exists(&tauri::api::path::app_local_data_dir(&config).unwrap()); // canonicalize will work only if path exists
     let _ = APP_CONSTANTS.set(AppConstants {
         tauri_config: config.clone(),
-        app_data_dir: tauri::api::path::app_data_dir(&config).expect("failed to retrieve app_data_dir")
-            .canonicalize().expect("Failed to canonicalize app_data_dir")
+        app_local_data_dir: tauri::api::path::app_local_data_dir(&config).expect("failed to retrieve app_local_data_dir")
+            .canonicalize().expect("Failed to canonicalize app_local_data_dir")
     });
 
     // To get a value
     if let Some(app_constants) = APP_CONSTANTS.get() {
         println!("Bundle ID is {}", app_constants.tauri_config.tauri.bundle.identifier);
-        ensure_dir_exists(&app_constants.app_data_dir);
+        ensure_dir_exists(&app_constants.app_local_data_dir);
         let boot_config = read_boot_config();
         restore_window_size(app, &boot_config);
     }

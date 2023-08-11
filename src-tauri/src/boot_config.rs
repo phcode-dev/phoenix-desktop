@@ -9,7 +9,7 @@ use std::io::Write;
 
 pub struct AppConstants {
     pub tauri_config : Arc<tauri::Config>,
-    pub app_data_dir: std::path::PathBuf
+    pub app_local_data_dir: std::path::PathBuf
 }
 pub static APP_CONSTANTS: OnceCell<AppConstants> = OnceCell::new();
 
@@ -20,8 +20,8 @@ pub struct BootConfig {
 }
 static BOOT_CONFIG_FILE_NAME: &'static str = "boot_config.json";
 
-fn get_boot_config_file_path(app_data_dir: &PathBuf) -> PathBuf {
-    let mut config_file_path = app_data_dir.clone();
+fn get_boot_config_file_path(app_local_data_dir: &PathBuf) -> PathBuf {
+    let mut config_file_path = app_local_data_dir.clone();
     config_file_path.push(BOOT_CONFIG_FILE_NAME);
     return config_file_path;
 }
@@ -43,7 +43,7 @@ pub fn read_boot_config() -> BootConfig {
         last_window_height: 0
     };
     if let Some(app_constants) = APP_CONSTANTS.get() {
-        let boot_config_file_path = get_boot_config_file_path(&app_constants.app_data_dir);
+        let boot_config_file_path = get_boot_config_file_path(&app_constants.app_local_data_dir);
         match read_json_file(&boot_config_file_path) {
             Some(value) =>{
                 _set_boot_config(&mut boot_config, &value);
@@ -58,7 +58,7 @@ pub fn read_boot_config() -> BootConfig {
 
 fn _write_boot_config(boot_config: &BootConfig) {
     if let Some(app_constants) = APP_CONSTANTS.get() {
-        let boot_config_file_path = get_boot_config_file_path(&app_constants.app_data_dir);
+        let boot_config_file_path = get_boot_config_file_path(&app_constants.app_local_data_dir);
         // Convert the BootConfig struct to JSON
         let json_string = serde_json::to_string(boot_config).unwrap();
         let mut file = File::create(boot_config_file_path).expect("Failed to create file");
