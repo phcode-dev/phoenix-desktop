@@ -9,19 +9,27 @@ mod init;
 mod utilities;
 mod boot_config;
 
+mod platform;
+
 // Learn more about Tauri commands at https://tauri.app/v1/guides/features/command
 #[tauri::command]
-fn greet(handle: tauri::AppHandle, name: &str) -> String {
-    let resource_path = handle.path_resolver()
-        .resolve_resource("app/hello.js")
-        .expect("failed to resolve resource");
-    Command::new_sidecar("phnode")
-        .expect("failed to create `my-sidecar` binary command")
-        .args(resource_path.as_path().to_str())
-        .spawn()
-        .expect("Failed to spawn sidecar");
-    println!("hello");
-    format!("Hello, {}! You've been greeted from Rust!", name)
+fn console_log(_handle: tauri::AppHandle, message: &str) {
+    println!("{}", message);
+}
+
+#[tauri::command]
+fn console_error(_handle: tauri::AppHandle, message: &str) {
+    eprintln!("{}", message);
+}
+
+#[tauri::command]
+fn _get_windows_drives() -> Option<Vec<char>> {
+    platform::get_windows_drives()
+}
+
+#[tauri::command]
+fn _rename_path(old_path: &str, new_path: &str) -> Result<(), String> {
+    platform::rename_path(old_path, new_path)
 }
 
 static mut DEVTOOLS_LOADED:bool = false;
@@ -49,8 +57,11 @@ fn process_window_event(event: &GlobalWindowEvent) {
 
 fn main() {
     tauri::Builder::default()
+        .plugin(tauri_plugin_fs_extra::init())
         .on_window_event(|event| process_window_event(&event))
-        .invoke_handler(tauri::generate_handler![greet, toggle_devtools])
+        .invoke_handler(tauri::generate_handler![
+            toggle_devtools, console_log, console_error,
+            _get_windows_drives, _rename_path])
         .setup(|app| {
             init::init_app(app);
             Ok(())

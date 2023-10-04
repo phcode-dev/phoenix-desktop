@@ -2,7 +2,7 @@
     "$schema": "../node_modules/@tauri-apps/cli/schema.json",
     "build": {
         "beforeBuildCommand": "",
-        "beforeDevCommand": "",
+        "beforeDevCommand": "npm run _watch_src-node",
         "devPath": "http://localhost:8000/src/",
         "distDir": "../src/",
         "withGlobalTauri": true
@@ -17,15 +17,72 @@
             "fs": {
                 "all": true,
                 "scope": [
-                    "**"
+                    "$APPCONFIG/**",
+                    "$APPDATA/**",
+                    "$APPLOCALDATA/**",
+                    "$APPCACHE/**",
+                    "$APPLOG/**",
+                    "$AUDIO/**",
+                    "$CACHE/**",
+                    "$CONFIG/**",
+                    "$DATA/**",
+                    "$LOCALDATA/**",
+                    "$DESKTOP/**",
+                    "$DOCUMENT/**",
+                    "$DOWNLOAD/**",
+                    "$EXE/**",
+                    "$FONT/**",
+                    "$HOME/**",
+                    "$PICTURE/**",
+                    "$PUBLIC/**",
+                    "$RUNTIME/**",
+                    "$TEMPLATE/**",
+                    "$VIDEO/**",
+                    "$RESOURCE/**",
+                    "$APP/**",
+                    "$LOG/**",
+                    "$TEMP/**",
+                    "**",
+                    "**/**",
+                    "$APPCONFIG/**/*.*",
+                    "$APPDATA/**/*.*",
+                    "$APPLOCALDATA/**/*.*",
+                    "$APPCACHE/**/*.*",
+                    "$APPLOG/**/*.*",
+                    "$AUDIO/**/*.*",
+                    "$CACHE/**/*.*",
+                    "$CONFIG/**/*.*",
+                    "$DATA/**/*.*",
+                    "$LOCALDATA/**/*.*",
+                    "$DESKTOP/**/*.*",
+                    "$DOCUMENT/**/*.*",
+                    "$DOWNLOAD/**/*.*",
+                    "$EXE/**/*.*",
+                    "$FONT/**/*.*",
+                    "$HOME/**/*.*",
+                    "$PICTURE/**/*.*",
+                    "$PUBLIC/**/*.*",
+                    "$RUNTIME/**/*.*",
+                    "$TEMPLATE/**/*.*",
+                    "$VIDEO/**/*.*",
+                    "$RESOURCE/**/*.*",
+                    "$APP/**/*.*",
+                    "$LOG/**/*.*",
+                    "$TEMP/**/*.*",
+                    "**/*.*",
+                    "**/**/*.*"
                 ]
             },
             "shell": {
+                "all": true,
+                "execute": true,
                 "sidecar": true,
+                "open": true,
                 "scope": [
                     {
                         "name": "phnode",
-                        "sidecar": true
+                        "sidecar": true,
+                        "args": [{ "validator": "\\S*" }, { "validator": "\\S*" }]
                     }
                 ]
             }
@@ -38,10 +95,10 @@
                 "depends": []
             },
             "appimage": {
-                "bundleMediaFramework": true
+                "bundleMediaFramework": false
             },
             "externalBin": [
-                "./phnode"
+                "phnode"
             ],
             "icon": [
                 "icons/32x32.png",
@@ -60,7 +117,7 @@
                 "signingIdentity": null
             },
             "resources": [
-                "app/*"
+                "src-node/*"
             ],
             "shortDescription": "Phoenix is a modern open-source IDE for the web, built for the browser",
             "targets": [
@@ -165,11 +222,11 @@
         "windows": [
             {
                 "fullscreen": false,
-                "height": 768,
+                "height": 900,
                 "minHeight": 600,
                 "resizable": true,
                 "title": "Phoenix Code Experimental Build",
-                "width": 1024,
+                "width": 1366,
                 "minWidth": 800,
                 "acceptFirstMouse": true
             }
