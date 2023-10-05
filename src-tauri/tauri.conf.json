@@ -87,6 +87,17 @@
                 ]
             }
         },
+        "cli": {
+            "description": "Phoenix Code cli",
+            "longDescription": "CLI to open project, run tests amd other things",
+            "beforeHelp": "",
+            "afterHelp": "",
+            "args": [{
+                "name": "quit-when-done",
+                "description": "Quit after whatever the task assigned from CLI is done.",
+                "short": "q"
+            }]
+        },
         "bundle": {
             "active": true,
             "category": "DeveloperTool",
