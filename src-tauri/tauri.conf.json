@@ -96,6 +96,10 @@
                 "name": "quit-when-done",
                 "description": "Quit after whatever the task assigned from CLI is done.",
                 "short": "q"
+            }, {
+                "name": "run-tests",
+                "description": "run all tests in the given category",
+                "takesValue": true
             }]
         },
         "bundle": {
