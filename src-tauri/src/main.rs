@@ -3,7 +3,6 @@ all(not(debug_assertions), target_os = "windows"),
 windows_subsystem = "windows"
 )]
 
-use tauri::api::process::Command;
 use tauri::GlobalWindowEvent;
 mod init;
 mod utilities;
