@@ -9,7 +9,7 @@
     },
     "package": {
         "productName": "Phoenix Code Experimental Build",
-        "version": "3.2.6"
+        "version": "3.2.8"
     },
     "tauri": {
         "allowlist": {
@@ -82,7 +82,14 @@
                     {
                         "name": "phnode",
                         "sidecar": true,
-                        "args": [{ "validator": "\\S*" }, { "validator": "\\S*" }]
+                        "args": [
+                            {
+                                "validator": "\\S*"
+                            },
+                            {
+                                "validator": "\\S*"
+                            }
+                        ]
                     }
                 ]
             }
@@ -92,15 +99,18 @@
             "longDescription": "CLI to open project, run tests amd other things",
             "beforeHelp": "",
             "afterHelp": "",
-            "args": [{
-                "name": "quit-when-done",
-                "description": "Quit after whatever the task assigned from CLI is done.",
-                "short": "q"
-            }, {
-                "name": "run-tests",
-                "description": "run all tests in the given category",
-                "takesValue": true
-            }]
+            "args": [
+                {
+                    "name": "quit-when-done",
+                    "description": "Quit after whatever the task assigned from CLI is done.",
+                    "short": "q"
+                },
+                {
+                    "name": "run-tests",
+                    "description": "run all tests in the given category",
+                    "takesValue": true
+                }
+            ]
         },
         "bundle": {
             "active": true,
