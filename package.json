@@ -42,7 +42,7 @@
         "execa": "^7.1.1",
         "fs-extra": "11.1.1",
         "shx": "^0.3.4",
-        "tar": "6.1.15"
+        "tar": "6.2.0"
     },
     "phoenixRepo": {
         "gitClonrUrl": "https://github.com/phcode-dev/phoenix.git",
