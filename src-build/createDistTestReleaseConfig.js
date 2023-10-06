@@ -18,7 +18,7 @@ async function createDistTestReleaseConfig() {
     let configJson = JSON.parse(fs.readFileSync(tauriConfigPath));
     configJson.package.productName = "phoenix-test";
     configJson.tauri.windows[0].title = "phoenix-tester";
-    console.log(chalk.magenta("\n!Only creating executables. Creating msi, appimage and dmg installers are disabled in this build. If you want to create an installer, use: npm run tauri build manually after setting distDir in tauri conf!\n"));
+    console.log(chalk.cyan("\n!Only creating executables. Creating msi, appimage and dmg installers are disabled in this build. If you want to create an installer, use: npm run tauri build manually after setting distDir in tauri conf!\n"));
     configJson.tauri.bundle.active = false;
     configJson.build.distDir = '../../phoenix/dist-test/'
     console.log("Writing new local config json ", tauriLocalConfigPath);
