@@ -73,6 +73,15 @@
                     "**/**/*.*"
                 ]
             },
+            "protocol": {
+                "asset": true,
+                "assetScope": {
+                    "allow": [
+                        "$APPLOCALDATA/assets/**",
+                        "$APPLOCALDATA/assets/**/*.*"
+                    ]
+                }
+            },
             "shell": {
                 "all": true,
                 "execute": true,
@@ -231,7 +240,8 @@
             }
         },
         "security": {
-            "csp": null
+            "csp": null,
+            "dangerousDisableAssetCspModification": true
         },
         "updater": {
             "active": true,
