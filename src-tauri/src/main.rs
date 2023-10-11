@@ -46,6 +46,11 @@ fn toggle_devtools(window: tauri::Window) {
     }
 }
 
+#[tauri::command]
+fn get_temp_dir() -> String {
+    std::env::temp_dir().into_os_string().into_string().unwrap()
+}
+
 fn process_window_event(event: &GlobalWindowEvent) {
     if let tauri::WindowEvent::CloseRequested { .. } = event.event() {
         let size = event.window().outer_size().unwrap();
@@ -60,7 +65,7 @@ fn main() {
         .on_window_event(|event| process_window_event(&event))
         .invoke_handler(tauri::generate_handler![
             toggle_devtools, console_log, console_error,
-            _get_windows_drives, _rename_path])
+            _get_windows_drives, _rename_path, get_temp_dir])
         .setup(|app| {
             init::init_app(app);
             Ok(())
