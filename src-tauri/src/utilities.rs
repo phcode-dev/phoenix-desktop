@@ -34,7 +34,9 @@ pub fn ensure_dir_exists(path: &PathBuf){
     if let Err(e) = fs::create_dir_all(path) {
         eprintln!("Failed to create directory: {}", e);
     } else {
-        println!("Directory created successfully {}", path.display());
+        #[cfg(debug_assertions)]{
+            println!("Directory created successfully {}", path.display());
+        }
     }
 }
 
