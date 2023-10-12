@@ -24,14 +24,23 @@ fn restore_window_size(app: &mut tauri::App, boot_config: &BootConfig){
     let main_window = app.get_window("main").unwrap();
     let current_monitor = main_window.current_monitor().unwrap().unwrap();
     let current_monitor_size = current_monitor.size();
-    println!("current_monitor_size is {}, {}", current_monitor_size.width, current_monitor_size.height);
-    println!("saved window size is {}, {}", boot_config.last_window_width, boot_config.last_window_height);
+
+    #[cfg(debug_assertions)]
+    {
+        println!("current_monitor_size is {}, {}", current_monitor_size.width, current_monitor_size.height);
+        println!("saved window size is {}, {}", boot_config.last_window_width, boot_config.last_window_height);
+    }
+
     let width = get_window_size(boot_config.last_window_width, current_monitor_size.width, PREFERRED_WIDTH);
     let height = get_window_size(boot_config.last_window_height, current_monitor_size.height, PREFERRED_HEIGHT);
     if width == MAXIMIZE_SIZE || height == MAXIMIZE_SIZE {
         main_window.maximize().expect("unable to maximize");
     } else {
-        println!("resizing window to {}, {}", width, height);
+
+        #[cfg(debug_assertions)]{
+            println!("resizing window to {}, {}", width, height);
+        }
+
         let size = tauri::PhysicalSize::new(width, height);
         main_window.set_size(size).expect("unable to resize");
     }
@@ -49,7 +58,9 @@ pub fn init_app(app: &mut tauri::App) {
 
     // To get a value
     if let Some(app_constants) = APP_CONSTANTS.get() {
-        println!("Bundle ID is {}", app_constants.tauri_config.tauri.bundle.identifier);
+        #[cfg(debug_assertions)]{
+            println!("Bundle ID is {}", app_constants.tauri_config.tauri.bundle.identifier);
+        }
         ensure_dir_exists(&app_constants.app_local_data_dir);
         let boot_config = read_boot_config();
         restore_window_size(app, &boot_config);
