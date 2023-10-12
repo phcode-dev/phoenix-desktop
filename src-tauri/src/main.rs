@@ -48,8 +48,7 @@ fn toggle_devtools(window: tauri::Window) {
 
 fn process_window_event(event: &GlobalWindowEvent) {
     if let tauri::WindowEvent::CloseRequested { .. } = event.event() {
-        let size = event.window().outer_size().unwrap();
-        println!("Window closing size {}, {}", size.width, size.height);
+        let size = event.window().inner_size().unwrap();
         boot_config::write_boot_config(size.width, size.height);
     }
 }
