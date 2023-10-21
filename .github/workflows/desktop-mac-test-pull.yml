@@ -18,6 +18,9 @@ jobs:
       - name: install Rust stable
         uses: dtolnay/rust-toolchain@stable
 
+      - name: npm install ci deps
+        run: npm ci
+
       - name: Download phoenix and build build phoenix dist-test
         run: |
           npm run _ci-clonePhoenixForTests
