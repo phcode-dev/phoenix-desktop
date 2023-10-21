@@ -22,6 +22,7 @@
         "_make_src-node_debug_dev": "npm run _make_src-node && shx rm -rf src-tauri/target/debug/src-node && shx cp -r src-tauri/src-node src-tauri/target/debug/src-node",
         "_ci_make_src-node": "shx rm -rf src-tauri/src-node && shx cp -r phoenix/src-node src-tauri/src-node && npm run _src-node_npm_install",
         "_servePhoenix": "echo -e \"\nEnsure to start phoenix server at http://localhost:8000 for development.\n Follow https://github.com/phcode-dev/phoenix#running-phoenix for instructions.\"",
+        "_ci-clonePhoenixForTests": "npm run _ci-env-warn && node ./src-build/clonePhoenixForTests.js",
         "_ci-cloneAndBuildPhoenix": "npm run _ci-env-warn && node ./src-build/clonePhoenix.js && cd phoenix && npm ci && npm run build && cd ..",
         "_ci-release:dev": "npm run _ci-env-warn && npm run _ci-cloneAndBuildPhoenix && cd phoenix && npm run release:dev && cd .. && npm run _ci-createDistReleaseConfig && npm run _ci_make_src-node",
         "_ci-release:staging": "npm run _ci-env-warn && npm run _ci-cloneAndBuildPhoenix && cd phoenix && npm run release:staging && cd .. && npm run _ci-createDistReleaseConfig && npm run _ci_make_src-node",

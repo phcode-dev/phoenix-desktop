@@ -1,0 +1,61 @@
+name: 'Desktop-mac full test suite run on pull request'
+on: [pull_request]
+
+concurrency:
+  group: pr-desktop-mac-${{ github.event.pull_request.number }}
+  cancel-in-progress: true
+
+jobs:
+  test-desktop-mac:
+    runs-on: macos-latest
+    timeout-minutes: 90
+    steps:
+      - uses: actions/checkout@v3
+      - name: setup node
+        uses: actions/setup-node@v3
+        with:
+          node-version: 18
+      - name: install Rust stable
+        uses: dtolnay/rust-toolchain@stable
+
+      - name: Download phoenix and build build phoenix dist-test
+        run: |
+          npm run _ci-clonePhoenixForTests
+          cd ..
+          cd phoenix
+          npm ci
+          npm run build
+          npm run release:dev
+
+      - name: build test runner
+        run: |
+          npm ci
+          npm run releaseDistTestDebug
+
+      - name: Run tauri unit tests
+        uses: nick-fields/retry@v2
+        with:
+          timeout_minutes: 12
+          max_attempts: 3
+          command: ./src-tauri/target/debug/phoenix-test --run-tests=unit -q
+
+      - name: Run tauri integration tests
+        uses: nick-fields/retry@v2
+        with:
+          timeout_minutes: 12
+          max_attempts: 3
+          command: ./src-tauri/target/debug/phoenix-test --run-tests=integration -q
+
+      - name: Run tauri mainview tests
+        uses: nick-fields/retry@v2
+        with:
+          timeout_minutes: 12
+          max_attempts: 3
+          command: ./src-tauri/target/debug/phoenix-test --run-tests=mainview -q
+
+      - name: Run tauri LegacyInteg tests
+        uses: nick-fields/retry@v2
+        with:
+          timeout_minutes: 30
+          max_attempts: 3
+          command: ./src-tauri/target/debug/phoenix-test --run-tests=LegacyInteg -q
