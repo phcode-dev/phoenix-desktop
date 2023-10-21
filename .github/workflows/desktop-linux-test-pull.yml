@@ -25,6 +25,9 @@ jobs:
           sudo apt install build-essential curl wget file libssl-dev libayatana-appindicator3-dev
           sudo apt-get install xvfb
 
+      - name: npm install ci deps
+        run: npm ci
+
       - name:  Download phoenix and build build phoenix dist-test
         run: |
           npm run _ci-clonePhoenixForTests
