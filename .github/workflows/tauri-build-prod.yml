@@ -15,7 +15,7 @@ jobs:
     steps:
       - uses: actions/checkout@v3
       - name: setup node
-        uses: actions/setup-node@v3
+        uses: actions/setup-node@v4
         with:
           node-version: lts/*
       - name: get version
@@ -55,7 +55,7 @@ jobs:
         shell: bash
         run: echo "GIT_TAG_NAME=prod-app-v$(node -p "require('./package.json').version")" >> $GITHUB_ENV
       - name: setup node
-        uses: actions/setup-node@v3
+        uses: actions/setup-node@v4
         with:
           node-version: lts/*
       - name: install Rust stable
