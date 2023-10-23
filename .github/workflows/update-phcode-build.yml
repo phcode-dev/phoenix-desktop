@@ -18,7 +18,7 @@ jobs:
           echo source: ${{github.event.client_payload.source}}, workflow: ${{github.event.client_payload.workflow}}, action_run_id: ${{github.event.client_payload.run_id}}, action_run_number: ${{github.event.client_payload.run_number}}, sha: ${{ github.event.client_payload.sha }}, github_ref: ${{ github.event.client_payload.ref }}
 
       - name: setup node
-        uses: actions/setup-node@v3
+        uses: actions/setup-node@v4
         with:
           node-version: lts/*
 
