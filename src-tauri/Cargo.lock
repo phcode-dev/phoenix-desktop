@@ -2424,7 +2424,7 @@ dependencies = [
 
 [[package]]
 name = "phoenix-code-ide"
-version = "3.2.8"
+version = "3.2.10"
 dependencies = [
  "once_cell",
  "serde",
