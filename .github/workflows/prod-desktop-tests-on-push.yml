@@ -235,7 +235,7 @@ jobs:
       )
     steps:
       - name: Check for failures and raise an issue
-        uses: actions/github-script@v5
+        uses: actions/github-script@v6
         with:
           github-token: ${{secrets.GITHUB_TOKEN}}
           script: |
