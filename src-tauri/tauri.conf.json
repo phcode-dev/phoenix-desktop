@@ -9,14 +9,14 @@
     },
     "package": {
         "productName": "Phoenix Code Experimental Build",
-        "version": "3.2.10"
+        "version": "3.2.11"
     },
     "tauri": {
         "allowlist": {
             "all": true,
             "fs": {
                 "all": true,
-                "scope":{
+                "scope": {
                     "allow": [
                         "$APPCONFIG/**",
                         "$APPDATA/**",
@@ -224,15 +224,23 @@
                     "scheme": "phcode",
                     "domain": "localhost",
                     "enableTauriAPI": true,
-                    "plugins": ["fs-extra"],
-                    "windows": ["main"]
+                    "plugins": [
+                        "fs-extra"
+                    ],
+                    "windows": [
+                        "main"
+                    ]
                 },
                 {
                     "scheme": "https",
                     "domain": "phcode.localhost",
                     "enableTauriAPI": true,
-                    "plugins": ["fs-extra"],
-                    "windows": ["main"]
+                    "plugins": [
+                        "fs-extra"
+                    ],
+                    "windows": [
+                        "main"
+                    ]
                 }
             ]
         },
