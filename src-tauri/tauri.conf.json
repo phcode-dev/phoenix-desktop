@@ -16,62 +16,38 @@
             "all": true,
             "fs": {
                 "all": true,
-                "scope": [
-                    "$APPCONFIG/**",
-                    "$APPDATA/**",
-                    "$APPLOCALDATA/**",
-                    "$APPCACHE/**",
-                    "$APPLOG/**",
-                    "$AUDIO/**",
-                    "$CACHE/**",
-                    "$CONFIG/**",
-                    "$DATA/**",
-                    "$LOCALDATA/**",
-                    "$DESKTOP/**",
-                    "$DOCUMENT/**",
-                    "$DOWNLOAD/**",
-                    "$EXE/**",
-                    "$FONT/**",
-                    "$HOME/**",
-                    "$PICTURE/**",
-                    "$PUBLIC/**",
-                    "$RUNTIME/**",
-                    "$TEMPLATE/**",
-                    "$VIDEO/**",
-                    "$RESOURCE/**",
-                    "$APP/**",
-                    "$LOG/**",
-                    "$TEMP/**",
-                    "**",
-                    "**/**",
-                    "$APPCONFIG/**/*.*",
-                    "$APPDATA/**/*.*",
-                    "$APPLOCALDATA/**/*.*",
-                    "$APPCACHE/**/*.*",
-                    "$APPLOG/**/*.*",
-                    "$AUDIO/**/*.*",
-                    "$CACHE/**/*.*",
-                    "$CONFIG/**/*.*",
-                    "$DATA/**/*.*",
-                    "$LOCALDATA/**/*.*",
-                    "$DESKTOP/**/*.*",
-                    "$DOCUMENT/**/*.*",
-                    "$DOWNLOAD/**/*.*",
-                    "$EXE/**/*.*",
-                    "$FONT/**/*.*",
-                    "$HOME/**/*.*",
-                    "$PICTURE/**/*.*",
-                    "$PUBLIC/**/*.*",
-                    "$RUNTIME/**/*.*",
-                    "$TEMPLATE/**/*.*",
-                    "$VIDEO/**/*.*",
-                    "$RESOURCE/**/*.*",
-                    "$APP/**/*.*",
-                    "$LOG/**/*.*",
-                    "$TEMP/**/*.*",
-                    "**/*.*",
-                    "**/**/*.*"
-                ]
+                "scope":{
+                    "allow": [
+                        "$APPCONFIG/**",
+                        "$APPDATA/**",
+                        "$APPLOCALDATA/**",
+                        "$APPCACHE/**",
+                        "$APPLOG/**",
+                        "$AUDIO/**",
+                        "$CACHE/**",
+                        "$CONFIG/**",
+                        "$DATA/**",
+                        "$LOCALDATA/**",
+                        "$DESKTOP/**",
+                        "$DOCUMENT/**",
+                        "$DOWNLOAD/**",
+                        "$EXE/**",
+                        "$FONT/**",
+                        "$HOME/**",
+                        "$PICTURE/**",
+                        "$PUBLIC/**",
+                        "$RUNTIME/**",
+                        "$TEMPLATE/**",
+                        "$VIDEO/**",
+                        "$RESOURCE/**",
+                        "$APP/**",
+                        "$LOG/**",
+                        "$TEMP/**",
+                        "**",
+                        "**/**"
+                    ],
+                    "requireLiteralLeadingDot": false
+                }
             },
             "protocol": {
                 "asset": true,
@@ -79,7 +55,8 @@
                     "allow": [
                         "$APPLOCALDATA/assets/**",
                         "$APPLOCALDATA/assets/**/*.*"
-                    ]
+                    ],
+                    "requireLiteralLeadingDot": false
                 }
             },
             "shell": {
@@ -241,7 +218,23 @@
         },
         "security": {
             "csp": null,
-            "dangerousDisableAssetCspModification": true
+            "dangerousDisableAssetCspModification": true,
+            "dangerousRemoteDomainIpcAccess": [
+                {
+                    "scheme": "phcode",
+                    "domain": "localhost",
+                    "enableTauriAPI": true,
+                    "plugins": ["fs-extra"],
+                    "windows": ["main"]
+                },
+                {
+                    "scheme": "https",
+                    "domain": "phcode.localhost",
+                    "enableTauriAPI": true,
+                    "plugins": ["fs-extra"],
+                    "windows": ["main"]
+                }
+            ]
         },
         "updater": {
             "active": true,

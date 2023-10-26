@@ -4,6 +4,7 @@ import fs from 'fs';
 
 import {getPlatformDetails} from "./utils.js";
 import chalk from "chalk";
+import os from "os";
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = dirname(__filename);
@@ -20,7 +21,13 @@ async function createDistTestReleaseConfig() {
     configJson.tauri.windows[0].title = "phoenix-tester";
     console.log(chalk.cyan("\n!Only creating executables. Creating msi, appimage and dmg installers are disabled in this build. If you want to create an installer, use: npm run tauri build manually after setting distDir in tauri conf!\n"));
     configJson.tauri.bundle.active = false;
-    configJson.build.distDir = '../../phoenix/dist-test/'
+    configJson.build.distDir = '../../phoenix/dist-test/';
+    if(os.platform() === 'win32'){
+        configJson.tauri.windows[0].url = "https://phcode.localhost/";
+    } else {
+        configJson.tauri.windows[0].url = "phcode://localhost/";
+    }
+    console.log("Window Boot url is: ", configJson.tauri.windows[0].url);
     console.log("Writing new local config json ", tauriLocalConfigPath);
     fs.writeFileSync(tauriLocalConfigPath, JSON.stringify(configJson, null, 4));
 }

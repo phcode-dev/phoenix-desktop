@@ -66,13 +66,18 @@ async function ciCreateDistReleaseConfig() {
 
     console.log("write version in tauri.conf.json", tauriConfigPath);
     configJson = JSON.parse(fs.readFileSync(tauriConfigPath));
-    configJson.build.distDir = '../phoenix/dist/'
-    // delete configJson.tauri.updater; // #uncomment_line_for_local_build_1
-    // delete configJson.tauri.bundle.windows.certificateThumbprint // #uncomment_line_for_local_build_1
+    configJson.build.distDir = '../phoenix/dist/';
+    // configJson.tauri.bundle.active = false; // #uncomment_line_for_local_build_1
     configJson.package.version = phoenixVersion;
     configJson.package.productName = _getProductName(configJson.package.productName, phoenixStage);
     console.log("Product name is: ", configJson.package.productName);
     configJson.tauri.windows[0].title = configJson.package.productName;
+    if(os.platform() === 'win32'){
+        configJson.tauri.windows[0].url = "https://phcode.localhost/";
+    } else {
+        configJson.tauri.windows[0].url = "phcode://localhost/";
+    }
+    console.log("Window Boot url is: ", configJson.tauri.windows[0].url);
     configJson.tauri.updater.endpoints = [
         `${UPDATE_NOTIFICATIONS_BASE_URL}${UPDATE_NOTIFICATION_LATEST_JSON_FILE_PATH[phoenixStage]}`
     ];
