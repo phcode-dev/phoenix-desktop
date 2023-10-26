@@ -3,6 +3,8 @@ all(not(debug_assertions), target_os = "windows"),
 windows_subsystem = "windows"
 )]
 
+extern crate percent_encoding;
+use tauri::http::ResponseBuilder;
 use tauri::GlobalWindowEvent;
 mod init;
 mod utilities;
@@ -55,6 +57,41 @@ fn process_window_event(event: &GlobalWindowEvent) {
 
 fn main() {
     tauri::Builder::default()
+        .register_uri_scheme_protocol("phcode", move |app, request| { // can't use `tauri` because that's already in use
+            let path = request.uri().strip_prefix("phcode://localhost").unwrap();
+            let path = percent_encoding::percent_decode(path.as_bytes())
+                .decode_utf8_lossy()
+                .to_string();
+            // Remove query string and fragment
+            let path_without_query_or_fragment = path.split('?').next().unwrap_or(&path);
+            let final_path = path_without_query_or_fragment.split('#').next().unwrap_or(path_without_query_or_fragment).to_string();
+
+            let asset_option = app.asset_resolver().get(final_path.clone());
+            if asset_option.is_none() {
+                let not_found_response = ResponseBuilder::new()
+                    .status(404)
+                    .mimetype("text/html")
+                    .body("Asset not found".as_bytes().to_vec())
+                    .unwrap();
+                return Ok(not_found_response);
+            }
+
+            let asset = asset_option.unwrap();
+
+            #[cfg(windows)]
+                let window_origin = "https://phcode.localhost";
+            #[cfg(not(windows))]
+                let window_origin = "phcode://localhost";
+
+            let builder = ResponseBuilder::new()
+                .header("Access-Control-Allow-Origin", window_origin)
+                .header("Origin", window_origin)
+                .header("Cache-Control", "private, max-age=31536000, immutable") // 1 year cache age expiry
+                .mimetype(&asset.mime_type);
+
+            let response = builder.body(asset.bytes)?;
+            Ok(response)
+        })
         .plugin(tauri_plugin_fs_extra::init())
         .on_window_event(|event| process_window_event(&event))
         .invoke_handler(tauri::generate_handler![
