@@ -3,6 +3,11 @@ all(not(debug_assertions), target_os = "windows"),
 windows_subsystem = "windows"
 )]
 
+#[cfg(target_os = "linux")]
+use std::fs::metadata;
+use std::path::PathBuf;
+use std::process::Command;
+
 extern crate percent_encoding;
 use tauri::http::ResponseBuilder;
 use tauri::GlobalWindowEvent;
@@ -45,6 +50,55 @@ fn toggle_devtools(window: tauri::Window) {
             window.close_devtools();
         }
         DEVTOOLS_LOADED = !DEVTOOLS_LOADED;
+    }
+}
+
+#[tauri::command]
+fn show_in_folder(path: String) {
+    #[cfg(target_os = "windows")]
+    {
+        Command::new("explorer")
+            .args(["/select,", &path]) // The comma after select is not a typo
+            .spawn()
+            .unwrap();
+    }
+
+    #[cfg(target_os = "linux")]
+    {
+        if path.contains(",") {
+            // see https://gitlab.freedesktop.org/dbus/dbus/-/issues/76
+            let new_path = match metadata(&path).unwrap().is_dir() {
+                true => path,
+                false => {
+                    let mut path2 = PathBuf::from(path);
+                    path2.pop();
+                    path2.into_os_string().into_string().unwrap()
+                }
+            };
+            Command::new("xdg-open")
+                .arg(&new_path)
+                .spawn()
+                .unwrap();
+        } else {
+            Command::new("dbus-send")
+                .arg("--session")
+                .arg("--dest=org.freedesktop.FileManager1")
+                .arg("--type=method_call")
+                .arg("/org/freedesktop/FileManager1")
+                .arg("org.freedesktop.FileManager1.ShowItems")
+                .arg(format!("array:string:file:///{}", path))
+                .arg("string:\"\"")
+                .spawn()
+                .unwrap();
+        }
+    }
+
+    #[cfg(target_os = "macos")]
+    {
+        Command::new("open")
+            .args(["-R", &path])
+            .spawn()
+            .unwrap();
     }
 }
 
@@ -96,7 +150,7 @@ fn main() {
         .on_window_event(|event| process_window_event(&event))
         .invoke_handler(tauri::generate_handler![
             toggle_devtools, console_log, console_error,
-            _get_windows_drives, _rename_path])
+            _get_windows_drives, _rename_path, show_in_folder])
         .setup(|app| {
             init::init_app(app);
             Ok(())
