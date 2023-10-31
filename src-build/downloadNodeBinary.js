@@ -33,6 +33,7 @@ const __dirname = dirname(__filename);
  *   .then(fileName => console.log('Downloaded:', fileName))
  *   .catch(err => console.error('Download failed:', err));
  */
+
 async function downloadNodeBinary(platform, arch, maxRetries = 3) {
     try {
         const url = 'https://api.github.com/repos/phcode-dev/phnode/releases/latest';
