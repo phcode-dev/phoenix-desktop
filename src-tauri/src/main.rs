@@ -148,7 +148,7 @@ fn main() {
             let builder = ResponseBuilder::new()
                 .header("Access-Control-Allow-Origin", window_origin)
                 .header("Origin", window_origin)
-                .header("Cache-Control", "private, max-age=31536000, immutable") // 1 year cache age expiry
+                .header("Cache-Control", "private, max-age=7776000, immutable") // 3 month cache age expiry
                 .mimetype(&asset.mime_type);
 
             let response = builder.body(asset.bytes)?;
