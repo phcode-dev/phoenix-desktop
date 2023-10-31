@@ -1,4 +1,3 @@
-import * as https from "https";
 import * as fs from "fs";
 import tar from "tar";
 import * as path from "path";
@@ -8,7 +7,6 @@ import {dirname} from 'path';
 import * as fsExtra from "fs-extra";
 import {getPlatformDetails, getSideCarBinName, removeDir} from "./utils.js";
 import axios from 'axios';
-import progress from 'progress-stream';
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = dirname(__filename);
