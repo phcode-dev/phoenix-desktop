@@ -8,6 +8,7 @@ use std::fs::metadata;
 use std::path::PathBuf;
 use std::process::Command;
 
+use regex::Regex;
 extern crate percent_encoding;
 use tauri::http::ResponseBuilder;
 use tauri::GlobalWindowEvent;
@@ -109,10 +110,17 @@ fn process_window_event(event: &GlobalWindowEvent) {
     }
 }
 
+// convert url of form "protocol://host/v1.2.3/path/to/something" to "protocol://host/path/to/something"
+fn remove_version_from_url(url: &str) -> String {
+    let re = Regex::new(r"([a-zA-Z]+://[^/]+)/v[\d+\.]+/").unwrap();
+    re.replace(url, "$1/").to_string()
+}
+
 fn main() {
     tauri::Builder::default()
         .register_uri_scheme_protocol("phcode", move |app, request| { // can't use `tauri` because that's already in use
-            let path = request.uri().strip_prefix("phcode://localhost").unwrap();
+            let path = remove_version_from_url(request.uri());
+            let path = path.strip_prefix("phcode://localhost").unwrap();
             let path = percent_encoding::percent_decode(path.as_bytes())
                 .decode_utf8_lossy()
                 .to_string();

@@ -20,10 +20,11 @@ async function createDistReleaseConfig() {
     console.log(chalk.cyan("\n!Only creating executables. Creating msi, appimage and dmg installers are disabled in this build. If you want to create an installer, use: npm run tauri build manually after setting distDir in tauri conf!\n"));
     configJson.tauri.bundle.active = false;
     configJson.build.distDir = '../../phoenix/dist/';
+    const phoenixVersion = configJson.package.version;
     if(os.platform() === 'win32'){
-        configJson.tauri.windows[0].url = "https://phcode.localhost/";
+        configJson.tauri.windows[0].url = `https://phcode.localhost/v${phoenixVersion}/`;
     } else {
-        configJson.tauri.windows[0].url = "phcode://localhost/";
+        configJson.tauri.windows[0].url = `phcode://localhost/v${phoenixVersion}/`;
     }
     console.log("Window Boot url is: ", configJson.tauri.windows[0].url);
     console.log("Writing new local config json ", tauriLocalConfigPath);
