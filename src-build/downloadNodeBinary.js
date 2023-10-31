@@ -14,14 +14,25 @@ const __filename = fileURLToPath(import.meta.url);
 const __dirname = dirname(__filename);
 
 /**
- * Downloads a Node.js binary file from a specified version, platform, and architecture.
- * @param {string} version - The version of Node.js to download (e.g., "14.17.0").
- * @param {string} platform - The platform for which to download the binary (e.g., "win","linux","darwin").
- * @param {string} arch - The architecture for which to download the binary (e.g., "x64","arm64").
- * @returns {Promise<string>} - A Promise that resolves to the downloaded file name if successful.
- * @throws {Error} - If the file fails to download after the maximum number of retries.
+ * Downloads the latest Node.js binary for the specified platform and architecture.
+ * If the file already exists, it will not be downloaded again. If the download fails,
+ * the function will retry up to the maximum specified number of retries.
+ *
+ * @param {string} platform - The operating system for which to download the Node.js binary.
+ *                            Possible values are 'darwin', 'win', and 'linux'.
+ * @param {string} arch - The architecture for which to download the Node.js binary.
+ *                        Possible values are 'arm64' and 'x64'.
+ * @param {number} [maxRetries=3] - The maximum number of times to retry the download
+ *                                  in case of failure. Defaults to 3.
+ *
+ * @returns {Promise<string>} A promise that resolves to the name of the downloaded file
+ *                            (not the full path), or rejects with an error message.
+ *
+ * @example
+ * downloadNodeBinary('darwin', 'x64')
+ *   .then(fileName => console.log('Downloaded:', fileName))
+ *   .catch(err => console.error('Download failed:', err));
  */
-
 async function downloadNodeBinary(platform, arch, maxRetries = 3) {
     try {
         // Step 1: Get the latest release information from phcode-dev/phnode
