@@ -35,14 +35,9 @@ const __dirname = dirname(__filename);
  */
 async function downloadNodeBinary(platform, arch, maxRetries = 3) {
     try {
-        // Step 1: Get the latest release information from phcode-dev/phnode
         const url = 'https://api.github.com/repos/phcode-dev/phnode/releases/latest';
         const releaseResponse = await axios.get(url);
-
-        // Determine file extension based on platform
         const extension = platform === 'win' ? 'zip' : 'tar.gz';
-
-        // Adjusting the regex pattern to match the new file name format
         const regex = new RegExp(`node-v[\\d.]+-${platform}-${arch}\\.${extension}`);
         const asset = releaseResponse.data.assets.find(a => regex.test(a.name));
 
@@ -50,35 +45,31 @@ async function downloadNodeBinary(platform, arch, maxRetries = 3) {
             throw new Error(`No asset found for platform: ${platform}, arch: ${arch}`);
         }
 
-        // Step 2: Check if file already exists
         const outputPath = path.resolve(__dirname, asset.name);
         if (fs.existsSync(outputPath)) {
             console.log('File already downloaded:', asset.name);
             return asset.name;
         }
 
-        // Step 3: Download the asset with progress
         const writer = fs.createWriteStream(outputPath);
         const { data, headers } = await axios({
             url: asset.browser_download_url,
             method: 'GET',
             responseType: 'stream',
-            timeout: 10000 // timeout in 10 seconds
+            timeout: 10000
         });
 
         const str = progress({
             length: headers['content-length'],
-            time: 100 /* ms */
+            time: 100
         });
 
+        let lastLoggedPercentage = -1;
         str.on('progress', progress => {
-            if (process.stdout.isTTY) {
-                process.stdout.clearLine(0);
-                process.stdout.cursorTo(0);
-            }
-            process.stdout.write(`Downloading... ${Math.round(progress.percentage)}%`);
-            if (!process.stdout.isTTY) {
-                process.stdout.write('\n');
+            const percentage = Math.round(progress.percentage);
+            if (percentage !== lastLoggedPercentage && percentage % 10 === 0) {
+                console.log(`Downloading... ${percentage}%`);
+                lastLoggedPercentage = percentage;
             }
         });
 
