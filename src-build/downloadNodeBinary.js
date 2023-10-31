@@ -52,32 +52,18 @@ async function downloadNodeBinary(platform, arch, maxRetries = 3) {
         }
 
         const writer = fs.createWriteStream(outputPath);
-        const { data, headers } = await axios({
+        const { data } = await axios({
             url: asset.browser_download_url,
             method: 'GET',
             responseType: 'stream',
             timeout: 10000
         });
 
-        const str = progress({
-            length: headers['content-length'],
-            time: 100
-        });
-
-        let lastLoggedPercentage = -1;
-        str.on('progress', progress => {
-            const percentage = Math.round(progress.percentage);
-            if (percentage !== lastLoggedPercentage && percentage % 10 === 0) {
-                console.log(`Downloading... ${percentage}%`);
-                lastLoggedPercentage = percentage;
-            }
-        });
-
-        data.pipe(str).pipe(writer);
+        data.pipe(writer);
 
         return new Promise((resolve, reject) => {
             writer.on('finish', () => {
-                console.log('\nDownload completed:', asset.name);
+                console.log('Download completed:', asset.name);
                 resolve(asset.name);
             });
             writer.on('error', err => {
@@ -96,6 +82,7 @@ async function downloadNodeBinary(platform, arch, maxRetries = 3) {
         }
     }
 }
+
 
 /**
  * Extracts a tar archive file to the specified output directory.
