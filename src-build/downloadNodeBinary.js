@@ -72,9 +72,14 @@ async function downloadNodeBinary(platform, arch, maxRetries = 3) {
         });
 
         str.on('progress', progress => {
-            process.stdout.clearLine(0);
-            process.stdout.cursorTo(0);
+            if (process.stdout.isTTY) {
+                process.stdout.clearLine(0);
+                process.stdout.cursorTo(0);
+            }
             process.stdout.write(`Downloading... ${Math.round(progress.percentage)}%`);
+            if (!process.stdout.isTTY) {
+                process.stdout.write('\n');
+            }
         });
 
         data.pipe(str).pipe(writer);
