@@ -7,37 +7,11 @@ import {fileURLToPath} from 'url';
 import {dirname} from 'path';
 import * as fsExtra from "fs-extra";
 import {getPlatformDetails, getSideCarBinName, removeDir} from "./utils.js";
+import axios from 'axios';
+import progress from 'progress-stream';
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = dirname(__filename);
-
-const LTS_URL_PREFIX = 'https://nodejs.org/dist/latest-v18.x/';
-
-/**
- Fetches the latest Node.js version by making a request to a specified URL.
- @returns {Promise<string>} A promise that resolves with the latest Node.js version string on success,
-  or rejects with an error if the latest version cannot be found.
- */
-async function fetchLatestNodeVersion() {
-    return new Promise((resolve, reject) => {
-        https.get(LTS_URL_PREFIX, (res) => {
-            let data = '';
-
-            res.on('data', (chunk) => {
-                data += chunk;
-            });
-            res.on('end', () => {
-
-                const versionMatch = /node-v(\d+\.\d+\.\d+)/.exec(data);
-                if (versionMatch) {
-                    resolve(versionMatch[1]);
-                } else {
-                    reject(new Error('Could not find latest Node.js version'));
-                }
-            });
-        }).on('error', reject);
-    });
-}
 
 /**
  * Downloads a Node.js binary file from a specified version, platform, and architecture.
@@ -48,44 +22,73 @@ async function fetchLatestNodeVersion() {
  * @throws {Error} - If the file fails to download after the maximum number of retries.
  */
 
-async function downloadNodeBinary(version, platform, arch) {
-    const extension = (platform === "win") ? "zip" : "tar.gz";
-    const fileName = `node-v${version}-${platform}-${arch}.${extension}`;
+async function downloadNodeBinary(platform, arch, maxRetries = 3) {
+    try {
+        // Step 1: Get the latest release information from phcode-dev/phnode
+        const url = 'https://api.github.com/repos/phcode-dev/phnode/releases/latest';
+        const releaseResponse = await axios.get(url);
 
-    const fullPath = `${__dirname}/${fileName}`
-    // Check if the file already exists
-    if (fs.existsSync(fullPath)) {
-        console.log(`File ${fileName} already exists. No need to download.`);
-        return fileName;
-    }
-    const MAX_RETRIES = 3
-    console.log(`downloading node ${version} for ${platform} ${arch}`);
-    for (let attempt = 0; attempt < MAX_RETRIES; attempt++) {
-        try {
-            const file = fs.createWriteStream(fullPath);
-            await new Promise((resolve, reject) => {
-                const downloadUrl = `${LTS_URL_PREFIX}node-v${version}-${platform}-${arch}.${extension}`;
-                console.log(downloadUrl);
-                https.get(downloadUrl, (res) => {
-                    res.pipe(file);
-                    res.on('end', () => resolve(fileName));
-                    res.on('error', (err) => {
-                        fs.unlinkSync(fileName); // Remove the file on error
-                        reject(err);
-                    });
-                });
+        // Determine file extension based on platform
+        const extension = platform === 'win' ? 'zip' : 'tar.gz';
+
+        // Adjusting the regex pattern to match the new file name format
+        const regex = new RegExp(`node-v[\\d.]+-${platform}-${arch}\\.${extension}`);
+        const asset = releaseResponse.data.assets.find(a => regex.test(a.name));
+
+        if (!asset) {
+            throw new Error(`No asset found for platform: ${platform}, arch: ${arch}`);
+        }
+
+        // Step 2: Check if file already exists
+        const outputPath = path.resolve(__dirname, asset.name);
+        if (fs.existsSync(outputPath)) {
+            console.log('File already downloaded:', asset.name);
+            return asset.name;
+        }
+
+        // Step 3: Download the asset with progress
+        const writer = fs.createWriteStream(outputPath);
+        const { data, headers } = await axios({
+            url: asset.browser_download_url,
+            method: 'GET',
+            responseType: 'stream',
+            timeout: 10000 // timeout in 10 seconds
+        });
+
+        const str = progress({
+            length: headers['content-length'],
+            time: 100 /* ms */
+        });
+
+        str.on('progress', progress => {
+            process.stdout.clearLine(0);
+            process.stdout.cursorTo(0);
+            process.stdout.write(`Downloading... ${Math.round(progress.percentage)}%`);
+        });
+
+        data.pipe(str).pipe(writer);
+
+        return new Promise((resolve, reject) => {
+            writer.on('finish', () => {
+                console.log('\nDownload completed:', asset.name);
+                resolve(asset.name);
             });
-            return fileName; // If the download was successful, return the file name
-        } catch (err) {
-            console.error(`Download attempt ${attempt + 1} failed.`);
-            if (attempt < MAX_RETRIES - 1) {
-                console.log(`Retrying download...`);
-            }
+            writer.on('error', err => {
+                fs.unlinkSync(outputPath); // remove the partially downloaded file
+                reject(err);
+            });
+        });
+
+    } catch (err) {
+        console.error('Error:', err.message);
+        if (maxRetries > 0) {
+            console.log('Retrying download...');
+            return downloadNodeBinary(platform, arch, maxRetries - 1);
+        } else {
+            throw new Error('Max retries reached, download failed.');
         }
     }
-    throw new Error(`Failed to download file after ${MAX_RETRIES} attempts.`);
 }
-
 
 /**
  * Extracts a tar archive file to the specified output directory.
@@ -171,8 +174,7 @@ function unzipFile(zipFilePath, extractPath) {
  * @returns {Promise<void>} - A Promise that resolves when the Node.js binary is copied successfully.
  */
 async function copyLatestNodeForBuild(platform, arch) {
-    const version = await fetchLatestNodeVersion();
-    const fileName = await downloadNodeBinary(version, platform, arch);
+    const fileName = await downloadNodeBinary(platform, arch);
     const fullPath = (platform === "win") ? `${__dirname}\\${fileName}` : `${__dirname}/${fileName}`;
     let nodeFolder = "";
 
