@@ -228,8 +228,39 @@
                         "fs-extra"
                     ],
                     "windows": [
-                        "main"
+                        "main",
+                        "phcode-1",
+                        "phcode-2",
+                        "phcode-3",
+                        "phcode-4",
+                        "phcode-5",
+                        "phcode-6",
+                        "phcode-7",
+                        "phcode-8",
+                        "phcode-9",
+                        "phcode-10",
+                        "phcode-11",
+                        "phcode-12",
+                        "phcode-13",
+                        "phcode-14",
+                        "phcode-15",
+                        "phcode-16",
+                        "phcode-17",
+                        "phcode-18",
+                        "phcode-19",
+                        "phcode-20",
+                        "phcode-21",
+                        "phcode-22",
+                        "phcode-23",
+                        "phcode-24",
+                        "phcode-25",
+                        "phcode-26",
+                        "phcode-27",
+                        "phcode-28",
+                        "phcode-29",
+                        "phcode-30"
                     ]
+
                 },
                 {
                     "scheme": "https",
@@ -239,7 +270,37 @@
                         "fs-extra"
                     ],
                     "windows": [
-                        "main"
+                        "main",
+                        "phcode-1",
+                        "phcode-2",
+                        "phcode-3",
+                        "phcode-4",
+                        "phcode-5",
+                        "phcode-6",
+                        "phcode-7",
+                        "phcode-8",
+                        "phcode-9",
+                        "phcode-10",
+                        "phcode-11",
+                        "phcode-12",
+                        "phcode-13",
+                        "phcode-14",
+                        "phcode-15",
+                        "phcode-16",
+                        "phcode-17",
+                        "phcode-18",
+                        "phcode-19",
+                        "phcode-20",
+                        "phcode-21",
+                        "phcode-22",
+                        "phcode-23",
+                        "phcode-24",
+                        "phcode-25",
+                        "phcode-26",
+                        "phcode-27",
+                        "phcode-28",
+                        "phcode-29",
+                        "phcode-30"
                     ]
                 }
             ]
