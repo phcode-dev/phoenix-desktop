@@ -5,7 +5,7 @@
     "type": "module",
     "scripts": {
         "tauri": "tauri",
-        "build": "",
+        "tauriBuildDemoApp": "node src-build/createDemoReleaseConfig.js && tauri build --config ./src-tauri/tauri-local.conf.json",
         "_createSrcReleaseConfig": "node src-build/createSrcReleaseConfig.js",
         "_createDistReleaseConfig": "node src-build/createDistReleaseConfig.js",
         "_createDistTestReleaseConfig": "node src-build/createDistTestReleaseConfig.js",

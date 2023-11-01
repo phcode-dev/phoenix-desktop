@@ -128,6 +128,15 @@ The actual release artifacts will then be built by the tauri action `tauri-apps/
 Remember, the `npm run _ci-*` commands are designed to execute in the GitHub Actions environment.
 They're not typically used for local machine executions unless you're working on or testing the GitHub Actions workflows themselves.
 
+### Building the demo app
+If you dont want to build phcode and just build a demo app with similar config as phcode(You may do this
+if you are working on the release generation or build tooling and don't want to wait for phcode to build
+every time you want to test the build). Just run this command:
+
+```bash
+npm run tauriBuildDemoApp
+```
+
 # License
 
 GNU AGPL-3.0 License
