@@ -81,8 +81,6 @@ async function downloadNodeBinary(platform, arch, maxRetries = 3) {
         }
     }
 }
-
-
 /**
  * Extracts a tar archive file to the specified output directory.
  * @param {string} inputFile - The path of the tar archive file to be extracted.
