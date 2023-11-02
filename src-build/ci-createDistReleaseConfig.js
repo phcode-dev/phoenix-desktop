@@ -7,6 +7,7 @@ import {
     UPDATE_NOTIFICATIONS_BASE_URL
 } from "./constants.js";
 import { EOL } from "os";
+import os from "os";
 import fs from 'fs';
 
 const __filename = fileURLToPath(import.meta.url);
