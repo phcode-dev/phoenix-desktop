@@ -116,6 +116,15 @@ jobs:
           # Write the content back to the file
           Set-Content -Path "./secrets.json" -Value $content
         shell: powershell
+      - name: Check APPLE_TEAM_ID environment variable
+        run: |
+          if [ -z "${{ secrets.APPLE_TEAM_ID }}" ]; then
+            echo "APPLE_TEAM_ID is not set"
+            exit 1
+          else
+            echo "APPLE_TEAM_ID is set"
+          fi
+        shell: bash
       - uses: tauri-apps/tauri-action@v0
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
