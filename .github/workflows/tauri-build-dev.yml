@@ -119,7 +119,7 @@ jobs:
       - name: Sign embedded executables for Mac
         if: matrix.platform == 'macos-latest'
         env :
-          MAC_IDENTITY: ${{ secrets.APPLE_EXTERNAL_BINARY_SIGN_CERTIFICATE }}
+          APPLE_KEY_IDENTITY_NAME: ${{ secrets.APPLE_KEY_IDENTITY_NAME }}
           APPLE_CERTIFICATE: ${{ secrets.APPLE_CERTIFICATE }}
           APPLE_CERTIFICATE_PASSWORD: ${{ secrets.APPLE_CERTIFICATE_PASSWORD }}
         run: |
@@ -144,7 +144,7 @@ jobs:
           security set-key-partition-list -S apple-tool:,apple: -s -k tmp-password build.keychain
           ls src-tauri/src-node/node_modules/fsevents/
           pwd
-          codesign --sign $MAC_IDENTITY  --keychain build.keychain --timestamp --options runtime src-tauri/src-node/node_modules/fsevents/fsevents.node
+          cat src-build/mac/filesToSign | xargs  codesign --sign APPLE_KEY_IDENTITY_NAME  --keychain build.keychain --timestamp --options runtime
           rm $cert_path
         shell: bash
 
