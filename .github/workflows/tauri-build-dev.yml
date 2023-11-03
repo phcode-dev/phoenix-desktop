@@ -123,6 +123,7 @@ jobs:
           APPLE_CERTIFICATE: ${{ secrets.APPLE_CERTIFICATE }}
           APPLE_CERTIFICATE_PASSWORD: ${{ secrets.APPLE_CERTIFICATE_PASSWORD }}
         run: |
+          cat ./src-build/mac/filesToSign
           CERT_FILE="Certificate.p12"
           echo "$APPLE_CERTIFICATE" | base64 --decode > $CERT_FILE
           security import $CERT_FILE -k ~/Library/Keychains/login.keychain -P "$APPLE_CERTIFICATE_PASSWORD" -T /usr/bin/codesign
