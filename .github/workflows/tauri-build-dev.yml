@@ -122,13 +122,17 @@ jobs:
           CERTIFICATE_NAME: ${{ secrets.APPLE_EXTERNAL_BINARY_SIGN_CERTIFICATE }}
           APPLE_CERTIFICATE: ${{ secrets.APPLE_CERTIFICATE }}
           APPLE_CERTIFICATE_PASSWORD: ${{ secrets.APPLE_CERTIFICATE_PASSWORD }}
+          KEYCHAIN_PWD: ${{ secrets.KEYCHAIN_PWD }}
+          KEYCHAIN_ID: ${{ secrets.KEYCHAIN_ID }}
         run: |
+          security create-keychain -p "$KEYCHAIN_PWD" "$KEYCHAIN_ID"
+          security unlock-keychain -p "$KEYCHAIN_PWD" "$KEYCHAIN_ID"
           cat ./src-build/mac/filesToSign
           CERT_FILE="Certificate.p12"
           echo "$APPLE_CERTIFICATE" | base64 --decode > $CERT_FILE
-          security import $CERT_FILE -k ~/Library/Keychains/login.keychain -P "$APPLE_CERTIFICATE_PASSWORD" -T /usr/bin/codesign
+          security import $CERT_FILE -k "$KEYCHAIN_ID" -P "$APPLE_CERTIFICATE_PASSWORD" -T /usr/bin/codesign
           rm $CERT_FILE
-          cat ./src-build/mac/filesToSign | xargs  codesign -s "$CERTIFICATE_NAME" --timestamp --options runtime
+          cat ./src-build/mac/filesToSign | xargs  codesign -s "$CERTIFICATE_NAME" --keychain "$KEYCHAIN_ID" --timestamp --options runtime
         shell: bash
 
       - uses: tauri-apps/tauri-action@v0
