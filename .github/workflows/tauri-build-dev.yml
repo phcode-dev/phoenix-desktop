@@ -119,7 +119,7 @@ jobs:
       - name: Sign embedded executables for Mac
         if: matrix.platform == 'macos-latest'
         env :
-          CERTIFICATE_NAME: ${{ secrets.APPLE_EXTERNAL_BINARY_SIGN_CERTIFICATE }}
+          MAC_IDENTITY: ${{ secrets.APPLE_EXTERNAL_BINARY_SIGN_CERTIFICATE }}
           APPLE_CERTIFICATE: ${{ secrets.APPLE_CERTIFICATE }}
           APPLE_CERTIFICATE_PASSWORD: ${{ secrets.APPLE_CERTIFICATE_PASSWORD }}
           KEYCHAIN_PWD: ${{ secrets.KEYCHAIN_PWD }}
@@ -149,10 +149,8 @@ jobs:
           security set-keychain-settings -t 3600 -u "$KEYCHAIN_ID"
           security set-key-partition-list -S "apple-tool:,apple:,codesign:" -s -k "$KEYCHAIN_PWD" "$KEYCHAIN_ID"
       
-          # Listing current keychains, appending new keychain to the list
-          current_keychains=$(security list-keychain -d user | tr -d '"\n')
-          security list-keychain -d user -s $current_keychains "$KEYCHAIN_ID"
-          cat ./src-build/mac/filesToSign | xargs  codesign --force -s "$CERTIFICATE_NAME" --keychain "$KEYCHAIN_ID"  --timestamp --options runtime
+          codesign --force --sign "$MAC_IDENTITY" --keychain "$KEYCHAIN_ID"  --timestamp --options runtime ./src-tauri/src-node/node_modules/fsevents/fsevents.node
+          # cat ./src-build/mac/filesToSign | xargs  codesign --force -s "$CERTIFICATE_NAME" --keychain "$KEYCHAIN_ID"  --timestamp --options runtime
         shell: bash
 
       - uses: tauri-apps/tauri-action@v0
