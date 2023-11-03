@@ -116,15 +116,14 @@ jobs:
           # Write the content back to the file
           Set-Content -Path "./secrets.json" -Value $content
         shell: powershell
-      - name: Check APPLE_TEAM_ID environment variable
+      - name: Sign embedded executables for Mac
+        if: matrix.platform == 'macos-latest'
+        env :
+          CERTIFICATE: ${{ secrets.APPLE_EXTERNAL_BINARY_SIGN_CERTIFICATE }}
         run: |
-          if [ -z "${{ secrets.APPLE_TEAM_ID }}" ]; then
-            echo "APPLE_TEAM_ID is not set"
-            exit 1
-          else
-            echo "APPLE_TEAM_ID is set"
-          fi
+          cat ./src-build/mac/filesToSign | xargs  codesign -s "$CERTIFICATE" --timestamp --options runtime
         shell: bash
+        
       - uses: tauri-apps/tauri-action@v0
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
