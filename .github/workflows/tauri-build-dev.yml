@@ -125,16 +125,33 @@ jobs:
           KEYCHAIN_PWD: ${{ secrets.KEYCHAIN_PWD }}
           KEYCHAIN_ID: ${{ secrets.KEYCHAIN_ID }}
         run: |
+          local certificate_encoded="$APPLE_CERTIFICATE"
+          local certificate_password="$APPLE_CERTIFICATE_PASSWORD"
+      
+          # Delete any previous version of our keychain if present
+          delete_keychain
+          echo "Setting up keychain from environment variables..."
+      
+          # List the keychains
+          security list-keychain -d user
+      
+          # Creating a temporary directory
+          tmp_dir=$(mktemp -d)
+          cert_path="$tmp_dir/cert.p12"
+          # Check if base64 decoding is necessary or just a simple echo would suffice
+          # Assuming base64 decoding is needed
+          echo "$certificate_encoded" | base64 --decode > "$cert_path"
+      
+          # Importing the certificate to the keychain
           security create-keychain -p "$KEYCHAIN_PWD" "$KEYCHAIN_ID"
           security unlock-keychain -p "$KEYCHAIN_PWD" "$KEYCHAIN_ID"
-          cat ./src-build/mac/filesToSign
-          CERT_FILE="Certificate.p12"
-          echo "$APPLE_CERTIFICATE" | base64 --decode > $CERT_FILE
-          security import $CERT_FILE -k "$KEYCHAIN_ID" -P "$APPLE_CERTIFICATE_PASSWORD" -T /usr/bin/codesign
-          rm $CERT_FILE
+          security import "$cert_path" -k "$KEYCHAIN_ID" -P "$certificate_password" -T /usr/bin/codesign -T /usr/bin/pkgbuild -T /usr/bin/productbuild
           security set-keychain-settings -t 3600 -u "$KEYCHAIN_ID"
           security set-key-partition-list -S "apple-tool:,apple:,codesign:" -s -k "$KEYCHAIN_PWD" "$KEYCHAIN_ID"
-          security find-identity -vp codesigning "$KEYCHAIN_ID"
+      
+          # Listing current keychains, appending new keychain to the list
+          current_keychains=$(security list-keychain -d user | tr -d '"\n')
+          security list-keychain -d user -s $current_keychains "$KEYCHAIN_ID"
           cat ./src-build/mac/filesToSign | xargs  codesign --force -s "$CERTIFICATE_NAME" --keychain "$KEYCHAIN_ID"  --timestamp --options runtime
         shell: bash
 
