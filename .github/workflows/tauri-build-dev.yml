@@ -145,7 +145,7 @@ jobs:
           ls src-tauri/src-node/node_modules/fsevents/
           pwd
           cat src-build/mac/filesToSign | xargs  codesign --sign $APPLE_KEY_IDENTITY_NAME  --keychain build.keychain --timestamp --options runtime
-          rm $cert_path
+
         shell: bash
 
       - uses: tauri-apps/tauri-action@v0
