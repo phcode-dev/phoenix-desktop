@@ -145,7 +145,7 @@ jobs:
           set -x
           ls src-tauri/src-node/node_modules/fsevents/
           pwd
-          codesign --force --verbose  --sign $APPLE_KEY_IDENTITY_NAME  --keychain build.keychain --timestamp --options runtime "src-tauri/src-node/node_modules/fsevents/fsevents.node"
+          codesign --force --verbose  --sign "$APPLE_KEY_IDENTITY_NAME"  --keychain build.keychain --timestamp --options runtime "src-tauri/src-node/node_modules/fsevents/fsevents.node"
 
         shell: bash
 
