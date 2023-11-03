@@ -143,7 +143,7 @@ jobs:
           security import "$cert_path" -k build.keychain -P "$certificate_password" -T /usr/bin/codesign
           security set-key-partition-list -S apple-tool:,apple: -s -k tmp-password build.keychain
           cat src-build/mac/filesToSign | xargs  codesign --sign "$APPLE_KEY_IDENTITY_NAME"  --keychain build.keychain --timestamp --options runtime
-
+          security delete-keychain build.keychain
         shell: bash
 
       - uses: tauri-apps/tauri-action@v0
