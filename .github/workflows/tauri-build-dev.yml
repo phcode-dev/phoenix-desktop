@@ -128,10 +128,7 @@ jobs:
           certificate_encoded="$APPLE_CERTIFICATE"
           certificate_password="$APPLE_CERTIFICATE_PASSWORD"
       
-          # Delete any previous version of our keychain if present
-          delete_keychain
           echo "Setting up keychain from environment variables..."
-      
           # List the keychains
           security list-keychain -d user
       
