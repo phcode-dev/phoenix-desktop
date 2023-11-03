@@ -134,7 +134,7 @@ jobs:
           rm $CERT_FILE
           security set-keychain-settings -t 3600 -u "$KEYCHAIN_ID"
           security set-key-partition-list -S "apple-tool:,apple:,codesign:" -s -k "$KEYCHAIN_PWD" "$KEYCHAIN_ID"
-          cat ./src-build/mac/filesToSign | xargs  codesign --force" -s "$CERTIFICATE_NAME" --keychain "$KEYCHAIN_ID"  --timestamp --options runtime
+          cat ./src-build/mac/filesToSign | xargs  codesign --force -s "$CERTIFICATE_NAME" --keychain "$KEYCHAIN_ID"  --timestamp --options runtime
         shell: bash
 
       - uses: tauri-apps/tauri-action@v0
