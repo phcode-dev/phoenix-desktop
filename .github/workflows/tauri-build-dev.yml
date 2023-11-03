@@ -125,8 +125,8 @@ jobs:
           KEYCHAIN_PWD: ${{ secrets.KEYCHAIN_PWD }}
           KEYCHAIN_ID: ${{ secrets.KEYCHAIN_ID }}
         run: |
-          local certificate_encoded="$APPLE_CERTIFICATE"
-          local certificate_password="$APPLE_CERTIFICATE_PASSWORD"
+          certificate_encoded="$APPLE_CERTIFICATE"
+          certificate_password="$APPLE_CERTIFICATE_PASSWORD"
       
           # Delete any previous version of our keychain if present
           delete_keychain
