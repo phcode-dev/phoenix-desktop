@@ -144,7 +144,7 @@ jobs:
           security set-key-partition-list -S apple-tool:,apple: -s -k tmp-password build.keychain
           ls src-tauri/src-node/node_modules/fsevents/
           pwd
-          cat src-build/mac/filesToSign | xargs  codesign --force --verbose=20  --sign $APPLE_KEY_IDENTITY_NAME  --keychain build.keychain --timestamp --options runtime
+          codesign --force --verbose  --sign $APPLE_KEY_IDENTITY_NAME  --keychain build.keychain --timestamp --options runtime "src-tauri/src-node/node_modules/fsevents/fsevents.node"
 
         shell: bash
 
