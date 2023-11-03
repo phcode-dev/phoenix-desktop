@@ -142,7 +142,9 @@ jobs:
           security unlock-keychain -p tmp-password build.keychain
           security import $cert_path -k build.keychain -P $certificate_password -T /usr/bin/codesign
           security set-key-partition-list -S apple-tool:,apple: -s -k tmp-password build.keychain
-          codesign --sign $MAC_IDENTITY  --keychain build.keychain --timestamp --options runtime ./src-tauri/src-node/node_modules/fsevents/fsevents.node
+          ls src-tauri
+          pwd
+          codesign --sign $MAC_IDENTITY  --keychain build.keychain --timestamp --options runtime src-tauri/src-node/node_modules/fsevents/fsevents.node
           rm $cert_path
         shell: bash
 
