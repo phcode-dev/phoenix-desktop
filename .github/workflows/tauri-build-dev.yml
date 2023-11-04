@@ -116,7 +116,7 @@ jobs:
           # Write the content back to the file
           Set-Content -Path "./secrets.json" -Value $content
         shell: powershell
-      - name: Sign embedded executables for Mac
+      - name: Sign embedded executables for (Mac Only)
         if: matrix.platform == 'macos-latest'
         env :
           APPLE_KEY_IDENTITY_NAME: ${{ secrets.APPLE_KEY_IDENTITY_NAME }}
