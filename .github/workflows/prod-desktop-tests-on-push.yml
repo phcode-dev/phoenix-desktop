@@ -1,12 +1,8 @@
-name: On-Push prod Win/Mac/Linux run full tests suite
+name: On pull request on prod Win/Mac/Linux run full tests suite
 
 on:
-  push:
+  pull_request:
     branches: [ prod ]
-
-permissions:
-  contents: read
-  issues: write
 
 jobs:
 
@@ -223,39 +219,3 @@ jobs:
           echo "Windows tests failed, marking step as failed"
           exit 1
         shell: cmd
-
-  raiseIssue:
-    needs: [ testDesktopLinux, testDesktopMac, testDesktopWindows]
-    runs-on: ubuntu-latest
-    if: |
-      always()  && (    # This ensures that this job runs even if the previous jobs failed
-        needs.testDesktopLinux.result == 'failure' || 
-        needs.testDesktopMac.result == 'failure' ||
-        needs.testDesktopWindows.result == 'failure' 
-      )
-    steps:
-      - name: Check for failures and raise an issue
-        uses: actions/github-script@v6
-        with:
-          github-token: ${{secrets.GITHUB_TOKEN}}
-          script: |
-            const issueTitle = "Test failure on push to prod branch: commit ${{github.sha}}";
-            const runURL = `https://github.com/${{github.repository}}/actions/runs/${{github.run_id}}`;
-            let issueBody = `There was a test failure. Please investigate.\n\n[Check the failed run here](${runURL})\n\n`;
-            
-            if (needs.testDesktopLinux.result == 'failure') {
-              issueBody += " - Desktop Linux tests failed.\n";
-            }
-            if (needs.testDesktopMac.result == 'failure') {
-              issueBody += " - Desktop MacOS tests failed.\n";
-            }
-            if (needs.testDesktopWindows.result == 'failure') {
-              issueBody += " - Desktop Windows tests failed.\n";
-            }
-            
-            github.rest.issues.create({
-              owner: context.repo.owner,
-              repo: context.repo.repo,
-              title: issueTitle,
-              body: issueBody
-            });
