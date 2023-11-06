@@ -57,7 +57,7 @@ jobs:
       - name: setup node
         uses: actions/setup-node@v4
         with:
-          node-version: lts/*
+          node-version: 20
       - name: install Rust stable
         uses: dtolnay/rust-toolchain@stable
       - name: install dependencies (ubuntu only)
@@ -116,6 +116,45 @@ jobs:
           # Write the content back to the file
           Set-Content -Path "./secrets.json" -Value $content
         shell: powershell
+      - name: Sign embedded executables for (Mac Only)
+        if: matrix.platform == 'macos-latest'
+        env :
+          APPLE_KEY_IDENTITY_NAME: ${{ secrets.APPLE_KEY_IDENTITY_NAME }}
+          APPLE_CERTIFICATE: ${{ secrets.APPLE_CERTIFICATE }}
+          APPLE_CERTIFICATE_PASSWORD: ${{ secrets.APPLE_CERTIFICATE_PASSWORD }}
+        run: |
+          certificate_encoded="$APPLE_CERTIFICATE"
+          certificate_password="$APPLE_CERTIFICATE_PASSWORD"
+
+          echo "Setting up keychain from environment variables..."
+
+          # Creating a temporary directory
+          tmp_dir=$(mktemp -d)
+          cert_path="$tmp_dir/cert.p12"
+          # Decode the encoded certificate and write it to the cert_path
+          echo "$certificate_encoded" | base64 --decode > "$cert_path"
+
+          # Generate a random password for the keychain
+          KEYCHAIN_PASSWORD=$(openssl rand -base64 16)
+
+          # Create a new keychain with the random password
+          security create-keychain -p "$KEYCHAIN_PASSWORD" build.keychain
+          security default-keychain -s build.keychain
+          security unlock-keychain -p "$KEYCHAIN_PASSWORD" build.keychain
+          security import "$cert_path" -k build.keychain -P "$certificate_password" -T /usr/bin/codesign
+          security set-key-partition-list -S apple-tool:,apple: -s -k "$KEYCHAIN_PASSWORD" build.keychain
+
+          # Sign the files specified in src-build/mac/filesToSign
+          while IFS= read -r file; do
+              codesign --sign "$APPLE_KEY_IDENTITY_NAME" --keychain build.keychain --timestamp --options runtime "$file"
+          done < src-build/mac/filesToSign
+
+          # Clean up
+          security delete-keychain build.keychain
+          rm -rf "$tmp_dir" # removes the temporary directory and the certificate file within it
+
+        shell: bash
+
       - uses: tauri-apps/tauri-action@v0
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
@@ -157,7 +196,6 @@ jobs:
           args: --target aarch64-apple-darwin
           tagName: ${{ env.GIT_TAG_NAME }}
 
-
   publish-release:
     permissions:
       contents: write
@@ -179,7 +217,7 @@ jobs:
               owner: context.repo.owner,
               repo: context.repo.repo,
               tag_name: `${process.env.GIT_TAG_NAME}`,
-              target_commitish: 'dev',
+              target_commitish: 'prod',
               release_id: process.env.release_id,
               draft: true,
               prerelease: false
