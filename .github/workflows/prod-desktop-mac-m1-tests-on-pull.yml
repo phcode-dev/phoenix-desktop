@@ -1,7 +1,7 @@
-name: 'Desktop-mac M1 full test suite run on pull request'
+name: 'Expensive Desktop-mac M1 prod only full test suite run on pull request'
 on:
   pull_request:
-    branches: [ main ]
+    branches: [ prod ]
 
 concurrency:
   group: pr-desktop-mac-m1-${{ github.event.pull_request.number }}
@@ -10,7 +10,7 @@ concurrency:
 jobs:
   test-desktop-mac-m1:
     runs-on: macos-latest-large
-    timeout-minutes: 1
+    timeout-minutes: 45
     steps:
       - uses: actions/checkout@v4
       - name: macos hardware info
