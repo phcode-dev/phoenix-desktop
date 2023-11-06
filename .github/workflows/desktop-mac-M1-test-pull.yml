@@ -8,11 +8,13 @@ concurrency:
   cancel-in-progress: true
 
 jobs:
-  test-desktop-mac:
+  test-desktop-mac-m1:
     runs-on: macos-latest-large
-    timeout-minutes: 5
+    timeout-minutes: 1
     steps:
       - uses: actions/checkout@v4
+      - name: macos hardware info
+        run: system_profiler SPSoftwareDataType SPHardwareDataType
       - name: setup node
         uses: actions/setup-node@v4
         with:
@@ -40,27 +42,27 @@ jobs:
       - name: Run tauri unit tests
         uses: nick-fields/retry@v2
         with:
-          timeout_minutes: 12
-          max_attempts: 3
+          timeout_minutes: 10
+          max_attempts: 2
           command: ./src-tauri/target/debug/phoenix-test --run-tests=unit -q
 
       - name: Run tauri integration tests
         uses: nick-fields/retry@v2
         with:
-          timeout_minutes: 12
-          max_attempts: 3
+          timeout_minutes: 10
+          max_attempts: 2
           command: ./src-tauri/target/debug/phoenix-test --run-tests=integration -q
 
       - name: Run tauri mainview tests
         uses: nick-fields/retry@v2
         with:
-          timeout_minutes: 12
-          max_attempts: 3
+          timeout_minutes: 10
+          max_attempts: 2
           command: ./src-tauri/target/debug/phoenix-test --run-tests=mainview -q
 
       - name: Run tauri LegacyInteg tests
         uses: nick-fields/retry@v2
         with:
           timeout_minutes: 30
-          max_attempts: 3
+          max_attempts: 1
           command: ./src-tauri/target/debug/phoenix-test --run-tests=LegacyInteg -q
