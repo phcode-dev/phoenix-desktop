@@ -2,7 +2,7 @@ name: 'generate production draft GitHub release'
 
 on:
   push:
-    branches: [ xx ]
+    branches: [ prod ]
 
 jobs:
   create-release:
