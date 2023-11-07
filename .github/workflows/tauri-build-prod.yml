@@ -15,6 +15,7 @@ jobs:
     steps:
       - uses: actions/checkout@v4
       - name: macos hardware info
+        if: matrix.platform == 'macos-latest-large'
         run: system_profiler SPSoftwareDataType SPHardwareDataType
       - name: setup node
         uses: actions/setup-node@v4
