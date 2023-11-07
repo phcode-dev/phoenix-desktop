@@ -9,7 +9,7 @@ concurrency:
 
 jobs:
   test-desktop-mac-m1:
-    runs-on: macos-latest-large
+    runs-on: macos-latest-xlarge
     timeout-minutes: 45
     steps:
       - uses: actions/checkout@v4

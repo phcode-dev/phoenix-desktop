@@ -14,9 +14,6 @@ jobs:
 
     steps:
       - uses: actions/checkout@v4
-      - name: macos hardware info
-        if: matrix.platform == 'macos-latest-large'
-        run: system_profiler SPSoftwareDataType SPHardwareDataType
       - name: setup node
         uses: actions/setup-node@v4
         with:
@@ -50,11 +47,14 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        platform: [ macos-latest, macos-latest-large, ubuntu-latest, windows-latest ]
+        platform: [ macos-latest, macos-latest-xlarge, ubuntu-latest, windows-latest ]
 
     runs-on: ${{ matrix.platform }}
     steps:
       - uses: actions/checkout@v4
+      - name: macos hardware info
+        if: matrix.platform == 'macos-latest-xlarge'
+        run: system_profiler SPSoftwareDataType SPHardwareDataType
       - name: get Git Tag
         shell: bash
         run: echo "GIT_TAG_NAME=prod-app-v$(node -p "require('./package.json').version")" >> $GITHUB_ENV
@@ -123,7 +123,7 @@ jobs:
         shell: powershell
 
       - name: Sign embedded executables for (Mac Only)
-        if: matrix.platform == 'macos-latest' || matrix.platform == 'macos-latest-large'
+        if: matrix.platform == 'macos-latest' || matrix.platform == 'macos-latest-xlarge'
         env :
           APPLE_KEY_IDENTITY_NAME: ${{ secrets.APPLE_KEY_IDENTITY_NAME }}
           APPLE_CERTIFICATE: ${{ secrets.APPLE_CERTIFICATE }}
@@ -162,7 +162,7 @@ jobs:
         shell: bash
 
       - uses: tauri-apps/tauri-action@v0
-        if: matrix.platform != 'macos-latest-large'
+        if: matrix.platform != 'macos-latest-xlarge'
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           TAURI_PRIVATE_KEY: ${{ secrets.TAURI_PRIVATE_KEY }}
@@ -180,12 +180,12 @@ jobs:
           tagName: ${{ env.GIT_TAG_NAME }}
 
       - name: setup env for mac arm (Mac only)
-        if: matrix.platform == 'macos-latest-large'
+        if: matrix.platform == 'macos-latest-xlarge'
         run: |
           rustup target add aarch64-apple-darwin
           npm run installNodeArmDarwin
       - name: build for mac arm (Mac only)
-        if: matrix.platform == 'macos-latest-large'
+        if: matrix.platform == 'macos-latest-xlarge'
         uses: tauri-apps/tauri-action@v0
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
