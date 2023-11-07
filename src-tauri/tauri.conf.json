@@ -125,7 +125,8 @@
                 "exceptionDomain": "localhost",
                 "frameworks": [],
                 "providerShortName": null,
-                "signingIdentity": null
+                "signingIdentity": null,
+                "license" : "./license/agpl"
             },
             "resources": [
                 "src-node/*"
