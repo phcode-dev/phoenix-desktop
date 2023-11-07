@@ -2,7 +2,7 @@ name: 'generate production draft GitHub release'
 
 on:
   push:
-    branches: [ prod ]
+    branches: [ xx ]
 
 jobs:
   create-release:
@@ -43,10 +43,11 @@ jobs:
     needs: create-release
     permissions:
       contents: write
+    timeout-minutes: 45
     strategy:
       fail-fast: false
       matrix:
-        platform: [ macos-latest, ubuntu-latest, windows-latest ]
+        platform: [ macos-latest, macos-latest-large, ubuntu-latest, windows-latest ]
 
     runs-on: ${{ matrix.platform }}
     steps:
@@ -72,6 +73,7 @@ jobs:
         run: |
           npm ci
           npm run _ci-release:prod
+
       - name: install AzureSignTool (windows only)
         if: matrix.platform == 'windows-latest'
         run: |
@@ -116,8 +118,9 @@ jobs:
           # Write the content back to the file
           Set-Content -Path "./secrets.json" -Value $content
         shell: powershell
+
       - name: Sign embedded executables for (Mac Only)
-        if: matrix.platform == 'macos-latest'
+        if: matrix.platform == 'macos-latest' || matrix.platform == 'macos-latest-large'
         env :
           APPLE_KEY_IDENTITY_NAME: ${{ secrets.APPLE_KEY_IDENTITY_NAME }}
           APPLE_CERTIFICATE: ${{ secrets.APPLE_CERTIFICATE }}
@@ -173,12 +176,12 @@ jobs:
           tagName: ${{ env.GIT_TAG_NAME }}
 
       - name: setup env for mac arm (Mac only)
-        if: matrix.platform == 'macos-latest'
+        if: matrix.platform == 'macos-latest-large'
         run: |
           rustup target add aarch64-apple-darwin
           npm run installNodeArmDarwin
       - name: build for mac arm (Mac only)
-        if: matrix.platform == 'macos-latest'
+        if: matrix.platform == 'macos-latest-large'
         uses: tauri-apps/tauri-action@v0
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
