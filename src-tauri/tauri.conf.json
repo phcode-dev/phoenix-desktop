@@ -144,6 +144,7 @@
                 "timestampUrl": "http://timestamp.comodoca.com",
                 "nsis": {
                     "displayLanguageSelector": true,
+                    "license" : "./license/agpl",
                     "languages": [
                         "English",
                         "Afrikaans",
