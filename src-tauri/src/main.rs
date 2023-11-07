@@ -5,7 +5,9 @@ windows_subsystem = "windows"
 
 #[cfg(target_os = "linux")]
 use std::fs::metadata;
+#[cfg(target_os = "linux")]
 use std::path::PathBuf;
+
 use std::process::Command;
 
 use regex::Regex;

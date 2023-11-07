@@ -14,6 +14,8 @@ jobs:
 
     steps:
       - uses: actions/checkout@v4
+      - name: macos hardware info
+        run: system_profiler SPSoftwareDataType SPHardwareDataType
       - name: setup node
         uses: actions/setup-node@v4
         with:
@@ -159,6 +161,7 @@ jobs:
         shell: bash
 
       - uses: tauri-apps/tauri-action@v0
+        if: matrix.platform != 'macos-latest-large'
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           TAURI_PRIVATE_KEY: ${{ secrets.TAURI_PRIVATE_KEY }}
