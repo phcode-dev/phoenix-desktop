@@ -9,7 +9,7 @@
     },
     "package": {
         "productName": "Phoenix Code Experimental Build",
-        "version": "3.2.11"
+        "version": "3.2.13"
     },
     "tauri": {
         "allowlist": {
@@ -126,7 +126,7 @@
                 "frameworks": [],
                 "providerShortName": null,
                 "signingIdentity": null,
-                "license" : "./license/agpl"
+                "license": "./license/agpl"
             },
             "resources": [
                 "src-node/*"
@@ -145,7 +145,7 @@
                 "timestampUrl": "http://timestamp.comodoca.com",
                 "nsis": {
                     "displayLanguageSelector": true,
-                    "license" : "./license/agpl",
+                    "license": "./license/agpl",
                     "languages": [
                         "English",
                         "Afrikaans",
@@ -262,7 +262,6 @@
                         "phcode-29",
                         "phcode-30"
                     ]
-
                 },
                 {
                     "scheme": "https",
