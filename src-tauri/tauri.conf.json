@@ -223,7 +223,7 @@
             "dangerousDisableAssetCspModification": true,
             "dangerousRemoteDomainIpcAccess": [
                 {
-                    "scheme": "phcode",
+                    "scheme": "phtauri",
                     "domain": "localhost",
                     "enableTauriAPI": true,
                     "plugins": [
@@ -266,7 +266,7 @@
                 },
                 {
                     "scheme": "https",
-                    "domain": "phcode.localhost",
+                    "domain": "phtauri.localhost",
                     "enableTauriAPI": true,
                     "plugins": [
                         "fs-extra"

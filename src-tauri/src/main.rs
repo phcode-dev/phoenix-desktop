@@ -120,9 +120,18 @@ fn remove_version_from_url(url: &str) -> String {
 
 fn main() {
     tauri::Builder::default()
-        .register_uri_scheme_protocol("phcode", move |app, request| { // can't use `tauri` because that's already in use
+        .register_uri_scheme_protocol("phtauri", move |app, request| { // can't use `tauri` because that's already in use
             let path = remove_version_from_url(request.uri());
-            let path = path.strip_prefix("phcode://localhost").unwrap();
+            let path = path.strip_prefix("phtauri://localhost");
+            if path.is_none() {
+                let not_found_response = ResponseBuilder::new()
+                    .status(404)
+                    .mimetype("text/html")
+                    .body("Asset not found".as_bytes().to_vec())
+                    .unwrap();
+                return Ok(not_found_response);
+            }
+            let path = path.unwrap();
             let path = percent_encoding::percent_decode(path.as_bytes())
                 .decode_utf8_lossy()
                 .to_string();
@@ -143,9 +152,9 @@ fn main() {
             let asset = asset_option.unwrap();
 
             #[cfg(windows)]
-                let window_origin = "https://phcode.localhost";
+                let window_origin = "https://phtauri.localhost";
             #[cfg(not(windows))]
-                let window_origin = "phcode://localhost";
+                let window_origin = "phtauri://localhost";
 
             let builder = ResponseBuilder::new()
                 .header("Access-Control-Allow-Origin", window_origin)

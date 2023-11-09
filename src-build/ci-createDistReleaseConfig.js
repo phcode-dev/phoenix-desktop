@@ -74,9 +74,9 @@ async function ciCreateDistReleaseConfig() {
     console.log("Product name is: ", configJson.package.productName);
     configJson.tauri.windows[0].title = configJson.package.productName;
     if(os.platform() === 'win32'){
-        configJson.tauri.windows[0].url = `https://phcode.localhost/v${phoenixVersion}/`;
+        configJson.tauri.windows[0].url = `https://phtauri.localhost/v${phoenixVersion}/`;
     } else {
-        configJson.tauri.windows[0].url = `phcode://localhost/v${phoenixVersion}/`;
+        configJson.tauri.windows[0].url = `phtauri://localhost/v${phoenixVersion}/`;
     }
     console.log("Window Boot url is: ", configJson.tauri.windows[0].url);
     configJson.tauri.updater.endpoints = [

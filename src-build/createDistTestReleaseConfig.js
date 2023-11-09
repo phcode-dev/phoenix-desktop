@@ -24,9 +24,9 @@ async function createDistTestReleaseConfig() {
     configJson.build.distDir = '../../phoenix/dist-test/';
     const phoenixVersion = configJson.package.version;
     if(os.platform() === 'win32'){
-        configJson.tauri.windows[0].url = `https://phcode.localhost/v${phoenixVersion}/`;
+        configJson.tauri.windows[0].url = `https://phtauri.localhost/v${phoenixVersion}/`;
     } else {
-        configJson.tauri.windows[0].url = `phcode://localhost/v${phoenixVersion}/`;
+        configJson.tauri.windows[0].url = `phtauri://localhost/v${phoenixVersion}/`;
     }
     console.log("Window Boot url is: ", configJson.tauri.windows[0].url);
     console.log("Writing new local config json ", tauriLocalConfigPath);
