@@ -32,7 +32,7 @@ jobs:
           cd phoenix
           npm ci
           npm run build
-          npm run release:dev
+          npm run release:prod
 
       - name: build test runner
         run: |
