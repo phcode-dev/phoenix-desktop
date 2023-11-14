@@ -27,14 +27,11 @@ function _removeSuffixesFromName(name) {
 
 function _getProductName(name, stage) {
     name = _removeSuffixesFromName(name);
-    if(stage === 'production') {
-        return name; // Phoenix Code
-    }
     if(!PRODUCT_NAME_SUFFIX_FOR_STAGE[stage]) {
         throw new Error(`Cannot build Phoenix for unknown environment ${stage}`);
     }
-    // return `Phoenix code Pre-release` or `Phoenix code Experimental Build`
-    return `${name} ${PRODUCT_NAME_SUFFIX_FOR_STAGE[stage]}`;
+    // return `Phoenix code Pre-release` or `Phoenix code Experimental Build` or `Phoenix code <beta>`
+    return `${name} ${PRODUCT_NAME_SUFFIX_FOR_STAGE[stage]}`.trim();
 }
 
 async function ciCreateDistReleaseConfig() {
