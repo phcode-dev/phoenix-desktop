@@ -3,7 +3,7 @@ export const PRODUCT_NAME_SUFFIX_FOR_STAGE = {
     // and brackets.config.staging.json. The product name suffix corresponding to each stage are values.
     dev : "Experimental Build",
     stage: "Pre-release",
-    production: "" // has no suffix
+    production: "Beta" // Change to empty if we are out of beta/alpha/rc . Prod has no suffix
 };
 
 export const BUNDLE_IDENTIFIER_FOR_STAGE = {
