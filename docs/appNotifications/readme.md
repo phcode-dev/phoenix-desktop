@@ -15,7 +15,7 @@ once the current notification is closed.
 
 ### Format of `<stage>/root/banner.json`
 
-`<stage>` can be `dev`, `staging` or `prod`.
+`<stage>` can be `staging` or `prod`. (`dev` stage is directly in phoenix codebase for ease of development.)
 
 A sample json is as follows:
 ```json
