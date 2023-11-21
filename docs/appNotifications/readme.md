@@ -87,7 +87,8 @@ A sample json is as follows:
    2. `MENU_CLICK:<commandID>` : When a command is executed by clicking on a ui menu item.
    3. `KEYBOARD_SHORTCUT:<commandID>` : When a command is executed by keyboard shortcut.
    4. `HTML_ELEMENT:<jquery selector>` : On click on the given html element with jquery selector.
-3. `HTML_CONTENT`: The actual html content to show to the user. It can have an optional `notification_ack` class.
+3. `TYPE` : Can be one of `ERROR/WARN/INFO/SUCCESS`.
+4. `HTML_CONTENT`: The actual html content to show to the user. It can have an optional `notification_ack` class.
    Setting this class in any child html node will cause the notification to be shown once a day until the user explicitly clicks
    on any html element with class `notification_ack` or explicitly click the close button.
    If such a class is not present, then the notification is shown only once ever.
