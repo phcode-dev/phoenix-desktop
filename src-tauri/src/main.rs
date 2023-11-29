@@ -107,8 +107,8 @@ fn show_in_folder(path: String) {
 
 fn process_window_event(event: &GlobalWindowEvent) {
     if let tauri::WindowEvent::CloseRequested { .. } = event.event() {
-        let size = event.window().inner_size().unwrap();
-        boot_config::write_boot_config(size.width, size.height);
+        // this does nothing and is here if in future you need to persist something on window close.
+        boot_config::write_boot_config(1);
     }
 }
 
@@ -166,6 +166,7 @@ fn main() {
             Ok(response)
         })
         .plugin(tauri_plugin_fs_extra::init())
+        .plugin(tauri_plugin_window_state::Builder::default().build())
         .on_window_event(|event| process_window_event(&event))
         .invoke_handler(tauri::generate_handler![
             toggle_devtools, console_log, console_error,

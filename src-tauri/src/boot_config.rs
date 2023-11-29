@@ -15,8 +15,7 @@ pub static APP_CONSTANTS: OnceCell<AppConstants> = OnceCell::new();
 
 #[derive(Serialize)]
 pub struct BootConfig {
-    pub last_window_width: u32,
-    pub last_window_height: u32,
+    pub version: u32
 }
 static BOOT_CONFIG_FILE_NAME: &'static str = "boot_config.json";
 
@@ -27,11 +26,7 @@ fn get_boot_config_file_path(app_local_data_dir: &PathBuf) -> PathBuf {
 }
 
 fn _set_boot_config(boot_config: &mut BootConfig, value: &Value) {
-    boot_config.last_window_width = match value["last_window_width"].as_u64() {
-        Some(value) => value as u32,
-        None => 0
-    };
-    boot_config.last_window_height = match value["last_window_height"].as_u64() {
+    boot_config.version = match value["version"].as_u64() {
         Some(value) => value as u32,
         None => 0
     };
@@ -39,8 +34,7 @@ fn _set_boot_config(boot_config: &mut BootConfig, value: &Value) {
 
 pub fn read_boot_config() -> BootConfig {
     let mut boot_config = BootConfig {
-        last_window_width: 0,
-        last_window_height: 0
+        version: 1
     };
     if let Some(app_constants) = APP_CONSTANTS.get() {
         let boot_config_file_path = get_boot_config_file_path(&app_constants.app_local_data_dir);
@@ -67,9 +61,9 @@ fn _write_boot_config(boot_config: &BootConfig) {
     }
 }
 
-pub fn write_boot_config(last_window_width: u32, last_window_height: u32) {
+// WARNING: If there are multiple windows, this will be called on each window close.
+pub fn write_boot_config(version: u32) {
     _write_boot_config(&BootConfig {
-         last_window_width,
-         last_window_height
+         version
      })
 }
