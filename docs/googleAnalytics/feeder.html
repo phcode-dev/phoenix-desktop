@@ -14,7 +14,7 @@
         // Get the gtag ID from the query string parameter named 'gtagID'
         const urlParams = new URLSearchParams(window.location.search);
         const analyticsID = urlParams.get('analyticsID');
-        if(analyticsID && isAllowedOrigin(location.origin)){
+        if(analyticsID){
             // for google analytics
             window.dataLayer = window.dataLayer || [];
             window.gtag = function(){window.dataLayer.push(arguments);};
