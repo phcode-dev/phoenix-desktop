@@ -27,7 +27,8 @@
                 gtag('config', analyticsID, {
                     'page_title': 'Phoenix Analytics Feeder',
                     'page_path': '/feeder.html',
-                    'page_location': window.location.origin
+                    'page_location': window.location.origin,
+                    'cookie_flags': 'SameSite=None;Secure'
                 });
             };
             script.src = 'https://www.googletagmanager.com/gtag/js?' + analyticsID;
