@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Google Analytics feeder</title>
+    <script type="text/javascript">
+
+        function isAllowedOrigin(origin) {
+            const allowedOrigins = ["phtauri://localhost", 'https://phtauri.localhost', 'https://phcode.dev',
+                'https://dev.phcode.dev', 'https://staging.phcode.dev', 'https://create.phcode.dev'];
+            return origin.startsWith("http://localhost:") || allowedOrigins.includes(origin);
+        }
+
+        // Get the gtag ID from the query string parameter named 'gtagID'
+        const urlParams = new URLSearchParams(window.location.search);
+        const analyticsID = urlParams.get('analyticsID') || "G-VE5BXWJ0HF";
+        if(analyticsID && isAllowedOrigin(location.origin)){
+            // for google analytics
+            window.dataLayer = window.dataLayer || [];
+            window.gtag = function(){window.dataLayer.push(arguments);};
+            let script = document.createElement('script');
+            script.type = 'text/javascript';
+            script.async = true;
+            script.onload = function(){
+                gtag('js', new Date());
+
+                gtag('config', analyticsID, {
+                    'page_title': 'Phoenix Analytics Feeder',
+                    'page_path': '/feeder.html',
+                    'page_location': window.location.origin
+                });
+            };
+            script.src = 'https://www.googletagmanager.com/gtag/js?' + analyticsID;
+            document.getElementsByTagName('head')[0].appendChild(script);
+        } else {
+            console.error("No analyticsID query string parameter. This page wont do any google analytics.");
+        }
+
+        window.addEventListener('message', function(event) {
+            // Handle the received message here
+            const sendEvent = event.data;
+            const origin = event.origin.toLowerCase();
+            // Check the origin to ensure that the message is from a trusted source
+            if(isAllowedOrigin(origin)) {
+                gtag('event', sendEvent.eventAct, {
+                    'event_category': sendEvent.category,
+                    'event_label': sendEvent.label,
+                    'value': sendEvent.count
+                });
+            }
+        });
+    </script>
+</head>
+<body>
+This page will be loaded in an iframe in tauri desktop builds to enable google analytics integration.
+This is because its almost impossible to run google analytics without an http or https url
+<a href="https://www.simoahava.com/analytics/run-google-tag-manager-google-analytics-local-files/">For more details</a>.
+</body>
+</html>
