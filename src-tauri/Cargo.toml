@@ -27,6 +27,9 @@ tauri-plugin-window-state = { git = "https://github.com/tauri-apps/plugins-works
 [target.'cfg(target_os = "linux")'.dependencies]
 webkit2gtk = "0.18" # if tauri build fails, make sure to match this version to what we have in tauri
 
+[target.'cfg(target_os = "macos")'.dependencies]
+objc = "0.2"
+
 [features]
 # by default Tauri runs in production mode
 # when `tauri dev` runs it is executed with `cargo run --no-default-features` if `devPath` is an URL
