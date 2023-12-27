@@ -18,12 +18,14 @@ serde_json = "1.0"
 once_cell = "1.19.0"
 percent-encoding = "2.3"
 regex = "1.10.2"
-webkit2gtk = "0.18" # if tauri build fails, make sure to match this version to what we have in tauri
 serde = { version = "1.0", features = ["derive"] }
 tauri = { version = "1.5.4", features = [ "cli", "api-all", "updater", "devtools", "linux-protocol-headers"] }
 winapi = { version = "0.3", features = ["fileapi"] }
 tauri-plugin-fs-extra = { git = "https://github.com/tauri-apps/plugins-workspace", branch = "v1" }
 tauri-plugin-window-state = { git = "https://github.com/tauri-apps/plugins-workspace", branch = "v1" }
+
+[target.'cfg(target_os = "linux")'.dependencies]
+webkit2gtk = "0.18" # if tauri build fails, make sure to match this version to what we have in tauri
 
 [features]
 # by default Tauri runs in production mode
