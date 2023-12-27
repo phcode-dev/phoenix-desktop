@@ -2668,6 +2668,7 @@ dependencies = [
  "tauri-build",
  "tauri-plugin-fs-extra",
  "tauri-plugin-window-state",
+ "webkit2gtk",
  "winapi",
 ]
 
