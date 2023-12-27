@@ -12,6 +12,10 @@ use std::process::Command;
 #[cfg(target_os = "linux")]
 extern crate webkit2gtk;
 
+#[cfg(target_os = "macos")]
+#[macro_use]
+extern crate objc;
+
 use regex::Regex;
 extern crate percent_encoding;
 use tauri::http::ResponseBuilder;

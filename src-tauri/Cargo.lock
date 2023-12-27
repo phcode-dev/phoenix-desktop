@@ -2659,6 +2659,7 @@ dependencies = [
 name = "phoenix-code-ide"
 version = "3.2.15"
 dependencies = [
+ "objc",
  "once_cell",
  "percent-encoding",
  "regex",
