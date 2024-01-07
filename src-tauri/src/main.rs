@@ -4,6 +4,9 @@ windows_subsystem = "windows"
 )]
 
 #[cfg(target_os = "linux")]
+use tauri::Manager; // needed for the f10 key fix for now in linux only
+
+#[cfg(target_os = "linux")]
 use std::fs::metadata;
 #[cfg(target_os = "linux")]
 use std::path::PathBuf;
@@ -18,7 +21,6 @@ extern crate webkit2gtk;
 #[macro_use]
 extern crate objc;
 
-use tauri::Manager;
 use regex::Regex;
 extern crate percent_encoding;
 use tauri::http::ResponseBuilder;
