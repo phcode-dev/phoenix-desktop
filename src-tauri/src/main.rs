@@ -7,6 +7,8 @@ windows_subsystem = "windows"
 use std::fs::metadata;
 #[cfg(target_os = "linux")]
 use std::path::PathBuf;
+#[cfg(target_os = "linux")]
+use gtk::{glib::ObjectExt, prelude::WidgetExt};
 
 use std::process::Command;
 #[cfg(target_os = "linux")]
@@ -16,6 +18,7 @@ extern crate webkit2gtk;
 #[macro_use]
 extern crate objc;
 
+use tauri::Manager;
 use regex::Regex;
 extern crate percent_encoding;
 use tauri::http::ResponseBuilder;
@@ -203,6 +206,16 @@ fn main() {
             _get_windows_drives, _rename_path, show_in_folder, zoom_window])
         .setup(|app| {
             init::init_app(app);
+            #[cfg(target_os = "linux")]
+            {
+                // In linux, f10 key press events are reserved for gtk-menu-bar-accel and not passed.
+                // So we assing f25 key to it to free f10 and make it available to app
+                // https://discord.com/channels/616186924390023171/1192844593557950474
+                let win = app.get_window("main").unwrap();
+                let gtk_win = win.gtk_window().unwrap();
+                let gtk_settings = gtk_win.settings().unwrap();
+                gtk_settings.set_property("gtk-menu-bar-accel", "F25");
+            }
             Ok(())
         })
         .run(tauri::generate_context!())
