@@ -60,6 +60,13 @@ jobs:
           max_attempts: 2
           command: ./src-tauri/target/debug/phoenix-test --run-tests=mainview -q
 
+      - name: Run tauri livepreview tests
+        uses: nick-fields/retry@v2
+        with:
+          timeout_minutes: 10
+          max_attempts: 2
+          command: ./src-tauri/target/debug/phoenix-test --run-tests=livepreview -q
+
       - name: Run tauri LegacyInteg tests
         uses: nick-fields/retry@v2
         with:
