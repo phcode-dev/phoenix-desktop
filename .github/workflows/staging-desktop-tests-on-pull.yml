@@ -199,6 +199,20 @@ jobs:
         run: type output-mainview.txt
         shell: cmd
 
+      - name: Run tauri livepreview tests in windows
+        uses: nick-fields/retry@v2
+        id: windowsRunLivepreview
+        continue-on-error: true
+        with:
+          timeout_minutes: 12
+          max_attempts: 3
+          command: .\src-tauri\target\debug\phoenix-test.exe --run-tests=livepreview -q > output-livepreview.txt 2>&1
+          shell: cmd
+
+      - name: Print windows livepreview test output to console
+        run: type output-livepreview.txt
+        shell: cmd
+
       - name: Run tauri LegacyInteg tests in windows
         uses: nick-fields/retry@v2
         id: windowsRunLegacyInteg
@@ -214,7 +228,7 @@ jobs:
         shell: cmd
 
       - name: Fail on test runs failed in windows
-        if: steps.windowsRunUnit.outcome == 'failure' || steps.windowsRunIntegration.outcome == 'failure' || steps.windowsRunMainview.outcome == 'failure' || steps.windowsRunLegacyInteg.outcome == 'failure'
+        if: steps.windowsRunUnit.outcome == 'failure' || steps.windowsRunIntegration.outcome == 'failure' || steps.windowsRunMainview.outcome == 'failure' || steps.windowsRunLivepreview.outcome == 'failure' || steps.windowsRunLegacyInteg.outcome == 'failure'
         run: |
           echo "Windows tests failed, marking step as failed"
           exit 1
