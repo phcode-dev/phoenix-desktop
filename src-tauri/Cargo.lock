@@ -2657,7 +2657,7 @@ dependencies = [
 
 [[package]]
 name = "phoenix-code-ide"
-version = "3.2.15"
+version = "3.2.17"
 dependencies = [
  "gtk",
  "objc",
