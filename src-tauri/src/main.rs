@@ -154,6 +154,10 @@ fn remove_version_from_url(url: &str) -> String {
 }
 
 fn main() {
+    // GUI apps on macOS and Linux do not inherit the $PATH from your shell dotfiles (.bashrc, .bash_profile, .zshrc, etc).
+    // fix that https://github.com/tauri-apps/fix-path-env-rs
+    let _ = fix_path_env::fix();
+
     tauri::Builder::default()
         .register_uri_scheme_protocol("phtauri", move |app, request| { // can't use `tauri` because that's already in use
             let path = remove_version_from_url(request.uri());
