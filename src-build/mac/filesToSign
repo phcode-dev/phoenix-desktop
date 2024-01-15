@@ -1,6 +1,11 @@
 src-tauri/src-node/node_modules/fsevents/fsevents.node
 src-tauri/src-node/node_modules/@lmdb/lmdb-darwin-x64/node.napi.node
+src-tauri/src-node/node_modules/@lmdb/lmdb-darwin-arm64/node.napi.node
 src-tauri/src-node/node_modules/@lmdb/lmdb-darwin-x64/node.abi108.node
+src-tauri/src-node/node_modules/@lmdb/lmdb-darwin-arm64/node.abi108.node
 src-tauri/src-node/node_modules/@lmdb/lmdb-darwin-x64/node.abi115.node
+src-tauri/src-node/node_modules/@lmdb/lmdb-darwin-arm64/node.abi115.node
 src-tauri/src-node/node_modules/@msgpackr-extract/msgpackr-extract-darwin-x64/node.abi108.glibc.node
+src-tauri/src-node/node_modules/@msgpackr-extract/msgpackr-extract-darwin-arm64/node.abi108.glibc.node
 src-tauri/src-node/node_modules/@msgpackr-extract/msgpackr-extract-darwin-x64/node.napi.glibc.node
+src-tauri/src-node/node_modules/@msgpackr-extract/msgpackr-extract-darwin-arm64/node.napi.glibc.node
