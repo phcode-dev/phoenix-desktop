@@ -153,7 +153,7 @@ jobs:
             fi
           done < src-build/mac/filesToSign
 
-  # Clean up
+          # Clean up
           security delete-keychain build.keychain
           rm -rf "$tmp_dir" # removes the temporary directory and the certificate file within it
 
