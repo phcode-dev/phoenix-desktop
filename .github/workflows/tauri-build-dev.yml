@@ -146,10 +146,14 @@ jobs:
 
           # Sign the files specified in src-build/mac/filesToSign
           while IFS= read -r file; do
+            if [ -f "$file" ]; then
               codesign --sign "$APPLE_KEY_IDENTITY_NAME" --keychain build.keychain --timestamp --options runtime "$file"
+            else
+              echo "File to sign not found, ignoring: $file"
+            fi
           done < src-build/mac/filesToSign
 
-          # Clean up
+  # Clean up
           security delete-keychain build.keychain
           rm -rf "$tmp_dir" # removes the temporary directory and the certificate file within it
 
