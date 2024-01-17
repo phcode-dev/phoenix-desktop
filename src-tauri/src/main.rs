@@ -21,6 +21,8 @@ extern crate webkit2gtk;
 #[macro_use]
 extern crate objc;
 
+use clipboard_files;
+
 use regex::Regex;
 extern crate percent_encoding;
 use tauri::http::ResponseBuilder;
@@ -50,6 +52,18 @@ fn _get_windows_drives() -> Option<Vec<char>> {
 #[tauri::command]
 fn _rename_path(old_path: &str, new_path: &str) -> Result<(), String> {
     platform::rename_path(old_path, new_path)
+}
+
+#[tauri::command]
+fn _get_clipboard_files() -> Option<Vec<String>> {
+    match clipboard_files::read() {
+        Ok(paths) => Some(
+            paths.into_iter()
+                .map(|path| path.to_string_lossy().into_owned())
+                .collect()
+        ),
+        Err(_) => None,
+    }
 }
 
 static mut DEVTOOLS_LOADED:bool = false;
@@ -209,7 +223,7 @@ fn main() {
         .on_window_event(|event| process_window_event(&event))
         .invoke_handler(tauri::generate_handler![
             toggle_devtools, console_log, console_error,
-            _get_windows_drives, _rename_path, show_in_folder, zoom_window])
+            _get_windows_drives, _rename_path, show_in_folder, zoom_window, _get_clipboard_files])
         .setup(|app| {
             init::init_app(app);
             #[cfg(target_os = "linux")]
