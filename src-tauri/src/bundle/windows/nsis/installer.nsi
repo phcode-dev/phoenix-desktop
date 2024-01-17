@@ -574,31 +574,29 @@ Section Install
   WriteRegDWORD SHCTX "${UNINSTKEY}" "NoModify" "1"
   WriteRegDWORD SHCTX "${UNINSTKEY}" "NoRepair" "1"
   WriteRegDWORD SHCTX "${UNINSTKEY}" "EstimatedSize" "${ESTIMATEDSIZE}"
-
-  ; Set file association and context menu for .html files
+    ; Set file association and context menu for .html files
   WriteRegStr HKCU "Software\Classes\.html" "" "phcodeHTML"
   WriteRegStr HKCU "Software\Classes\phcodeHTML" "" "HTML file"
-  WriteRegStr HKCU "Software\Classes\phcodeHTML\DefaultIcon" "" "$\"$INSTDIR\${MAINBINARYNAME}.exe$\",0"
-  WriteRegStr HKCU "Software\Classes\phcodeHTML\shell\open\command" "" "$\"$INSTDIR\${MAINBINARYNAME}.exe$\" \"%1\""
+  WriteRegStr HKCU "Software\Classes\phcodeHTML\DefaultIcon" "" "$INSTDIR\${MAINBINARYNAME}.exe,0"
+  WriteRegStr HKCU "Software\Classes\phcodeHTML\shell\open\command" "" '"$INSTDIR\${MAINBINARYNAME}.exe" "%1"'
   WriteRegStr HKCU "Software\Classes\phcodeHTML\shell\phcode" "" "Open with phcode"
-  WriteRegStr HKCU "Software\Classes\phcodeHTML\shell\phcode\command" "" "$\"$INSTDIR\${MAINBINARYNAME}.exe$\" \"%1\""
-
+  WriteRegStr HKCU "Software\Classes\phcodeHTML\shell\phcode\command" "" '"$INSTDIR\${MAINBINARYNAME}.exe" "%1"'
 
   ; Set file association and context menu for .js files
   WriteRegStr HKCU "Software\Classes\.js" "" "phcodeJS"
   WriteRegStr HKCU "Software\Classes\phcodeJS" "" "JavaScript file"
-  WriteRegStr HKCU "Software\Classes\phcodeJS\DefaultIcon" "" "$\"$INSTDIR\${MAINBINARYNAME}.exe$\",0"
-  WriteRegStr HKCU "Software\Classes\phcodeJS\shell\open\command" "" "$\"$INSTDIR\${MAINBINARYNAME}.exe$\" \"%1\""
+  WriteRegStr HKCU "Software\Classes\phcodeJS\DefaultIcon" "" "$INSTDIR\${MAINBINARYNAME}.exe,0"
+  WriteRegStr HKCU "Software\Classes\phcodeJS\shell\open\command" "" '"$INSTDIR\${MAINBINARYNAME}.exe" "%1"'
   WriteRegStr HKCU "Software\Classes\phcodeJS\shell\phcode" "" "Open with phcode"
-  WriteRegStr HKCU "Software\Classes\phcodeJS\shell\phcode\command" "" "$\"$INSTDIR\${MAINBINARYNAME}.exe$\" \"%1\""
+  WriteRegStr HKCU "Software\Classes\phcodeJS\shell\phcode\command" "" '"$INSTDIR\${MAINBINARYNAME}.exe" "%1"'
 
   ; Set file association and context menu for .css files
   WriteRegStr HKCU "Software\Classes\.css" "" "phcodeCSS"
   WriteRegStr HKCU "Software\Classes\phcodeCSS" "" "CSS file"
-  WriteRegStr HKCU "Software\Classes\phcodeCSS\DefaultIcon" "" "$\"$INSTDIR\${MAINBINARYNAME}.exe$\",0"
-  WriteRegStr HKCU "Software\Classes\phcodeCSS\shell\open\command" "" "$\"$INSTDIR\${MAINBINARYNAME}.exe$\" \"%1\""
+  WriteRegStr HKCU "Software\Classes\phcodeCSS\DefaultIcon" "" "$INSTDIR\${MAINBINARYNAME}.exe,0"
+  WriteRegStr HKCU "Software\Classes\phcodeCSS\shell\open\command" "" '"$INSTDIR\${MAINBINARYNAME}.exe" "%1"'
   WriteRegStr HKCU "Software\Classes\phcodeCSS\shell\phcode" "" "Open with phcode"
-  WriteRegStr HKCU "Software\Classes\phcodeCSS\shell\phcode\command" "" "$\"$INSTDIR\${MAINBINARYNAME}.exe$\" \"%1\""
+  WriteRegStr HKCU "Software\Classes\phcodeCSS\shell\phcode\command" "" '"$INSTDIR\${MAINBINARYNAME}.exe" "%1"'
 
   ; Create start menu shortcut (GUI)
   !insertmacro MUI_STARTMENU_WRITE_BEGIN Application
