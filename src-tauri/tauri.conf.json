@@ -326,7 +326,8 @@
                 "title": "Phoenix Code Experimental Build",
                 "width": 1366,
                 "minWidth": 800,
-                "acceptFirstMouse": true
+                "acceptFirstMouse": true,
+                "fileDropEnabled": false
             }
         ]
     }
