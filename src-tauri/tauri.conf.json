@@ -146,6 +146,7 @@
                 "nsis": {
                     "displayLanguageSelector": true,
                     "license": "./license/agpl",
+                    "template" : "./src/bundle/windows/nsis/installer.nsi",
                     "languages": [
                         "English",
                         "Afrikaans",
