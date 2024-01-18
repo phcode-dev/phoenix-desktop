@@ -9,7 +9,7 @@
     },
     "package": {
         "productName": "Phoenix Code Experimental Build",
-        "version": "3.2.18"
+        "version": "3.2.19"
     },
     "tauri": {
         "allowlist": {
@@ -146,7 +146,7 @@
                 "nsis": {
                     "displayLanguageSelector": true,
                     "license": "./license/agpl",
-                    "template" : "./src/bundle/windows/nsis/installer.nsi",
+                    "template": "./src/bundle/windows/nsis/installer.nsi",
                     "languages": [
                         "English",
                         "Afrikaans",
