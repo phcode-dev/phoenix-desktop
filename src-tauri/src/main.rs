@@ -2,7 +2,7 @@
 all(not(debug_assertions), target_os = "windows"),
 windows_subsystem = "windows"
 )]
-
+use std::env;
 #[cfg(target_os = "linux")]
 use tauri::Manager; // needed for the f10 key fix for now in linux only
 
@@ -48,6 +48,12 @@ fn console_error(_handle: tauri::AppHandle, message: &str) {
 fn _get_windows_drives() -> Option<Vec<char>> {
     platform::get_windows_drives()
 }
+
+#[tauri::command]
+fn _get_commandline_args() -> Option<Vec<String>> {
+    Some(env::args().collect())
+}
+
 
 #[tauri::command]
 fn _rename_path(old_path: &str, new_path: &str) -> Result<(), String> {
@@ -222,7 +228,7 @@ fn main() {
         .plugin(tauri_plugin_window_state::Builder::default().build())
         .on_window_event(|event| process_window_event(&event))
         .invoke_handler(tauri::generate_handler![
-            toggle_devtools, console_log, console_error,
+            toggle_devtools, console_log, console_error, _get_commandline_args,
             _get_windows_drives, _rename_path, show_in_folder, zoom_window, _get_clipboard_files])
         .setup(|app| {
             init::init_app(app);
