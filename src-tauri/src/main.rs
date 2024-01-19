@@ -67,6 +67,15 @@ fn _rename_path(old_path: &str, new_path: &str) -> Result<(), String> {
 }
 
 #[tauri::command]
+fn _get_window_labels(app: tauri::AppHandle) -> Vec<String> {
+    app.windows()
+        .iter()
+        .map(|(label, _window)| label.to_string())
+        .collect()
+}
+
+
+#[tauri::command]
 fn _get_clipboard_files() -> Option<Vec<String>> {
     match clipboard_files::read() {
         Ok(paths) => Some(
@@ -240,6 +249,7 @@ fn main() {
         .on_window_event(|event| process_window_event(&event))
         .invoke_handler(tauri::generate_handler![
             toggle_devtools, console_log, console_error, _get_commandline_args,
+            _get_window_labels,
             _get_windows_drives, _rename_path, show_in_folder, zoom_window, _get_clipboard_files])
         .setup(|app| {
             init::init_app(app);
