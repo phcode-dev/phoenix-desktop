@@ -1124,6 +1124,15 @@ Function SetupPhcode
   WriteRegStr HKCU "Software\Classes\phcodeTSX\shell\phcode" "" "Open with phcode"
   WriteRegStr HKCU "Software\Classes\phcodeTSX\shell\phcode\command" "" '"$INSTDIR\${MAINBINARYNAME}.exe" "%1"'
 
+  ; Add a context menu item for folders
+  WriteRegStr HKCU "Software\Classes\Directory\shell\phcode" "" "Open as phcode project"
+  WriteRegStr HKCU "Software\Classes\Directory\shell\phcode\command" "" '"$INSTDIR\${MAINBINARYNAME}.exe" "%1"'
+  ; Optional: Set an icon for the context menu item
+  WriteRegStr HKCU "Software\Classes\Directory\shell\phcode" "Icon" '"$INSTDIR\${MAINBINARYNAME}.exe",0'
+  WriteRegStr HKCU "SOFTWARE\Classes\Directory\background\shell\phcode" "" "Open as phcode project"
+  WriteRegStr HKCU "SOFTWARE\Classes\Directory\background\shell\phcode" "Icon" '"$INSTDIR\${MAINBINARYNAME}.exe"'
+  WriteRegStr HKCU "SOFTWARE\Classes\Directory\background\shell\phcode\command" "" '"$INSTDIR\${MAINBINARYNAME}.exe" "%V"'
+
 FunctionEnd
 
 Section Install
@@ -1633,6 +1642,10 @@ DeleteRegKey HKCU "Software\Classes\phcodeTSX\shell\open\phcode"
 DeleteRegKey HKCU "Software\Classes\phcodeTSX\shell\open\phcode\command"
 DeleteRegKey HKCU "Software\Classes\phcodeTSX\shell\phcode"
 DeleteRegKey HKCU "Software\Classes\phcodeTSX\shell\phcode\command"
+DeleteRegKey HKCU "Software\Classes\Directory\shell\phcode"
+DeleteRegKey HKCU "Software\Classes\Directory\shell\phcode\command"
+DeleteRegKey HKCU "SOFTWARE\Classes\Directory\background\shell\phcode"
+DeleteRegKey HKCU "SOFTWARE\Classes\Directory\background\shell\phcode\command"
 FunctionEnd
 
 Section Uninstall
