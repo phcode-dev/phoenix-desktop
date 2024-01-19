@@ -27,6 +27,9 @@ function _removeSuffixesFromName(name) {
 
 function _getProductName(name, stage) {
     name = _removeSuffixesFromName(name);
+    if(stage === 'production') {
+        return name; // Phoenix Code
+    }
     if(!PRODUCT_NAME_SUFFIX_FOR_STAGE[stage]) {
         throw new Error(`Cannot build Phoenix for unknown environment ${stage}`);
     }
