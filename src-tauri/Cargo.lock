@@ -2680,7 +2680,7 @@ dependencies = [
 
 [[package]]
 name = "phoenix-code-ide"
-version = "3.2.18"
+version = "3.2.19"
 dependencies = [
  "clipboard-files",
  "fix-path-env",
@@ -2694,6 +2694,7 @@ dependencies = [
  "tauri",
  "tauri-build",
  "tauri-plugin-fs-extra",
+ "tauri-plugin-single-instance",
  "tauri-plugin-window-state",
  "webkit2gtk",
  "winapi",
@@ -3841,7 +3842,7 @@ dependencies = [
 [[package]]
 name = "tauri-plugin-fs-extra"
 version = "0.0.0"
-source = "git+https://github.com/tauri-apps/plugins-workspace?branch=v1#ad5ec05e2639b33f0475a0eefa8684bfa4b92be8"
+source = "git+https://github.com/tauri-apps/plugins-workspace?branch=v1#cf0090029888efc6a1f4d178cec773e6cd4c5b69"
 dependencies = [
  "log",
  "serde",
@@ -3851,9 +3852,23 @@ dependencies = [
 ]
 
 [[package]]
+name = "tauri-plugin-single-instance"
+version = "0.0.0"
+source = "git+https://github.com/tauri-apps/plugins-workspace?branch=v1#cf0090029888efc6a1f4d178cec773e6cd4c5b69"
+dependencies = [
+ "log",
+ "serde",
+ "serde_json",
+ "tauri",
+ "thiserror",
+ "windows-sys 0.52.0",
+ "zbus",
+]
+
+[[package]]
 name = "tauri-plugin-window-state"
 version = "0.1.0"
-source = "git+https://github.com/tauri-apps/plugins-workspace?branch=v1#ad5ec05e2639b33f0475a0eefa8684bfa4b92be8"
+source = "git+https://github.com/tauri-apps/plugins-workspace?branch=v1#cf0090029888efc6a1f4d178cec773e6cd4c5b69"
 dependencies = [
  "bincode",
  "bitflags 2.4.1",
