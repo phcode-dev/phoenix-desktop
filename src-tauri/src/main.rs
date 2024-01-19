@@ -3,8 +3,8 @@ all(not(debug_assertions), target_os = "windows"),
 windows_subsystem = "windows"
 )]
 use std::env;
-#[cfg(target_os = "linux")]
-use tauri::Manager; // needed for the f10 key fix for now in linux only
+
+use tauri::{Manager};
 
 #[cfg(target_os = "linux")]
 use std::fs::metadata;
@@ -32,6 +32,12 @@ mod utilities;
 mod boot_config;
 
 mod platform;
+
+#[derive(Clone, serde::Serialize)]
+struct Payload {
+  args: Vec<String>,
+  cwd: String,
+}
 
 // Learn more about Tauri commands at https://tauri.app/v1/guides/features/command
 #[tauri::command]
@@ -226,6 +232,11 @@ fn main() {
         })
         .plugin(tauri_plugin_fs_extra::init())
         .plugin(tauri_plugin_window_state::Builder::default().build())
+        .plugin(tauri_plugin_single_instance::init(|app, argv, cwd| {
+                    println!("{}, {argv:?}, {cwd}", app.package_info().name);
+
+                    app.emit_all("single-instance", Payload { args: argv, cwd }).unwrap();
+                }))
         .on_window_event(|event| process_window_event(&event))
         .invoke_handler(tauri::generate_handler![
             toggle_devtools, console_log, console_error, _get_commandline_args,
