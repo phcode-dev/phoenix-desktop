@@ -164,6 +164,7 @@ jobs:
           # Clean up
           security delete-keychain build.keychain
           rm -rf "$tmp_dir" # removes the temporary directory and the certificate file within it
+          cargo install tauri-cli
           cargo tauri build --verbose
 
         shell: bash
