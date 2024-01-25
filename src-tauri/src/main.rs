@@ -203,7 +203,10 @@ lazy_static! {
 fn get_mac_deep_link_requests() -> Vec<String> {
     #[cfg(target_os = "macos")]
     {
-        GLOBAL_STRING_VECTOR.lock().unwrap().to_vec()
+        let mut vector = GLOBAL_STRING_VECTOR.lock().unwrap();
+        let cloned_vector = vector.clone(); // Clone the vector's contents
+        vector.clear(); // Clear the vector
+        cloned_vector // Return the cloned vector
     }
     #[cfg(not(target_os = "macos"))]
     {
