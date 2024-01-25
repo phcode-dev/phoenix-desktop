@@ -9,7 +9,7 @@
     },
     "package": {
         "productName": "Phoenix Code Experimental Build",
-        "version": "3.2.20"
+        "version": "3.2.21"
     },
     "tauri": {
         "allowlist": {
