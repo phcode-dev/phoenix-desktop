@@ -4,7 +4,7 @@ windows_subsystem = "windows"
 )]
 use std::env;
 
-use tauri::{Manager};
+use tauri::{Manager, Window};
 
 #[cfg(target_os = "linux")]
 use std::fs::metadata;
@@ -188,6 +188,29 @@ fn remove_version_from_url(url: &str) -> String {
     re.replace(url, "$1/").to_string()
 }
 
+#[cfg(target_os = "macos")]
+use std::sync::{Arc, Mutex};
+
+#[cfg(target_os = "macos")]
+struct AppState {
+    deep_link_requests: Arc<Mutex<Vec<String>>>,
+}
+
+#[tauri::command]
+fn get_mac_deep_link_requests(_window: Window) -> Vec<String> {
+    #[cfg(target_os = "macos")]
+    {
+        let state = _window.state::<AppState>();
+        let requests = state.deep_link_requests.lock().unwrap();
+        requests.clone()
+    }
+    #[cfg(not(target_os = "macos"))]
+    {
+        // This code will be compiled and run on operating systems other than macOS (like Linux and Windows)
+        Vec::new() // Return an empty vector
+    }
+}
+
 fn main() {
 
     #[cfg(target_os = "macos")]{
@@ -258,6 +281,7 @@ fn main() {
                 }))
         .on_window_event(|event| process_window_event(&event))
         .invoke_handler(tauri::generate_handler![
+            get_mac_deep_link_requests,
             toggle_devtools, console_log, console_error, _get_commandline_args,
             _get_window_labels,
             _get_windows_drives, _rename_path, show_in_folder, zoom_window, _get_clipboard_files])
@@ -281,6 +305,10 @@ fn main() {
                     move |request| {
                         // Print the request for debugging
                         dbg!(&request);
+                        // save the requests as at boot, the js layer may not yet be present to process
+                        // the file open requests from mac os.
+                        let mut requests = deep_link_requests.lock().unwrap();
+                        requests.push(request.clone());
                         // Emit the event (as in the original code)
                         handle.emit_all("scheme-request-received", &request).unwrap();
                     },
