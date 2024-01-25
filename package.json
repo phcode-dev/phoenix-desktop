@@ -45,7 +45,7 @@
         "fs-extra": "11.2.0",
         "shx": "^0.3.4",
         "tar": "6.2.0",
-        "axios": "1.6.6"
+        "axios": "1.6.7"
     },
     "phoenixRepo": {
         "gitClonrUrl": "https://github.com/phcode-dev/phoenix.git",
