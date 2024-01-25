@@ -2747,6 +2747,7 @@ dependencies = [
  "clipboard-files",
  "fix-path-env",
  "gtk",
+ "lazy_static",
  "objc",
  "once_cell",
  "percent-encoding",

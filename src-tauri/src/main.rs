@@ -4,7 +4,7 @@ windows_subsystem = "windows"
 )]
 use std::env;
 
-use tauri::{Manager, Window};
+use tauri::{Manager};
 
 #[cfg(target_os = "linux")]
 use std::fs::metadata;
@@ -192,17 +192,23 @@ fn remove_version_from_url(url: &str) -> String {
 use std::sync::{Arc, Mutex};
 
 #[cfg(target_os = "macos")]
+use lazy_static::lazy_static;
+
+#[cfg(target_os = "macos")]
+lazy_static! {
+    static ref GLOBAL_STRING_VECTOR: Arc<Mutex<Vec<String>>> = Arc::new(Mutex::new(Vec::new()));
+}
+
+#[cfg(target_os = "macos")]
 struct AppState {
     deep_link_requests: Arc<Mutex<Vec<String>>>,
 }
 
 #[tauri::command]
-fn get_mac_deep_link_requests(_window: Window) -> Vec<String> {
+fn get_mac_deep_link_requests() -> Vec<String> {
     #[cfg(target_os = "macos")]
     {
-        let state = _window.state::<AppState>();
-        let requests = state.deep_link_requests.lock().unwrap();
-        requests.clone()
+        GLOBAL_STRING_VECTOR.lock().unwrap()
     }
     #[cfg(not(target_os = "macos"))]
     {
@@ -307,8 +313,8 @@ fn main() {
                         dbg!(&request);
                         // save the requests as at boot, the js layer may not yet be present to process
                         // the file open requests from mac os.
-                        let mut requests = deep_link_requests.lock().unwrap();
-                        requests.push(request.clone());
+                        let mut vec = GLOBAL_STRING_VECTOR.lock().unwrap();
+                        vec.push(request.clone());
                         // Emit the event (as in the original code)
                         handle.emit_all("scheme-request-received", &request).unwrap();
                     },
