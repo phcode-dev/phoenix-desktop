@@ -199,16 +199,11 @@ lazy_static! {
     static ref GLOBAL_STRING_VECTOR: Arc<Mutex<Vec<String>>> = Arc::new(Mutex::new(Vec::new()));
 }
 
-#[cfg(target_os = "macos")]
-struct AppState {
-    deep_link_requests: Arc<Mutex<Vec<String>>>,
-}
-
 #[tauri::command]
 fn get_mac_deep_link_requests() -> Vec<String> {
     #[cfg(target_os = "macos")]
     {
-        GLOBAL_STRING_VECTOR.lock().unwrap()
+        GLOBAL_STRING_VECTOR.lock().unwrap().to_vec()
     }
     #[cfg(not(target_os = "macos"))]
     {
