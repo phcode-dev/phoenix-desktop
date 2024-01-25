@@ -6,11 +6,9 @@
         <array>
             <dict>
                 <key>CFBundleURLName</key>
-                <!-- Obviously needs to be replaced with your app's bundle identifier -->
-                <string>ai.core.dev</string>
+                <string>io.phcode</string>
                 <key>CFBundleURLSchemes</key>
                 <array>
-                    <!-- register the myapp:// and myscheme:// schemes -->
                     <string>file</string>
                     <string>myscheme</string>
                 </array>
