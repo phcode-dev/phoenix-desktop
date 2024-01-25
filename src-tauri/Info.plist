@@ -2,13 +2,27 @@
 <!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
 <plist version="1.0">
 <dict>
+    <key>CFBundleURLTypes</key>
+        <array>
+            <dict>
+                <key>CFBundleURLName</key>
+                <!-- Obviously needs to be replaced with your app's bundle identifier -->
+                <string>ai.core.dev</string>
+                <key>CFBundleURLSchemes</key>
+                <array>
+                    <!-- register the myapp:// and myscheme:// schemes -->
+                    <string>file</string>
+                    <string>myscheme</string>
+                </array>
+            </dict>
+        </array>
 	<key>CFBundleDocumentTypes</key>
 	<array>
 		<dict>
 			<key>CFBundleTypeName</key>
 			<string>Document</string>
 			<key>CFBundleTypeRole</key>
-			<string>Viewer</string>
+			<string>Editor</string>
 			<key>CFBundleTypeOSTypes</key>
 			<array>
 				<string>****</string>
@@ -37,10 +51,11 @@
 		</dict>
 		<dict>
 			<key>CFBundleTypeName</key>
-			<string>HTML source</string>
-			<key>CFBundleTypeRole</key>
-			<string>Editor</string>
-			<key>CFBundleTypeExtensions</key>
+            <string>HTML source</string>
+            <key>CFBundleTypeRole</key>
+            <string>Editor</string>
+            <key>CFBundleTypeExtensions</key>
+
 			<array>
 				<string>htm</string>
 				<string>html</string>
@@ -64,13 +79,13 @@
 		<dict>
 			<key>CFBundleTypeName</key>
 			<string>JavaScript source</string>
+			<key>CFBundleTypeRole</key>
+			<string>Editor</string>
 			<key>CFBundleTypeExtensions</key>
 			<array>
 				<string>js</string>
 				<string>jsx</string>
 			</array>
-			<key>CFBundleTypeRole</key>
-			<string>Editor</string>
 		</dict>
 		<dict>
 			<key>CFBundleTypeName</key>
@@ -95,6 +110,16 @@
 				<string>mkdn</string>
 				<string>mdown</string>
 				<string>markdown</string>
+			</array>
+		</dict>
+		<dict>
+			<key>CFBundleTypeName</key>
+			<string>Groovy source</string>
+			<key>CFBundleTypeRole</key>
+			<string>Editor</string>
+			<key>CFBundleTypeExtensions</key>
+			<array>
+				<string>groovy</string>
 			</array>
 		</dict>
 		<dict>
