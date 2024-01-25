@@ -26,6 +26,7 @@ tauri-plugin-fs-extra = { git = "https://github.com/tauri-apps/plugins-workspace
 tauri-plugin-window-state = { git = "https://github.com/tauri-apps/plugins-workspace", branch = "v1" }
 tauri-plugin-single-instance = { git = "https://github.com/tauri-apps/plugins-workspace", branch = "v1" }
 fix-path-env = { git = "https://github.com/tauri-apps/fix-path-env-rs" }
+tauri-plugin-deep-link = "0.1.2"
 
 [target.'cfg(target_os = "linux")'.dependencies]
 gtk = "0.15"

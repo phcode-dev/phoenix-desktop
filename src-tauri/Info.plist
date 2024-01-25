@@ -10,7 +10,7 @@
                 <key>CFBundleURLSchemes</key>
                 <array>
                     <string>file</string>
-                    <string>myscheme</string>
+                    <string>file-scheme</string>
                 </array>
             </dict>
         </array>

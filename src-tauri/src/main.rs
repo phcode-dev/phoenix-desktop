@@ -187,8 +187,13 @@ fn remove_version_from_url(url: &str) -> String {
     let re = Regex::new(r"([a-zA-Z]+://[^/]+)/v[\d+\.]+/").unwrap();
     re.replace(url, "$1/").to_string()
 }
-
+use std::fs::File;
+use std::io::{Write, Seek, SeekFrom};
+use std::path::Path;
 fn main() {
+
+    tauri_plugin_deep_link::prepare("io.phcode");
+
     // warning: any string that resembles the following strings will be rewritten in source in prod by build scripts.
     // This is so that app bundle IDs are correct. IF they are app bundle IDs use the strings. else dont.
     // do not use strings: "io.phcode.dev" "io.phcode.staging" "io.phcode" for anything other than bundle identifiers
@@ -268,7 +273,35 @@ fn main() {
                 let gtk_settings = gtk_win.settings().unwrap();
                 gtk_settings.set_property("gtk-menu-bar-accel", "F25");
             }
-            Ok(())
+            #[cfg(target_os = "macos")]
+            {
+                let handle = app.handle();
+                tauri_plugin_deep_link::register(
+                    "file-scheme",
+                    move |request| {
+                        // Print the request for debugging
+                        dbg!(&request);
+
+                        // Emit the event (as in the original code)
+                        handle.emit_all("scheme-request-received", &request).unwrap();
+
+                        // Write the request to a file in the /tmp folder
+                        let path = Path::new("/tmp/scheme_request.txt");
+                        let mut file = match File::create(&path) {
+                            Err(why) => panic!("couldn't create {}: {}", path.display(), why),
+                            Ok(file) => file,
+                        };
+
+                        match file.write_all(request.as_bytes()) {
+                            Err(why) => panic!("couldn't write to {}: {}", path.display(), why),
+                            Ok(_) => println!("successfully wrote to {}", path.display()),
+                        }
+                    },
+                )
+                    .unwrap();
+
+                Ok(())
+            }
         })
         .run(tauri::generate_context!())
         .expect("error while running tauri application");
