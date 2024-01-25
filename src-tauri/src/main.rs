@@ -189,6 +189,11 @@ fn remove_version_from_url(url: &str) -> String {
 }
 
 fn main() {
+    // warning: any string that resembles the following strings will be rewritten in source in prod by build scripts.
+    // This is so that app bundle IDs are correct. IF they are app bundle IDs use the strings. else dont.
+    // do not use strings: "io.phcode.dev" "io.phcode.staging" "io.phcode" for anything other than bundle identifiers
+    // in this file!!!
+
     // GUI apps on macOS and Linux do not inherit the $PATH from your shell dotfiles (.bashrc, .bash_profile, .zshrc, etc).
     // fix that https://github.com/tauri-apps/fix-path-env-rs
     let _ = fix_path_env::fix();
