@@ -37,11 +37,24 @@ function _getProductName(name, stage) {
     return `${name} ${PRODUCT_NAME_SUFFIX_FOR_STAGE[stage]}`.trim();
 }
 
+function replaceBundleIdentifierString(sourceStr, newIdentifier) {
+    const IDENTIFIER_PLACEHOLDER = "TAURI_BUNDLE_IDENTIFIER_PLACE_HOLDER";
+    let bundleIdentifiers = Object.values(BUNDLE_IDENTIFIER_FOR_STAGE);
+    // longest prefix first, else may cause substring replacement only
+    bundleIdentifiers.sort((a, b) => b.length - a.length);
+    for(const identifier of bundleIdentifiers){
+        sourceStr = sourceStr.replace(identifier, IDENTIFIER_PLACEHOLDER);
+    }
+    return sourceStr.replace(IDENTIFIER_PLACEHOLDER, newIdentifier);
+}
+
 async function ciCreateDistReleaseConfig() {
     const phoenixConfigPath = join(__dirname, '..', 'phoenix', 'dist', 'config.json');
     const packageJSONPath = join(__dirname, '..', 'package.json');
     const tauriTOMLPath = join(__dirname, '..', 'src-tauri', 'Cargo.toml');
     const tauriConfigPath = join(__dirname, '..', 'src-tauri', 'tauri.conf.json');
+    const infoPLISTPath = join(__dirname, '..', 'src-tauri', 'Info.plist');
+    const mainRustPath = join(__dirname, '..', 'src-tauri', "src", 'main.rs');
     console.log("loading phoenix config: ", phoenixConfigPath);
 
     let configJson = JSON.parse(fs.readFileSync(phoenixConfigPath));
@@ -88,6 +101,17 @@ async function ciCreateDistReleaseConfig() {
     console.log("Product update endpoints are: ", configJson.tauri.updater.endpoints);
     console.log("Writing new dist config json ", tauriConfigPath);
     fs.writeFileSync(tauriConfigPath, JSON.stringify(configJson, null, 4));
+
+    // patch info.plist for mac
+    console.log("Writing new dist info plist", infoPLISTPath);
+    let infoPlist = fs.readFileSync(infoPLISTPath, "utf8");
+    fs.writeFileSync(infoPLISTPath, replaceBundleIdentifierString(infoPlist, bundleIdentifier), "utf8");
+
+    // patch main.rs for mac
+    console.log("Writing new dist main.ts", mainRustPath);
+    let mainRustFileContent = fs.readFileSync(mainRustPath, "utf8");
+    fs.writeFileSync(mainRustPath, replaceBundleIdentifierString(mainRustFileContent, bundleIdentifier), "utf8");
+
     return phoenixVersion;
 }
 
