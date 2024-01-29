@@ -89,7 +89,7 @@ function createCleanUpEntries() {
      * @returns {string} Generated NSIS cleanup script.
      */
     function generateCleanupScript(keys) {
-        const commands = keys.map(key => `DeleteRegKey HKCU "${key}"`).join('\n');
+        const commands = keys.map(key => `  DeleteRegKey HKCU "${key}"`).join('\n');
         return `; NSIS Cleanup Script\n\n${commands}`;
     }
 
