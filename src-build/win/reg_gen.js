@@ -36,14 +36,14 @@ function createInstallRegEntries() {
   WriteRegStr HKCU "Software\\Classes\\${typeName}\\shell\\open\\phcode" "" '"Open with phcode" "%1"'
   WriteRegStr HKCU "Software\\Classes\\${typeName}\\shell\\open\\phcode\\command" "" '"${'$INSTDIR'}\\${'${MAINBINARYNAME}.exe'}" "%1"'
   WriteRegStr HKCU "Software\\Classes\\${typeName}\\shell\\phcode" "Icon" '${'$INSTDIR'}\\${'${MAINBINARYNAME}.exe,0'}'
-  WriteRegStr HKCU "Software\\Classes\\${typeName}\\shell\\phcode" "" "Open with phoenix code"
+  WriteRegStr HKCU "Software\\Classes\\${typeName}\\shell\\phcode" "" "Open with Phoenix Code"
   WriteRegStr HKCU "Software\\Classes\\${typeName}\\shell\\phcode\\command" "" '"${'$INSTDIR'}\\${'${MAINBINARYNAME}.exe'}" "%1"'
 `;
     });
 
     nsisScript += `
   ; Add a context menu item for folders
-  WriteRegStr HKCU "Software\\Classes\\Directory\\shell\\phcode" "" "Open as phoenix code project"
+  WriteRegStr HKCU "Software\\Classes\\Directory\\shell\\phcode" "" "Open as Phoenix Code project"
   WriteRegStr HKCU "Software\\Classes\\Directory\\shell\\phcode\\command" "" '"${'$INSTDIR'}\\${'${MAINBINARYNAME}.exe'}" "%1"'
   ; Optional: Set an icon for the context menu item
   WriteRegStr HKCU "Software\\Classes\\Directory\\shell\\phcode" "Icon" '"${'$INSTDIR'}\\${'${MAINBINARYNAME}.exe'}",0'
