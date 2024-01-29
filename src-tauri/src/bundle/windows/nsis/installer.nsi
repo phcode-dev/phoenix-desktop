@@ -533,7 +533,6 @@ SectionEnd
 
 Function SetupPhcode
 
-
   ; Set file association and context menu for .asax files
   WriteRegStr HKCU "Software\Classes\.asax" "" "phcodeASAX"
   WriteRegStr HKCU "Software\Classes\phcodeASAX" "" "ASAX file"
@@ -541,7 +540,7 @@ Function SetupPhcode
   WriteRegStr HKCU "Software\Classes\phcodeASAX\shell\open\phcode" "" '"Open with phcode" "%1"'
   WriteRegStr HKCU "Software\Classes\phcodeASAX\shell\open\phcode\command" "" '"$INSTDIR\${MAINBINARYNAME}.exe" "%1"'
   WriteRegStr HKCU "Software\Classes\phcodeASAX\shell\phcode" "Icon" '$INSTDIR\${MAINBINARYNAME}.exe,0'
-  WriteRegStr HKCU "Software\Classes\phcodeASAX\shell\phcode" "" "Open with phcode"
+  WriteRegStr HKCU "Software\Classes\phcodeASAX\shell\phcode" "" "Open with phoenix code"
   WriteRegStr HKCU "Software\Classes\phcodeASAX\shell\phcode\command" "" '"$INSTDIR\${MAINBINARYNAME}.exe" "%1"'
 
   ; Set file association and context menu for .ashx files
@@ -551,7 +550,7 @@ Function SetupPhcode
   WriteRegStr HKCU "Software\Classes\phcodeASHX\shell\open\phcode" "" '"Open with phcode" "%1"'
   WriteRegStr HKCU "Software\Classes\phcodeASHX\shell\open\phcode\command" "" '"$INSTDIR\${MAINBINARYNAME}.exe" "%1"'
   WriteRegStr HKCU "Software\Classes\phcodeASHX\shell\phcode" "Icon" '$INSTDIR\${MAINBINARYNAME}.exe,0'
-  WriteRegStr HKCU "Software\Classes\phcodeASHX\shell\phcode" "" "Open with phcode"
+  WriteRegStr HKCU "Software\Classes\phcodeASHX\shell\phcode" "" "Open with phoenix code"
   WriteRegStr HKCU "Software\Classes\phcodeASHX\shell\phcode\command" "" '"$INSTDIR\${MAINBINARYNAME}.exe" "%1"'
 
   ; Set file association and context menu for .aspx files
@@ -561,7 +560,7 @@ Function SetupPhcode
   WriteRegStr HKCU "Software\Classes\phcodeASPX\shell\open\phcode" "" '"Open with phcode" "%1"'
   WriteRegStr HKCU "Software\Classes\phcodeASPX\shell\open\phcode\command" "" '"$INSTDIR\${MAINBINARYNAME}.exe" "%1"'
   WriteRegStr HKCU "Software\Classes\phcodeASPX\shell\phcode" "Icon" '$INSTDIR\${MAINBINARYNAME}.exe,0'
-  WriteRegStr HKCU "Software\Classes\phcodeASPX\shell\phcode" "" "Open with phcode"
+  WriteRegStr HKCU "Software\Classes\phcodeASPX\shell\phcode" "" "Open with phoenix code"
   WriteRegStr HKCU "Software\Classes\phcodeASPX\shell\phcode\command" "" '"$INSTDIR\${MAINBINARYNAME}.exe" "%1"'
 
   ; Set file association and context menu for .atom files
@@ -571,7 +570,7 @@ Function SetupPhcode
   WriteRegStr HKCU "Software\Classes\phcodeATOM\shell\open\phcode" "" '"Open with phcode" "%1"'
   WriteRegStr HKCU "Software\Classes\phcodeATOM\shell\open\phcode\command" "" '"$INSTDIR\${MAINBINARYNAME}.exe" "%1"'
   WriteRegStr HKCU "Software\Classes\phcodeATOM\shell\phcode" "Icon" '$INSTDIR\${MAINBINARYNAME}.exe,0'
-  WriteRegStr HKCU "Software\Classes\phcodeATOM\shell\phcode" "" "Open with phcode"
+  WriteRegStr HKCU "Software\Classes\phcodeATOM\shell\phcode" "" "Open with phoenix code"
   WriteRegStr HKCU "Software\Classes\phcodeATOM\shell\phcode\command" "" '"$INSTDIR\${MAINBINARYNAME}.exe" "%1"'
 
   ; Set file association and context menu for .cf files
@@ -581,7 +580,7 @@ Function SetupPhcode
   WriteRegStr HKCU "Software\Classes\phcodeCF\shell\open\phcode" "" '"Open with phcode" "%1"'
   WriteRegStr HKCU "Software\Classes\phcodeCF\shell\open\phcode\command" "" '"$INSTDIR\${MAINBINARYNAME}.exe" "%1"'
   WriteRegStr HKCU "Software\Classes\phcodeCF\shell\phcode" "Icon" '$INSTDIR\${MAINBINARYNAME}.exe,0'
-  WriteRegStr HKCU "Software\Classes\phcodeCF\shell\phcode" "" "Open with phcode"
+  WriteRegStr HKCU "Software\Classes\phcodeCF\shell\phcode" "" "Open with phoenix code"
   WriteRegStr HKCU "Software\Classes\phcodeCF\shell\phcode\command" "" '"$INSTDIR\${MAINBINARYNAME}.exe" "%1"'
 
   ; Set file association and context menu for .cfc files
@@ -591,7 +590,7 @@ Function SetupPhcode
   WriteRegStr HKCU "Software\Classes\phcodeCFC\shell\open\phcode" "" '"Open with phcode" "%1"'
   WriteRegStr HKCU "Software\Classes\phcodeCFC\shell\open\phcode\command" "" '"$INSTDIR\${MAINBINARYNAME}.exe" "%1"'
   WriteRegStr HKCU "Software\Classes\phcodeCFC\shell\phcode" "Icon" '$INSTDIR\${MAINBINARYNAME}.exe,0'
-  WriteRegStr HKCU "Software\Classes\phcodeCFC\shell\phcode" "" "Open with phcode"
+  WriteRegStr HKCU "Software\Classes\phcodeCFC\shell\phcode" "" "Open with phoenix code"
   WriteRegStr HKCU "Software\Classes\phcodeCFC\shell\phcode\command" "" '"$INSTDIR\${MAINBINARYNAME}.exe" "%1"'
 
   ; Set file association and context menu for .cfm files
@@ -601,7 +600,7 @@ Function SetupPhcode
   WriteRegStr HKCU "Software\Classes\phcodeCFM\shell\open\phcode" "" '"Open with phcode" "%1"'
   WriteRegStr HKCU "Software\Classes\phcodeCFM\shell\open\phcode\command" "" '"$INSTDIR\${MAINBINARYNAME}.exe" "%1"'
   WriteRegStr HKCU "Software\Classes\phcodeCFM\shell\phcode" "Icon" '$INSTDIR\${MAINBINARYNAME}.exe,0'
-  WriteRegStr HKCU "Software\Classes\phcodeCFM\shell\phcode" "" "Open with phcode"
+  WriteRegStr HKCU "Software\Classes\phcodeCFM\shell\phcode" "" "Open with phoenix code"
   WriteRegStr HKCU "Software\Classes\phcodeCFM\shell\phcode\command" "" '"$INSTDIR\${MAINBINARYNAME}.exe" "%1"'
 
   ; Set file association and context menu for .cfm1 files
@@ -611,7 +610,7 @@ Function SetupPhcode
   WriteRegStr HKCU "Software\Classes\phcodeCFM1\shell\open\phcode" "" '"Open with phcode" "%1"'
   WriteRegStr HKCU "Software\Classes\phcodeCFM1\shell\open\phcode\command" "" '"$INSTDIR\${MAINBINARYNAME}.exe" "%1"'
   WriteRegStr HKCU "Software\Classes\phcodeCFM1\shell\phcode" "Icon" '$INSTDIR\${MAINBINARYNAME}.exe,0'
-  WriteRegStr HKCU "Software\Classes\phcodeCFM1\shell\phcode" "" "Open with phcode"
+  WriteRegStr HKCU "Software\Classes\phcodeCFM1\shell\phcode" "" "Open with phoenix code"
   WriteRegStr HKCU "Software\Classes\phcodeCFM1\shell\phcode\command" "" '"$INSTDIR\${MAINBINARYNAME}.exe" "%1"'
 
   ; Set file association and context menu for .clj files
@@ -621,7 +620,7 @@ Function SetupPhcode
   WriteRegStr HKCU "Software\Classes\phcodeCLJ\shell\open\phcode" "" '"Open with phcode" "%1"'
   WriteRegStr HKCU "Software\Classes\phcodeCLJ\shell\open\phcode\command" "" '"$INSTDIR\${MAINBINARYNAME}.exe" "%1"'
   WriteRegStr HKCU "Software\Classes\phcodeCLJ\shell\phcode" "Icon" '$INSTDIR\${MAINBINARYNAME}.exe,0'
-  WriteRegStr HKCU "Software\Classes\phcodeCLJ\shell\phcode" "" "Open with phcode"
+  WriteRegStr HKCU "Software\Classes\phcodeCLJ\shell\phcode" "" "Open with phoenix code"
   WriteRegStr HKCU "Software\Classes\phcodeCLJ\shell\phcode\command" "" '"$INSTDIR\${MAINBINARYNAME}.exe" "%1"'
 
   ; Set file association and context menu for .coffee files
@@ -631,7 +630,7 @@ Function SetupPhcode
   WriteRegStr HKCU "Software\Classes\phcodeCOFFEE\shell\open\phcode" "" '"Open with phcode" "%1"'
   WriteRegStr HKCU "Software\Classes\phcodeCOFFEE\shell\open\phcode\command" "" '"$INSTDIR\${MAINBINARYNAME}.exe" "%1"'
   WriteRegStr HKCU "Software\Classes\phcodeCOFFEE\shell\phcode" "Icon" '$INSTDIR\${MAINBINARYNAME}.exe,0'
-  WriteRegStr HKCU "Software\Classes\phcodeCOFFEE\shell\phcode" "" "Open with phcode"
+  WriteRegStr HKCU "Software\Classes\phcodeCOFFEE\shell\phcode" "" "Open with phoenix code"
   WriteRegStr HKCU "Software\Classes\phcodeCOFFEE\shell\phcode\command" "" '"$INSTDIR\${MAINBINARYNAME}.exe" "%1"'
 
   ; Set file association and context menu for .cshtml files
@@ -641,7 +640,7 @@ Function SetupPhcode
   WriteRegStr HKCU "Software\Classes\phcodeCSHTML\shell\open\phcode" "" '"Open with phcode" "%1"'
   WriteRegStr HKCU "Software\Classes\phcodeCSHTML\shell\open\phcode\command" "" '"$INSTDIR\${MAINBINARYNAME}.exe" "%1"'
   WriteRegStr HKCU "Software\Classes\phcodeCSHTML\shell\phcode" "Icon" '$INSTDIR\${MAINBINARYNAME}.exe,0'
-  WriteRegStr HKCU "Software\Classes\phcodeCSHTML\shell\phcode" "" "Open with phcode"
+  WriteRegStr HKCU "Software\Classes\phcodeCSHTML\shell\phcode" "" "Open with phoenix code"
   WriteRegStr HKCU "Software\Classes\phcodeCSHTML\shell\phcode\command" "" '"$INSTDIR\${MAINBINARYNAME}.exe" "%1"'
 
   ; Set file association and context menu for .cson files
@@ -651,7 +650,7 @@ Function SetupPhcode
   WriteRegStr HKCU "Software\Classes\phcodeCSON\shell\open\phcode" "" '"Open with phcode" "%1"'
   WriteRegStr HKCU "Software\Classes\phcodeCSON\shell\open\phcode\command" "" '"$INSTDIR\${MAINBINARYNAME}.exe" "%1"'
   WriteRegStr HKCU "Software\Classes\phcodeCSON\shell\phcode" "Icon" '$INSTDIR\${MAINBINARYNAME}.exe,0'
-  WriteRegStr HKCU "Software\Classes\phcodeCSON\shell\phcode" "" "Open with phcode"
+  WriteRegStr HKCU "Software\Classes\phcodeCSON\shell\phcode" "" "Open with phoenix code"
   WriteRegStr HKCU "Software\Classes\phcodeCSON\shell\phcode\command" "" '"$INSTDIR\${MAINBINARYNAME}.exe" "%1"'
 
   ; Set file association and context menu for .css files
@@ -661,7 +660,7 @@ Function SetupPhcode
   WriteRegStr HKCU "Software\Classes\phcodeCSS\shell\open\phcode" "" '"Open with phcode" "%1"'
   WriteRegStr HKCU "Software\Classes\phcodeCSS\shell\open\phcode\command" "" '"$INSTDIR\${MAINBINARYNAME}.exe" "%1"'
   WriteRegStr HKCU "Software\Classes\phcodeCSS\shell\phcode" "Icon" '$INSTDIR\${MAINBINARYNAME}.exe,0'
-  WriteRegStr HKCU "Software\Classes\phcodeCSS\shell\phcode" "" "Open with phcode"
+  WriteRegStr HKCU "Software\Classes\phcodeCSS\shell\phcode" "" "Open with phoenix code"
   WriteRegStr HKCU "Software\Classes\phcodeCSS\shell\phcode\command" "" '"$INSTDIR\${MAINBINARYNAME}.exe" "%1"'
 
   ; Set file association and context menu for .ctp files
@@ -671,7 +670,7 @@ Function SetupPhcode
   WriteRegStr HKCU "Software\Classes\phcodeCTP\shell\open\phcode" "" '"Open with phcode" "%1"'
   WriteRegStr HKCU "Software\Classes\phcodeCTP\shell\open\phcode\command" "" '"$INSTDIR\${MAINBINARYNAME}.exe" "%1"'
   WriteRegStr HKCU "Software\Classes\phcodeCTP\shell\phcode" "Icon" '$INSTDIR\${MAINBINARYNAME}.exe,0'
-  WriteRegStr HKCU "Software\Classes\phcodeCTP\shell\phcode" "" "Open with phcode"
+  WriteRegStr HKCU "Software\Classes\phcodeCTP\shell\phcode" "" "Open with phoenix code"
   WriteRegStr HKCU "Software\Classes\phcodeCTP\shell\phcode\command" "" '"$INSTDIR\${MAINBINARYNAME}.exe" "%1"'
 
   ; Set file association and context menu for .dhtml files
@@ -681,7 +680,7 @@ Function SetupPhcode
   WriteRegStr HKCU "Software\Classes\phcodeDHTML\shell\open\phcode" "" '"Open with phcode" "%1"'
   WriteRegStr HKCU "Software\Classes\phcodeDHTML\shell\open\phcode\command" "" '"$INSTDIR\${MAINBINARYNAME}.exe" "%1"'
   WriteRegStr HKCU "Software\Classes\phcodeDHTML\shell\phcode" "Icon" '$INSTDIR\${MAINBINARYNAME}.exe,0'
-  WriteRegStr HKCU "Software\Classes\phcodeDHTML\shell\phcode" "" "Open with phcode"
+  WriteRegStr HKCU "Software\Classes\phcodeDHTML\shell\phcode" "" "Open with phoenix code"
   WriteRegStr HKCU "Software\Classes\phcodeDHTML\shell\phcode\command" "" '"$INSTDIR\${MAINBINARYNAME}.exe" "%1"'
 
   ; Set file association and context menu for .diff files
@@ -691,7 +690,7 @@ Function SetupPhcode
   WriteRegStr HKCU "Software\Classes\phcodeDIFF\shell\open\phcode" "" '"Open with phcode" "%1"'
   WriteRegStr HKCU "Software\Classes\phcodeDIFF\shell\open\phcode\command" "" '"$INSTDIR\${MAINBINARYNAME}.exe" "%1"'
   WriteRegStr HKCU "Software\Classes\phcodeDIFF\shell\phcode" "Icon" '$INSTDIR\${MAINBINARYNAME}.exe,0'
-  WriteRegStr HKCU "Software\Classes\phcodeDIFF\shell\phcode" "" "Open with phcode"
+  WriteRegStr HKCU "Software\Classes\phcodeDIFF\shell\phcode" "" "Open with phoenix code"
   WriteRegStr HKCU "Software\Classes\phcodeDIFF\shell\phcode\command" "" '"$INSTDIR\${MAINBINARYNAME}.exe" "%1"'
 
   ; Set file association and context menu for .ejs files
@@ -701,7 +700,7 @@ Function SetupPhcode
   WriteRegStr HKCU "Software\Classes\phcodeEJS\shell\open\phcode" "" '"Open with phcode" "%1"'
   WriteRegStr HKCU "Software\Classes\phcodeEJS\shell\open\phcode\command" "" '"$INSTDIR\${MAINBINARYNAME}.exe" "%1"'
   WriteRegStr HKCU "Software\Classes\phcodeEJS\shell\phcode" "Icon" '$INSTDIR\${MAINBINARYNAME}.exe,0'
-  WriteRegStr HKCU "Software\Classes\phcodeEJS\shell\phcode" "" "Open with phcode"
+  WriteRegStr HKCU "Software\Classes\phcodeEJS\shell\phcode" "" "Open with phoenix code"
   WriteRegStr HKCU "Software\Classes\phcodeEJS\shell\phcode\command" "" '"$INSTDIR\${MAINBINARYNAME}.exe" "%1"'
 
   ; Set file association and context menu for .handlebars files
@@ -711,7 +710,7 @@ Function SetupPhcode
   WriteRegStr HKCU "Software\Classes\phcodeHANDLEBARS\shell\open\phcode" "" '"Open with phcode" "%1"'
   WriteRegStr HKCU "Software\Classes\phcodeHANDLEBARS\shell\open\phcode\command" "" '"$INSTDIR\${MAINBINARYNAME}.exe" "%1"'
   WriteRegStr HKCU "Software\Classes\phcodeHANDLEBARS\shell\phcode" "Icon" '$INSTDIR\${MAINBINARYNAME}.exe,0'
-  WriteRegStr HKCU "Software\Classes\phcodeHANDLEBARS\shell\phcode" "" "Open with phcode"
+  WriteRegStr HKCU "Software\Classes\phcodeHANDLEBARS\shell\phcode" "" "Open with phoenix code"
   WriteRegStr HKCU "Software\Classes\phcodeHANDLEBARS\shell\phcode\command" "" '"$INSTDIR\${MAINBINARYNAME}.exe" "%1"'
 
   ; Set file association and context menu for .hbs files
@@ -721,7 +720,7 @@ Function SetupPhcode
   WriteRegStr HKCU "Software\Classes\phcodeHBS\shell\open\phcode" "" '"Open with phcode" "%1"'
   WriteRegStr HKCU "Software\Classes\phcodeHBS\shell\open\phcode\command" "" '"$INSTDIR\${MAINBINARYNAME}.exe" "%1"'
   WriteRegStr HKCU "Software\Classes\phcodeHBS\shell\phcode" "Icon" '$INSTDIR\${MAINBINARYNAME}.exe,0'
-  WriteRegStr HKCU "Software\Classes\phcodeHBS\shell\phcode" "" "Open with phcode"
+  WriteRegStr HKCU "Software\Classes\phcodeHBS\shell\phcode" "" "Open with phoenix code"
   WriteRegStr HKCU "Software\Classes\phcodeHBS\shell\phcode\command" "" '"$INSTDIR\${MAINBINARYNAME}.exe" "%1"'
 
   ; Set file association and context menu for .htm files
@@ -731,7 +730,7 @@ Function SetupPhcode
   WriteRegStr HKCU "Software\Classes\phcodeHTM\shell\open\phcode" "" '"Open with phcode" "%1"'
   WriteRegStr HKCU "Software\Classes\phcodeHTM\shell\open\phcode\command" "" '"$INSTDIR\${MAINBINARYNAME}.exe" "%1"'
   WriteRegStr HKCU "Software\Classes\phcodeHTM\shell\phcode" "Icon" '$INSTDIR\${MAINBINARYNAME}.exe,0'
-  WriteRegStr HKCU "Software\Classes\phcodeHTM\shell\phcode" "" "Open with phcode"
+  WriteRegStr HKCU "Software\Classes\phcodeHTM\shell\phcode" "" "Open with phoenix code"
   WriteRegStr HKCU "Software\Classes\phcodeHTM\shell\phcode\command" "" '"$INSTDIR\${MAINBINARYNAME}.exe" "%1"'
 
   ; Set file association and context menu for .html files
@@ -741,7 +740,7 @@ Function SetupPhcode
   WriteRegStr HKCU "Software\Classes\phcodeHTML\shell\open\phcode" "" '"Open with phcode" "%1"'
   WriteRegStr HKCU "Software\Classes\phcodeHTML\shell\open\phcode\command" "" '"$INSTDIR\${MAINBINARYNAME}.exe" "%1"'
   WriteRegStr HKCU "Software\Classes\phcodeHTML\shell\phcode" "Icon" '$INSTDIR\${MAINBINARYNAME}.exe,0'
-  WriteRegStr HKCU "Software\Classes\phcodeHTML\shell\phcode" "" "Open with phcode"
+  WriteRegStr HKCU "Software\Classes\phcodeHTML\shell\phcode" "" "Open with phoenix code"
   WriteRegStr HKCU "Software\Classes\phcodeHTML\shell\phcode\command" "" '"$INSTDIR\${MAINBINARYNAME}.exe" "%1"'
 
   ; Set file association and context menu for .hx files
@@ -751,7 +750,7 @@ Function SetupPhcode
   WriteRegStr HKCU "Software\Classes\phcodeHX\shell\open\phcode" "" '"Open with phcode" "%1"'
   WriteRegStr HKCU "Software\Classes\phcodeHX\shell\open\phcode\command" "" '"$INSTDIR\${MAINBINARYNAME}.exe" "%1"'
   WriteRegStr HKCU "Software\Classes\phcodeHX\shell\phcode" "Icon" '$INSTDIR\${MAINBINARYNAME}.exe,0'
-  WriteRegStr HKCU "Software\Classes\phcodeHX\shell\phcode" "" "Open with phcode"
+  WriteRegStr HKCU "Software\Classes\phcodeHX\shell\phcode" "" "Open with phoenix code"
   WriteRegStr HKCU "Software\Classes\phcodeHX\shell\phcode\command" "" '"$INSTDIR\${MAINBINARYNAME}.exe" "%1"'
 
   ; Set file association and context menu for .js files
@@ -761,7 +760,7 @@ Function SetupPhcode
   WriteRegStr HKCU "Software\Classes\phcodeJS\shell\open\phcode" "" '"Open with phcode" "%1"'
   WriteRegStr HKCU "Software\Classes\phcodeJS\shell\open\phcode\command" "" '"$INSTDIR\${MAINBINARYNAME}.exe" "%1"'
   WriteRegStr HKCU "Software\Classes\phcodeJS\shell\phcode" "Icon" '$INSTDIR\${MAINBINARYNAME}.exe,0'
-  WriteRegStr HKCU "Software\Classes\phcodeJS\shell\phcode" "" "Open with phcode"
+  WriteRegStr HKCU "Software\Classes\phcodeJS\shell\phcode" "" "Open with phoenix code"
   WriteRegStr HKCU "Software\Classes\phcodeJS\shell\phcode\command" "" '"$INSTDIR\${MAINBINARYNAME}.exe" "%1"'
 
   ; Set file association and context menu for .json files
@@ -771,7 +770,7 @@ Function SetupPhcode
   WriteRegStr HKCU "Software\Classes\phcodeJSON\shell\open\phcode" "" '"Open with phcode" "%1"'
   WriteRegStr HKCU "Software\Classes\phcodeJSON\shell\open\phcode\command" "" '"$INSTDIR\${MAINBINARYNAME}.exe" "%1"'
   WriteRegStr HKCU "Software\Classes\phcodeJSON\shell\phcode" "Icon" '$INSTDIR\${MAINBINARYNAME}.exe,0'
-  WriteRegStr HKCU "Software\Classes\phcodeJSON\shell\phcode" "" "Open with phcode"
+  WriteRegStr HKCU "Software\Classes\phcodeJSON\shell\phcode" "" "Open with phoenix code"
   WriteRegStr HKCU "Software\Classes\phcodeJSON\shell\phcode\command" "" '"$INSTDIR\${MAINBINARYNAME}.exe" "%1"'
 
   ; Set file association and context menu for .jsp files
@@ -781,7 +780,7 @@ Function SetupPhcode
   WriteRegStr HKCU "Software\Classes\phcodeJSP\shell\open\phcode" "" '"Open with phcode" "%1"'
   WriteRegStr HKCU "Software\Classes\phcodeJSP\shell\open\phcode\command" "" '"$INSTDIR\${MAINBINARYNAME}.exe" "%1"'
   WriteRegStr HKCU "Software\Classes\phcodeJSP\shell\phcode" "Icon" '$INSTDIR\${MAINBINARYNAME}.exe,0'
-  WriteRegStr HKCU "Software\Classes\phcodeJSP\shell\phcode" "" "Open with phcode"
+  WriteRegStr HKCU "Software\Classes\phcodeJSP\shell\phcode" "" "Open with phoenix code"
   WriteRegStr HKCU "Software\Classes\phcodeJSP\shell\phcode\command" "" '"$INSTDIR\${MAINBINARYNAME}.exe" "%1"'
 
   ; Set file association and context menu for .jsx files
@@ -791,7 +790,7 @@ Function SetupPhcode
   WriteRegStr HKCU "Software\Classes\phcodeJSX\shell\open\phcode" "" '"Open with phcode" "%1"'
   WriteRegStr HKCU "Software\Classes\phcodeJSX\shell\open\phcode\command" "" '"$INSTDIR\${MAINBINARYNAME}.exe" "%1"'
   WriteRegStr HKCU "Software\Classes\phcodeJSX\shell\phcode" "Icon" '$INSTDIR\${MAINBINARYNAME}.exe,0'
-  WriteRegStr HKCU "Software\Classes\phcodeJSX\shell\phcode" "" "Open with phcode"
+  WriteRegStr HKCU "Software\Classes\phcodeJSX\shell\phcode" "" "Open with phoenix code"
   WriteRegStr HKCU "Software\Classes\phcodeJSX\shell\phcode\command" "" '"$INSTDIR\${MAINBINARYNAME}.exe" "%1"'
 
   ; Set file association and context menu for .kit files
@@ -801,7 +800,7 @@ Function SetupPhcode
   WriteRegStr HKCU "Software\Classes\phcodeKIT\shell\open\phcode" "" '"Open with phcode" "%1"'
   WriteRegStr HKCU "Software\Classes\phcodeKIT\shell\open\phcode\command" "" '"$INSTDIR\${MAINBINARYNAME}.exe" "%1"'
   WriteRegStr HKCU "Software\Classes\phcodeKIT\shell\phcode" "Icon" '$INSTDIR\${MAINBINARYNAME}.exe,0'
-  WriteRegStr HKCU "Software\Classes\phcodeKIT\shell\phcode" "" "Open with phcode"
+  WriteRegStr HKCU "Software\Classes\phcodeKIT\shell\phcode" "" "Open with phoenix code"
   WriteRegStr HKCU "Software\Classes\phcodeKIT\shell\phcode\command" "" '"$INSTDIR\${MAINBINARYNAME}.exe" "%1"'
 
   ; Set file association and context menu for .less files
@@ -811,7 +810,7 @@ Function SetupPhcode
   WriteRegStr HKCU "Software\Classes\phcodeLESS\shell\open\phcode" "" '"Open with phcode" "%1"'
   WriteRegStr HKCU "Software\Classes\phcodeLESS\shell\open\phcode\command" "" '"$INSTDIR\${MAINBINARYNAME}.exe" "%1"'
   WriteRegStr HKCU "Software\Classes\phcodeLESS\shell\phcode" "Icon" '$INSTDIR\${MAINBINARYNAME}.exe,0'
-  WriteRegStr HKCU "Software\Classes\phcodeLESS\shell\phcode" "" "Open with phcode"
+  WriteRegStr HKCU "Software\Classes\phcodeLESS\shell\phcode" "" "Open with phoenix code"
   WriteRegStr HKCU "Software\Classes\phcodeLESS\shell\phcode\command" "" '"$INSTDIR\${MAINBINARYNAME}.exe" "%1"'
 
   ; Set file association and context menu for .markdown files
@@ -821,7 +820,7 @@ Function SetupPhcode
   WriteRegStr HKCU "Software\Classes\phcodeMARKDOWN\shell\open\phcode" "" '"Open with phcode" "%1"'
   WriteRegStr HKCU "Software\Classes\phcodeMARKDOWN\shell\open\phcode\command" "" '"$INSTDIR\${MAINBINARYNAME}.exe" "%1"'
   WriteRegStr HKCU "Software\Classes\phcodeMARKDOWN\shell\phcode" "Icon" '$INSTDIR\${MAINBINARYNAME}.exe,0'
-  WriteRegStr HKCU "Software\Classes\phcodeMARKDOWN\shell\phcode" "" "Open with phcode"
+  WriteRegStr HKCU "Software\Classes\phcodeMARKDOWN\shell\phcode" "" "Open with phoenix code"
   WriteRegStr HKCU "Software\Classes\phcodeMARKDOWN\shell\phcode\command" "" '"$INSTDIR\${MAINBINARYNAME}.exe" "%1"'
 
   ; Set file association and context menu for .mathml files
@@ -831,7 +830,7 @@ Function SetupPhcode
   WriteRegStr HKCU "Software\Classes\phcodeMATHML\shell\open\phcode" "" '"Open with phcode" "%1"'
   WriteRegStr HKCU "Software\Classes\phcodeMATHML\shell\open\phcode\command" "" '"$INSTDIR\${MAINBINARYNAME}.exe" "%1"'
   WriteRegStr HKCU "Software\Classes\phcodeMATHML\shell\phcode" "Icon" '$INSTDIR\${MAINBINARYNAME}.exe,0'
-  WriteRegStr HKCU "Software\Classes\phcodeMATHML\shell\phcode" "" "Open with phcode"
+  WriteRegStr HKCU "Software\Classes\phcodeMATHML\shell\phcode" "" "Open with phoenix code"
   WriteRegStr HKCU "Software\Classes\phcodeMATHML\shell\phcode\command" "" '"$INSTDIR\${MAINBINARYNAME}.exe" "%1"'
 
   ; Set file association and context menu for .md files
@@ -841,7 +840,7 @@ Function SetupPhcode
   WriteRegStr HKCU "Software\Classes\phcodeMD\shell\open\phcode" "" '"Open with phcode" "%1"'
   WriteRegStr HKCU "Software\Classes\phcodeMD\shell\open\phcode\command" "" '"$INSTDIR\${MAINBINARYNAME}.exe" "%1"'
   WriteRegStr HKCU "Software\Classes\phcodeMD\shell\phcode" "Icon" '$INSTDIR\${MAINBINARYNAME}.exe,0'
-  WriteRegStr HKCU "Software\Classes\phcodeMD\shell\phcode" "" "Open with phcode"
+  WriteRegStr HKCU "Software\Classes\phcodeMD\shell\phcode" "" "Open with phoenix code"
   WriteRegStr HKCU "Software\Classes\phcodeMD\shell\phcode\command" "" '"$INSTDIR\${MAINBINARYNAME}.exe" "%1"'
 
   ; Set file association and context menu for .patch files
@@ -851,7 +850,7 @@ Function SetupPhcode
   WriteRegStr HKCU "Software\Classes\phcodePATCH\shell\open\phcode" "" '"Open with phcode" "%1"'
   WriteRegStr HKCU "Software\Classes\phcodePATCH\shell\open\phcode\command" "" '"$INSTDIR\${MAINBINARYNAME}.exe" "%1"'
   WriteRegStr HKCU "Software\Classes\phcodePATCH\shell\phcode" "Icon" '$INSTDIR\${MAINBINARYNAME}.exe,0'
-  WriteRegStr HKCU "Software\Classes\phcodePATCH\shell\phcode" "" "Open with phcode"
+  WriteRegStr HKCU "Software\Classes\phcodePATCH\shell\phcode" "" "Open with phoenix code"
   WriteRegStr HKCU "Software\Classes\phcodePATCH\shell\phcode\command" "" '"$INSTDIR\${MAINBINARYNAME}.exe" "%1"'
 
   ; Set file association and context menu for .php files
@@ -861,7 +860,7 @@ Function SetupPhcode
   WriteRegStr HKCU "Software\Classes\phcodePHP\shell\open\phcode" "" '"Open with phcode" "%1"'
   WriteRegStr HKCU "Software\Classes\phcodePHP\shell\open\phcode\command" "" '"$INSTDIR\${MAINBINARYNAME}.exe" "%1"'
   WriteRegStr HKCU "Software\Classes\phcodePHP\shell\phcode" "Icon" '$INSTDIR\${MAINBINARYNAME}.exe,0'
-  WriteRegStr HKCU "Software\Classes\phcodePHP\shell\phcode" "" "Open with phcode"
+  WriteRegStr HKCU "Software\Classes\phcodePHP\shell\phcode" "" "Open with phoenix code"
   WriteRegStr HKCU "Software\Classes\phcodePHP\shell\phcode\command" "" '"$INSTDIR\${MAINBINARYNAME}.exe" "%1"'
 
   ; Set file association and context menu for .php3 files
@@ -871,7 +870,7 @@ Function SetupPhcode
   WriteRegStr HKCU "Software\Classes\phcodePHP3\shell\open\phcode" "" '"Open with phcode" "%1"'
   WriteRegStr HKCU "Software\Classes\phcodePHP3\shell\open\phcode\command" "" '"$INSTDIR\${MAINBINARYNAME}.exe" "%1"'
   WriteRegStr HKCU "Software\Classes\phcodePHP3\shell\phcode" "Icon" '$INSTDIR\${MAINBINARYNAME}.exe,0'
-  WriteRegStr HKCU "Software\Classes\phcodePHP3\shell\phcode" "" "Open with phcode"
+  WriteRegStr HKCU "Software\Classes\phcodePHP3\shell\phcode" "" "Open with phoenix code"
   WriteRegStr HKCU "Software\Classes\phcodePHP3\shell\phcode\command" "" '"$INSTDIR\${MAINBINARYNAME}.exe" "%1"'
 
   ; Set file association and context menu for .php4 files
@@ -881,7 +880,7 @@ Function SetupPhcode
   WriteRegStr HKCU "Software\Classes\phcodePHP4\shell\open\phcode" "" '"Open with phcode" "%1"'
   WriteRegStr HKCU "Software\Classes\phcodePHP4\shell\open\phcode\command" "" '"$INSTDIR\${MAINBINARYNAME}.exe" "%1"'
   WriteRegStr HKCU "Software\Classes\phcodePHP4\shell\phcode" "Icon" '$INSTDIR\${MAINBINARYNAME}.exe,0'
-  WriteRegStr HKCU "Software\Classes\phcodePHP4\shell\phcode" "" "Open with phcode"
+  WriteRegStr HKCU "Software\Classes\phcodePHP4\shell\phcode" "" "Open with phoenix code"
   WriteRegStr HKCU "Software\Classes\phcodePHP4\shell\phcode\command" "" '"$INSTDIR\${MAINBINARYNAME}.exe" "%1"'
 
   ; Set file association and context menu for .php5 files
@@ -891,7 +890,7 @@ Function SetupPhcode
   WriteRegStr HKCU "Software\Classes\phcodePHP5\shell\open\phcode" "" '"Open with phcode" "%1"'
   WriteRegStr HKCU "Software\Classes\phcodePHP5\shell\open\phcode\command" "" '"$INSTDIR\${MAINBINARYNAME}.exe" "%1"'
   WriteRegStr HKCU "Software\Classes\phcodePHP5\shell\phcode" "Icon" '$INSTDIR\${MAINBINARYNAME}.exe,0'
-  WriteRegStr HKCU "Software\Classes\phcodePHP5\shell\phcode" "" "Open with phcode"
+  WriteRegStr HKCU "Software\Classes\phcodePHP5\shell\phcode" "" "Open with phoenix code"
   WriteRegStr HKCU "Software\Classes\phcodePHP5\shell\phcode\command" "" '"$INSTDIR\${MAINBINARYNAME}.exe" "%1"'
 
   ; Set file association and context menu for .phtm files
@@ -901,7 +900,7 @@ Function SetupPhcode
   WriteRegStr HKCU "Software\Classes\phcodePHTM\shell\open\phcode" "" '"Open with phcode" "%1"'
   WriteRegStr HKCU "Software\Classes\phcodePHTM\shell\open\phcode\command" "" '"$INSTDIR\${MAINBINARYNAME}.exe" "%1"'
   WriteRegStr HKCU "Software\Classes\phcodePHTM\shell\phcode" "Icon" '$INSTDIR\${MAINBINARYNAME}.exe,0'
-  WriteRegStr HKCU "Software\Classes\phcodePHTM\shell\phcode" "" "Open with phcode"
+  WriteRegStr HKCU "Software\Classes\phcodePHTM\shell\phcode" "" "Open with phoenix code"
   WriteRegStr HKCU "Software\Classes\phcodePHTM\shell\phcode\command" "" '"$INSTDIR\${MAINBINARYNAME}.exe" "%1"'
 
   ; Set file association and context menu for .phtml files
@@ -911,7 +910,7 @@ Function SetupPhcode
   WriteRegStr HKCU "Software\Classes\phcodePHTML\shell\open\phcode" "" '"Open with phcode" "%1"'
   WriteRegStr HKCU "Software\Classes\phcodePHTML\shell\open\phcode\command" "" '"$INSTDIR\${MAINBINARYNAME}.exe" "%1"'
   WriteRegStr HKCU "Software\Classes\phcodePHTML\shell\phcode" "Icon" '$INSTDIR\${MAINBINARYNAME}.exe,0'
-  WriteRegStr HKCU "Software\Classes\phcodePHTML\shell\phcode" "" "Open with phcode"
+  WriteRegStr HKCU "Software\Classes\phcodePHTML\shell\phcode" "" "Open with phoenix code"
   WriteRegStr HKCU "Software\Classes\phcodePHTML\shell\phcode\command" "" '"$INSTDIR\${MAINBINARYNAME}.exe" "%1"'
 
   ; Set file association and context menu for .rdf files
@@ -921,7 +920,7 @@ Function SetupPhcode
   WriteRegStr HKCU "Software\Classes\phcodeRDF\shell\open\phcode" "" '"Open with phcode" "%1"'
   WriteRegStr HKCU "Software\Classes\phcodeRDF\shell\open\phcode\command" "" '"$INSTDIR\${MAINBINARYNAME}.exe" "%1"'
   WriteRegStr HKCU "Software\Classes\phcodeRDF\shell\phcode" "Icon" '$INSTDIR\${MAINBINARYNAME}.exe,0'
-  WriteRegStr HKCU "Software\Classes\phcodeRDF\shell\phcode" "" "Open with phcode"
+  WriteRegStr HKCU "Software\Classes\phcodeRDF\shell\phcode" "" "Open with phoenix code"
   WriteRegStr HKCU "Software\Classes\phcodeRDF\shell\phcode\command" "" '"$INSTDIR\${MAINBINARYNAME}.exe" "%1"'
 
   ; Set file association and context menu for .rss files
@@ -931,7 +930,7 @@ Function SetupPhcode
   WriteRegStr HKCU "Software\Classes\phcodeRSS\shell\open\phcode" "" '"Open with phcode" "%1"'
   WriteRegStr HKCU "Software\Classes\phcodeRSS\shell\open\phcode\command" "" '"$INSTDIR\${MAINBINARYNAME}.exe" "%1"'
   WriteRegStr HKCU "Software\Classes\phcodeRSS\shell\phcode" "Icon" '$INSTDIR\${MAINBINARYNAME}.exe,0'
-  WriteRegStr HKCU "Software\Classes\phcodeRSS\shell\phcode" "" "Open with phcode"
+  WriteRegStr HKCU "Software\Classes\phcodeRSS\shell\phcode" "" "Open with phoenix code"
   WriteRegStr HKCU "Software\Classes\phcodeRSS\shell\phcode\command" "" '"$INSTDIR\${MAINBINARYNAME}.exe" "%1"'
 
   ; Set file association and context menu for .sass files
@@ -941,7 +940,7 @@ Function SetupPhcode
   WriteRegStr HKCU "Software\Classes\phcodeSASS\shell\open\phcode" "" '"Open with phcode" "%1"'
   WriteRegStr HKCU "Software\Classes\phcodeSASS\shell\open\phcode\command" "" '"$INSTDIR\${MAINBINARYNAME}.exe" "%1"'
   WriteRegStr HKCU "Software\Classes\phcodeSASS\shell\phcode" "Icon" '$INSTDIR\${MAINBINARYNAME}.exe,0'
-  WriteRegStr HKCU "Software\Classes\phcodeSASS\shell\phcode" "" "Open with phcode"
+  WriteRegStr HKCU "Software\Classes\phcodeSASS\shell\phcode" "" "Open with phoenix code"
   WriteRegStr HKCU "Software\Classes\phcodeSASS\shell\phcode\command" "" '"$INSTDIR\${MAINBINARYNAME}.exe" "%1"'
 
   ; Set file association and context menu for .scss files
@@ -951,7 +950,7 @@ Function SetupPhcode
   WriteRegStr HKCU "Software\Classes\phcodeSCSS\shell\open\phcode" "" '"Open with phcode" "%1"'
   WriteRegStr HKCU "Software\Classes\phcodeSCSS\shell\open\phcode\command" "" '"$INSTDIR\${MAINBINARYNAME}.exe" "%1"'
   WriteRegStr HKCU "Software\Classes\phcodeSCSS\shell\phcode" "Icon" '$INSTDIR\${MAINBINARYNAME}.exe,0'
-  WriteRegStr HKCU "Software\Classes\phcodeSCSS\shell\phcode" "" "Open with phcode"
+  WriteRegStr HKCU "Software\Classes\phcodeSCSS\shell\phcode" "" "Open with phoenix code"
   WriteRegStr HKCU "Software\Classes\phcodeSCSS\shell\phcode\command" "" '"$INSTDIR\${MAINBINARYNAME}.exe" "%1"'
 
   ; Set file association and context menu for .shtm files
@@ -961,7 +960,7 @@ Function SetupPhcode
   WriteRegStr HKCU "Software\Classes\phcodeSHTM\shell\open\phcode" "" '"Open with phcode" "%1"'
   WriteRegStr HKCU "Software\Classes\phcodeSHTM\shell\open\phcode\command" "" '"$INSTDIR\${MAINBINARYNAME}.exe" "%1"'
   WriteRegStr HKCU "Software\Classes\phcodeSHTM\shell\phcode" "Icon" '$INSTDIR\${MAINBINARYNAME}.exe,0'
-  WriteRegStr HKCU "Software\Classes\phcodeSHTM\shell\phcode" "" "Open with phcode"
+  WriteRegStr HKCU "Software\Classes\phcodeSHTM\shell\phcode" "" "Open with phoenix code"
   WriteRegStr HKCU "Software\Classes\phcodeSHTM\shell\phcode\command" "" '"$INSTDIR\${MAINBINARYNAME}.exe" "%1"'
 
   ; Set file association and context menu for .shtml files
@@ -971,7 +970,7 @@ Function SetupPhcode
   WriteRegStr HKCU "Software\Classes\phcodeSHTML\shell\open\phcode" "" '"Open with phcode" "%1"'
   WriteRegStr HKCU "Software\Classes\phcodeSHTML\shell\open\phcode\command" "" '"$INSTDIR\${MAINBINARYNAME}.exe" "%1"'
   WriteRegStr HKCU "Software\Classes\phcodeSHTML\shell\phcode" "Icon" '$INSTDIR\${MAINBINARYNAME}.exe,0'
-  WriteRegStr HKCU "Software\Classes\phcodeSHTML\shell\phcode" "" "Open with phcode"
+  WriteRegStr HKCU "Software\Classes\phcodeSHTML\shell\phcode" "" "Open with phoenix code"
   WriteRegStr HKCU "Software\Classes\phcodeSHTML\shell\phcode\command" "" '"$INSTDIR\${MAINBINARYNAME}.exe" "%1"'
 
   ; Set file association and context menu for .sql files
@@ -981,7 +980,7 @@ Function SetupPhcode
   WriteRegStr HKCU "Software\Classes\phcodeSQL\shell\open\phcode" "" '"Open with phcode" "%1"'
   WriteRegStr HKCU "Software\Classes\phcodeSQL\shell\open\phcode\command" "" '"$INSTDIR\${MAINBINARYNAME}.exe" "%1"'
   WriteRegStr HKCU "Software\Classes\phcodeSQL\shell\phcode" "Icon" '$INSTDIR\${MAINBINARYNAME}.exe,0'
-  WriteRegStr HKCU "Software\Classes\phcodeSQL\shell\phcode" "" "Open with phcode"
+  WriteRegStr HKCU "Software\Classes\phcodeSQL\shell\phcode" "" "Open with phoenix code"
   WriteRegStr HKCU "Software\Classes\phcodeSQL\shell\phcode\command" "" '"$INSTDIR\${MAINBINARYNAME}.exe" "%1"'
 
   ; Set file association and context menu for .svg files
@@ -991,7 +990,7 @@ Function SetupPhcode
   WriteRegStr HKCU "Software\Classes\phcodeSVG\shell\open\phcode" "" '"Open with phcode" "%1"'
   WriteRegStr HKCU "Software\Classes\phcodeSVG\shell\open\phcode\command" "" '"$INSTDIR\${MAINBINARYNAME}.exe" "%1"'
   WriteRegStr HKCU "Software\Classes\phcodeSVG\shell\phcode" "Icon" '$INSTDIR\${MAINBINARYNAME}.exe,0'
-  WriteRegStr HKCU "Software\Classes\phcodeSVG\shell\phcode" "" "Open with phcode"
+  WriteRegStr HKCU "Software\Classes\phcodeSVG\shell\phcode" "" "Open with phoenix code"
   WriteRegStr HKCU "Software\Classes\phcodeSVG\shell\phcode\command" "" '"$INSTDIR\${MAINBINARYNAME}.exe" "%1"'
 
   ; Set file association and context menu for .tpl files
@@ -1001,7 +1000,7 @@ Function SetupPhcode
   WriteRegStr HKCU "Software\Classes\phcodeTPL\shell\open\phcode" "" '"Open with phcode" "%1"'
   WriteRegStr HKCU "Software\Classes\phcodeTPL\shell\open\phcode\command" "" '"$INSTDIR\${MAINBINARYNAME}.exe" "%1"'
   WriteRegStr HKCU "Software\Classes\phcodeTPL\shell\phcode" "Icon" '$INSTDIR\${MAINBINARYNAME}.exe,0'
-  WriteRegStr HKCU "Software\Classes\phcodeTPL\shell\phcode" "" "Open with phcode"
+  WriteRegStr HKCU "Software\Classes\phcodeTPL\shell\phcode" "" "Open with phoenix code"
   WriteRegStr HKCU "Software\Classes\phcodeTPL\shell\phcode\command" "" '"$INSTDIR\${MAINBINARYNAME}.exe" "%1"'
 
   ; Set file association and context menu for .twig files
@@ -1011,7 +1010,7 @@ Function SetupPhcode
   WriteRegStr HKCU "Software\Classes\phcodeTWIG\shell\open\phcode" "" '"Open with phcode" "%1"'
   WriteRegStr HKCU "Software\Classes\phcodeTWIG\shell\open\phcode\command" "" '"$INSTDIR\${MAINBINARYNAME}.exe" "%1"'
   WriteRegStr HKCU "Software\Classes\phcodeTWIG\shell\phcode" "Icon" '$INSTDIR\${MAINBINARYNAME}.exe,0'
-  WriteRegStr HKCU "Software\Classes\phcodeTWIG\shell\phcode" "" "Open with phcode"
+  WriteRegStr HKCU "Software\Classes\phcodeTWIG\shell\phcode" "" "Open with phoenix code"
   WriteRegStr HKCU "Software\Classes\phcodeTWIG\shell\phcode\command" "" '"$INSTDIR\${MAINBINARYNAME}.exe" "%1"'
 
   ; Set file association and context menu for .wsgi files
@@ -1021,7 +1020,7 @@ Function SetupPhcode
   WriteRegStr HKCU "Software\Classes\phcodeWSGI\shell\open\phcode" "" '"Open with phcode" "%1"'
   WriteRegStr HKCU "Software\Classes\phcodeWSGI\shell\open\phcode\command" "" '"$INSTDIR\${MAINBINARYNAME}.exe" "%1"'
   WriteRegStr HKCU "Software\Classes\phcodeWSGI\shell\phcode" "Icon" '$INSTDIR\${MAINBINARYNAME}.exe,0'
-  WriteRegStr HKCU "Software\Classes\phcodeWSGI\shell\phcode" "" "Open with phcode"
+  WriteRegStr HKCU "Software\Classes\phcodeWSGI\shell\phcode" "" "Open with phoenix code"
   WriteRegStr HKCU "Software\Classes\phcodeWSGI\shell\phcode\command" "" '"$INSTDIR\${MAINBINARYNAME}.exe" "%1"'
 
   ; Set file association and context menu for .xbl files
@@ -1031,7 +1030,7 @@ Function SetupPhcode
   WriteRegStr HKCU "Software\Classes\phcodeXBL\shell\open\phcode" "" '"Open with phcode" "%1"'
   WriteRegStr HKCU "Software\Classes\phcodeXBL\shell\open\phcode\command" "" '"$INSTDIR\${MAINBINARYNAME}.exe" "%1"'
   WriteRegStr HKCU "Software\Classes\phcodeXBL\shell\phcode" "Icon" '$INSTDIR\${MAINBINARYNAME}.exe,0'
-  WriteRegStr HKCU "Software\Classes\phcodeXBL\shell\phcode" "" "Open with phcode"
+  WriteRegStr HKCU "Software\Classes\phcodeXBL\shell\phcode" "" "Open with phoenix code"
   WriteRegStr HKCU "Software\Classes\phcodeXBL\shell\phcode\command" "" '"$INSTDIR\${MAINBINARYNAME}.exe" "%1"'
 
   ; Set file association and context menu for .xht files
@@ -1041,7 +1040,7 @@ Function SetupPhcode
   WriteRegStr HKCU "Software\Classes\phcodeXHT\shell\open\phcode" "" '"Open with phcode" "%1"'
   WriteRegStr HKCU "Software\Classes\phcodeXHT\shell\open\phcode\command" "" '"$INSTDIR\${MAINBINARYNAME}.exe" "%1"'
   WriteRegStr HKCU "Software\Classes\phcodeXHT\shell\phcode" "Icon" '$INSTDIR\${MAINBINARYNAME}.exe,0'
-  WriteRegStr HKCU "Software\Classes\phcodeXHT\shell\phcode" "" "Open with phcode"
+  WriteRegStr HKCU "Software\Classes\phcodeXHT\shell\phcode" "" "Open with phoenix code"
   WriteRegStr HKCU "Software\Classes\phcodeXHT\shell\phcode\command" "" '"$INSTDIR\${MAINBINARYNAME}.exe" "%1"'
 
   ; Set file association and context menu for .xhtml files
@@ -1051,7 +1050,7 @@ Function SetupPhcode
   WriteRegStr HKCU "Software\Classes\phcodeXHTML\shell\open\phcode" "" '"Open with phcode" "%1"'
   WriteRegStr HKCU "Software\Classes\phcodeXHTML\shell\open\phcode\command" "" '"$INSTDIR\${MAINBINARYNAME}.exe" "%1"'
   WriteRegStr HKCU "Software\Classes\phcodeXHTML\shell\phcode" "Icon" '$INSTDIR\${MAINBINARYNAME}.exe,0'
-  WriteRegStr HKCU "Software\Classes\phcodeXHTML\shell\phcode" "" "Open with phcode"
+  WriteRegStr HKCU "Software\Classes\phcodeXHTML\shell\phcode" "" "Open with phoenix code"
   WriteRegStr HKCU "Software\Classes\phcodeXHTML\shell\phcode\command" "" '"$INSTDIR\${MAINBINARYNAME}.exe" "%1"'
 
   ; Set file association and context menu for .xml files
@@ -1061,7 +1060,7 @@ Function SetupPhcode
   WriteRegStr HKCU "Software\Classes\phcodeXML\shell\open\phcode" "" '"Open with phcode" "%1"'
   WriteRegStr HKCU "Software\Classes\phcodeXML\shell\open\phcode\command" "" '"$INSTDIR\${MAINBINARYNAME}.exe" "%1"'
   WriteRegStr HKCU "Software\Classes\phcodeXML\shell\phcode" "Icon" '$INSTDIR\${MAINBINARYNAME}.exe,0'
-  WriteRegStr HKCU "Software\Classes\phcodeXML\shell\phcode" "" "Open with phcode"
+  WriteRegStr HKCU "Software\Classes\phcodeXML\shell\phcode" "" "Open with phoenix code"
   WriteRegStr HKCU "Software\Classes\phcodeXML\shell\phcode\command" "" '"$INSTDIR\${MAINBINARYNAME}.exe" "%1"'
 
   ; Set file association and context menu for .xslt files
@@ -1071,7 +1070,7 @@ Function SetupPhcode
   WriteRegStr HKCU "Software\Classes\phcodeXSLT\shell\open\phcode" "" '"Open with phcode" "%1"'
   WriteRegStr HKCU "Software\Classes\phcodeXSLT\shell\open\phcode\command" "" '"$INSTDIR\${MAINBINARYNAME}.exe" "%1"'
   WriteRegStr HKCU "Software\Classes\phcodeXSLT\shell\phcode" "Icon" '$INSTDIR\${MAINBINARYNAME}.exe,0'
-  WriteRegStr HKCU "Software\Classes\phcodeXSLT\shell\phcode" "" "Open with phcode"
+  WriteRegStr HKCU "Software\Classes\phcodeXSLT\shell\phcode" "" "Open with phoenix code"
   WriteRegStr HKCU "Software\Classes\phcodeXSLT\shell\phcode\command" "" '"$INSTDIR\${MAINBINARYNAME}.exe" "%1"'
 
   ; Set file association and context menu for .xul files
@@ -1081,7 +1080,7 @@ Function SetupPhcode
   WriteRegStr HKCU "Software\Classes\phcodeXUL\shell\open\phcode" "" '"Open with phcode" "%1"'
   WriteRegStr HKCU "Software\Classes\phcodeXUL\shell\open\phcode\command" "" '"$INSTDIR\${MAINBINARYNAME}.exe" "%1"'
   WriteRegStr HKCU "Software\Classes\phcodeXUL\shell\phcode" "Icon" '$INSTDIR\${MAINBINARYNAME}.exe,0'
-  WriteRegStr HKCU "Software\Classes\phcodeXUL\shell\phcode" "" "Open with phcode"
+  WriteRegStr HKCU "Software\Classes\phcodeXUL\shell\phcode" "" "Open with phoenix code"
   WriteRegStr HKCU "Software\Classes\phcodeXUL\shell\phcode\command" "" '"$INSTDIR\${MAINBINARYNAME}.exe" "%1"'
 
   ; Set file association and context menu for .yaml files
@@ -1091,7 +1090,7 @@ Function SetupPhcode
   WriteRegStr HKCU "Software\Classes\phcodeYAML\shell\open\phcode" "" '"Open with phcode" "%1"'
   WriteRegStr HKCU "Software\Classes\phcodeYAML\shell\open\phcode\command" "" '"$INSTDIR\${MAINBINARYNAME}.exe" "%1"'
   WriteRegStr HKCU "Software\Classes\phcodeYAML\shell\phcode" "Icon" '$INSTDIR\${MAINBINARYNAME}.exe,0'
-  WriteRegStr HKCU "Software\Classes\phcodeYAML\shell\phcode" "" "Open with phcode"
+  WriteRegStr HKCU "Software\Classes\phcodeYAML\shell\phcode" "" "Open with phoenix code"
   WriteRegStr HKCU "Software\Classes\phcodeYAML\shell\phcode\command" "" '"$INSTDIR\${MAINBINARYNAME}.exe" "%1"'
 
   ; Set file association and context menu for .yml files
@@ -1101,7 +1100,7 @@ Function SetupPhcode
   WriteRegStr HKCU "Software\Classes\phcodeYML\shell\open\phcode" "" '"Open with phcode" "%1"'
   WriteRegStr HKCU "Software\Classes\phcodeYML\shell\open\phcode\command" "" '"$INSTDIR\${MAINBINARYNAME}.exe" "%1"'
   WriteRegStr HKCU "Software\Classes\phcodeYML\shell\phcode" "Icon" '$INSTDIR\${MAINBINARYNAME}.exe,0'
-  WriteRegStr HKCU "Software\Classes\phcodeYML\shell\phcode" "" "Open with phcode"
+  WriteRegStr HKCU "Software\Classes\phcodeYML\shell\phcode" "" "Open with phoenix code"
   WriteRegStr HKCU "Software\Classes\phcodeYML\shell\phcode\command" "" '"$INSTDIR\${MAINBINARYNAME}.exe" "%1"'
 
   ; Set file association and context menu for .ts files
@@ -1111,7 +1110,7 @@ Function SetupPhcode
   WriteRegStr HKCU "Software\Classes\phcodeTS\shell\open\phcode" "" '"Open with phcode" "%1"'
   WriteRegStr HKCU "Software\Classes\phcodeTS\shell\open\phcode\command" "" '"$INSTDIR\${MAINBINARYNAME}.exe" "%1"'
   WriteRegStr HKCU "Software\Classes\phcodeTS\shell\phcode" "Icon" '$INSTDIR\${MAINBINARYNAME}.exe,0'
-  WriteRegStr HKCU "Software\Classes\phcodeTS\shell\phcode" "" "Open with phcode"
+  WriteRegStr HKCU "Software\Classes\phcodeTS\shell\phcode" "" "Open with phoenix code"
   WriteRegStr HKCU "Software\Classes\phcodeTS\shell\phcode\command" "" '"$INSTDIR\${MAINBINARYNAME}.exe" "%1"'
 
   ; Set file association and context menu for .tsx files
@@ -1121,18 +1120,17 @@ Function SetupPhcode
   WriteRegStr HKCU "Software\Classes\phcodeTSX\shell\open\phcode" "" '"Open with phcode" "%1"'
   WriteRegStr HKCU "Software\Classes\phcodeTSX\shell\open\phcode\command" "" '"$INSTDIR\${MAINBINARYNAME}.exe" "%1"'
   WriteRegStr HKCU "Software\Classes\phcodeTSX\shell\phcode" "Icon" '$INSTDIR\${MAINBINARYNAME}.exe,0'
-  WriteRegStr HKCU "Software\Classes\phcodeTSX\shell\phcode" "" "Open with phcode"
+  WriteRegStr HKCU "Software\Classes\phcodeTSX\shell\phcode" "" "Open with phoenix code"
   WriteRegStr HKCU "Software\Classes\phcodeTSX\shell\phcode\command" "" '"$INSTDIR\${MAINBINARYNAME}.exe" "%1"'
 
   ; Add a context menu item for folders
-  WriteRegStr HKCU "Software\Classes\Directory\shell\phcode" "" "Open as phcode project"
+  WriteRegStr HKCU "Software\Classes\Directory\shell\phcode" "" "Open as phoenix code project"
   WriteRegStr HKCU "Software\Classes\Directory\shell\phcode\command" "" '"$INSTDIR\${MAINBINARYNAME}.exe" "%1"'
   ; Optional: Set an icon for the context menu item
   WriteRegStr HKCU "Software\Classes\Directory\shell\phcode" "Icon" '"$INSTDIR\${MAINBINARYNAME}.exe",0'
-  WriteRegStr HKCU "SOFTWARE\Classes\Directory\background\shell\phcode" "" "Open as phcode project"
+  WriteRegStr HKCU "SOFTWARE\Classes\Directory\background\shell\phcode" "" "Open as phoenix code project"
   WriteRegStr HKCU "SOFTWARE\Classes\Directory\background\shell\phcode" "Icon" '"$INSTDIR\${MAINBINARYNAME}.exe"'
   WriteRegStr HKCU "SOFTWARE\Classes\Directory\background\shell\phcode\command" "" '"$INSTDIR\${MAINBINARYNAME}.exe" "%V"'
-
 FunctionEnd
 
 Section Install
@@ -1229,423 +1227,423 @@ FunctionEnd
 Function un.CleanPhcode
 ; NSIS Cleanup Script
 
-DeleteRegKey HKCU "Software\Classes\.asax"
-DeleteRegKey HKCU "Software\Classes\phcodeASAX"
-DeleteRegKey HKCU "Software\Classes\phcodeASAX\shell\open\command"
-DeleteRegKey HKCU "Software\Classes\phcodeASAX\shell\open\phcode"
-DeleteRegKey HKCU "Software\Classes\phcodeASAX\shell\open\phcode\command"
-DeleteRegKey HKCU "Software\Classes\phcodeASAX\shell\phcode"
-DeleteRegKey HKCU "Software\Classes\phcodeASAX\shell\phcode\command"
-DeleteRegKey HKCU "Software\Classes\.ashx"
-DeleteRegKey HKCU "Software\Classes\phcodeASHX"
-DeleteRegKey HKCU "Software\Classes\phcodeASHX\shell\open\command"
-DeleteRegKey HKCU "Software\Classes\phcodeASHX\shell\open\phcode"
-DeleteRegKey HKCU "Software\Classes\phcodeASHX\shell\open\phcode\command"
-DeleteRegKey HKCU "Software\Classes\phcodeASHX\shell\phcode"
-DeleteRegKey HKCU "Software\Classes\phcodeASHX\shell\phcode\command"
-DeleteRegKey HKCU "Software\Classes\.aspx"
-DeleteRegKey HKCU "Software\Classes\phcodeASPX"
-DeleteRegKey HKCU "Software\Classes\phcodeASPX\shell\open\command"
-DeleteRegKey HKCU "Software\Classes\phcodeASPX\shell\open\phcode"
-DeleteRegKey HKCU "Software\Classes\phcodeASPX\shell\open\phcode\command"
-DeleteRegKey HKCU "Software\Classes\phcodeASPX\shell\phcode"
-DeleteRegKey HKCU "Software\Classes\phcodeASPX\shell\phcode\command"
-DeleteRegKey HKCU "Software\Classes\.atom"
-DeleteRegKey HKCU "Software\Classes\phcodeATOM"
-DeleteRegKey HKCU "Software\Classes\phcodeATOM\shell\open\command"
-DeleteRegKey HKCU "Software\Classes\phcodeATOM\shell\open\phcode"
-DeleteRegKey HKCU "Software\Classes\phcodeATOM\shell\open\phcode\command"
-DeleteRegKey HKCU "Software\Classes\phcodeATOM\shell\phcode"
-DeleteRegKey HKCU "Software\Classes\phcodeATOM\shell\phcode\command"
-DeleteRegKey HKCU "Software\Classes\.cf"
-DeleteRegKey HKCU "Software\Classes\phcodeCF"
-DeleteRegKey HKCU "Software\Classes\phcodeCF\shell\open\command"
-DeleteRegKey HKCU "Software\Classes\phcodeCF\shell\open\phcode"
-DeleteRegKey HKCU "Software\Classes\phcodeCF\shell\open\phcode\command"
-DeleteRegKey HKCU "Software\Classes\phcodeCF\shell\phcode"
-DeleteRegKey HKCU "Software\Classes\phcodeCF\shell\phcode\command"
-DeleteRegKey HKCU "Software\Classes\.cfc"
-DeleteRegKey HKCU "Software\Classes\phcodeCFC"
-DeleteRegKey HKCU "Software\Classes\phcodeCFC\shell\open\command"
-DeleteRegKey HKCU "Software\Classes\phcodeCFC\shell\open\phcode"
-DeleteRegKey HKCU "Software\Classes\phcodeCFC\shell\open\phcode\command"
-DeleteRegKey HKCU "Software\Classes\phcodeCFC\shell\phcode"
-DeleteRegKey HKCU "Software\Classes\phcodeCFC\shell\phcode\command"
-DeleteRegKey HKCU "Software\Classes\.cfm"
-DeleteRegKey HKCU "Software\Classes\phcodeCFM"
-DeleteRegKey HKCU "Software\Classes\phcodeCFM\shell\open\command"
-DeleteRegKey HKCU "Software\Classes\phcodeCFM\shell\open\phcode"
-DeleteRegKey HKCU "Software\Classes\phcodeCFM\shell\open\phcode\command"
-DeleteRegKey HKCU "Software\Classes\phcodeCFM\shell\phcode"
-DeleteRegKey HKCU "Software\Classes\phcodeCFM\shell\phcode\command"
-DeleteRegKey HKCU "Software\Classes\.cfm1"
-DeleteRegKey HKCU "Software\Classes\phcodeCFM1"
-DeleteRegKey HKCU "Software\Classes\phcodeCFM1\shell\open\command"
-DeleteRegKey HKCU "Software\Classes\phcodeCFM1\shell\open\phcode"
-DeleteRegKey HKCU "Software\Classes\phcodeCFM1\shell\open\phcode\command"
-DeleteRegKey HKCU "Software\Classes\phcodeCFM1\shell\phcode"
-DeleteRegKey HKCU "Software\Classes\phcodeCFM1\shell\phcode\command"
-DeleteRegKey HKCU "Software\Classes\.clj"
-DeleteRegKey HKCU "Software\Classes\phcodeCLJ"
-DeleteRegKey HKCU "Software\Classes\phcodeCLJ\shell\open\command"
-DeleteRegKey HKCU "Software\Classes\phcodeCLJ\shell\open\phcode"
-DeleteRegKey HKCU "Software\Classes\phcodeCLJ\shell\open\phcode\command"
-DeleteRegKey HKCU "Software\Classes\phcodeCLJ\shell\phcode"
-DeleteRegKey HKCU "Software\Classes\phcodeCLJ\shell\phcode\command"
-DeleteRegKey HKCU "Software\Classes\.coffee"
-DeleteRegKey HKCU "Software\Classes\phcodeCOFFEE"
-DeleteRegKey HKCU "Software\Classes\phcodeCOFFEE\shell\open\command"
-DeleteRegKey HKCU "Software\Classes\phcodeCOFFEE\shell\open\phcode"
-DeleteRegKey HKCU "Software\Classes\phcodeCOFFEE\shell\open\phcode\command"
-DeleteRegKey HKCU "Software\Classes\phcodeCOFFEE\shell\phcode"
-DeleteRegKey HKCU "Software\Classes\phcodeCOFFEE\shell\phcode\command"
-DeleteRegKey HKCU "Software\Classes\.cshtml"
-DeleteRegKey HKCU "Software\Classes\phcodeCSHTML"
-DeleteRegKey HKCU "Software\Classes\phcodeCSHTML\shell\open\command"
-DeleteRegKey HKCU "Software\Classes\phcodeCSHTML\shell\open\phcode"
-DeleteRegKey HKCU "Software\Classes\phcodeCSHTML\shell\open\phcode\command"
-DeleteRegKey HKCU "Software\Classes\phcodeCSHTML\shell\phcode"
-DeleteRegKey HKCU "Software\Classes\phcodeCSHTML\shell\phcode\command"
-DeleteRegKey HKCU "Software\Classes\.cson"
-DeleteRegKey HKCU "Software\Classes\phcodeCSON"
-DeleteRegKey HKCU "Software\Classes\phcodeCSON\shell\open\command"
-DeleteRegKey HKCU "Software\Classes\phcodeCSON\shell\open\phcode"
-DeleteRegKey HKCU "Software\Classes\phcodeCSON\shell\open\phcode\command"
-DeleteRegKey HKCU "Software\Classes\phcodeCSON\shell\phcode"
-DeleteRegKey HKCU "Software\Classes\phcodeCSON\shell\phcode\command"
-DeleteRegKey HKCU "Software\Classes\.css"
-DeleteRegKey HKCU "Software\Classes\phcodeCSS"
-DeleteRegKey HKCU "Software\Classes\phcodeCSS\shell\open\command"
-DeleteRegKey HKCU "Software\Classes\phcodeCSS\shell\open\phcode"
-DeleteRegKey HKCU "Software\Classes\phcodeCSS\shell\open\phcode\command"
-DeleteRegKey HKCU "Software\Classes\phcodeCSS\shell\phcode"
-DeleteRegKey HKCU "Software\Classes\phcodeCSS\shell\phcode\command"
-DeleteRegKey HKCU "Software\Classes\.ctp"
-DeleteRegKey HKCU "Software\Classes\phcodeCTP"
-DeleteRegKey HKCU "Software\Classes\phcodeCTP\shell\open\command"
-DeleteRegKey HKCU "Software\Classes\phcodeCTP\shell\open\phcode"
-DeleteRegKey HKCU "Software\Classes\phcodeCTP\shell\open\phcode\command"
-DeleteRegKey HKCU "Software\Classes\phcodeCTP\shell\phcode"
-DeleteRegKey HKCU "Software\Classes\phcodeCTP\shell\phcode\command"
-DeleteRegKey HKCU "Software\Classes\.dhtml"
-DeleteRegKey HKCU "Software\Classes\phcodeDHTML"
-DeleteRegKey HKCU "Software\Classes\phcodeDHTML\shell\open\command"
-DeleteRegKey HKCU "Software\Classes\phcodeDHTML\shell\open\phcode"
-DeleteRegKey HKCU "Software\Classes\phcodeDHTML\shell\open\phcode\command"
-DeleteRegKey HKCU "Software\Classes\phcodeDHTML\shell\phcode"
-DeleteRegKey HKCU "Software\Classes\phcodeDHTML\shell\phcode\command"
-DeleteRegKey HKCU "Software\Classes\.diff"
-DeleteRegKey HKCU "Software\Classes\phcodeDIFF"
-DeleteRegKey HKCU "Software\Classes\phcodeDIFF\shell\open\command"
-DeleteRegKey HKCU "Software\Classes\phcodeDIFF\shell\open\phcode"
-DeleteRegKey HKCU "Software\Classes\phcodeDIFF\shell\open\phcode\command"
-DeleteRegKey HKCU "Software\Classes\phcodeDIFF\shell\phcode"
-DeleteRegKey HKCU "Software\Classes\phcodeDIFF\shell\phcode\command"
-DeleteRegKey HKCU "Software\Classes\.ejs"
-DeleteRegKey HKCU "Software\Classes\phcodeEJS"
-DeleteRegKey HKCU "Software\Classes\phcodeEJS\shell\open\command"
-DeleteRegKey HKCU "Software\Classes\phcodeEJS\shell\open\phcode"
-DeleteRegKey HKCU "Software\Classes\phcodeEJS\shell\open\phcode\command"
-DeleteRegKey HKCU "Software\Classes\phcodeEJS\shell\phcode"
-DeleteRegKey HKCU "Software\Classes\phcodeEJS\shell\phcode\command"
-DeleteRegKey HKCU "Software\Classes\.handlebars"
-DeleteRegKey HKCU "Software\Classes\phcodeHANDLEBARS"
-DeleteRegKey HKCU "Software\Classes\phcodeHANDLEBARS\shell\open\command"
-DeleteRegKey HKCU "Software\Classes\phcodeHANDLEBARS\shell\open\phcode"
-DeleteRegKey HKCU "Software\Classes\phcodeHANDLEBARS\shell\open\phcode\command"
-DeleteRegKey HKCU "Software\Classes\phcodeHANDLEBARS\shell\phcode"
-DeleteRegKey HKCU "Software\Classes\phcodeHANDLEBARS\shell\phcode\command"
-DeleteRegKey HKCU "Software\Classes\.hbs"
-DeleteRegKey HKCU "Software\Classes\phcodeHBS"
-DeleteRegKey HKCU "Software\Classes\phcodeHBS\shell\open\command"
-DeleteRegKey HKCU "Software\Classes\phcodeHBS\shell\open\phcode"
-DeleteRegKey HKCU "Software\Classes\phcodeHBS\shell\open\phcode\command"
-DeleteRegKey HKCU "Software\Classes\phcodeHBS\shell\phcode"
-DeleteRegKey HKCU "Software\Classes\phcodeHBS\shell\phcode\command"
-DeleteRegKey HKCU "Software\Classes\.htm"
-DeleteRegKey HKCU "Software\Classes\phcodeHTM"
-DeleteRegKey HKCU "Software\Classes\phcodeHTM\shell\open\command"
-DeleteRegKey HKCU "Software\Classes\phcodeHTM\shell\open\phcode"
-DeleteRegKey HKCU "Software\Classes\phcodeHTM\shell\open\phcode\command"
-DeleteRegKey HKCU "Software\Classes\phcodeHTM\shell\phcode"
-DeleteRegKey HKCU "Software\Classes\phcodeHTM\shell\phcode\command"
-DeleteRegKey HKCU "Software\Classes\.html"
-DeleteRegKey HKCU "Software\Classes\phcodeHTML"
-DeleteRegKey HKCU "Software\Classes\phcodeHTML\shell\open\command"
-DeleteRegKey HKCU "Software\Classes\phcodeHTML\shell\open\phcode"
-DeleteRegKey HKCU "Software\Classes\phcodeHTML\shell\open\phcode\command"
-DeleteRegKey HKCU "Software\Classes\phcodeHTML\shell\phcode"
-DeleteRegKey HKCU "Software\Classes\phcodeHTML\shell\phcode\command"
-DeleteRegKey HKCU "Software\Classes\.hx"
-DeleteRegKey HKCU "Software\Classes\phcodeHX"
-DeleteRegKey HKCU "Software\Classes\phcodeHX\shell\open\command"
-DeleteRegKey HKCU "Software\Classes\phcodeHX\shell\open\phcode"
-DeleteRegKey HKCU "Software\Classes\phcodeHX\shell\open\phcode\command"
-DeleteRegKey HKCU "Software\Classes\phcodeHX\shell\phcode"
-DeleteRegKey HKCU "Software\Classes\phcodeHX\shell\phcode\command"
-DeleteRegKey HKCU "Software\Classes\.js"
-DeleteRegKey HKCU "Software\Classes\phcodeJS"
-DeleteRegKey HKCU "Software\Classes\phcodeJS\shell\open\command"
-DeleteRegKey HKCU "Software\Classes\phcodeJS\shell\open\phcode"
-DeleteRegKey HKCU "Software\Classes\phcodeJS\shell\open\phcode\command"
-DeleteRegKey HKCU "Software\Classes\phcodeJS\shell\phcode"
-DeleteRegKey HKCU "Software\Classes\phcodeJS\shell\phcode\command"
-DeleteRegKey HKCU "Software\Classes\.json"
-DeleteRegKey HKCU "Software\Classes\phcodeJSON"
-DeleteRegKey HKCU "Software\Classes\phcodeJSON\shell\open\command"
-DeleteRegKey HKCU "Software\Classes\phcodeJSON\shell\open\phcode"
-DeleteRegKey HKCU "Software\Classes\phcodeJSON\shell\open\phcode\command"
-DeleteRegKey HKCU "Software\Classes\phcodeJSON\shell\phcode"
-DeleteRegKey HKCU "Software\Classes\phcodeJSON\shell\phcode\command"
-DeleteRegKey HKCU "Software\Classes\.jsp"
-DeleteRegKey HKCU "Software\Classes\phcodeJSP"
-DeleteRegKey HKCU "Software\Classes\phcodeJSP\shell\open\command"
-DeleteRegKey HKCU "Software\Classes\phcodeJSP\shell\open\phcode"
-DeleteRegKey HKCU "Software\Classes\phcodeJSP\shell\open\phcode\command"
-DeleteRegKey HKCU "Software\Classes\phcodeJSP\shell\phcode"
-DeleteRegKey HKCU "Software\Classes\phcodeJSP\shell\phcode\command"
-DeleteRegKey HKCU "Software\Classes\.jsx"
-DeleteRegKey HKCU "Software\Classes\phcodeJSX"
-DeleteRegKey HKCU "Software\Classes\phcodeJSX\shell\open\command"
-DeleteRegKey HKCU "Software\Classes\phcodeJSX\shell\open\phcode"
-DeleteRegKey HKCU "Software\Classes\phcodeJSX\shell\open\phcode\command"
-DeleteRegKey HKCU "Software\Classes\phcodeJSX\shell\phcode"
-DeleteRegKey HKCU "Software\Classes\phcodeJSX\shell\phcode\command"
-DeleteRegKey HKCU "Software\Classes\.kit"
-DeleteRegKey HKCU "Software\Classes\phcodeKIT"
-DeleteRegKey HKCU "Software\Classes\phcodeKIT\shell\open\command"
-DeleteRegKey HKCU "Software\Classes\phcodeKIT\shell\open\phcode"
-DeleteRegKey HKCU "Software\Classes\phcodeKIT\shell\open\phcode\command"
-DeleteRegKey HKCU "Software\Classes\phcodeKIT\shell\phcode"
-DeleteRegKey HKCU "Software\Classes\phcodeKIT\shell\phcode\command"
-DeleteRegKey HKCU "Software\Classes\.less"
-DeleteRegKey HKCU "Software\Classes\phcodeLESS"
-DeleteRegKey HKCU "Software\Classes\phcodeLESS\shell\open\command"
-DeleteRegKey HKCU "Software\Classes\phcodeLESS\shell\open\phcode"
-DeleteRegKey HKCU "Software\Classes\phcodeLESS\shell\open\phcode\command"
-DeleteRegKey HKCU "Software\Classes\phcodeLESS\shell\phcode"
-DeleteRegKey HKCU "Software\Classes\phcodeLESS\shell\phcode\command"
-DeleteRegKey HKCU "Software\Classes\.markdown"
-DeleteRegKey HKCU "Software\Classes\phcodeMARKDOWN"
-DeleteRegKey HKCU "Software\Classes\phcodeMARKDOWN\shell\open\command"
-DeleteRegKey HKCU "Software\Classes\phcodeMARKDOWN\shell\open\phcode"
-DeleteRegKey HKCU "Software\Classes\phcodeMARKDOWN\shell\open\phcode\command"
-DeleteRegKey HKCU "Software\Classes\phcodeMARKDOWN\shell\phcode"
-DeleteRegKey HKCU "Software\Classes\phcodeMARKDOWN\shell\phcode\command"
-DeleteRegKey HKCU "Software\Classes\.mathml"
-DeleteRegKey HKCU "Software\Classes\phcodeMATHML"
-DeleteRegKey HKCU "Software\Classes\phcodeMATHML\shell\open\command"
-DeleteRegKey HKCU "Software\Classes\phcodeMATHML\shell\open\phcode"
-DeleteRegKey HKCU "Software\Classes\phcodeMATHML\shell\open\phcode\command"
-DeleteRegKey HKCU "Software\Classes\phcodeMATHML\shell\phcode"
-DeleteRegKey HKCU "Software\Classes\phcodeMATHML\shell\phcode\command"
-DeleteRegKey HKCU "Software\Classes\.md"
-DeleteRegKey HKCU "Software\Classes\phcodeMD"
-DeleteRegKey HKCU "Software\Classes\phcodeMD\shell\open\command"
-DeleteRegKey HKCU "Software\Classes\phcodeMD\shell\open\phcode"
-DeleteRegKey HKCU "Software\Classes\phcodeMD\shell\open\phcode\command"
-DeleteRegKey HKCU "Software\Classes\phcodeMD\shell\phcode"
-DeleteRegKey HKCU "Software\Classes\phcodeMD\shell\phcode\command"
-DeleteRegKey HKCU "Software\Classes\.patch"
-DeleteRegKey HKCU "Software\Classes\phcodePATCH"
-DeleteRegKey HKCU "Software\Classes\phcodePATCH\shell\open\command"
-DeleteRegKey HKCU "Software\Classes\phcodePATCH\shell\open\phcode"
-DeleteRegKey HKCU "Software\Classes\phcodePATCH\shell\open\phcode\command"
-DeleteRegKey HKCU "Software\Classes\phcodePATCH\shell\phcode"
-DeleteRegKey HKCU "Software\Classes\phcodePATCH\shell\phcode\command"
-DeleteRegKey HKCU "Software\Classes\.php"
-DeleteRegKey HKCU "Software\Classes\phcodePHP"
-DeleteRegKey HKCU "Software\Classes\phcodePHP\shell\open\command"
-DeleteRegKey HKCU "Software\Classes\phcodePHP\shell\open\phcode"
-DeleteRegKey HKCU "Software\Classes\phcodePHP\shell\open\phcode\command"
-DeleteRegKey HKCU "Software\Classes\phcodePHP\shell\phcode"
-DeleteRegKey HKCU "Software\Classes\phcodePHP\shell\phcode\command"
-DeleteRegKey HKCU "Software\Classes\.php3"
-DeleteRegKey HKCU "Software\Classes\phcodePHP3"
-DeleteRegKey HKCU "Software\Classes\phcodePHP3\shell\open\command"
-DeleteRegKey HKCU "Software\Classes\phcodePHP3\shell\open\phcode"
-DeleteRegKey HKCU "Software\Classes\phcodePHP3\shell\open\phcode\command"
-DeleteRegKey HKCU "Software\Classes\phcodePHP3\shell\phcode"
-DeleteRegKey HKCU "Software\Classes\phcodePHP3\shell\phcode\command"
-DeleteRegKey HKCU "Software\Classes\.php4"
-DeleteRegKey HKCU "Software\Classes\phcodePHP4"
-DeleteRegKey HKCU "Software\Classes\phcodePHP4\shell\open\command"
-DeleteRegKey HKCU "Software\Classes\phcodePHP4\shell\open\phcode"
-DeleteRegKey HKCU "Software\Classes\phcodePHP4\shell\open\phcode\command"
-DeleteRegKey HKCU "Software\Classes\phcodePHP4\shell\phcode"
-DeleteRegKey HKCU "Software\Classes\phcodePHP4\shell\phcode\command"
-DeleteRegKey HKCU "Software\Classes\.php5"
-DeleteRegKey HKCU "Software\Classes\phcodePHP5"
-DeleteRegKey HKCU "Software\Classes\phcodePHP5\shell\open\command"
-DeleteRegKey HKCU "Software\Classes\phcodePHP5\shell\open\phcode"
-DeleteRegKey HKCU "Software\Classes\phcodePHP5\shell\open\phcode\command"
-DeleteRegKey HKCU "Software\Classes\phcodePHP5\shell\phcode"
-DeleteRegKey HKCU "Software\Classes\phcodePHP5\shell\phcode\command"
-DeleteRegKey HKCU "Software\Classes\.phtm"
-DeleteRegKey HKCU "Software\Classes\phcodePHTM"
-DeleteRegKey HKCU "Software\Classes\phcodePHTM\shell\open\command"
-DeleteRegKey HKCU "Software\Classes\phcodePHTM\shell\open\phcode"
-DeleteRegKey HKCU "Software\Classes\phcodePHTM\shell\open\phcode\command"
-DeleteRegKey HKCU "Software\Classes\phcodePHTM\shell\phcode"
-DeleteRegKey HKCU "Software\Classes\phcodePHTM\shell\phcode\command"
-DeleteRegKey HKCU "Software\Classes\.phtml"
-DeleteRegKey HKCU "Software\Classes\phcodePHTML"
-DeleteRegKey HKCU "Software\Classes\phcodePHTML\shell\open\command"
-DeleteRegKey HKCU "Software\Classes\phcodePHTML\shell\open\phcode"
-DeleteRegKey HKCU "Software\Classes\phcodePHTML\shell\open\phcode\command"
-DeleteRegKey HKCU "Software\Classes\phcodePHTML\shell\phcode"
-DeleteRegKey HKCU "Software\Classes\phcodePHTML\shell\phcode\command"
-DeleteRegKey HKCU "Software\Classes\.rdf"
-DeleteRegKey HKCU "Software\Classes\phcodeRDF"
-DeleteRegKey HKCU "Software\Classes\phcodeRDF\shell\open\command"
-DeleteRegKey HKCU "Software\Classes\phcodeRDF\shell\open\phcode"
-DeleteRegKey HKCU "Software\Classes\phcodeRDF\shell\open\phcode\command"
-DeleteRegKey HKCU "Software\Classes\phcodeRDF\shell\phcode"
-DeleteRegKey HKCU "Software\Classes\phcodeRDF\shell\phcode\command"
-DeleteRegKey HKCU "Software\Classes\.rss"
-DeleteRegKey HKCU "Software\Classes\phcodeRSS"
-DeleteRegKey HKCU "Software\Classes\phcodeRSS\shell\open\command"
-DeleteRegKey HKCU "Software\Classes\phcodeRSS\shell\open\phcode"
-DeleteRegKey HKCU "Software\Classes\phcodeRSS\shell\open\phcode\command"
-DeleteRegKey HKCU "Software\Classes\phcodeRSS\shell\phcode"
-DeleteRegKey HKCU "Software\Classes\phcodeRSS\shell\phcode\command"
-DeleteRegKey HKCU "Software\Classes\.sass"
-DeleteRegKey HKCU "Software\Classes\phcodeSASS"
-DeleteRegKey HKCU "Software\Classes\phcodeSASS\shell\open\command"
-DeleteRegKey HKCU "Software\Classes\phcodeSASS\shell\open\phcode"
-DeleteRegKey HKCU "Software\Classes\phcodeSASS\shell\open\phcode\command"
-DeleteRegKey HKCU "Software\Classes\phcodeSASS\shell\phcode"
-DeleteRegKey HKCU "Software\Classes\phcodeSASS\shell\phcode\command"
-DeleteRegKey HKCU "Software\Classes\.scss"
-DeleteRegKey HKCU "Software\Classes\phcodeSCSS"
-DeleteRegKey HKCU "Software\Classes\phcodeSCSS\shell\open\command"
-DeleteRegKey HKCU "Software\Classes\phcodeSCSS\shell\open\phcode"
-DeleteRegKey HKCU "Software\Classes\phcodeSCSS\shell\open\phcode\command"
-DeleteRegKey HKCU "Software\Classes\phcodeSCSS\shell\phcode"
-DeleteRegKey HKCU "Software\Classes\phcodeSCSS\shell\phcode\command"
-DeleteRegKey HKCU "Software\Classes\.shtm"
-DeleteRegKey HKCU "Software\Classes\phcodeSHTM"
-DeleteRegKey HKCU "Software\Classes\phcodeSHTM\shell\open\command"
-DeleteRegKey HKCU "Software\Classes\phcodeSHTM\shell\open\phcode"
-DeleteRegKey HKCU "Software\Classes\phcodeSHTM\shell\open\phcode\command"
-DeleteRegKey HKCU "Software\Classes\phcodeSHTM\shell\phcode"
-DeleteRegKey HKCU "Software\Classes\phcodeSHTM\shell\phcode\command"
-DeleteRegKey HKCU "Software\Classes\.shtml"
-DeleteRegKey HKCU "Software\Classes\phcodeSHTML"
-DeleteRegKey HKCU "Software\Classes\phcodeSHTML\shell\open\command"
-DeleteRegKey HKCU "Software\Classes\phcodeSHTML\shell\open\phcode"
-DeleteRegKey HKCU "Software\Classes\phcodeSHTML\shell\open\phcode\command"
-DeleteRegKey HKCU "Software\Classes\phcodeSHTML\shell\phcode"
-DeleteRegKey HKCU "Software\Classes\phcodeSHTML\shell\phcode\command"
-DeleteRegKey HKCU "Software\Classes\.sql"
-DeleteRegKey HKCU "Software\Classes\phcodeSQL"
-DeleteRegKey HKCU "Software\Classes\phcodeSQL\shell\open\command"
-DeleteRegKey HKCU "Software\Classes\phcodeSQL\shell\open\phcode"
-DeleteRegKey HKCU "Software\Classes\phcodeSQL\shell\open\phcode\command"
-DeleteRegKey HKCU "Software\Classes\phcodeSQL\shell\phcode"
-DeleteRegKey HKCU "Software\Classes\phcodeSQL\shell\phcode\command"
-DeleteRegKey HKCU "Software\Classes\.svg"
-DeleteRegKey HKCU "Software\Classes\phcodeSVG"
-DeleteRegKey HKCU "Software\Classes\phcodeSVG\shell\open\command"
-DeleteRegKey HKCU "Software\Classes\phcodeSVG\shell\open\phcode"
-DeleteRegKey HKCU "Software\Classes\phcodeSVG\shell\open\phcode\command"
-DeleteRegKey HKCU "Software\Classes\phcodeSVG\shell\phcode"
-DeleteRegKey HKCU "Software\Classes\phcodeSVG\shell\phcode\command"
-DeleteRegKey HKCU "Software\Classes\.tpl"
-DeleteRegKey HKCU "Software\Classes\phcodeTPL"
-DeleteRegKey HKCU "Software\Classes\phcodeTPL\shell\open\command"
-DeleteRegKey HKCU "Software\Classes\phcodeTPL\shell\open\phcode"
-DeleteRegKey HKCU "Software\Classes\phcodeTPL\shell\open\phcode\command"
-DeleteRegKey HKCU "Software\Classes\phcodeTPL\shell\phcode"
-DeleteRegKey HKCU "Software\Classes\phcodeTPL\shell\phcode\command"
-DeleteRegKey HKCU "Software\Classes\.twig"
-DeleteRegKey HKCU "Software\Classes\phcodeTWIG"
-DeleteRegKey HKCU "Software\Classes\phcodeTWIG\shell\open\command"
-DeleteRegKey HKCU "Software\Classes\phcodeTWIG\shell\open\phcode"
-DeleteRegKey HKCU "Software\Classes\phcodeTWIG\shell\open\phcode\command"
-DeleteRegKey HKCU "Software\Classes\phcodeTWIG\shell\phcode"
-DeleteRegKey HKCU "Software\Classes\phcodeTWIG\shell\phcode\command"
-DeleteRegKey HKCU "Software\Classes\.wsgi"
-DeleteRegKey HKCU "Software\Classes\phcodeWSGI"
-DeleteRegKey HKCU "Software\Classes\phcodeWSGI\shell\open\command"
-DeleteRegKey HKCU "Software\Classes\phcodeWSGI\shell\open\phcode"
-DeleteRegKey HKCU "Software\Classes\phcodeWSGI\shell\open\phcode\command"
-DeleteRegKey HKCU "Software\Classes\phcodeWSGI\shell\phcode"
-DeleteRegKey HKCU "Software\Classes\phcodeWSGI\shell\phcode\command"
-DeleteRegKey HKCU "Software\Classes\.xbl"
-DeleteRegKey HKCU "Software\Classes\phcodeXBL"
-DeleteRegKey HKCU "Software\Classes\phcodeXBL\shell\open\command"
-DeleteRegKey HKCU "Software\Classes\phcodeXBL\shell\open\phcode"
-DeleteRegKey HKCU "Software\Classes\phcodeXBL\shell\open\phcode\command"
-DeleteRegKey HKCU "Software\Classes\phcodeXBL\shell\phcode"
-DeleteRegKey HKCU "Software\Classes\phcodeXBL\shell\phcode\command"
-DeleteRegKey HKCU "Software\Classes\.xht"
-DeleteRegKey HKCU "Software\Classes\phcodeXHT"
-DeleteRegKey HKCU "Software\Classes\phcodeXHT\shell\open\command"
-DeleteRegKey HKCU "Software\Classes\phcodeXHT\shell\open\phcode"
-DeleteRegKey HKCU "Software\Classes\phcodeXHT\shell\open\phcode\command"
-DeleteRegKey HKCU "Software\Classes\phcodeXHT\shell\phcode"
-DeleteRegKey HKCU "Software\Classes\phcodeXHT\shell\phcode\command"
-DeleteRegKey HKCU "Software\Classes\.xhtml"
-DeleteRegKey HKCU "Software\Classes\phcodeXHTML"
-DeleteRegKey HKCU "Software\Classes\phcodeXHTML\shell\open\command"
-DeleteRegKey HKCU "Software\Classes\phcodeXHTML\shell\open\phcode"
-DeleteRegKey HKCU "Software\Classes\phcodeXHTML\shell\open\phcode\command"
-DeleteRegKey HKCU "Software\Classes\phcodeXHTML\shell\phcode"
-DeleteRegKey HKCU "Software\Classes\phcodeXHTML\shell\phcode\command"
-DeleteRegKey HKCU "Software\Classes\.xml"
-DeleteRegKey HKCU "Software\Classes\phcodeXML"
-DeleteRegKey HKCU "Software\Classes\phcodeXML\shell\open\command"
-DeleteRegKey HKCU "Software\Classes\phcodeXML\shell\open\phcode"
-DeleteRegKey HKCU "Software\Classes\phcodeXML\shell\open\phcode\command"
-DeleteRegKey HKCU "Software\Classes\phcodeXML\shell\phcode"
-DeleteRegKey HKCU "Software\Classes\phcodeXML\shell\phcode\command"
-DeleteRegKey HKCU "Software\Classes\.xslt"
-DeleteRegKey HKCU "Software\Classes\phcodeXSLT"
-DeleteRegKey HKCU "Software\Classes\phcodeXSLT\shell\open\command"
-DeleteRegKey HKCU "Software\Classes\phcodeXSLT\shell\open\phcode"
-DeleteRegKey HKCU "Software\Classes\phcodeXSLT\shell\open\phcode\command"
-DeleteRegKey HKCU "Software\Classes\phcodeXSLT\shell\phcode"
-DeleteRegKey HKCU "Software\Classes\phcodeXSLT\shell\phcode\command"
-DeleteRegKey HKCU "Software\Classes\.xul"
-DeleteRegKey HKCU "Software\Classes\phcodeXUL"
-DeleteRegKey HKCU "Software\Classes\phcodeXUL\shell\open\command"
-DeleteRegKey HKCU "Software\Classes\phcodeXUL\shell\open\phcode"
-DeleteRegKey HKCU "Software\Classes\phcodeXUL\shell\open\phcode\command"
-DeleteRegKey HKCU "Software\Classes\phcodeXUL\shell\phcode"
-DeleteRegKey HKCU "Software\Classes\phcodeXUL\shell\phcode\command"
-DeleteRegKey HKCU "Software\Classes\.yaml"
-DeleteRegKey HKCU "Software\Classes\phcodeYAML"
-DeleteRegKey HKCU "Software\Classes\phcodeYAML\shell\open\command"
-DeleteRegKey HKCU "Software\Classes\phcodeYAML\shell\open\phcode"
-DeleteRegKey HKCU "Software\Classes\phcodeYAML\shell\open\phcode\command"
-DeleteRegKey HKCU "Software\Classes\phcodeYAML\shell\phcode"
-DeleteRegKey HKCU "Software\Classes\phcodeYAML\shell\phcode\command"
-DeleteRegKey HKCU "Software\Classes\.yml"
-DeleteRegKey HKCU "Software\Classes\phcodeYML"
-DeleteRegKey HKCU "Software\Classes\phcodeYML\shell\open\command"
-DeleteRegKey HKCU "Software\Classes\phcodeYML\shell\open\phcode"
-DeleteRegKey HKCU "Software\Classes\phcodeYML\shell\open\phcode\command"
-DeleteRegKey HKCU "Software\Classes\phcodeYML\shell\phcode"
-DeleteRegKey HKCU "Software\Classes\phcodeYML\shell\phcode\command"
-DeleteRegKey HKCU "Software\Classes\.ts"
-DeleteRegKey HKCU "Software\Classes\phcodeTS"
-DeleteRegKey HKCU "Software\Classes\phcodeTS\shell\open\command"
-DeleteRegKey HKCU "Software\Classes\phcodeTS\shell\open\phcode"
-DeleteRegKey HKCU "Software\Classes\phcodeTS\shell\open\phcode\command"
-DeleteRegKey HKCU "Software\Classes\phcodeTS\shell\phcode"
-DeleteRegKey HKCU "Software\Classes\phcodeTS\shell\phcode\command"
-DeleteRegKey HKCU "Software\Classes\.tsx"
-DeleteRegKey HKCU "Software\Classes\phcodeTSX"
-DeleteRegKey HKCU "Software\Classes\phcodeTSX\shell\open\command"
-DeleteRegKey HKCU "Software\Classes\phcodeTSX\shell\open\phcode"
-DeleteRegKey HKCU "Software\Classes\phcodeTSX\shell\open\phcode\command"
-DeleteRegKey HKCU "Software\Classes\phcodeTSX\shell\phcode"
-DeleteRegKey HKCU "Software\Classes\phcodeTSX\shell\phcode\command"
-DeleteRegKey HKCU "Software\Classes\Directory\shell\phcode"
-DeleteRegKey HKCU "Software\Classes\Directory\shell\phcode\command"
-DeleteRegKey HKCU "SOFTWARE\Classes\Directory\background\shell\phcode"
-DeleteRegKey HKCU "SOFTWARE\Classes\Directory\background\shell\phcode\command"
+  DeleteRegKey HKCU "Software\Classes\.asax"
+  DeleteRegKey HKCU "Software\Classes\phcodeASAX"
+  DeleteRegKey HKCU "Software\Classes\phcodeASAX\shell\open\command"
+  DeleteRegKey HKCU "Software\Classes\phcodeASAX\shell\open\phcode"
+  DeleteRegKey HKCU "Software\Classes\phcodeASAX\shell\open\phcode\command"
+  DeleteRegKey HKCU "Software\Classes\phcodeASAX\shell\phcode"
+  DeleteRegKey HKCU "Software\Classes\phcodeASAX\shell\phcode\command"
+  DeleteRegKey HKCU "Software\Classes\.ashx"
+  DeleteRegKey HKCU "Software\Classes\phcodeASHX"
+  DeleteRegKey HKCU "Software\Classes\phcodeASHX\shell\open\command"
+  DeleteRegKey HKCU "Software\Classes\phcodeASHX\shell\open\phcode"
+  DeleteRegKey HKCU "Software\Classes\phcodeASHX\shell\open\phcode\command"
+  DeleteRegKey HKCU "Software\Classes\phcodeASHX\shell\phcode"
+  DeleteRegKey HKCU "Software\Classes\phcodeASHX\shell\phcode\command"
+  DeleteRegKey HKCU "Software\Classes\.aspx"
+  DeleteRegKey HKCU "Software\Classes\phcodeASPX"
+  DeleteRegKey HKCU "Software\Classes\phcodeASPX\shell\open\command"
+  DeleteRegKey HKCU "Software\Classes\phcodeASPX\shell\open\phcode"
+  DeleteRegKey HKCU "Software\Classes\phcodeASPX\shell\open\phcode\command"
+  DeleteRegKey HKCU "Software\Classes\phcodeASPX\shell\phcode"
+  DeleteRegKey HKCU "Software\Classes\phcodeASPX\shell\phcode\command"
+  DeleteRegKey HKCU "Software\Classes\.atom"
+  DeleteRegKey HKCU "Software\Classes\phcodeATOM"
+  DeleteRegKey HKCU "Software\Classes\phcodeATOM\shell\open\command"
+  DeleteRegKey HKCU "Software\Classes\phcodeATOM\shell\open\phcode"
+  DeleteRegKey HKCU "Software\Classes\phcodeATOM\shell\open\phcode\command"
+  DeleteRegKey HKCU "Software\Classes\phcodeATOM\shell\phcode"
+  DeleteRegKey HKCU "Software\Classes\phcodeATOM\shell\phcode\command"
+  DeleteRegKey HKCU "Software\Classes\.cf"
+  DeleteRegKey HKCU "Software\Classes\phcodeCF"
+  DeleteRegKey HKCU "Software\Classes\phcodeCF\shell\open\command"
+  DeleteRegKey HKCU "Software\Classes\phcodeCF\shell\open\phcode"
+  DeleteRegKey HKCU "Software\Classes\phcodeCF\shell\open\phcode\command"
+  DeleteRegKey HKCU "Software\Classes\phcodeCF\shell\phcode"
+  DeleteRegKey HKCU "Software\Classes\phcodeCF\shell\phcode\command"
+  DeleteRegKey HKCU "Software\Classes\.cfc"
+  DeleteRegKey HKCU "Software\Classes\phcodeCFC"
+  DeleteRegKey HKCU "Software\Classes\phcodeCFC\shell\open\command"
+  DeleteRegKey HKCU "Software\Classes\phcodeCFC\shell\open\phcode"
+  DeleteRegKey HKCU "Software\Classes\phcodeCFC\shell\open\phcode\command"
+  DeleteRegKey HKCU "Software\Classes\phcodeCFC\shell\phcode"
+  DeleteRegKey HKCU "Software\Classes\phcodeCFC\shell\phcode\command"
+  DeleteRegKey HKCU "Software\Classes\.cfm"
+  DeleteRegKey HKCU "Software\Classes\phcodeCFM"
+  DeleteRegKey HKCU "Software\Classes\phcodeCFM\shell\open\command"
+  DeleteRegKey HKCU "Software\Classes\phcodeCFM\shell\open\phcode"
+  DeleteRegKey HKCU "Software\Classes\phcodeCFM\shell\open\phcode\command"
+  DeleteRegKey HKCU "Software\Classes\phcodeCFM\shell\phcode"
+  DeleteRegKey HKCU "Software\Classes\phcodeCFM\shell\phcode\command"
+  DeleteRegKey HKCU "Software\Classes\.cfm1"
+  DeleteRegKey HKCU "Software\Classes\phcodeCFM1"
+  DeleteRegKey HKCU "Software\Classes\phcodeCFM1\shell\open\command"
+  DeleteRegKey HKCU "Software\Classes\phcodeCFM1\shell\open\phcode"
+  DeleteRegKey HKCU "Software\Classes\phcodeCFM1\shell\open\phcode\command"
+  DeleteRegKey HKCU "Software\Classes\phcodeCFM1\shell\phcode"
+  DeleteRegKey HKCU "Software\Classes\phcodeCFM1\shell\phcode\command"
+  DeleteRegKey HKCU "Software\Classes\.clj"
+  DeleteRegKey HKCU "Software\Classes\phcodeCLJ"
+  DeleteRegKey HKCU "Software\Classes\phcodeCLJ\shell\open\command"
+  DeleteRegKey HKCU "Software\Classes\phcodeCLJ\shell\open\phcode"
+  DeleteRegKey HKCU "Software\Classes\phcodeCLJ\shell\open\phcode\command"
+  DeleteRegKey HKCU "Software\Classes\phcodeCLJ\shell\phcode"
+  DeleteRegKey HKCU "Software\Classes\phcodeCLJ\shell\phcode\command"
+  DeleteRegKey HKCU "Software\Classes\.coffee"
+  DeleteRegKey HKCU "Software\Classes\phcodeCOFFEE"
+  DeleteRegKey HKCU "Software\Classes\phcodeCOFFEE\shell\open\command"
+  DeleteRegKey HKCU "Software\Classes\phcodeCOFFEE\shell\open\phcode"
+  DeleteRegKey HKCU "Software\Classes\phcodeCOFFEE\shell\open\phcode\command"
+  DeleteRegKey HKCU "Software\Classes\phcodeCOFFEE\shell\phcode"
+  DeleteRegKey HKCU "Software\Classes\phcodeCOFFEE\shell\phcode\command"
+  DeleteRegKey HKCU "Software\Classes\.cshtml"
+  DeleteRegKey HKCU "Software\Classes\phcodeCSHTML"
+  DeleteRegKey HKCU "Software\Classes\phcodeCSHTML\shell\open\command"
+  DeleteRegKey HKCU "Software\Classes\phcodeCSHTML\shell\open\phcode"
+  DeleteRegKey HKCU "Software\Classes\phcodeCSHTML\shell\open\phcode\command"
+  DeleteRegKey HKCU "Software\Classes\phcodeCSHTML\shell\phcode"
+  DeleteRegKey HKCU "Software\Classes\phcodeCSHTML\shell\phcode\command"
+  DeleteRegKey HKCU "Software\Classes\.cson"
+  DeleteRegKey HKCU "Software\Classes\phcodeCSON"
+  DeleteRegKey HKCU "Software\Classes\phcodeCSON\shell\open\command"
+  DeleteRegKey HKCU "Software\Classes\phcodeCSON\shell\open\phcode"
+  DeleteRegKey HKCU "Software\Classes\phcodeCSON\shell\open\phcode\command"
+  DeleteRegKey HKCU "Software\Classes\phcodeCSON\shell\phcode"
+  DeleteRegKey HKCU "Software\Classes\phcodeCSON\shell\phcode\command"
+  DeleteRegKey HKCU "Software\Classes\.css"
+  DeleteRegKey HKCU "Software\Classes\phcodeCSS"
+  DeleteRegKey HKCU "Software\Classes\phcodeCSS\shell\open\command"
+  DeleteRegKey HKCU "Software\Classes\phcodeCSS\shell\open\phcode"
+  DeleteRegKey HKCU "Software\Classes\phcodeCSS\shell\open\phcode\command"
+  DeleteRegKey HKCU "Software\Classes\phcodeCSS\shell\phcode"
+  DeleteRegKey HKCU "Software\Classes\phcodeCSS\shell\phcode\command"
+  DeleteRegKey HKCU "Software\Classes\.ctp"
+  DeleteRegKey HKCU "Software\Classes\phcodeCTP"
+  DeleteRegKey HKCU "Software\Classes\phcodeCTP\shell\open\command"
+  DeleteRegKey HKCU "Software\Classes\phcodeCTP\shell\open\phcode"
+  DeleteRegKey HKCU "Software\Classes\phcodeCTP\shell\open\phcode\command"
+  DeleteRegKey HKCU "Software\Classes\phcodeCTP\shell\phcode"
+  DeleteRegKey HKCU "Software\Classes\phcodeCTP\shell\phcode\command"
+  DeleteRegKey HKCU "Software\Classes\.dhtml"
+  DeleteRegKey HKCU "Software\Classes\phcodeDHTML"
+  DeleteRegKey HKCU "Software\Classes\phcodeDHTML\shell\open\command"
+  DeleteRegKey HKCU "Software\Classes\phcodeDHTML\shell\open\phcode"
+  DeleteRegKey HKCU "Software\Classes\phcodeDHTML\shell\open\phcode\command"
+  DeleteRegKey HKCU "Software\Classes\phcodeDHTML\shell\phcode"
+  DeleteRegKey HKCU "Software\Classes\phcodeDHTML\shell\phcode\command"
+  DeleteRegKey HKCU "Software\Classes\.diff"
+  DeleteRegKey HKCU "Software\Classes\phcodeDIFF"
+  DeleteRegKey HKCU "Software\Classes\phcodeDIFF\shell\open\command"
+  DeleteRegKey HKCU "Software\Classes\phcodeDIFF\shell\open\phcode"
+  DeleteRegKey HKCU "Software\Classes\phcodeDIFF\shell\open\phcode\command"
+  DeleteRegKey HKCU "Software\Classes\phcodeDIFF\shell\phcode"
+  DeleteRegKey HKCU "Software\Classes\phcodeDIFF\shell\phcode\command"
+  DeleteRegKey HKCU "Software\Classes\.ejs"
+  DeleteRegKey HKCU "Software\Classes\phcodeEJS"
+  DeleteRegKey HKCU "Software\Classes\phcodeEJS\shell\open\command"
+  DeleteRegKey HKCU "Software\Classes\phcodeEJS\shell\open\phcode"
+  DeleteRegKey HKCU "Software\Classes\phcodeEJS\shell\open\phcode\command"
+  DeleteRegKey HKCU "Software\Classes\phcodeEJS\shell\phcode"
+  DeleteRegKey HKCU "Software\Classes\phcodeEJS\shell\phcode\command"
+  DeleteRegKey HKCU "Software\Classes\.handlebars"
+  DeleteRegKey HKCU "Software\Classes\phcodeHANDLEBARS"
+  DeleteRegKey HKCU "Software\Classes\phcodeHANDLEBARS\shell\open\command"
+  DeleteRegKey HKCU "Software\Classes\phcodeHANDLEBARS\shell\open\phcode"
+  DeleteRegKey HKCU "Software\Classes\phcodeHANDLEBARS\shell\open\phcode\command"
+  DeleteRegKey HKCU "Software\Classes\phcodeHANDLEBARS\shell\phcode"
+  DeleteRegKey HKCU "Software\Classes\phcodeHANDLEBARS\shell\phcode\command"
+  DeleteRegKey HKCU "Software\Classes\.hbs"
+  DeleteRegKey HKCU "Software\Classes\phcodeHBS"
+  DeleteRegKey HKCU "Software\Classes\phcodeHBS\shell\open\command"
+  DeleteRegKey HKCU "Software\Classes\phcodeHBS\shell\open\phcode"
+  DeleteRegKey HKCU "Software\Classes\phcodeHBS\shell\open\phcode\command"
+  DeleteRegKey HKCU "Software\Classes\phcodeHBS\shell\phcode"
+  DeleteRegKey HKCU "Software\Classes\phcodeHBS\shell\phcode\command"
+  DeleteRegKey HKCU "Software\Classes\.htm"
+  DeleteRegKey HKCU "Software\Classes\phcodeHTM"
+  DeleteRegKey HKCU "Software\Classes\phcodeHTM\shell\open\command"
+  DeleteRegKey HKCU "Software\Classes\phcodeHTM\shell\open\phcode"
+  DeleteRegKey HKCU "Software\Classes\phcodeHTM\shell\open\phcode\command"
+  DeleteRegKey HKCU "Software\Classes\phcodeHTM\shell\phcode"
+  DeleteRegKey HKCU "Software\Classes\phcodeHTM\shell\phcode\command"
+  DeleteRegKey HKCU "Software\Classes\.html"
+  DeleteRegKey HKCU "Software\Classes\phcodeHTML"
+  DeleteRegKey HKCU "Software\Classes\phcodeHTML\shell\open\command"
+  DeleteRegKey HKCU "Software\Classes\phcodeHTML\shell\open\phcode"
+  DeleteRegKey HKCU "Software\Classes\phcodeHTML\shell\open\phcode\command"
+  DeleteRegKey HKCU "Software\Classes\phcodeHTML\shell\phcode"
+  DeleteRegKey HKCU "Software\Classes\phcodeHTML\shell\phcode\command"
+  DeleteRegKey HKCU "Software\Classes\.hx"
+  DeleteRegKey HKCU "Software\Classes\phcodeHX"
+  DeleteRegKey HKCU "Software\Classes\phcodeHX\shell\open\command"
+  DeleteRegKey HKCU "Software\Classes\phcodeHX\shell\open\phcode"
+  DeleteRegKey HKCU "Software\Classes\phcodeHX\shell\open\phcode\command"
+  DeleteRegKey HKCU "Software\Classes\phcodeHX\shell\phcode"
+  DeleteRegKey HKCU "Software\Classes\phcodeHX\shell\phcode\command"
+  DeleteRegKey HKCU "Software\Classes\.js"
+  DeleteRegKey HKCU "Software\Classes\phcodeJS"
+  DeleteRegKey HKCU "Software\Classes\phcodeJS\shell\open\command"
+  DeleteRegKey HKCU "Software\Classes\phcodeJS\shell\open\phcode"
+  DeleteRegKey HKCU "Software\Classes\phcodeJS\shell\open\phcode\command"
+  DeleteRegKey HKCU "Software\Classes\phcodeJS\shell\phcode"
+  DeleteRegKey HKCU "Software\Classes\phcodeJS\shell\phcode\command"
+  DeleteRegKey HKCU "Software\Classes\.json"
+  DeleteRegKey HKCU "Software\Classes\phcodeJSON"
+  DeleteRegKey HKCU "Software\Classes\phcodeJSON\shell\open\command"
+  DeleteRegKey HKCU "Software\Classes\phcodeJSON\shell\open\phcode"
+  DeleteRegKey HKCU "Software\Classes\phcodeJSON\shell\open\phcode\command"
+  DeleteRegKey HKCU "Software\Classes\phcodeJSON\shell\phcode"
+  DeleteRegKey HKCU "Software\Classes\phcodeJSON\shell\phcode\command"
+  DeleteRegKey HKCU "Software\Classes\.jsp"
+  DeleteRegKey HKCU "Software\Classes\phcodeJSP"
+  DeleteRegKey HKCU "Software\Classes\phcodeJSP\shell\open\command"
+  DeleteRegKey HKCU "Software\Classes\phcodeJSP\shell\open\phcode"
+  DeleteRegKey HKCU "Software\Classes\phcodeJSP\shell\open\phcode\command"
+  DeleteRegKey HKCU "Software\Classes\phcodeJSP\shell\phcode"
+  DeleteRegKey HKCU "Software\Classes\phcodeJSP\shell\phcode\command"
+  DeleteRegKey HKCU "Software\Classes\.jsx"
+  DeleteRegKey HKCU "Software\Classes\phcodeJSX"
+  DeleteRegKey HKCU "Software\Classes\phcodeJSX\shell\open\command"
+  DeleteRegKey HKCU "Software\Classes\phcodeJSX\shell\open\phcode"
+  DeleteRegKey HKCU "Software\Classes\phcodeJSX\shell\open\phcode\command"
+  DeleteRegKey HKCU "Software\Classes\phcodeJSX\shell\phcode"
+  DeleteRegKey HKCU "Software\Classes\phcodeJSX\shell\phcode\command"
+  DeleteRegKey HKCU "Software\Classes\.kit"
+  DeleteRegKey HKCU "Software\Classes\phcodeKIT"
+  DeleteRegKey HKCU "Software\Classes\phcodeKIT\shell\open\command"
+  DeleteRegKey HKCU "Software\Classes\phcodeKIT\shell\open\phcode"
+  DeleteRegKey HKCU "Software\Classes\phcodeKIT\shell\open\phcode\command"
+  DeleteRegKey HKCU "Software\Classes\phcodeKIT\shell\phcode"
+  DeleteRegKey HKCU "Software\Classes\phcodeKIT\shell\phcode\command"
+  DeleteRegKey HKCU "Software\Classes\.less"
+  DeleteRegKey HKCU "Software\Classes\phcodeLESS"
+  DeleteRegKey HKCU "Software\Classes\phcodeLESS\shell\open\command"
+  DeleteRegKey HKCU "Software\Classes\phcodeLESS\shell\open\phcode"
+  DeleteRegKey HKCU "Software\Classes\phcodeLESS\shell\open\phcode\command"
+  DeleteRegKey HKCU "Software\Classes\phcodeLESS\shell\phcode"
+  DeleteRegKey HKCU "Software\Classes\phcodeLESS\shell\phcode\command"
+  DeleteRegKey HKCU "Software\Classes\.markdown"
+  DeleteRegKey HKCU "Software\Classes\phcodeMARKDOWN"
+  DeleteRegKey HKCU "Software\Classes\phcodeMARKDOWN\shell\open\command"
+  DeleteRegKey HKCU "Software\Classes\phcodeMARKDOWN\shell\open\phcode"
+  DeleteRegKey HKCU "Software\Classes\phcodeMARKDOWN\shell\open\phcode\command"
+  DeleteRegKey HKCU "Software\Classes\phcodeMARKDOWN\shell\phcode"
+  DeleteRegKey HKCU "Software\Classes\phcodeMARKDOWN\shell\phcode\command"
+  DeleteRegKey HKCU "Software\Classes\.mathml"
+  DeleteRegKey HKCU "Software\Classes\phcodeMATHML"
+  DeleteRegKey HKCU "Software\Classes\phcodeMATHML\shell\open\command"
+  DeleteRegKey HKCU "Software\Classes\phcodeMATHML\shell\open\phcode"
+  DeleteRegKey HKCU "Software\Classes\phcodeMATHML\shell\open\phcode\command"
+  DeleteRegKey HKCU "Software\Classes\phcodeMATHML\shell\phcode"
+  DeleteRegKey HKCU "Software\Classes\phcodeMATHML\shell\phcode\command"
+  DeleteRegKey HKCU "Software\Classes\.md"
+  DeleteRegKey HKCU "Software\Classes\phcodeMD"
+  DeleteRegKey HKCU "Software\Classes\phcodeMD\shell\open\command"
+  DeleteRegKey HKCU "Software\Classes\phcodeMD\shell\open\phcode"
+  DeleteRegKey HKCU "Software\Classes\phcodeMD\shell\open\phcode\command"
+  DeleteRegKey HKCU "Software\Classes\phcodeMD\shell\phcode"
+  DeleteRegKey HKCU "Software\Classes\phcodeMD\shell\phcode\command"
+  DeleteRegKey HKCU "Software\Classes\.patch"
+  DeleteRegKey HKCU "Software\Classes\phcodePATCH"
+  DeleteRegKey HKCU "Software\Classes\phcodePATCH\shell\open\command"
+  DeleteRegKey HKCU "Software\Classes\phcodePATCH\shell\open\phcode"
+  DeleteRegKey HKCU "Software\Classes\phcodePATCH\shell\open\phcode\command"
+  DeleteRegKey HKCU "Software\Classes\phcodePATCH\shell\phcode"
+  DeleteRegKey HKCU "Software\Classes\phcodePATCH\shell\phcode\command"
+  DeleteRegKey HKCU "Software\Classes\.php"
+  DeleteRegKey HKCU "Software\Classes\phcodePHP"
+  DeleteRegKey HKCU "Software\Classes\phcodePHP\shell\open\command"
+  DeleteRegKey HKCU "Software\Classes\phcodePHP\shell\open\phcode"
+  DeleteRegKey HKCU "Software\Classes\phcodePHP\shell\open\phcode\command"
+  DeleteRegKey HKCU "Software\Classes\phcodePHP\shell\phcode"
+  DeleteRegKey HKCU "Software\Classes\phcodePHP\shell\phcode\command"
+  DeleteRegKey HKCU "Software\Classes\.php3"
+  DeleteRegKey HKCU "Software\Classes\phcodePHP3"
+  DeleteRegKey HKCU "Software\Classes\phcodePHP3\shell\open\command"
+  DeleteRegKey HKCU "Software\Classes\phcodePHP3\shell\open\phcode"
+  DeleteRegKey HKCU "Software\Classes\phcodePHP3\shell\open\phcode\command"
+  DeleteRegKey HKCU "Software\Classes\phcodePHP3\shell\phcode"
+  DeleteRegKey HKCU "Software\Classes\phcodePHP3\shell\phcode\command"
+  DeleteRegKey HKCU "Software\Classes\.php4"
+  DeleteRegKey HKCU "Software\Classes\phcodePHP4"
+  DeleteRegKey HKCU "Software\Classes\phcodePHP4\shell\open\command"
+  DeleteRegKey HKCU "Software\Classes\phcodePHP4\shell\open\phcode"
+  DeleteRegKey HKCU "Software\Classes\phcodePHP4\shell\open\phcode\command"
+  DeleteRegKey HKCU "Software\Classes\phcodePHP4\shell\phcode"
+  DeleteRegKey HKCU "Software\Classes\phcodePHP4\shell\phcode\command"
+  DeleteRegKey HKCU "Software\Classes\.php5"
+  DeleteRegKey HKCU "Software\Classes\phcodePHP5"
+  DeleteRegKey HKCU "Software\Classes\phcodePHP5\shell\open\command"
+  DeleteRegKey HKCU "Software\Classes\phcodePHP5\shell\open\phcode"
+  DeleteRegKey HKCU "Software\Classes\phcodePHP5\shell\open\phcode\command"
+  DeleteRegKey HKCU "Software\Classes\phcodePHP5\shell\phcode"
+  DeleteRegKey HKCU "Software\Classes\phcodePHP5\shell\phcode\command"
+  DeleteRegKey HKCU "Software\Classes\.phtm"
+  DeleteRegKey HKCU "Software\Classes\phcodePHTM"
+  DeleteRegKey HKCU "Software\Classes\phcodePHTM\shell\open\command"
+  DeleteRegKey HKCU "Software\Classes\phcodePHTM\shell\open\phcode"
+  DeleteRegKey HKCU "Software\Classes\phcodePHTM\shell\open\phcode\command"
+  DeleteRegKey HKCU "Software\Classes\phcodePHTM\shell\phcode"
+  DeleteRegKey HKCU "Software\Classes\phcodePHTM\shell\phcode\command"
+  DeleteRegKey HKCU "Software\Classes\.phtml"
+  DeleteRegKey HKCU "Software\Classes\phcodePHTML"
+  DeleteRegKey HKCU "Software\Classes\phcodePHTML\shell\open\command"
+  DeleteRegKey HKCU "Software\Classes\phcodePHTML\shell\open\phcode"
+  DeleteRegKey HKCU "Software\Classes\phcodePHTML\shell\open\phcode\command"
+  DeleteRegKey HKCU "Software\Classes\phcodePHTML\shell\phcode"
+  DeleteRegKey HKCU "Software\Classes\phcodePHTML\shell\phcode\command"
+  DeleteRegKey HKCU "Software\Classes\.rdf"
+  DeleteRegKey HKCU "Software\Classes\phcodeRDF"
+  DeleteRegKey HKCU "Software\Classes\phcodeRDF\shell\open\command"
+  DeleteRegKey HKCU "Software\Classes\phcodeRDF\shell\open\phcode"
+  DeleteRegKey HKCU "Software\Classes\phcodeRDF\shell\open\phcode\command"
+  DeleteRegKey HKCU "Software\Classes\phcodeRDF\shell\phcode"
+  DeleteRegKey HKCU "Software\Classes\phcodeRDF\shell\phcode\command"
+  DeleteRegKey HKCU "Software\Classes\.rss"
+  DeleteRegKey HKCU "Software\Classes\phcodeRSS"
+  DeleteRegKey HKCU "Software\Classes\phcodeRSS\shell\open\command"
+  DeleteRegKey HKCU "Software\Classes\phcodeRSS\shell\open\phcode"
+  DeleteRegKey HKCU "Software\Classes\phcodeRSS\shell\open\phcode\command"
+  DeleteRegKey HKCU "Software\Classes\phcodeRSS\shell\phcode"
+  DeleteRegKey HKCU "Software\Classes\phcodeRSS\shell\phcode\command"
+  DeleteRegKey HKCU "Software\Classes\.sass"
+  DeleteRegKey HKCU "Software\Classes\phcodeSASS"
+  DeleteRegKey HKCU "Software\Classes\phcodeSASS\shell\open\command"
+  DeleteRegKey HKCU "Software\Classes\phcodeSASS\shell\open\phcode"
+  DeleteRegKey HKCU "Software\Classes\phcodeSASS\shell\open\phcode\command"
+  DeleteRegKey HKCU "Software\Classes\phcodeSASS\shell\phcode"
+  DeleteRegKey HKCU "Software\Classes\phcodeSASS\shell\phcode\command"
+  DeleteRegKey HKCU "Software\Classes\.scss"
+  DeleteRegKey HKCU "Software\Classes\phcodeSCSS"
+  DeleteRegKey HKCU "Software\Classes\phcodeSCSS\shell\open\command"
+  DeleteRegKey HKCU "Software\Classes\phcodeSCSS\shell\open\phcode"
+  DeleteRegKey HKCU "Software\Classes\phcodeSCSS\shell\open\phcode\command"
+  DeleteRegKey HKCU "Software\Classes\phcodeSCSS\shell\phcode"
+  DeleteRegKey HKCU "Software\Classes\phcodeSCSS\shell\phcode\command"
+  DeleteRegKey HKCU "Software\Classes\.shtm"
+  DeleteRegKey HKCU "Software\Classes\phcodeSHTM"
+  DeleteRegKey HKCU "Software\Classes\phcodeSHTM\shell\open\command"
+  DeleteRegKey HKCU "Software\Classes\phcodeSHTM\shell\open\phcode"
+  DeleteRegKey HKCU "Software\Classes\phcodeSHTM\shell\open\phcode\command"
+  DeleteRegKey HKCU "Software\Classes\phcodeSHTM\shell\phcode"
+  DeleteRegKey HKCU "Software\Classes\phcodeSHTM\shell\phcode\command"
+  DeleteRegKey HKCU "Software\Classes\.shtml"
+  DeleteRegKey HKCU "Software\Classes\phcodeSHTML"
+  DeleteRegKey HKCU "Software\Classes\phcodeSHTML\shell\open\command"
+  DeleteRegKey HKCU "Software\Classes\phcodeSHTML\shell\open\phcode"
+  DeleteRegKey HKCU "Software\Classes\phcodeSHTML\shell\open\phcode\command"
+  DeleteRegKey HKCU "Software\Classes\phcodeSHTML\shell\phcode"
+  DeleteRegKey HKCU "Software\Classes\phcodeSHTML\shell\phcode\command"
+  DeleteRegKey HKCU "Software\Classes\.sql"
+  DeleteRegKey HKCU "Software\Classes\phcodeSQL"
+  DeleteRegKey HKCU "Software\Classes\phcodeSQL\shell\open\command"
+  DeleteRegKey HKCU "Software\Classes\phcodeSQL\shell\open\phcode"
+  DeleteRegKey HKCU "Software\Classes\phcodeSQL\shell\open\phcode\command"
+  DeleteRegKey HKCU "Software\Classes\phcodeSQL\shell\phcode"
+  DeleteRegKey HKCU "Software\Classes\phcodeSQL\shell\phcode\command"
+  DeleteRegKey HKCU "Software\Classes\.svg"
+  DeleteRegKey HKCU "Software\Classes\phcodeSVG"
+  DeleteRegKey HKCU "Software\Classes\phcodeSVG\shell\open\command"
+  DeleteRegKey HKCU "Software\Classes\phcodeSVG\shell\open\phcode"
+  DeleteRegKey HKCU "Software\Classes\phcodeSVG\shell\open\phcode\command"
+  DeleteRegKey HKCU "Software\Classes\phcodeSVG\shell\phcode"
+  DeleteRegKey HKCU "Software\Classes\phcodeSVG\shell\phcode\command"
+  DeleteRegKey HKCU "Software\Classes\.tpl"
+  DeleteRegKey HKCU "Software\Classes\phcodeTPL"
+  DeleteRegKey HKCU "Software\Classes\phcodeTPL\shell\open\command"
+  DeleteRegKey HKCU "Software\Classes\phcodeTPL\shell\open\phcode"
+  DeleteRegKey HKCU "Software\Classes\phcodeTPL\shell\open\phcode\command"
+  DeleteRegKey HKCU "Software\Classes\phcodeTPL\shell\phcode"
+  DeleteRegKey HKCU "Software\Classes\phcodeTPL\shell\phcode\command"
+  DeleteRegKey HKCU "Software\Classes\.twig"
+  DeleteRegKey HKCU "Software\Classes\phcodeTWIG"
+  DeleteRegKey HKCU "Software\Classes\phcodeTWIG\shell\open\command"
+  DeleteRegKey HKCU "Software\Classes\phcodeTWIG\shell\open\phcode"
+  DeleteRegKey HKCU "Software\Classes\phcodeTWIG\shell\open\phcode\command"
+  DeleteRegKey HKCU "Software\Classes\phcodeTWIG\shell\phcode"
+  DeleteRegKey HKCU "Software\Classes\phcodeTWIG\shell\phcode\command"
+  DeleteRegKey HKCU "Software\Classes\.wsgi"
+  DeleteRegKey HKCU "Software\Classes\phcodeWSGI"
+  DeleteRegKey HKCU "Software\Classes\phcodeWSGI\shell\open\command"
+  DeleteRegKey HKCU "Software\Classes\phcodeWSGI\shell\open\phcode"
+  DeleteRegKey HKCU "Software\Classes\phcodeWSGI\shell\open\phcode\command"
+  DeleteRegKey HKCU "Software\Classes\phcodeWSGI\shell\phcode"
+  DeleteRegKey HKCU "Software\Classes\phcodeWSGI\shell\phcode\command"
+  DeleteRegKey HKCU "Software\Classes\.xbl"
+  DeleteRegKey HKCU "Software\Classes\phcodeXBL"
+  DeleteRegKey HKCU "Software\Classes\phcodeXBL\shell\open\command"
+  DeleteRegKey HKCU "Software\Classes\phcodeXBL\shell\open\phcode"
+  DeleteRegKey HKCU "Software\Classes\phcodeXBL\shell\open\phcode\command"
+  DeleteRegKey HKCU "Software\Classes\phcodeXBL\shell\phcode"
+  DeleteRegKey HKCU "Software\Classes\phcodeXBL\shell\phcode\command"
+  DeleteRegKey HKCU "Software\Classes\.xht"
+  DeleteRegKey HKCU "Software\Classes\phcodeXHT"
+  DeleteRegKey HKCU "Software\Classes\phcodeXHT\shell\open\command"
+  DeleteRegKey HKCU "Software\Classes\phcodeXHT\shell\open\phcode"
+  DeleteRegKey HKCU "Software\Classes\phcodeXHT\shell\open\phcode\command"
+  DeleteRegKey HKCU "Software\Classes\phcodeXHT\shell\phcode"
+  DeleteRegKey HKCU "Software\Classes\phcodeXHT\shell\phcode\command"
+  DeleteRegKey HKCU "Software\Classes\.xhtml"
+  DeleteRegKey HKCU "Software\Classes\phcodeXHTML"
+  DeleteRegKey HKCU "Software\Classes\phcodeXHTML\shell\open\command"
+  DeleteRegKey HKCU "Software\Classes\phcodeXHTML\shell\open\phcode"
+  DeleteRegKey HKCU "Software\Classes\phcodeXHTML\shell\open\phcode\command"
+  DeleteRegKey HKCU "Software\Classes\phcodeXHTML\shell\phcode"
+  DeleteRegKey HKCU "Software\Classes\phcodeXHTML\shell\phcode\command"
+  DeleteRegKey HKCU "Software\Classes\.xml"
+  DeleteRegKey HKCU "Software\Classes\phcodeXML"
+  DeleteRegKey HKCU "Software\Classes\phcodeXML\shell\open\command"
+  DeleteRegKey HKCU "Software\Classes\phcodeXML\shell\open\phcode"
+  DeleteRegKey HKCU "Software\Classes\phcodeXML\shell\open\phcode\command"
+  DeleteRegKey HKCU "Software\Classes\phcodeXML\shell\phcode"
+  DeleteRegKey HKCU "Software\Classes\phcodeXML\shell\phcode\command"
+  DeleteRegKey HKCU "Software\Classes\.xslt"
+  DeleteRegKey HKCU "Software\Classes\phcodeXSLT"
+  DeleteRegKey HKCU "Software\Classes\phcodeXSLT\shell\open\command"
+  DeleteRegKey HKCU "Software\Classes\phcodeXSLT\shell\open\phcode"
+  DeleteRegKey HKCU "Software\Classes\phcodeXSLT\shell\open\phcode\command"
+  DeleteRegKey HKCU "Software\Classes\phcodeXSLT\shell\phcode"
+  DeleteRegKey HKCU "Software\Classes\phcodeXSLT\shell\phcode\command"
+  DeleteRegKey HKCU "Software\Classes\.xul"
+  DeleteRegKey HKCU "Software\Classes\phcodeXUL"
+  DeleteRegKey HKCU "Software\Classes\phcodeXUL\shell\open\command"
+  DeleteRegKey HKCU "Software\Classes\phcodeXUL\shell\open\phcode"
+  DeleteRegKey HKCU "Software\Classes\phcodeXUL\shell\open\phcode\command"
+  DeleteRegKey HKCU "Software\Classes\phcodeXUL\shell\phcode"
+  DeleteRegKey HKCU "Software\Classes\phcodeXUL\shell\phcode\command"
+  DeleteRegKey HKCU "Software\Classes\.yaml"
+  DeleteRegKey HKCU "Software\Classes\phcodeYAML"
+  DeleteRegKey HKCU "Software\Classes\phcodeYAML\shell\open\command"
+  DeleteRegKey HKCU "Software\Classes\phcodeYAML\shell\open\phcode"
+  DeleteRegKey HKCU "Software\Classes\phcodeYAML\shell\open\phcode\command"
+  DeleteRegKey HKCU "Software\Classes\phcodeYAML\shell\phcode"
+  DeleteRegKey HKCU "Software\Classes\phcodeYAML\shell\phcode\command"
+  DeleteRegKey HKCU "Software\Classes\.yml"
+  DeleteRegKey HKCU "Software\Classes\phcodeYML"
+  DeleteRegKey HKCU "Software\Classes\phcodeYML\shell\open\command"
+  DeleteRegKey HKCU "Software\Classes\phcodeYML\shell\open\phcode"
+  DeleteRegKey HKCU "Software\Classes\phcodeYML\shell\open\phcode\command"
+  DeleteRegKey HKCU "Software\Classes\phcodeYML\shell\phcode"
+  DeleteRegKey HKCU "Software\Classes\phcodeYML\shell\phcode\command"
+  DeleteRegKey HKCU "Software\Classes\.ts"
+  DeleteRegKey HKCU "Software\Classes\phcodeTS"
+  DeleteRegKey HKCU "Software\Classes\phcodeTS\shell\open\command"
+  DeleteRegKey HKCU "Software\Classes\phcodeTS\shell\open\phcode"
+  DeleteRegKey HKCU "Software\Classes\phcodeTS\shell\open\phcode\command"
+  DeleteRegKey HKCU "Software\Classes\phcodeTS\shell\phcode"
+  DeleteRegKey HKCU "Software\Classes\phcodeTS\shell\phcode\command"
+  DeleteRegKey HKCU "Software\Classes\.tsx"
+  DeleteRegKey HKCU "Software\Classes\phcodeTSX"
+  DeleteRegKey HKCU "Software\Classes\phcodeTSX\shell\open\command"
+  DeleteRegKey HKCU "Software\Classes\phcodeTSX\shell\open\phcode"
+  DeleteRegKey HKCU "Software\Classes\phcodeTSX\shell\open\phcode\command"
+  DeleteRegKey HKCU "Software\Classes\phcodeTSX\shell\phcode"
+  DeleteRegKey HKCU "Software\Classes\phcodeTSX\shell\phcode\command"
+  DeleteRegKey HKCU "Software\Classes\Directory\shell\phcode"
+  DeleteRegKey HKCU "Software\Classes\Directory\shell\phcode\command"
+  DeleteRegKey HKCU "SOFTWARE\Classes\Directory\background\shell\phcode"
+  DeleteRegKey HKCU "SOFTWARE\Classes\Directory\background\shell\phcode\command"
 FunctionEnd
 
 Section Uninstall
