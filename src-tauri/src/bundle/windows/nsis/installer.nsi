@@ -540,7 +540,7 @@ Function SetupPhcode
   WriteRegStr HKCU "Software\Classes\phcodeASAX\shell\open\phcode" "" '"Open with phcode" "%1"'
   WriteRegStr HKCU "Software\Classes\phcodeASAX\shell\open\phcode\command" "" '"$INSTDIR\${MAINBINARYNAME}.exe" "%1"'
   WriteRegStr HKCU "Software\Classes\phcodeASAX\shell\phcode" "Icon" '$INSTDIR\${MAINBINARYNAME}.exe,0'
-  WriteRegStr HKCU "Software\Classes\phcodeASAX\shell\phcode" "" "Open with phoenix code"
+  WriteRegStr HKCU "Software\Classes\phcodeASAX\shell\phcode" "" "Open with Phoenix Code"
   WriteRegStr HKCU "Software\Classes\phcodeASAX\shell\phcode\command" "" '"$INSTDIR\${MAINBINARYNAME}.exe" "%1"'
 
   ; Set file association and context menu for .ashx files
@@ -550,7 +550,7 @@ Function SetupPhcode
   WriteRegStr HKCU "Software\Classes\phcodeASHX\shell\open\phcode" "" '"Open with phcode" "%1"'
   WriteRegStr HKCU "Software\Classes\phcodeASHX\shell\open\phcode\command" "" '"$INSTDIR\${MAINBINARYNAME}.exe" "%1"'
   WriteRegStr HKCU "Software\Classes\phcodeASHX\shell\phcode" "Icon" '$INSTDIR\${MAINBINARYNAME}.exe,0'
-  WriteRegStr HKCU "Software\Classes\phcodeASHX\shell\phcode" "" "Open with phoenix code"
+  WriteRegStr HKCU "Software\Classes\phcodeASHX\shell\phcode" "" "Open with Phoenix Code"
   WriteRegStr HKCU "Software\Classes\phcodeASHX\shell\phcode\command" "" '"$INSTDIR\${MAINBINARYNAME}.exe" "%1"'
 
   ; Set file association and context menu for .aspx files
@@ -560,7 +560,7 @@ Function SetupPhcode
   WriteRegStr HKCU "Software\Classes\phcodeASPX\shell\open\phcode" "" '"Open with phcode" "%1"'
   WriteRegStr HKCU "Software\Classes\phcodeASPX\shell\open\phcode\command" "" '"$INSTDIR\${MAINBINARYNAME}.exe" "%1"'
   WriteRegStr HKCU "Software\Classes\phcodeASPX\shell\phcode" "Icon" '$INSTDIR\${MAINBINARYNAME}.exe,0'
-  WriteRegStr HKCU "Software\Classes\phcodeASPX\shell\phcode" "" "Open with phoenix code"
+  WriteRegStr HKCU "Software\Classes\phcodeASPX\shell\phcode" "" "Open with Phoenix Code"
   WriteRegStr HKCU "Software\Classes\phcodeASPX\shell\phcode\command" "" '"$INSTDIR\${MAINBINARYNAME}.exe" "%1"'
 
   ; Set file association and context menu for .atom files
@@ -570,7 +570,7 @@ Function SetupPhcode
   WriteRegStr HKCU "Software\Classes\phcodeATOM\shell\open\phcode" "" '"Open with phcode" "%1"'
   WriteRegStr HKCU "Software\Classes\phcodeATOM\shell\open\phcode\command" "" '"$INSTDIR\${MAINBINARYNAME}.exe" "%1"'
   WriteRegStr HKCU "Software\Classes\phcodeATOM\shell\phcode" "Icon" '$INSTDIR\${MAINBINARYNAME}.exe,0'
-  WriteRegStr HKCU "Software\Classes\phcodeATOM\shell\phcode" "" "Open with phoenix code"
+  WriteRegStr HKCU "Software\Classes\phcodeATOM\shell\phcode" "" "Open with Phoenix Code"
   WriteRegStr HKCU "Software\Classes\phcodeATOM\shell\phcode\command" "" '"$INSTDIR\${MAINBINARYNAME}.exe" "%1"'
 
   ; Set file association and context menu for .cf files
@@ -580,7 +580,7 @@ Function SetupPhcode
   WriteRegStr HKCU "Software\Classes\phcodeCF\shell\open\phcode" "" '"Open with phcode" "%1"'
   WriteRegStr HKCU "Software\Classes\phcodeCF\shell\open\phcode\command" "" '"$INSTDIR\${MAINBINARYNAME}.exe" "%1"'
   WriteRegStr HKCU "Software\Classes\phcodeCF\shell\phcode" "Icon" '$INSTDIR\${MAINBINARYNAME}.exe,0'
-  WriteRegStr HKCU "Software\Classes\phcodeCF\shell\phcode" "" "Open with phoenix code"
+  WriteRegStr HKCU "Software\Classes\phcodeCF\shell\phcode" "" "Open with Phoenix Code"
   WriteRegStr HKCU "Software\Classes\phcodeCF\shell\phcode\command" "" '"$INSTDIR\${MAINBINARYNAME}.exe" "%1"'
 
   ; Set file association and context menu for .cfc files
@@ -590,7 +590,7 @@ Function SetupPhcode
   WriteRegStr HKCU "Software\Classes\phcodeCFC\shell\open\phcode" "" '"Open with phcode" "%1"'
   WriteRegStr HKCU "Software\Classes\phcodeCFC\shell\open\phcode\command" "" '"$INSTDIR\${MAINBINARYNAME}.exe" "%1"'
   WriteRegStr HKCU "Software\Classes\phcodeCFC\shell\phcode" "Icon" '$INSTDIR\${MAINBINARYNAME}.exe,0'
-  WriteRegStr HKCU "Software\Classes\phcodeCFC\shell\phcode" "" "Open with phoenix code"
+  WriteRegStr HKCU "Software\Classes\phcodeCFC\shell\phcode" "" "Open with Phoenix Code"
   WriteRegStr HKCU "Software\Classes\phcodeCFC\shell\phcode\command" "" '"$INSTDIR\${MAINBINARYNAME}.exe" "%1"'
 
   ; Set file association and context menu for .cfm files
@@ -600,7 +600,7 @@ Function SetupPhcode
   WriteRegStr HKCU "Software\Classes\phcodeCFM\shell\open\phcode" "" '"Open with phcode" "%1"'
   WriteRegStr HKCU "Software\Classes\phcodeCFM\shell\open\phcode\command" "" '"$INSTDIR\${MAINBINARYNAME}.exe" "%1"'
   WriteRegStr HKCU "Software\Classes\phcodeCFM\shell\phcode" "Icon" '$INSTDIR\${MAINBINARYNAME}.exe,0'
-  WriteRegStr HKCU "Software\Classes\phcodeCFM\shell\phcode" "" "Open with phoenix code"
+  WriteRegStr HKCU "Software\Classes\phcodeCFM\shell\phcode" "" "Open with Phoenix Code"
   WriteRegStr HKCU "Software\Classes\phcodeCFM\shell\phcode\command" "" '"$INSTDIR\${MAINBINARYNAME}.exe" "%1"'
 
   ; Set file association and context menu for .cfm1 files
@@ -610,7 +610,7 @@ Function SetupPhcode
   WriteRegStr HKCU "Software\Classes\phcodeCFM1\shell\open\phcode" "" '"Open with phcode" "%1"'
   WriteRegStr HKCU "Software\Classes\phcodeCFM1\shell\open\phcode\command" "" '"$INSTDIR\${MAINBINARYNAME}.exe" "%1"'
   WriteRegStr HKCU "Software\Classes\phcodeCFM1\shell\phcode" "Icon" '$INSTDIR\${MAINBINARYNAME}.exe,0'
-  WriteRegStr HKCU "Software\Classes\phcodeCFM1\shell\phcode" "" "Open with phoenix code"
+  WriteRegStr HKCU "Software\Classes\phcodeCFM1\shell\phcode" "" "Open with Phoenix Code"
   WriteRegStr HKCU "Software\Classes\phcodeCFM1\shell\phcode\command" "" '"$INSTDIR\${MAINBINARYNAME}.exe" "%1"'
 
   ; Set file association and context menu for .clj files
@@ -620,7 +620,7 @@ Function SetupPhcode
   WriteRegStr HKCU "Software\Classes\phcodeCLJ\shell\open\phcode" "" '"Open with phcode" "%1"'
   WriteRegStr HKCU "Software\Classes\phcodeCLJ\shell\open\phcode\command" "" '"$INSTDIR\${MAINBINARYNAME}.exe" "%1"'
   WriteRegStr HKCU "Software\Classes\phcodeCLJ\shell\phcode" "Icon" '$INSTDIR\${MAINBINARYNAME}.exe,0'
-  WriteRegStr HKCU "Software\Classes\phcodeCLJ\shell\phcode" "" "Open with phoenix code"
+  WriteRegStr HKCU "Software\Classes\phcodeCLJ\shell\phcode" "" "Open with Phoenix Code"
   WriteRegStr HKCU "Software\Classes\phcodeCLJ\shell\phcode\command" "" '"$INSTDIR\${MAINBINARYNAME}.exe" "%1"'
 
   ; Set file association and context menu for .coffee files
@@ -630,7 +630,7 @@ Function SetupPhcode
   WriteRegStr HKCU "Software\Classes\phcodeCOFFEE\shell\open\phcode" "" '"Open with phcode" "%1"'
   WriteRegStr HKCU "Software\Classes\phcodeCOFFEE\shell\open\phcode\command" "" '"$INSTDIR\${MAINBINARYNAME}.exe" "%1"'
   WriteRegStr HKCU "Software\Classes\phcodeCOFFEE\shell\phcode" "Icon" '$INSTDIR\${MAINBINARYNAME}.exe,0'
-  WriteRegStr HKCU "Software\Classes\phcodeCOFFEE\shell\phcode" "" "Open with phoenix code"
+  WriteRegStr HKCU "Software\Classes\phcodeCOFFEE\shell\phcode" "" "Open with Phoenix Code"
   WriteRegStr HKCU "Software\Classes\phcodeCOFFEE\shell\phcode\command" "" '"$INSTDIR\${MAINBINARYNAME}.exe" "%1"'
 
   ; Set file association and context menu for .cshtml files
@@ -640,7 +640,7 @@ Function SetupPhcode
   WriteRegStr HKCU "Software\Classes\phcodeCSHTML\shell\open\phcode" "" '"Open with phcode" "%1"'
   WriteRegStr HKCU "Software\Classes\phcodeCSHTML\shell\open\phcode\command" "" '"$INSTDIR\${MAINBINARYNAME}.exe" "%1"'
   WriteRegStr HKCU "Software\Classes\phcodeCSHTML\shell\phcode" "Icon" '$INSTDIR\${MAINBINARYNAME}.exe,0'
-  WriteRegStr HKCU "Software\Classes\phcodeCSHTML\shell\phcode" "" "Open with phoenix code"
+  WriteRegStr HKCU "Software\Classes\phcodeCSHTML\shell\phcode" "" "Open with Phoenix Code"
   WriteRegStr HKCU "Software\Classes\phcodeCSHTML\shell\phcode\command" "" '"$INSTDIR\${MAINBINARYNAME}.exe" "%1"'
 
   ; Set file association and context menu for .cson files
@@ -650,7 +650,7 @@ Function SetupPhcode
   WriteRegStr HKCU "Software\Classes\phcodeCSON\shell\open\phcode" "" '"Open with phcode" "%1"'
   WriteRegStr HKCU "Software\Classes\phcodeCSON\shell\open\phcode\command" "" '"$INSTDIR\${MAINBINARYNAME}.exe" "%1"'
   WriteRegStr HKCU "Software\Classes\phcodeCSON\shell\phcode" "Icon" '$INSTDIR\${MAINBINARYNAME}.exe,0'
-  WriteRegStr HKCU "Software\Classes\phcodeCSON\shell\phcode" "" "Open with phoenix code"
+  WriteRegStr HKCU "Software\Classes\phcodeCSON\shell\phcode" "" "Open with Phoenix Code"
   WriteRegStr HKCU "Software\Classes\phcodeCSON\shell\phcode\command" "" '"$INSTDIR\${MAINBINARYNAME}.exe" "%1"'
 
   ; Set file association and context menu for .css files
@@ -660,7 +660,7 @@ Function SetupPhcode
   WriteRegStr HKCU "Software\Classes\phcodeCSS\shell\open\phcode" "" '"Open with phcode" "%1"'
   WriteRegStr HKCU "Software\Classes\phcodeCSS\shell\open\phcode\command" "" '"$INSTDIR\${MAINBINARYNAME}.exe" "%1"'
   WriteRegStr HKCU "Software\Classes\phcodeCSS\shell\phcode" "Icon" '$INSTDIR\${MAINBINARYNAME}.exe,0'
-  WriteRegStr HKCU "Software\Classes\phcodeCSS\shell\phcode" "" "Open with phoenix code"
+  WriteRegStr HKCU "Software\Classes\phcodeCSS\shell\phcode" "" "Open with Phoenix Code"
   WriteRegStr HKCU "Software\Classes\phcodeCSS\shell\phcode\command" "" '"$INSTDIR\${MAINBINARYNAME}.exe" "%1"'
 
   ; Set file association and context menu for .ctp files
@@ -670,7 +670,7 @@ Function SetupPhcode
   WriteRegStr HKCU "Software\Classes\phcodeCTP\shell\open\phcode" "" '"Open with phcode" "%1"'
   WriteRegStr HKCU "Software\Classes\phcodeCTP\shell\open\phcode\command" "" '"$INSTDIR\${MAINBINARYNAME}.exe" "%1"'
   WriteRegStr HKCU "Software\Classes\phcodeCTP\shell\phcode" "Icon" '$INSTDIR\${MAINBINARYNAME}.exe,0'
-  WriteRegStr HKCU "Software\Classes\phcodeCTP\shell\phcode" "" "Open with phoenix code"
+  WriteRegStr HKCU "Software\Classes\phcodeCTP\shell\phcode" "" "Open with Phoenix Code"
   WriteRegStr HKCU "Software\Classes\phcodeCTP\shell\phcode\command" "" '"$INSTDIR\${MAINBINARYNAME}.exe" "%1"'
 
   ; Set file association and context menu for .dhtml files
@@ -680,7 +680,7 @@ Function SetupPhcode
   WriteRegStr HKCU "Software\Classes\phcodeDHTML\shell\open\phcode" "" '"Open with phcode" "%1"'
   WriteRegStr HKCU "Software\Classes\phcodeDHTML\shell\open\phcode\command" "" '"$INSTDIR\${MAINBINARYNAME}.exe" "%1"'
   WriteRegStr HKCU "Software\Classes\phcodeDHTML\shell\phcode" "Icon" '$INSTDIR\${MAINBINARYNAME}.exe,0'
-  WriteRegStr HKCU "Software\Classes\phcodeDHTML\shell\phcode" "" "Open with phoenix code"
+  WriteRegStr HKCU "Software\Classes\phcodeDHTML\shell\phcode" "" "Open with Phoenix Code"
   WriteRegStr HKCU "Software\Classes\phcodeDHTML\shell\phcode\command" "" '"$INSTDIR\${MAINBINARYNAME}.exe" "%1"'
 
   ; Set file association and context menu for .diff files
@@ -690,7 +690,7 @@ Function SetupPhcode
   WriteRegStr HKCU "Software\Classes\phcodeDIFF\shell\open\phcode" "" '"Open with phcode" "%1"'
   WriteRegStr HKCU "Software\Classes\phcodeDIFF\shell\open\phcode\command" "" '"$INSTDIR\${MAINBINARYNAME}.exe" "%1"'
   WriteRegStr HKCU "Software\Classes\phcodeDIFF\shell\phcode" "Icon" '$INSTDIR\${MAINBINARYNAME}.exe,0'
-  WriteRegStr HKCU "Software\Classes\phcodeDIFF\shell\phcode" "" "Open with phoenix code"
+  WriteRegStr HKCU "Software\Classes\phcodeDIFF\shell\phcode" "" "Open with Phoenix Code"
   WriteRegStr HKCU "Software\Classes\phcodeDIFF\shell\phcode\command" "" '"$INSTDIR\${MAINBINARYNAME}.exe" "%1"'
 
   ; Set file association and context menu for .ejs files
@@ -700,7 +700,7 @@ Function SetupPhcode
   WriteRegStr HKCU "Software\Classes\phcodeEJS\shell\open\phcode" "" '"Open with phcode" "%1"'
   WriteRegStr HKCU "Software\Classes\phcodeEJS\shell\open\phcode\command" "" '"$INSTDIR\${MAINBINARYNAME}.exe" "%1"'
   WriteRegStr HKCU "Software\Classes\phcodeEJS\shell\phcode" "Icon" '$INSTDIR\${MAINBINARYNAME}.exe,0'
-  WriteRegStr HKCU "Software\Classes\phcodeEJS\shell\phcode" "" "Open with phoenix code"
+  WriteRegStr HKCU "Software\Classes\phcodeEJS\shell\phcode" "" "Open with Phoenix Code"
   WriteRegStr HKCU "Software\Classes\phcodeEJS\shell\phcode\command" "" '"$INSTDIR\${MAINBINARYNAME}.exe" "%1"'
 
   ; Set file association and context menu for .handlebars files
@@ -710,7 +710,7 @@ Function SetupPhcode
   WriteRegStr HKCU "Software\Classes\phcodeHANDLEBARS\shell\open\phcode" "" '"Open with phcode" "%1"'
   WriteRegStr HKCU "Software\Classes\phcodeHANDLEBARS\shell\open\phcode\command" "" '"$INSTDIR\${MAINBINARYNAME}.exe" "%1"'
   WriteRegStr HKCU "Software\Classes\phcodeHANDLEBARS\shell\phcode" "Icon" '$INSTDIR\${MAINBINARYNAME}.exe,0'
-  WriteRegStr HKCU "Software\Classes\phcodeHANDLEBARS\shell\phcode" "" "Open with phoenix code"
+  WriteRegStr HKCU "Software\Classes\phcodeHANDLEBARS\shell\phcode" "" "Open with Phoenix Code"
   WriteRegStr HKCU "Software\Classes\phcodeHANDLEBARS\shell\phcode\command" "" '"$INSTDIR\${MAINBINARYNAME}.exe" "%1"'
 
   ; Set file association and context menu for .hbs files
@@ -720,7 +720,7 @@ Function SetupPhcode
   WriteRegStr HKCU "Software\Classes\phcodeHBS\shell\open\phcode" "" '"Open with phcode" "%1"'
   WriteRegStr HKCU "Software\Classes\phcodeHBS\shell\open\phcode\command" "" '"$INSTDIR\${MAINBINARYNAME}.exe" "%1"'
   WriteRegStr HKCU "Software\Classes\phcodeHBS\shell\phcode" "Icon" '$INSTDIR\${MAINBINARYNAME}.exe,0'
-  WriteRegStr HKCU "Software\Classes\phcodeHBS\shell\phcode" "" "Open with phoenix code"
+  WriteRegStr HKCU "Software\Classes\phcodeHBS\shell\phcode" "" "Open with Phoenix Code"
   WriteRegStr HKCU "Software\Classes\phcodeHBS\shell\phcode\command" "" '"$INSTDIR\${MAINBINARYNAME}.exe" "%1"'
 
   ; Set file association and context menu for .htm files
@@ -730,7 +730,7 @@ Function SetupPhcode
   WriteRegStr HKCU "Software\Classes\phcodeHTM\shell\open\phcode" "" '"Open with phcode" "%1"'
   WriteRegStr HKCU "Software\Classes\phcodeHTM\shell\open\phcode\command" "" '"$INSTDIR\${MAINBINARYNAME}.exe" "%1"'
   WriteRegStr HKCU "Software\Classes\phcodeHTM\shell\phcode" "Icon" '$INSTDIR\${MAINBINARYNAME}.exe,0'
-  WriteRegStr HKCU "Software\Classes\phcodeHTM\shell\phcode" "" "Open with phoenix code"
+  WriteRegStr HKCU "Software\Classes\phcodeHTM\shell\phcode" "" "Open with Phoenix Code"
   WriteRegStr HKCU "Software\Classes\phcodeHTM\shell\phcode\command" "" '"$INSTDIR\${MAINBINARYNAME}.exe" "%1"'
 
   ; Set file association and context menu for .html files
@@ -740,7 +740,7 @@ Function SetupPhcode
   WriteRegStr HKCU "Software\Classes\phcodeHTML\shell\open\phcode" "" '"Open with phcode" "%1"'
   WriteRegStr HKCU "Software\Classes\phcodeHTML\shell\open\phcode\command" "" '"$INSTDIR\${MAINBINARYNAME}.exe" "%1"'
   WriteRegStr HKCU "Software\Classes\phcodeHTML\shell\phcode" "Icon" '$INSTDIR\${MAINBINARYNAME}.exe,0'
-  WriteRegStr HKCU "Software\Classes\phcodeHTML\shell\phcode" "" "Open with phoenix code"
+  WriteRegStr HKCU "Software\Classes\phcodeHTML\shell\phcode" "" "Open with Phoenix Code"
   WriteRegStr HKCU "Software\Classes\phcodeHTML\shell\phcode\command" "" '"$INSTDIR\${MAINBINARYNAME}.exe" "%1"'
 
   ; Set file association and context menu for .hx files
@@ -750,7 +750,7 @@ Function SetupPhcode
   WriteRegStr HKCU "Software\Classes\phcodeHX\shell\open\phcode" "" '"Open with phcode" "%1"'
   WriteRegStr HKCU "Software\Classes\phcodeHX\shell\open\phcode\command" "" '"$INSTDIR\${MAINBINARYNAME}.exe" "%1"'
   WriteRegStr HKCU "Software\Classes\phcodeHX\shell\phcode" "Icon" '$INSTDIR\${MAINBINARYNAME}.exe,0'
-  WriteRegStr HKCU "Software\Classes\phcodeHX\shell\phcode" "" "Open with phoenix code"
+  WriteRegStr HKCU "Software\Classes\phcodeHX\shell\phcode" "" "Open with Phoenix Code"
   WriteRegStr HKCU "Software\Classes\phcodeHX\shell\phcode\command" "" '"$INSTDIR\${MAINBINARYNAME}.exe" "%1"'
 
   ; Set file association and context menu for .js files
@@ -760,7 +760,7 @@ Function SetupPhcode
   WriteRegStr HKCU "Software\Classes\phcodeJS\shell\open\phcode" "" '"Open with phcode" "%1"'
   WriteRegStr HKCU "Software\Classes\phcodeJS\shell\open\phcode\command" "" '"$INSTDIR\${MAINBINARYNAME}.exe" "%1"'
   WriteRegStr HKCU "Software\Classes\phcodeJS\shell\phcode" "Icon" '$INSTDIR\${MAINBINARYNAME}.exe,0'
-  WriteRegStr HKCU "Software\Classes\phcodeJS\shell\phcode" "" "Open with phoenix code"
+  WriteRegStr HKCU "Software\Classes\phcodeJS\shell\phcode" "" "Open with Phoenix Code"
   WriteRegStr HKCU "Software\Classes\phcodeJS\shell\phcode\command" "" '"$INSTDIR\${MAINBINARYNAME}.exe" "%1"'
 
   ; Set file association and context menu for .json files
@@ -770,7 +770,7 @@ Function SetupPhcode
   WriteRegStr HKCU "Software\Classes\phcodeJSON\shell\open\phcode" "" '"Open with phcode" "%1"'
   WriteRegStr HKCU "Software\Classes\phcodeJSON\shell\open\phcode\command" "" '"$INSTDIR\${MAINBINARYNAME}.exe" "%1"'
   WriteRegStr HKCU "Software\Classes\phcodeJSON\shell\phcode" "Icon" '$INSTDIR\${MAINBINARYNAME}.exe,0'
-  WriteRegStr HKCU "Software\Classes\phcodeJSON\shell\phcode" "" "Open with phoenix code"
+  WriteRegStr HKCU "Software\Classes\phcodeJSON\shell\phcode" "" "Open with Phoenix Code"
   WriteRegStr HKCU "Software\Classes\phcodeJSON\shell\phcode\command" "" '"$INSTDIR\${MAINBINARYNAME}.exe" "%1"'
 
   ; Set file association and context menu for .jsp files
@@ -780,7 +780,7 @@ Function SetupPhcode
   WriteRegStr HKCU "Software\Classes\phcodeJSP\shell\open\phcode" "" '"Open with phcode" "%1"'
   WriteRegStr HKCU "Software\Classes\phcodeJSP\shell\open\phcode\command" "" '"$INSTDIR\${MAINBINARYNAME}.exe" "%1"'
   WriteRegStr HKCU "Software\Classes\phcodeJSP\shell\phcode" "Icon" '$INSTDIR\${MAINBINARYNAME}.exe,0'
-  WriteRegStr HKCU "Software\Classes\phcodeJSP\shell\phcode" "" "Open with phoenix code"
+  WriteRegStr HKCU "Software\Classes\phcodeJSP\shell\phcode" "" "Open with Phoenix Code"
   WriteRegStr HKCU "Software\Classes\phcodeJSP\shell\phcode\command" "" '"$INSTDIR\${MAINBINARYNAME}.exe" "%1"'
 
   ; Set file association and context menu for .jsx files
@@ -790,7 +790,7 @@ Function SetupPhcode
   WriteRegStr HKCU "Software\Classes\phcodeJSX\shell\open\phcode" "" '"Open with phcode" "%1"'
   WriteRegStr HKCU "Software\Classes\phcodeJSX\shell\open\phcode\command" "" '"$INSTDIR\${MAINBINARYNAME}.exe" "%1"'
   WriteRegStr HKCU "Software\Classes\phcodeJSX\shell\phcode" "Icon" '$INSTDIR\${MAINBINARYNAME}.exe,0'
-  WriteRegStr HKCU "Software\Classes\phcodeJSX\shell\phcode" "" "Open with phoenix code"
+  WriteRegStr HKCU "Software\Classes\phcodeJSX\shell\phcode" "" "Open with Phoenix Code"
   WriteRegStr HKCU "Software\Classes\phcodeJSX\shell\phcode\command" "" '"$INSTDIR\${MAINBINARYNAME}.exe" "%1"'
 
   ; Set file association and context menu for .kit files
@@ -800,7 +800,7 @@ Function SetupPhcode
   WriteRegStr HKCU "Software\Classes\phcodeKIT\shell\open\phcode" "" '"Open with phcode" "%1"'
   WriteRegStr HKCU "Software\Classes\phcodeKIT\shell\open\phcode\command" "" '"$INSTDIR\${MAINBINARYNAME}.exe" "%1"'
   WriteRegStr HKCU "Software\Classes\phcodeKIT\shell\phcode" "Icon" '$INSTDIR\${MAINBINARYNAME}.exe,0'
-  WriteRegStr HKCU "Software\Classes\phcodeKIT\shell\phcode" "" "Open with phoenix code"
+  WriteRegStr HKCU "Software\Classes\phcodeKIT\shell\phcode" "" "Open with Phoenix Code"
   WriteRegStr HKCU "Software\Classes\phcodeKIT\shell\phcode\command" "" '"$INSTDIR\${MAINBINARYNAME}.exe" "%1"'
 
   ; Set file association and context menu for .less files
@@ -810,7 +810,7 @@ Function SetupPhcode
   WriteRegStr HKCU "Software\Classes\phcodeLESS\shell\open\phcode" "" '"Open with phcode" "%1"'
   WriteRegStr HKCU "Software\Classes\phcodeLESS\shell\open\phcode\command" "" '"$INSTDIR\${MAINBINARYNAME}.exe" "%1"'
   WriteRegStr HKCU "Software\Classes\phcodeLESS\shell\phcode" "Icon" '$INSTDIR\${MAINBINARYNAME}.exe,0'
-  WriteRegStr HKCU "Software\Classes\phcodeLESS\shell\phcode" "" "Open with phoenix code"
+  WriteRegStr HKCU "Software\Classes\phcodeLESS\shell\phcode" "" "Open with Phoenix Code"
   WriteRegStr HKCU "Software\Classes\phcodeLESS\shell\phcode\command" "" '"$INSTDIR\${MAINBINARYNAME}.exe" "%1"'
 
   ; Set file association and context menu for .markdown files
@@ -820,7 +820,7 @@ Function SetupPhcode
   WriteRegStr HKCU "Software\Classes\phcodeMARKDOWN\shell\open\phcode" "" '"Open with phcode" "%1"'
   WriteRegStr HKCU "Software\Classes\phcodeMARKDOWN\shell\open\phcode\command" "" '"$INSTDIR\${MAINBINARYNAME}.exe" "%1"'
   WriteRegStr HKCU "Software\Classes\phcodeMARKDOWN\shell\phcode" "Icon" '$INSTDIR\${MAINBINARYNAME}.exe,0'
-  WriteRegStr HKCU "Software\Classes\phcodeMARKDOWN\shell\phcode" "" "Open with phoenix code"
+  WriteRegStr HKCU "Software\Classes\phcodeMARKDOWN\shell\phcode" "" "Open with Phoenix Code"
   WriteRegStr HKCU "Software\Classes\phcodeMARKDOWN\shell\phcode\command" "" '"$INSTDIR\${MAINBINARYNAME}.exe" "%1"'
 
   ; Set file association and context menu for .mathml files
@@ -830,7 +830,7 @@ Function SetupPhcode
   WriteRegStr HKCU "Software\Classes\phcodeMATHML\shell\open\phcode" "" '"Open with phcode" "%1"'
   WriteRegStr HKCU "Software\Classes\phcodeMATHML\shell\open\phcode\command" "" '"$INSTDIR\${MAINBINARYNAME}.exe" "%1"'
   WriteRegStr HKCU "Software\Classes\phcodeMATHML\shell\phcode" "Icon" '$INSTDIR\${MAINBINARYNAME}.exe,0'
-  WriteRegStr HKCU "Software\Classes\phcodeMATHML\shell\phcode" "" "Open with phoenix code"
+  WriteRegStr HKCU "Software\Classes\phcodeMATHML\shell\phcode" "" "Open with Phoenix Code"
   WriteRegStr HKCU "Software\Classes\phcodeMATHML\shell\phcode\command" "" '"$INSTDIR\${MAINBINARYNAME}.exe" "%1"'
 
   ; Set file association and context menu for .md files
@@ -840,7 +840,7 @@ Function SetupPhcode
   WriteRegStr HKCU "Software\Classes\phcodeMD\shell\open\phcode" "" '"Open with phcode" "%1"'
   WriteRegStr HKCU "Software\Classes\phcodeMD\shell\open\phcode\command" "" '"$INSTDIR\${MAINBINARYNAME}.exe" "%1"'
   WriteRegStr HKCU "Software\Classes\phcodeMD\shell\phcode" "Icon" '$INSTDIR\${MAINBINARYNAME}.exe,0'
-  WriteRegStr HKCU "Software\Classes\phcodeMD\shell\phcode" "" "Open with phoenix code"
+  WriteRegStr HKCU "Software\Classes\phcodeMD\shell\phcode" "" "Open with Phoenix Code"
   WriteRegStr HKCU "Software\Classes\phcodeMD\shell\phcode\command" "" '"$INSTDIR\${MAINBINARYNAME}.exe" "%1"'
 
   ; Set file association and context menu for .patch files
@@ -850,7 +850,7 @@ Function SetupPhcode
   WriteRegStr HKCU "Software\Classes\phcodePATCH\shell\open\phcode" "" '"Open with phcode" "%1"'
   WriteRegStr HKCU "Software\Classes\phcodePATCH\shell\open\phcode\command" "" '"$INSTDIR\${MAINBINARYNAME}.exe" "%1"'
   WriteRegStr HKCU "Software\Classes\phcodePATCH\shell\phcode" "Icon" '$INSTDIR\${MAINBINARYNAME}.exe,0'
-  WriteRegStr HKCU "Software\Classes\phcodePATCH\shell\phcode" "" "Open with phoenix code"
+  WriteRegStr HKCU "Software\Classes\phcodePATCH\shell\phcode" "" "Open with Phoenix Code"
   WriteRegStr HKCU "Software\Classes\phcodePATCH\shell\phcode\command" "" '"$INSTDIR\${MAINBINARYNAME}.exe" "%1"'
 
   ; Set file association and context menu for .php files
@@ -860,7 +860,7 @@ Function SetupPhcode
   WriteRegStr HKCU "Software\Classes\phcodePHP\shell\open\phcode" "" '"Open with phcode" "%1"'
   WriteRegStr HKCU "Software\Classes\phcodePHP\shell\open\phcode\command" "" '"$INSTDIR\${MAINBINARYNAME}.exe" "%1"'
   WriteRegStr HKCU "Software\Classes\phcodePHP\shell\phcode" "Icon" '$INSTDIR\${MAINBINARYNAME}.exe,0'
-  WriteRegStr HKCU "Software\Classes\phcodePHP\shell\phcode" "" "Open with phoenix code"
+  WriteRegStr HKCU "Software\Classes\phcodePHP\shell\phcode" "" "Open with Phoenix Code"
   WriteRegStr HKCU "Software\Classes\phcodePHP\shell\phcode\command" "" '"$INSTDIR\${MAINBINARYNAME}.exe" "%1"'
 
   ; Set file association and context menu for .php3 files
@@ -870,7 +870,7 @@ Function SetupPhcode
   WriteRegStr HKCU "Software\Classes\phcodePHP3\shell\open\phcode" "" '"Open with phcode" "%1"'
   WriteRegStr HKCU "Software\Classes\phcodePHP3\shell\open\phcode\command" "" '"$INSTDIR\${MAINBINARYNAME}.exe" "%1"'
   WriteRegStr HKCU "Software\Classes\phcodePHP3\shell\phcode" "Icon" '$INSTDIR\${MAINBINARYNAME}.exe,0'
-  WriteRegStr HKCU "Software\Classes\phcodePHP3\shell\phcode" "" "Open with phoenix code"
+  WriteRegStr HKCU "Software\Classes\phcodePHP3\shell\phcode" "" "Open with Phoenix Code"
   WriteRegStr HKCU "Software\Classes\phcodePHP3\shell\phcode\command" "" '"$INSTDIR\${MAINBINARYNAME}.exe" "%1"'
 
   ; Set file association and context menu for .php4 files
@@ -880,7 +880,7 @@ Function SetupPhcode
   WriteRegStr HKCU "Software\Classes\phcodePHP4\shell\open\phcode" "" '"Open with phcode" "%1"'
   WriteRegStr HKCU "Software\Classes\phcodePHP4\shell\open\phcode\command" "" '"$INSTDIR\${MAINBINARYNAME}.exe" "%1"'
   WriteRegStr HKCU "Software\Classes\phcodePHP4\shell\phcode" "Icon" '$INSTDIR\${MAINBINARYNAME}.exe,0'
-  WriteRegStr HKCU "Software\Classes\phcodePHP4\shell\phcode" "" "Open with phoenix code"
+  WriteRegStr HKCU "Software\Classes\phcodePHP4\shell\phcode" "" "Open with Phoenix Code"
   WriteRegStr HKCU "Software\Classes\phcodePHP4\shell\phcode\command" "" '"$INSTDIR\${MAINBINARYNAME}.exe" "%1"'
 
   ; Set file association and context menu for .php5 files
@@ -890,7 +890,7 @@ Function SetupPhcode
   WriteRegStr HKCU "Software\Classes\phcodePHP5\shell\open\phcode" "" '"Open with phcode" "%1"'
   WriteRegStr HKCU "Software\Classes\phcodePHP5\shell\open\phcode\command" "" '"$INSTDIR\${MAINBINARYNAME}.exe" "%1"'
   WriteRegStr HKCU "Software\Classes\phcodePHP5\shell\phcode" "Icon" '$INSTDIR\${MAINBINARYNAME}.exe,0'
-  WriteRegStr HKCU "Software\Classes\phcodePHP5\shell\phcode" "" "Open with phoenix code"
+  WriteRegStr HKCU "Software\Classes\phcodePHP5\shell\phcode" "" "Open with Phoenix Code"
   WriteRegStr HKCU "Software\Classes\phcodePHP5\shell\phcode\command" "" '"$INSTDIR\${MAINBINARYNAME}.exe" "%1"'
 
   ; Set file association and context menu for .phtm files
@@ -900,7 +900,7 @@ Function SetupPhcode
   WriteRegStr HKCU "Software\Classes\phcodePHTM\shell\open\phcode" "" '"Open with phcode" "%1"'
   WriteRegStr HKCU "Software\Classes\phcodePHTM\shell\open\phcode\command" "" '"$INSTDIR\${MAINBINARYNAME}.exe" "%1"'
   WriteRegStr HKCU "Software\Classes\phcodePHTM\shell\phcode" "Icon" '$INSTDIR\${MAINBINARYNAME}.exe,0'
-  WriteRegStr HKCU "Software\Classes\phcodePHTM\shell\phcode" "" "Open with phoenix code"
+  WriteRegStr HKCU "Software\Classes\phcodePHTM\shell\phcode" "" "Open with Phoenix Code"
   WriteRegStr HKCU "Software\Classes\phcodePHTM\shell\phcode\command" "" '"$INSTDIR\${MAINBINARYNAME}.exe" "%1"'
 
   ; Set file association and context menu for .phtml files
@@ -910,7 +910,7 @@ Function SetupPhcode
   WriteRegStr HKCU "Software\Classes\phcodePHTML\shell\open\phcode" "" '"Open with phcode" "%1"'
   WriteRegStr HKCU "Software\Classes\phcodePHTML\shell\open\phcode\command" "" '"$INSTDIR\${MAINBINARYNAME}.exe" "%1"'
   WriteRegStr HKCU "Software\Classes\phcodePHTML\shell\phcode" "Icon" '$INSTDIR\${MAINBINARYNAME}.exe,0'
-  WriteRegStr HKCU "Software\Classes\phcodePHTML\shell\phcode" "" "Open with phoenix code"
+  WriteRegStr HKCU "Software\Classes\phcodePHTML\shell\phcode" "" "Open with Phoenix Code"
   WriteRegStr HKCU "Software\Classes\phcodePHTML\shell\phcode\command" "" '"$INSTDIR\${MAINBINARYNAME}.exe" "%1"'
 
   ; Set file association and context menu for .rdf files
@@ -920,7 +920,7 @@ Function SetupPhcode
   WriteRegStr HKCU "Software\Classes\phcodeRDF\shell\open\phcode" "" '"Open with phcode" "%1"'
   WriteRegStr HKCU "Software\Classes\phcodeRDF\shell\open\phcode\command" "" '"$INSTDIR\${MAINBINARYNAME}.exe" "%1"'
   WriteRegStr HKCU "Software\Classes\phcodeRDF\shell\phcode" "Icon" '$INSTDIR\${MAINBINARYNAME}.exe,0'
-  WriteRegStr HKCU "Software\Classes\phcodeRDF\shell\phcode" "" "Open with phoenix code"
+  WriteRegStr HKCU "Software\Classes\phcodeRDF\shell\phcode" "" "Open with Phoenix Code"
   WriteRegStr HKCU "Software\Classes\phcodeRDF\shell\phcode\command" "" '"$INSTDIR\${MAINBINARYNAME}.exe" "%1"'
 
   ; Set file association and context menu for .rss files
@@ -930,7 +930,7 @@ Function SetupPhcode
   WriteRegStr HKCU "Software\Classes\phcodeRSS\shell\open\phcode" "" '"Open with phcode" "%1"'
   WriteRegStr HKCU "Software\Classes\phcodeRSS\shell\open\phcode\command" "" '"$INSTDIR\${MAINBINARYNAME}.exe" "%1"'
   WriteRegStr HKCU "Software\Classes\phcodeRSS\shell\phcode" "Icon" '$INSTDIR\${MAINBINARYNAME}.exe,0'
-  WriteRegStr HKCU "Software\Classes\phcodeRSS\shell\phcode" "" "Open with phoenix code"
+  WriteRegStr HKCU "Software\Classes\phcodeRSS\shell\phcode" "" "Open with Phoenix Code"
   WriteRegStr HKCU "Software\Classes\phcodeRSS\shell\phcode\command" "" '"$INSTDIR\${MAINBINARYNAME}.exe" "%1"'
 
   ; Set file association and context menu for .sass files
@@ -940,7 +940,7 @@ Function SetupPhcode
   WriteRegStr HKCU "Software\Classes\phcodeSASS\shell\open\phcode" "" '"Open with phcode" "%1"'
   WriteRegStr HKCU "Software\Classes\phcodeSASS\shell\open\phcode\command" "" '"$INSTDIR\${MAINBINARYNAME}.exe" "%1"'
   WriteRegStr HKCU "Software\Classes\phcodeSASS\shell\phcode" "Icon" '$INSTDIR\${MAINBINARYNAME}.exe,0'
-  WriteRegStr HKCU "Software\Classes\phcodeSASS\shell\phcode" "" "Open with phoenix code"
+  WriteRegStr HKCU "Software\Classes\phcodeSASS\shell\phcode" "" "Open with Phoenix Code"
   WriteRegStr HKCU "Software\Classes\phcodeSASS\shell\phcode\command" "" '"$INSTDIR\${MAINBINARYNAME}.exe" "%1"'
 
   ; Set file association and context menu for .scss files
@@ -950,7 +950,7 @@ Function SetupPhcode
   WriteRegStr HKCU "Software\Classes\phcodeSCSS\shell\open\phcode" "" '"Open with phcode" "%1"'
   WriteRegStr HKCU "Software\Classes\phcodeSCSS\shell\open\phcode\command" "" '"$INSTDIR\${MAINBINARYNAME}.exe" "%1"'
   WriteRegStr HKCU "Software\Classes\phcodeSCSS\shell\phcode" "Icon" '$INSTDIR\${MAINBINARYNAME}.exe,0'
-  WriteRegStr HKCU "Software\Classes\phcodeSCSS\shell\phcode" "" "Open with phoenix code"
+  WriteRegStr HKCU "Software\Classes\phcodeSCSS\shell\phcode" "" "Open with Phoenix Code"
   WriteRegStr HKCU "Software\Classes\phcodeSCSS\shell\phcode\command" "" '"$INSTDIR\${MAINBINARYNAME}.exe" "%1"'
 
   ; Set file association and context menu for .shtm files
@@ -960,7 +960,7 @@ Function SetupPhcode
   WriteRegStr HKCU "Software\Classes\phcodeSHTM\shell\open\phcode" "" '"Open with phcode" "%1"'
   WriteRegStr HKCU "Software\Classes\phcodeSHTM\shell\open\phcode\command" "" '"$INSTDIR\${MAINBINARYNAME}.exe" "%1"'
   WriteRegStr HKCU "Software\Classes\phcodeSHTM\shell\phcode" "Icon" '$INSTDIR\${MAINBINARYNAME}.exe,0'
-  WriteRegStr HKCU "Software\Classes\phcodeSHTM\shell\phcode" "" "Open with phoenix code"
+  WriteRegStr HKCU "Software\Classes\phcodeSHTM\shell\phcode" "" "Open with Phoenix Code"
   WriteRegStr HKCU "Software\Classes\phcodeSHTM\shell\phcode\command" "" '"$INSTDIR\${MAINBINARYNAME}.exe" "%1"'
 
   ; Set file association and context menu for .shtml files
@@ -970,7 +970,7 @@ Function SetupPhcode
   WriteRegStr HKCU "Software\Classes\phcodeSHTML\shell\open\phcode" "" '"Open with phcode" "%1"'
   WriteRegStr HKCU "Software\Classes\phcodeSHTML\shell\open\phcode\command" "" '"$INSTDIR\${MAINBINARYNAME}.exe" "%1"'
   WriteRegStr HKCU "Software\Classes\phcodeSHTML\shell\phcode" "Icon" '$INSTDIR\${MAINBINARYNAME}.exe,0'
-  WriteRegStr HKCU "Software\Classes\phcodeSHTML\shell\phcode" "" "Open with phoenix code"
+  WriteRegStr HKCU "Software\Classes\phcodeSHTML\shell\phcode" "" "Open with Phoenix Code"
   WriteRegStr HKCU "Software\Classes\phcodeSHTML\shell\phcode\command" "" '"$INSTDIR\${MAINBINARYNAME}.exe" "%1"'
 
   ; Set file association and context menu for .sql files
@@ -980,7 +980,7 @@ Function SetupPhcode
   WriteRegStr HKCU "Software\Classes\phcodeSQL\shell\open\phcode" "" '"Open with phcode" "%1"'
   WriteRegStr HKCU "Software\Classes\phcodeSQL\shell\open\phcode\command" "" '"$INSTDIR\${MAINBINARYNAME}.exe" "%1"'
   WriteRegStr HKCU "Software\Classes\phcodeSQL\shell\phcode" "Icon" '$INSTDIR\${MAINBINARYNAME}.exe,0'
-  WriteRegStr HKCU "Software\Classes\phcodeSQL\shell\phcode" "" "Open with phoenix code"
+  WriteRegStr HKCU "Software\Classes\phcodeSQL\shell\phcode" "" "Open with Phoenix Code"
   WriteRegStr HKCU "Software\Classes\phcodeSQL\shell\phcode\command" "" '"$INSTDIR\${MAINBINARYNAME}.exe" "%1"'
 
   ; Set file association and context menu for .svg files
@@ -990,7 +990,7 @@ Function SetupPhcode
   WriteRegStr HKCU "Software\Classes\phcodeSVG\shell\open\phcode" "" '"Open with phcode" "%1"'
   WriteRegStr HKCU "Software\Classes\phcodeSVG\shell\open\phcode\command" "" '"$INSTDIR\${MAINBINARYNAME}.exe" "%1"'
   WriteRegStr HKCU "Software\Classes\phcodeSVG\shell\phcode" "Icon" '$INSTDIR\${MAINBINARYNAME}.exe,0'
-  WriteRegStr HKCU "Software\Classes\phcodeSVG\shell\phcode" "" "Open with phoenix code"
+  WriteRegStr HKCU "Software\Classes\phcodeSVG\shell\phcode" "" "Open with Phoenix Code"
   WriteRegStr HKCU "Software\Classes\phcodeSVG\shell\phcode\command" "" '"$INSTDIR\${MAINBINARYNAME}.exe" "%1"'
 
   ; Set file association and context menu for .tpl files
@@ -1000,7 +1000,7 @@ Function SetupPhcode
   WriteRegStr HKCU "Software\Classes\phcodeTPL\shell\open\phcode" "" '"Open with phcode" "%1"'
   WriteRegStr HKCU "Software\Classes\phcodeTPL\shell\open\phcode\command" "" '"$INSTDIR\${MAINBINARYNAME}.exe" "%1"'
   WriteRegStr HKCU "Software\Classes\phcodeTPL\shell\phcode" "Icon" '$INSTDIR\${MAINBINARYNAME}.exe,0'
-  WriteRegStr HKCU "Software\Classes\phcodeTPL\shell\phcode" "" "Open with phoenix code"
+  WriteRegStr HKCU "Software\Classes\phcodeTPL\shell\phcode" "" "Open with Phoenix Code"
   WriteRegStr HKCU "Software\Classes\phcodeTPL\shell\phcode\command" "" '"$INSTDIR\${MAINBINARYNAME}.exe" "%1"'
 
   ; Set file association and context menu for .twig files
@@ -1010,7 +1010,7 @@ Function SetupPhcode
   WriteRegStr HKCU "Software\Classes\phcodeTWIG\shell\open\phcode" "" '"Open with phcode" "%1"'
   WriteRegStr HKCU "Software\Classes\phcodeTWIG\shell\open\phcode\command" "" '"$INSTDIR\${MAINBINARYNAME}.exe" "%1"'
   WriteRegStr HKCU "Software\Classes\phcodeTWIG\shell\phcode" "Icon" '$INSTDIR\${MAINBINARYNAME}.exe,0'
-  WriteRegStr HKCU "Software\Classes\phcodeTWIG\shell\phcode" "" "Open with phoenix code"
+  WriteRegStr HKCU "Software\Classes\phcodeTWIG\shell\phcode" "" "Open with Phoenix Code"
   WriteRegStr HKCU "Software\Classes\phcodeTWIG\shell\phcode\command" "" '"$INSTDIR\${MAINBINARYNAME}.exe" "%1"'
 
   ; Set file association and context menu for .wsgi files
@@ -1020,7 +1020,7 @@ Function SetupPhcode
   WriteRegStr HKCU "Software\Classes\phcodeWSGI\shell\open\phcode" "" '"Open with phcode" "%1"'
   WriteRegStr HKCU "Software\Classes\phcodeWSGI\shell\open\phcode\command" "" '"$INSTDIR\${MAINBINARYNAME}.exe" "%1"'
   WriteRegStr HKCU "Software\Classes\phcodeWSGI\shell\phcode" "Icon" '$INSTDIR\${MAINBINARYNAME}.exe,0'
-  WriteRegStr HKCU "Software\Classes\phcodeWSGI\shell\phcode" "" "Open with phoenix code"
+  WriteRegStr HKCU "Software\Classes\phcodeWSGI\shell\phcode" "" "Open with Phoenix Code"
   WriteRegStr HKCU "Software\Classes\phcodeWSGI\shell\phcode\command" "" '"$INSTDIR\${MAINBINARYNAME}.exe" "%1"'
 
   ; Set file association and context menu for .xbl files
@@ -1030,7 +1030,7 @@ Function SetupPhcode
   WriteRegStr HKCU "Software\Classes\phcodeXBL\shell\open\phcode" "" '"Open with phcode" "%1"'
   WriteRegStr HKCU "Software\Classes\phcodeXBL\shell\open\phcode\command" "" '"$INSTDIR\${MAINBINARYNAME}.exe" "%1"'
   WriteRegStr HKCU "Software\Classes\phcodeXBL\shell\phcode" "Icon" '$INSTDIR\${MAINBINARYNAME}.exe,0'
-  WriteRegStr HKCU "Software\Classes\phcodeXBL\shell\phcode" "" "Open with phoenix code"
+  WriteRegStr HKCU "Software\Classes\phcodeXBL\shell\phcode" "" "Open with Phoenix Code"
   WriteRegStr HKCU "Software\Classes\phcodeXBL\shell\phcode\command" "" '"$INSTDIR\${MAINBINARYNAME}.exe" "%1"'
 
   ; Set file association and context menu for .xht files
@@ -1040,7 +1040,7 @@ Function SetupPhcode
   WriteRegStr HKCU "Software\Classes\phcodeXHT\shell\open\phcode" "" '"Open with phcode" "%1"'
   WriteRegStr HKCU "Software\Classes\phcodeXHT\shell\open\phcode\command" "" '"$INSTDIR\${MAINBINARYNAME}.exe" "%1"'
   WriteRegStr HKCU "Software\Classes\phcodeXHT\shell\phcode" "Icon" '$INSTDIR\${MAINBINARYNAME}.exe,0'
-  WriteRegStr HKCU "Software\Classes\phcodeXHT\shell\phcode" "" "Open with phoenix code"
+  WriteRegStr HKCU "Software\Classes\phcodeXHT\shell\phcode" "" "Open with Phoenix Code"
   WriteRegStr HKCU "Software\Classes\phcodeXHT\shell\phcode\command" "" '"$INSTDIR\${MAINBINARYNAME}.exe" "%1"'
 
   ; Set file association and context menu for .xhtml files
@@ -1050,7 +1050,7 @@ Function SetupPhcode
   WriteRegStr HKCU "Software\Classes\phcodeXHTML\shell\open\phcode" "" '"Open with phcode" "%1"'
   WriteRegStr HKCU "Software\Classes\phcodeXHTML\shell\open\phcode\command" "" '"$INSTDIR\${MAINBINARYNAME}.exe" "%1"'
   WriteRegStr HKCU "Software\Classes\phcodeXHTML\shell\phcode" "Icon" '$INSTDIR\${MAINBINARYNAME}.exe,0'
-  WriteRegStr HKCU "Software\Classes\phcodeXHTML\shell\phcode" "" "Open with phoenix code"
+  WriteRegStr HKCU "Software\Classes\phcodeXHTML\shell\phcode" "" "Open with Phoenix Code"
   WriteRegStr HKCU "Software\Classes\phcodeXHTML\shell\phcode\command" "" '"$INSTDIR\${MAINBINARYNAME}.exe" "%1"'
 
   ; Set file association and context menu for .xml files
@@ -1060,7 +1060,7 @@ Function SetupPhcode
   WriteRegStr HKCU "Software\Classes\phcodeXML\shell\open\phcode" "" '"Open with phcode" "%1"'
   WriteRegStr HKCU "Software\Classes\phcodeXML\shell\open\phcode\command" "" '"$INSTDIR\${MAINBINARYNAME}.exe" "%1"'
   WriteRegStr HKCU "Software\Classes\phcodeXML\shell\phcode" "Icon" '$INSTDIR\${MAINBINARYNAME}.exe,0'
-  WriteRegStr HKCU "Software\Classes\phcodeXML\shell\phcode" "" "Open with phoenix code"
+  WriteRegStr HKCU "Software\Classes\phcodeXML\shell\phcode" "" "Open with Phoenix Code"
   WriteRegStr HKCU "Software\Classes\phcodeXML\shell\phcode\command" "" '"$INSTDIR\${MAINBINARYNAME}.exe" "%1"'
 
   ; Set file association and context menu for .xslt files
@@ -1070,7 +1070,7 @@ Function SetupPhcode
   WriteRegStr HKCU "Software\Classes\phcodeXSLT\shell\open\phcode" "" '"Open with phcode" "%1"'
   WriteRegStr HKCU "Software\Classes\phcodeXSLT\shell\open\phcode\command" "" '"$INSTDIR\${MAINBINARYNAME}.exe" "%1"'
   WriteRegStr HKCU "Software\Classes\phcodeXSLT\shell\phcode" "Icon" '$INSTDIR\${MAINBINARYNAME}.exe,0'
-  WriteRegStr HKCU "Software\Classes\phcodeXSLT\shell\phcode" "" "Open with phoenix code"
+  WriteRegStr HKCU "Software\Classes\phcodeXSLT\shell\phcode" "" "Open with Phoenix Code"
   WriteRegStr HKCU "Software\Classes\phcodeXSLT\shell\phcode\command" "" '"$INSTDIR\${MAINBINARYNAME}.exe" "%1"'
 
   ; Set file association and context menu for .xul files
@@ -1080,7 +1080,7 @@ Function SetupPhcode
   WriteRegStr HKCU "Software\Classes\phcodeXUL\shell\open\phcode" "" '"Open with phcode" "%1"'
   WriteRegStr HKCU "Software\Classes\phcodeXUL\shell\open\phcode\command" "" '"$INSTDIR\${MAINBINARYNAME}.exe" "%1"'
   WriteRegStr HKCU "Software\Classes\phcodeXUL\shell\phcode" "Icon" '$INSTDIR\${MAINBINARYNAME}.exe,0'
-  WriteRegStr HKCU "Software\Classes\phcodeXUL\shell\phcode" "" "Open with phoenix code"
+  WriteRegStr HKCU "Software\Classes\phcodeXUL\shell\phcode" "" "Open with Phoenix Code"
   WriteRegStr HKCU "Software\Classes\phcodeXUL\shell\phcode\command" "" '"$INSTDIR\${MAINBINARYNAME}.exe" "%1"'
 
   ; Set file association and context menu for .yaml files
@@ -1090,7 +1090,7 @@ Function SetupPhcode
   WriteRegStr HKCU "Software\Classes\phcodeYAML\shell\open\phcode" "" '"Open with phcode" "%1"'
   WriteRegStr HKCU "Software\Classes\phcodeYAML\shell\open\phcode\command" "" '"$INSTDIR\${MAINBINARYNAME}.exe" "%1"'
   WriteRegStr HKCU "Software\Classes\phcodeYAML\shell\phcode" "Icon" '$INSTDIR\${MAINBINARYNAME}.exe,0'
-  WriteRegStr HKCU "Software\Classes\phcodeYAML\shell\phcode" "" "Open with phoenix code"
+  WriteRegStr HKCU "Software\Classes\phcodeYAML\shell\phcode" "" "Open with Phoenix Code"
   WriteRegStr HKCU "Software\Classes\phcodeYAML\shell\phcode\command" "" '"$INSTDIR\${MAINBINARYNAME}.exe" "%1"'
 
   ; Set file association and context menu for .yml files
@@ -1100,7 +1100,7 @@ Function SetupPhcode
   WriteRegStr HKCU "Software\Classes\phcodeYML\shell\open\phcode" "" '"Open with phcode" "%1"'
   WriteRegStr HKCU "Software\Classes\phcodeYML\shell\open\phcode\command" "" '"$INSTDIR\${MAINBINARYNAME}.exe" "%1"'
   WriteRegStr HKCU "Software\Classes\phcodeYML\shell\phcode" "Icon" '$INSTDIR\${MAINBINARYNAME}.exe,0'
-  WriteRegStr HKCU "Software\Classes\phcodeYML\shell\phcode" "" "Open with phoenix code"
+  WriteRegStr HKCU "Software\Classes\phcodeYML\shell\phcode" "" "Open with Phoenix Code"
   WriteRegStr HKCU "Software\Classes\phcodeYML\shell\phcode\command" "" '"$INSTDIR\${MAINBINARYNAME}.exe" "%1"'
 
   ; Set file association and context menu for .ts files
@@ -1110,7 +1110,7 @@ Function SetupPhcode
   WriteRegStr HKCU "Software\Classes\phcodeTS\shell\open\phcode" "" '"Open with phcode" "%1"'
   WriteRegStr HKCU "Software\Classes\phcodeTS\shell\open\phcode\command" "" '"$INSTDIR\${MAINBINARYNAME}.exe" "%1"'
   WriteRegStr HKCU "Software\Classes\phcodeTS\shell\phcode" "Icon" '$INSTDIR\${MAINBINARYNAME}.exe,0'
-  WriteRegStr HKCU "Software\Classes\phcodeTS\shell\phcode" "" "Open with phoenix code"
+  WriteRegStr HKCU "Software\Classes\phcodeTS\shell\phcode" "" "Open with Phoenix Code"
   WriteRegStr HKCU "Software\Classes\phcodeTS\shell\phcode\command" "" '"$INSTDIR\${MAINBINARYNAME}.exe" "%1"'
 
   ; Set file association and context menu for .tsx files
@@ -1120,17 +1120,19 @@ Function SetupPhcode
   WriteRegStr HKCU "Software\Classes\phcodeTSX\shell\open\phcode" "" '"Open with phcode" "%1"'
   WriteRegStr HKCU "Software\Classes\phcodeTSX\shell\open\phcode\command" "" '"$INSTDIR\${MAINBINARYNAME}.exe" "%1"'
   WriteRegStr HKCU "Software\Classes\phcodeTSX\shell\phcode" "Icon" '$INSTDIR\${MAINBINARYNAME}.exe,0'
-  WriteRegStr HKCU "Software\Classes\phcodeTSX\shell\phcode" "" "Open with phoenix code"
+  WriteRegStr HKCU "Software\Classes\phcodeTSX\shell\phcode" "" "Open with Phoenix Code"
   WriteRegStr HKCU "Software\Classes\phcodeTSX\shell\phcode\command" "" '"$INSTDIR\${MAINBINARYNAME}.exe" "%1"'
 
   ; Add a context menu item for folders
-  WriteRegStr HKCU "Software\Classes\Directory\shell\phcode" "" "Open as phoenix code project"
+  WriteRegStr HKCU "Software\Classes\Directory\shell\phcode" "" "Open as Phoenix Code project"
   WriteRegStr HKCU "Software\Classes\Directory\shell\phcode\command" "" '"$INSTDIR\${MAINBINARYNAME}.exe" "%1"'
   ; Optional: Set an icon for the context menu item
   WriteRegStr HKCU "Software\Classes\Directory\shell\phcode" "Icon" '"$INSTDIR\${MAINBINARYNAME}.exe",0'
   WriteRegStr HKCU "SOFTWARE\Classes\Directory\background\shell\phcode" "" "Open as phoenix code project"
   WriteRegStr HKCU "SOFTWARE\Classes\Directory\background\shell\phcode" "Icon" '"$INSTDIR\${MAINBINARYNAME}.exe"'
   WriteRegStr HKCU "SOFTWARE\Classes\Directory\background\shell\phcode\command" "" '"$INSTDIR\${MAINBINARYNAME}.exe" "%V"'
+
+
 FunctionEnd
 
 Section Install
