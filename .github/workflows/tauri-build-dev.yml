@@ -99,6 +99,20 @@ jobs:
         run: |
           npm ci
           npm run _ci-release:dev
+      - name: Download src-node built on mac arm (Mac only)
+        if: matrix.platform == 'macos-latest'
+        uses: actions/download-artifact@v2
+        with:
+          name: src-node.tar.gz
+          path: /tmp/src-node.tar.gz
+      - name: inject src-node built on mac arm (Mac only)
+        if: matrix.platform == 'macos-latest'
+        run: |
+          cd src-tauri
+          rm -rf src-node
+          tar -xzvf /tmp/src-node.tar.gz
+          cd ..
+
       - name: install AzureSignTool (windows only)
         if: matrix.platform == 'windows-latest'
         run: |
