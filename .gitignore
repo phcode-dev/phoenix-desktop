@@ -10,7 +10,9 @@ lerna-debug.log*
 node-bins
 src-build/node-*
 src-tauri/node-*
+src-tauri/src-node.tar.gz
 src-tauri/src-node
+src-node/*
 src-build/phnode-*
 src-tauri/phnode-*
 src-tauri/tauri-local.conf.json
