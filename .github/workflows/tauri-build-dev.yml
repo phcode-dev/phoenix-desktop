@@ -61,7 +61,7 @@ jobs:
           tar -czvf src-node.tar.gz src-node
           cd ..
       - name: Upload src-node.tar.gz with installed mac bins
-        uses: actions/upload-artifact@v2
+        uses: actions/upload-artifact@v4
         with:
           name: src-node.tar.gz
           path: src-tauri/src-node.tar.gz
