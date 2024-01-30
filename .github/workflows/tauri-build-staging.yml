@@ -38,9 +38,35 @@ jobs:
               prerelease: true
             })
             return data.id
+  build-mac-m1-node-modules:
+    permissions:
+      contents: write
+    timeout-minutes: 15
+    runs-on: macos-latest-xlarge
+    steps:
+      - uses: actions/checkout@v4
+      - name: macos hardware info
+        run: system_profiler SPSoftwareDataType SPHardwareDataType
+      - name: setup node
+        uses: actions/setup-node@v4
+        with:
+          node-version: 20
+      - name: install frontend dependencies
+        run: |
+          npm ci
+          npm run _ci-cloneAndBuildPhoenix
+          npm run _ci_make_src-node
+          cd src-tauri
+          tar -czvf src-node.tar.gz src-node
+          cd ..
+      - name: Upload src-node.tar.gz with installed mac bins
+        uses: actions/upload-artifact@v2
+        with:
+          name: src-node.tar.gz
+          path: src-tauri/src-node.tar.gz
 
   build-tauri:
-    needs: create-release
+    needs: [create-release, build-mac-m1-node-modules]
     permissions:
       contents: write
     strategy:
