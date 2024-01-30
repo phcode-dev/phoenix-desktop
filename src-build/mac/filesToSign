@@ -1,4 +1,5 @@
 src-tauri/src-node/node_modules/fsevents/fsevents.node
+src-node/node_modules/fsevents/fsevents.node
 src-tauri/src-node/node_modules/@lmdb/lmdb-darwin-x64/node.napi.node
 src-node/node_modules/@lmdb/lmdb-darwin-arm64/node.napi.node
 src-tauri/src-node/node_modules/@lmdb/lmdb-darwin-x64/node.abi108.node
