@@ -85,6 +85,14 @@ jobs:
         uses: actions/setup-node@v4
         with:
           node-version: 20
+
+      - name: Download src-node built on mac arm (Mac only)
+        if: matrix.platform == 'macos-latest'
+        uses: actions/download-artifact@v4
+        with:
+          name: src-node.tar.gz
+          path: /tmp/src-node.tar.gz
+
       - name: install Rust stable
         uses: dtolnay/rust-toolchain@stable
       - name: install dependencies (ubuntu only)
@@ -99,19 +107,14 @@ jobs:
         run: |
           npm ci
           npm run _ci-release:dev
-      - name: Download src-node built on mac arm (Mac only)
-        if: matrix.platform == 'macos-latest'
-        uses: actions/download-artifact@v2
-        with:
-          name: src-node.tar.gz
-          path: /tmp/src-node.tar.gz
-      - name: inject src-node built on mac arm (Mac only)
+
+      - name: setup src-node built on mac arm (Mac only)
         if: matrix.platform == 'macos-latest'
         run: |
-          cd src-tauri
+          ls /tmp/src-node.tar.gz
           rm -rf src-node
-          tar -xzvf /tmp/src-node.tar.gz
-          cd ..
+          tar -xzvf /tmp/src-node.tar.gz/src-node.tar.gz
+          ls src-node
 
       - name: install AzureSignTool (windows only)
         if: matrix.platform == 'windows-latest'
@@ -216,6 +219,14 @@ jobs:
           releaseId: ${{ needs.create-release.outputs.release_id }}
           updaterJsonPreferNsis: true
           tagName: ${{ env.GIT_TAG_NAME }}
+
+      - name: inject src-node built on mac arm (Mac only)
+        if: matrix.platform == 'macos-latest'
+        run: |
+          ls src-node
+          rm -rf src-tauri/src-node
+          mv src-node src-tauri/src-node
+          ls src-tauri/src-node
 
       - name: setup env for mac arm (Mac only)
         if: matrix.platform == 'macos-latest'
