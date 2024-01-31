@@ -39,7 +39,7 @@ jobs:
 
       - name: Run tauri unit tests in windows
         # GUI apps in windows doesn't log on console. so we capture the output to a text file and print it, then fail on error.
-        uses: nick-fields/retry@v2
+        uses: nick-fields/retry@v3
         id: windowsRunUnit
         continue-on-error: true
         with:
@@ -53,7 +53,7 @@ jobs:
         shell: cmd
 
       - name: Run tauri integration tests in windows
-        uses: nick-fields/retry@v2
+        uses: nick-fields/retry@v3
         id: windowsRunIntegration
         continue-on-error: true
         with:
@@ -67,7 +67,7 @@ jobs:
         shell: cmd
 
       - name: Run tauri mainview tests in windows
-        uses: nick-fields/retry@v2
+        uses: nick-fields/retry@v3
         id: windowsRunMainview
         continue-on-error: true
         with:
@@ -81,7 +81,7 @@ jobs:
         shell: cmd
 
       - name: Run tauri livepreview tests in windows
-        uses: nick-fields/retry@v2
+        uses: nick-fields/retry@v3
         id: windowsRunLivepreview
         continue-on-error: true
         with:
@@ -95,7 +95,7 @@ jobs:
         shell: cmd
 
       - name: Run tauri LegacyInteg tests in windows
-        uses: nick-fields/retry@v2
+        uses: nick-fields/retry@v3
         id: windowsRunLegacyInteg
         continue-on-error: true
         with:

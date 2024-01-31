@@ -45,35 +45,35 @@ jobs:
           npm run releaseDistTestDebug
 
       - name: Run tauri unit tests
-        uses: nick-fields/retry@v2
+        uses: nick-fields/retry@v3
         with:
           timeout_minutes: 12
           max_attempts: 3
           command: xvfb-run ./src-tauri/target/debug/phoenix-test --run-tests=unit -q
 
       - name: Run tauri integration tests
-        uses: nick-fields/retry@v2
+        uses: nick-fields/retry@v3
         with:
           timeout_minutes: 12
           max_attempts: 3
           command: xvfb-run ./src-tauri/target/debug/phoenix-test --run-tests=integration -q
 
       - name: Run tauri mainview tests
-        uses: nick-fields/retry@v2
+        uses: nick-fields/retry@v3
         with:
           timeout_minutes: 12
           max_attempts: 3
           command: xvfb-run ./src-tauri/target/debug/phoenix-test --run-tests=mainview -q
 
       - name: Run tauri livepreview tests
-        uses: nick-fields/retry@v2
+        uses: nick-fields/retry@v3
         with:
           timeout_minutes: 12
           max_attempts: 3
           command: xvfb-run ./src-tauri/target/debug/phoenix-test --run-tests=livepreview -q
 
       - name: Run tauri LegacyInteg tests
-        uses: nick-fields/retry@v2
+        uses: nick-fields/retry@v3
         with:
           timeout_minutes: 20
           max_attempts: 3
