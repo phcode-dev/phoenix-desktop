@@ -58,13 +58,15 @@ jobs:
           npm run _ci-cloneAndBuildPhoenix
           npm run _ci_make_src-node
           cd src-tauri
-          tar -czvf src-node.tar.gz src-node
+          mv src-node src-node-darwin-arm64
+          tar -czvf src-node-darwin-arm64.tar.gz src-node-darwin-arm64
+          mv src-node-darwin-arm64 src-node
           cd ..
       - name: Upload src-node.tar.gz with installed mac bins
         uses: actions/upload-artifact@v4
         with:
-          name: src-node.tar.gz
-          path: src-tauri/src-node.tar.gz
+          name: src-node-darwin-arm64.tar.gz
+          path: src-tauri/src-node-darwin-arm64.tar.gz
 
   build-tauri:
     needs: [create-release, build-mac-m1-node-modules]
@@ -90,8 +92,8 @@ jobs:
         if: matrix.platform == 'macos-latest'
         uses: actions/download-artifact@v4
         with:
-          name: src-node.tar.gz
-          path: /tmp/src-node.tar.gz
+          name: src-node-darwin-arm64.tar.gz
+          path: /tmp/src-node-darwin-arm64.tar.gz
 
       - name: install Rust stable
         uses: dtolnay/rust-toolchain@stable
@@ -111,10 +113,11 @@ jobs:
       - name: setup src-node built on mac arm (Mac only)
         if: matrix.platform == 'macos-latest'
         run: |
-          ls /tmp/src-node.tar.gz
+          ls /tmp/src-node-darwin-arm64.tar.gz
           rm -rf src-node
-          tar -xzvf /tmp/src-node.tar.gz/src-node.tar.gz
-          ls src-node
+          tar -xzvf /tmp/src-node-darwin-arm64.tar.gz/src-node-darwin-arm64.tar.gz
+          ls src-node-darwin-arm64
+          mv src-node-darwin-arm64 src-node
 
       - name: install AzureSignTool (windows only)
         if: matrix.platform == 'windows-latest'

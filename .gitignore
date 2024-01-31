@@ -10,8 +10,9 @@ lerna-debug.log*
 node-bins
 src-build/node-*
 src-tauri/node-*
-src-tauri/src-node.tar.gz
+src-tauri/src-node-darwin-arm64.tar.gz
 src-tauri/src-node
+src-node-darwin-arm64/*
 src-node/*
 src-build/phnode-*
 src-tauri/phnode-*
