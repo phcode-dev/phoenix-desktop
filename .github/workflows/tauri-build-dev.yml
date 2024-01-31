@@ -72,7 +72,7 @@ jobs:
     needs: [create-release, build-mac-m1-node-modules]
     permissions:
       contents: write
-    timeout-minutes: 45
+    timeout-minutes: 60
     strategy:
       fail-fast: false
       matrix:
