@@ -72,6 +72,7 @@ jobs:
     needs: [create-release, build-mac-m1-node-modules]
     permissions:
       contents: write
+    timeout-minutes: 45
     strategy:
       fail-fast: false
       matrix:
@@ -258,6 +259,7 @@ jobs:
   publish-release:
     permissions:
       contents: write
+    timeout-minutes: 15
     runs-on: ubuntu-latest
     needs: [ create-release, build-tauri ]
 
