@@ -38,6 +38,7 @@ jobs:
               prerelease: true
             })
             return data.id
+
   build-mac-m1-node-modules:
     permissions:
       contents: write
@@ -57,13 +58,15 @@ jobs:
           npm run _ci-cloneAndBuildPhoenix
           npm run _ci_make_src-node
           cd src-tauri
-          tar -czvf src-node.tar.gz src-node
+          mv src-node src-node-darwin-arm64
+          tar -czvf src-node-darwin-arm64.tar.gz src-node-darwin-arm64
+          mv src-node-darwin-arm64 src-node
           cd ..
       - name: Upload src-node.tar.gz with installed mac bins
         uses: actions/upload-artifact@v4
         with:
-          name: src-node.tar.gz
-          path: src-tauri/src-node.tar.gz
+          name: src-node-darwin-arm64.tar.gz
+          path: src-tauri/src-node-darwin-arm64.tar.gz
 
   build-tauri:
     needs: [create-release, build-mac-m1-node-modules]
@@ -84,6 +87,14 @@ jobs:
         uses: actions/setup-node@v4
         with:
           node-version: 20
+
+      - name: Download src-node built on mac arm (Mac only)
+        if: matrix.platform == 'macos-latest'
+        uses: actions/download-artifact@v4
+        with:
+          name: src-node-darwin-arm64.tar.gz
+          path: /tmp/src-node-darwin-arm64.tar.gz
+
       - name: install Rust stable
         uses: dtolnay/rust-toolchain@stable
       - name: install dependencies (ubuntu only)
@@ -98,6 +109,16 @@ jobs:
         run: |
           npm ci
           npm run _ci-release:staging
+
+      - name: setup src-node built on mac arm (Mac only)
+        if: matrix.platform == 'macos-latest'
+        run: |
+          ls /tmp/src-node-darwin-arm64.tar.gz
+          rm -rf src-node
+          tar -xzvf /tmp/src-node-darwin-arm64.tar.gz/src-node-darwin-arm64.tar.gz
+          ls src-node-darwin-arm64
+          mv src-node-darwin-arm64 src-node
+
       - name: install AzureSignTool (windows only)
         if: matrix.platform == 'windows-latest'
         run: |
@@ -201,6 +222,14 @@ jobs:
           releaseId: ${{ needs.create-release.outputs.release_id }}
           updaterJsonPreferNsis: true
           tagName: ${{ env.GIT_TAG_NAME }}
+
+      - name: inject src-node built on mac arm (Mac only)
+        if: matrix.platform == 'macos-latest'
+        run: |
+          ls src-node
+          rm -rf src-tauri/src-node
+          mv src-node src-tauri/src-node
+          ls src-tauri/src-node
 
       - name: setup env for mac arm (Mac only)
         if: matrix.platform == 'macos-latest'
