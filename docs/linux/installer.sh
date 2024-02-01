@@ -3,7 +3,7 @@ set -e # Exit immediately if a command exits with a non-zero status.
 # Define common variables
 APPIMAGE_DIR=$HOME/.local/bin
 DESKTOP_DIR=$HOME/.local/share/applications
-NEW_APPIMAGE=phcode.AppImage
+NEW_APPIMAGE=phcode
 ICON=phoenix_icon.png
 GITHUB_REPO="charlypa/phoenix-desktop"
 API_URL="https://api.github.com/repos/$GITHUB_REPO/releases/latest"
@@ -26,8 +26,8 @@ install() {
 
     # Download the AppImage
     echo "Downloading AppImage from $APPIMAGE_URL..."
-    wget --tries=10 --timeout=30 --waitretry=5 --retry-connrefused  --show-progress -qO $NEW_APPIMAGE $APPIMAGE_URL || { echo "Failed to download AppImage"; exit 1; }
-    wget --tries=10 --timeout=30 --waitretry=5 --retry-connrefused --show-progress -qO $ICON $ICON_URL  || { echo "Failed to download Icon"; exit 1; }
+    wget -c -N --tries=10 --timeout=30 --waitretry=5 --retry-connrefused  --show-progress -qO $NEW_APPIMAGE $APPIMAGE_URL || { echo "Failed to download AppImage"; exit 1; }
+    wget  -c -N --tries=10 --timeout=30 --waitretry=5 --retry-connrefused --show-progress -qO $ICON $ICON_URL  || { echo "Failed to download Icon"; exit 1; }
     # Remove the temporary JSON file
     rm latest_release.json
 
