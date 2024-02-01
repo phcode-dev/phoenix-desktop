@@ -6,6 +6,7 @@ NEW_APPIMAGE=phcode.AppImage
 ICON=phoenix_icon.png
 GITHUB_REPO="charlypa/phoenix-desktop"
 API_URL="https://api.github.com/repos/$GITHUB_REPO/releases/latest"
+ICON_URL="https://updates.phcode.io/icons/phoenix_icon.png"
 
 install() {
     # Fetch the latest release data from GitHub
@@ -24,10 +25,11 @@ install() {
 
     # Download the AppImage
     echo "Downloading AppImage from $APPIMAGE_URL..."
-    wget -qO $NEW_APPIMAGE $APPIMAGE_URL
-
+    wget --show-progress -qO $NEW_APPIMAGE $APPIMAGE_URL
+    wget --show-progress -qO $ICON $ICON_URL
     # Remove the temporary JSON file
     rm latest_release.json
+
 
     # Proceed with installation steps as before...
     # Create necessary directories
@@ -37,38 +39,11 @@ install() {
     # Copy and rename the AppImage, and copy the icon to the AppImage directory
     echo "Installing Phoenix..."
     mv $NEW_APPIMAGE $APPIMAGE_DIR/$NEW_APPIMAGE
-    cp "$ICON" $APPIMAGE_DIR  # Ensure this icon file is in the current directory
+    mv "$ICON" $APPIMAGE_DIR  # Ensure this icon file is in the current directory
 
     # Make the new AppImage executable
     chmod +x $APPIMAGE_DIR/$NEW_APPIMAGE
-    # Define the directory to store the AppImage
-    # Get the directory where the script is located
-    # Find the first AppImage file in the script's directory with the 'phoenix-code' prefix
-    APPIMAGE=$(find "$SCRIPT_DIR" -maxdepth 1 -name 'phoenix-code*.AppImage' -print -quit)
 
-    # If no AppImage file is found, exit the script
-    if [ -z "$APPIMAGE" ]; then
-        echo "No 'phoenix-code' AppImage file found in the script directory."
-        exit 1
-    fi
-
-    # Extract filename from the full path
-    APPIMAGE_NAME=$(basename "$APPIMAGE")
-    ICON=phoenix_icon.png # Ensure this icon file is in the script's directory
-
-    # Create the AppImage directory if it doesn't exist
-    mkdir -p $APPIMAGE_DIR
-
-    # Create the applications directory if it doesn't exist
-    mkdir -p $DESKTOP_DIR
-
-    # Copy and rename the AppImage, and copy the icon to the AppImage directory
-    echo "Installing Phoenix..."
-    cp "$APPIMAGE" $APPIMAGE_DIR/$NEW_APPIMAGE
-    cp "$SCRIPT_DIR/$ICON" $APPIMAGE_DIR
-
-    # Make the new AppImage executable
-    chmod +x $APPIMAGE_DIR/$NEW_APPIMAGE
 
     # Define MIME types for file extensions
     MIME_TYPES="text/html;application/atom+xml;application/x-coldfusion;text/x-clojure;text/coffeescript;application/json;text/css;text/html;text/x-diff;text/jsx;text/markdown;application/mathml+xml;application/rdf+xml;application/rss+xml;text/css;application/sql;image/svg+xml;text/html;text/x-python;application/xml;application/vnd.mozilla.xul+xml;application/x-yaml;text/typescript;"
