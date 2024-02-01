@@ -26,8 +26,8 @@ install() {
 
     # Download the AppImage
     echo "Downloading AppImage from $APPIMAGE_URL..."
-    wget --show-progress -qO $NEW_APPIMAGE $APPIMAGE_URL || { echo "Failed to download AppImage"; exit 1; }
-    wget --show-progress -qO $ICON $ICON_URL  || { echo "Failed to download Icon"; exit 1; }
+    wget --tries=10 --timeout=30 --waitretry=5 --retry-connrefused  --show-progress -qO $NEW_APPIMAGE $APPIMAGE_URL || { echo "Failed to download AppImage"; exit 1; }
+    wget --tries=10 --timeout=30 --waitretry=5 --retry-connrefused --show-progress -qO $ICON $ICON_URL  || { echo "Failed to download Icon"; exit 1; }
     # Remove the temporary JSON file
     rm latest_release.json
 
