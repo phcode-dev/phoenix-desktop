@@ -1,4 +1,5 @@
 #!/bin/bash
+set -e # Exit immediately if a command exits with a non-zero status.
 # Define common variables
 APPIMAGE_DIR=$HOME/.local/bin
 DESKTOP_DIR=$HOME/.local/share/applications
@@ -11,10 +12,10 @@ ICON_URL="https://updates.phcode.io/icons/phoenix_icon.png"
 install() {
     # Fetch the latest release data from GitHub
     echo "Fetching latest release from $GITHUB_REPO..."
-    wget -qO- $API_URL > latest_release.json
+    wget -qO- $API_URL > latest_release.json || { echo "Failed to fetch latest release info"; exit 1; }
 
     # Extract the download URL for the AppImage
-    APPIMAGE_URL=$(grep -oP '"browser_download_url": "\K(.*phoenix-desktop.*\.AppImage)(?=")' latest_release.json)
+    APPIMAGE_URL=$(grep -oP '"browser_download_url": "\K(.*phoenix-desktop.*\.AppImage)(?=")' latest_release.json) || { echo "Failed to extract AppImage URL"; exit 1; }
 
     # If no AppImage URL is found, exit the script
     if [ -z "$APPIMAGE_URL" ]; then
@@ -25,8 +26,8 @@ install() {
 
     # Download the AppImage
     echo "Downloading AppImage from $APPIMAGE_URL..."
-    wget --show-progress -qO $NEW_APPIMAGE $APPIMAGE_URL
-    wget --show-progress -qO $ICON $ICON_URL
+    wget --show-progress -qO $NEW_APPIMAGE $APPIMAGE_URL || { echo "Failed to download AppImage"; exit 1; }
+    wget --show-progress -qO $ICON $ICON_URL  || { echo "Failed to download Icon"; exit 1; }
     # Remove the temporary JSON file
     rm latest_release.json
 
