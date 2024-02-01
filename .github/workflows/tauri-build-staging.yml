@@ -43,7 +43,7 @@ jobs:
     permissions:
       contents: write
     timeout-minutes: 15
-    runs-on: macos-latest-xlarge
+    runs-on: macos-14
     steps:
       - uses: actions/checkout@v4
       - name: macos hardware info
