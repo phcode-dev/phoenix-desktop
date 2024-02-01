@@ -1,7 +1,7 @@
-name: 'Expensive Desktop-mac M1 prod only full test suite run on pull request'
+name: 'Desktop-mac M1 full test suite run on pull request'
 on:
   pull_request:
-    branches: [ prod ]
+    branches: [ main ]
 
 concurrency:
   group: pr-desktop-mac-m1-${{ github.event.pull_request.number }}
@@ -9,8 +9,8 @@ concurrency:
 
 jobs:
   test-desktop-mac-m1:
-    runs-on: macos-latest-xlarge
-    timeout-minutes: 45
+    runs-on: macos-14
+    timeout-minutes: 90
     steps:
       - uses: actions/checkout@v4
       - name: macos hardware info
@@ -42,34 +42,34 @@ jobs:
       - name: Run tauri unit tests
         uses: nick-fields/retry@v3
         with:
-          timeout_minutes: 10
-          max_attempts: 2
+          timeout_minutes: 12
+          max_attempts: 3
           command: ./src-tauri/target/debug/phoenix-test --run-tests=unit -q
 
       - name: Run tauri integration tests
         uses: nick-fields/retry@v3
         with:
-          timeout_minutes: 10
-          max_attempts: 2
+          timeout_minutes: 12
+          max_attempts: 3
           command: ./src-tauri/target/debug/phoenix-test --run-tests=integration -q
 
       - name: Run tauri mainview tests
         uses: nick-fields/retry@v3
         with:
-          timeout_minutes: 10
-          max_attempts: 2
+          timeout_minutes: 12
+          max_attempts: 3
           command: ./src-tauri/target/debug/phoenix-test --run-tests=mainview -q
 
       - name: Run tauri livepreview tests
         uses: nick-fields/retry@v3
         with:
-          timeout_minutes: 10
-          max_attempts: 2
+          timeout_minutes: 12
+          max_attempts: 3
           command: ./src-tauri/target/debug/phoenix-test --run-tests=livepreview -q
 
       - name: Run tauri LegacyInteg tests
         uses: nick-fields/retry@v3
         with:
           timeout_minutes: 30
-          max_attempts: 1
+          max_attempts: 3
           command: ./src-tauri/target/debug/phoenix-test --run-tests=LegacyInteg -q
