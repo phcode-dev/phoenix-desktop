@@ -4,9 +4,43 @@ APPIMAGE_DIR=$HOME/.local/bin
 DESKTOP_DIR=$HOME/.local/share/applications
 NEW_APPIMAGE=phcode.AppImage
 ICON=phoenix_icon.png
-SCRIPT_DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" &> /dev/null && pwd )"
+GITHUB_REPO="charlypa/phoenix-desktop"
+API_URL="https://api.github.com/repos/$GITHUB_REPO/releases/latest"
 
 install() {
+    # Fetch the latest release data from GitHub
+    echo "Fetching latest release from $GITHUB_REPO..."
+    wget -qO- $API_URL > latest_release.json
+
+    # Extract the download URL for the AppImage
+    APPIMAGE_URL=$(grep -oP '"browser_download_url": "\K(.*phoenix-desktop.*\.AppImage)(?=")' latest_release.json)
+
+    # If no AppImage URL is found, exit the script
+    if [ -z "$APPIMAGE_URL" ]; then
+        echo "No AppImage URL found in the latest release."
+        rm latest_release.json
+        exit 1
+    fi
+
+    # Download the AppImage
+    echo "Downloading AppImage from $APPIMAGE_URL..."
+    wget -qO $NEW_APPIMAGE $APPIMAGE_URL
+
+    # Remove the temporary JSON file
+    rm latest_release.json
+
+    # Proceed with installation steps as before...
+    # Create necessary directories
+    mkdir -p $APPIMAGE_DIR
+    mkdir -p $DESKTOP_DIR
+
+    # Copy and rename the AppImage, and copy the icon to the AppImage directory
+    echo "Installing Phoenix..."
+    mv $NEW_APPIMAGE $APPIMAGE_DIR/$NEW_APPIMAGE
+    cp "$ICON" $APPIMAGE_DIR  # Ensure this icon file is in the current directory
+
+    # Make the new AppImage executable
+    chmod +x $APPIMAGE_DIR/$NEW_APPIMAGE
     # Define the directory to store the AppImage
     # Get the directory where the script is located
     # Find the first AppImage file in the script's directory with the 'phoenix-code' prefix
