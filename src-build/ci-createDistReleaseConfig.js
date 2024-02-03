@@ -100,7 +100,7 @@ async function ciCreateDistReleaseConfig() {
     console.log("Product Bundle Identifier is: ", bundleIdentifier);
     configJson.tauri.bundle.identifier = bundleIdentifier;
 
-    patchTauriConfigWithMetricsHTML(configJson);
+    patchTauriConfigWithMetricsHTML(configJson, true);
 
     console.log("Product update endpoints are: ", configJson.tauri.updater.endpoints);
     console.log("Writing new dist config json ", tauriConfigPath, configJson);
