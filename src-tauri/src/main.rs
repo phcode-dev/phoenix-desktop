@@ -5,11 +5,10 @@ windows_subsystem = "windows"
 use std::env;
 
 use tauri::{Manager};
+use std::path::PathBuf;
 
 #[cfg(target_os = "linux")]
 use std::fs::metadata;
-#[cfg(target_os = "linux")]
-use std::path::PathBuf;
 #[cfg(target_os = "linux")]
 use gtk::{glib::ObjectExt, prelude::WidgetExt};
 
@@ -61,6 +60,10 @@ fn _get_commandline_args() -> Option<Vec<String>> {
     Some(env::args().collect())
 }
 
+#[tauri::command]
+fn get_current_working_dir() -> Result<PathBuf, String> {
+    env::current_dir().map_err(|e| e.to_string())
+}
 
 #[tauri::command]
 fn _rename_path(old_path: &str, new_path: &str) -> Result<(), String> {
@@ -287,7 +290,7 @@ fn main() {
         .on_window_event(|event| process_window_event(&event))
         .invoke_handler(tauri::generate_handler![
             get_mac_deep_link_requests,
-            toggle_devtools, console_log, console_error, _get_commandline_args,
+            toggle_devtools, console_log, console_error, _get_commandline_args, get_current_working_dir,
             _get_window_labels,
             _get_windows_drives, _rename_path, show_in_folder, zoom_window, _get_clipboard_files])
         .setup(|app| {
