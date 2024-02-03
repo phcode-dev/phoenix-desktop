@@ -103,10 +103,14 @@ const METRIC_URL_FOR_STAGE = {
     "production": "https://phcode.dev/desktop-metrics.html"
 };
 
-export function patchTauriConfigWithMetricsHTML(tauriConf) {
+export function patchTauriConfigWithMetricsHTML(tauriConf, useClonedPhoenix) {
     const platform = getPlatformDetails().platform;
-    const phoenixConfigPath = (platform === "win") ? `${__dirname}\\...\\..\\phoenix\\dist\\config.json`
+    let phoenixConfigPath = (platform === "win") ? `${__dirname}\\..\\..\\phoenix\\dist\\config.json`
         : `${__dirname}/../../phoenix/dist/config.json`;
+    if(useClonedPhoenix){
+        phoenixConfigPath = (platform === "win") ? `${__dirname}\\..\\phoenix\\dist\\config.json`
+            : `${__dirname}/../phoenix/dist/config.json`;
+    }
     console.log("Reading Phoenix config file: ", phoenixConfigPath);
     let phoenixConfigJson = JSON.parse(fs.readFileSync(phoenixConfigPath));
     const phoenixStageInDist = phoenixConfigJson.config.environment;
