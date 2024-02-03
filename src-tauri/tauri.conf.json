@@ -364,6 +364,14 @@
                         "extn-29",
                         "extn-30"
                     ]
+                },
+                {
+                    "scheme": "http",
+                    "domain": "localhost:8000",
+                    "enableTauriAPI": true,
+                    "windows": [
+                        "healthData"
+                    ]
                 }
             ]
         },
@@ -389,6 +397,12 @@
                 "minWidth": 800,
                 "acceptFirstMouse": true,
                 "fileDropEnabled": false
+            },
+            {
+                "label": "healthData",
+                "title": "Health data window",
+                "url": "http://localhost:8000/src/desktop-metrics.html",
+                "visible": false
             }
         ]
     }
