@@ -2742,7 +2742,7 @@ dependencies = [
 
 [[package]]
 name = "phoenix-code-ide"
-version = "3.2.21"
+version = "3.2.24"
 dependencies = [
  "clipboard-files",
  "fix-path-env",

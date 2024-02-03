@@ -32,6 +32,7 @@ mod utilities;
 mod boot_config;
 
 mod platform;
+use tauri_plugin_window_state::StateFlags;
 
 #[derive(Clone, serde::Serialize)]
 struct Payload {
@@ -277,7 +278,7 @@ fn main() {
             Ok(response)
         })
         .plugin(tauri_plugin_fs_extra::init())
-        .plugin(tauri_plugin_window_state::Builder::default().build())
+        .plugin(tauri_plugin_window_state::Builder::default().with_state_flags(StateFlags::all() & !StateFlags::VISIBLE).build())
         .plugin(tauri_plugin_single_instance::init(|app, argv, cwd| {
                     println!("{}, {argv:?}, {cwd}", app.package_info().name);
 
