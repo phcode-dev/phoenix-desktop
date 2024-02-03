@@ -1,7 +1,14 @@
 import * as fsExtra from "fs-extra";
-import {promises as fs} from 'fs';
+import fs from 'fs';
+import {promises as fsPromises} from 'fs';
 import * as path from "path";
 import * as os from "os";
+import {fileURLToPath} from "url";
+import {dirname} from "path";
+
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = dirname(__filename);
+
 
 /**
  * Asynchronously removes a specified directory if it exists.
@@ -45,12 +52,12 @@ export async function removeDir(dirPath) {
  */
 
 export async function listFilesAndFolders(startPath, filter) {
-    let files = await fs.readdir(startPath);
+    let files = await fsPromises.readdir(startPath);
     let folders = [];
 
     for (let file of files) {
         let fullPath = path.join(startPath, file);
-        await fs.stat(fullPath);
+        await fsPromises.stat(fullPath);
         if (file.startsWith(filter)) {
             folders.push(fullPath);
         }
@@ -89,4 +96,38 @@ export function getSideCarBinName(platform, arch) {
         return "phnode-x86_64-pc-windows-msvc.exe";
     }
    throw new Error(`unsupported ${platform} ${arch}`);
+}
+
+const METRIC_URL_FOR_STAGE = {
+    "dev": "https://dev.phcode.dev/desktop-metrics.html",
+    "stage": "https://staging.phcode.dev/desktop-metrics.html",
+    "production": "https://phcode.dev/desktop-metrics.html"
+};
+
+export function patchTauriConfigWithMetricsHTML(tauriConf) {
+    const platform = getPlatformDetails().platform;
+    const phoenixConfigPath = (platform === "win") ? `${__dirname}\\...\\..\\phoenix\\dist\\config.json`
+        : `${__dirname}/../../phoenix/dist/config.json`;
+    console.log("Reading Phoenix config file: ", phoenixConfigPath);
+    let phoenixConfigJson = JSON.parse(fs.readFileSync(phoenixConfigPath));
+    const phoenixStageInDist = phoenixConfigJson.config.environment;
+    console.log("Phoenix stage in dist folder is: ", phoenixStageInDist);
+    const metricsURLToUse = METRIC_URL_FOR_STAGE[phoenixStageInDist];
+    if(!metricsURLToUse){
+        throw new Error("Unknown Phoenix stage(config.environment) in file " + phoenixConfigPath);
+    }
+    const window = tauriConf.tauri.windows[1];
+    if(!window.label === "healthData"){
+        throw new Error("Expected tauriConf.json- tauri.windows[1].label to be 'healthData'");
+    }
+    window.url = metricsURLToUse;
+    const metricsPageURL = new URL(metricsURLToUse)
+    const dangerousRemoteDomainIpcAccess = tauriConf.tauri.security.dangerousRemoteDomainIpcAccess;
+    for(let ipc of dangerousRemoteDomainIpcAccess) {
+        if(ipc.windows.includes("healthData")){
+            ipc.scheme = "https";
+            ipc.domain = metricsPageURL.host;
+        }
+    }
+    console.log("Window Metrics url ", tauriConf.tauri.windows[1].url);
 }
