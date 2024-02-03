@@ -1,6 +1,5 @@
 import * as fsExtra from "fs-extra";
-import fs from 'fs';
-import {promises as fsPromises} from 'fs';
+import fs, {promises as fsPromises} from 'fs';
 import * as path from "path";
 import * as os from "os";
 import {fileURLToPath} from "url";
@@ -117,7 +116,7 @@ export function patchTauriConfigWithMetricsHTML(tauriConf) {
         throw new Error("Unknown Phoenix stage(config.environment) in file " + phoenixConfigPath);
     }
     const window = tauriConf.tauri.windows[1];
-    if(!window.label === "healthData"){
+    if(window.label !== "healthData"){
         throw new Error("Expected tauriConf.json- tauri.windows[1].label to be 'healthData'");
     }
     window.url = metricsURLToUse;
