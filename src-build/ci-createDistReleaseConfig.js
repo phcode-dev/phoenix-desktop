@@ -9,6 +9,7 @@ import {
 import { EOL } from "os";
 import os from "os";
 import fs from 'fs';
+import {patchTauriConfigWithMetricsHTML} from "./utils.js";
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = dirname(__filename);
@@ -98,8 +99,11 @@ async function ciCreateDistReleaseConfig() {
     const bundleIdentifier = BUNDLE_IDENTIFIER_FOR_STAGE[phoenixStage] || "io.phcode.unknown.stage";
     console.log("Product Bundle Identifier is: ", bundleIdentifier);
     configJson.tauri.bundle.identifier = bundleIdentifier;
+
+    patchTauriConfigWithMetricsHTML(configJson);
+
     console.log("Product update endpoints are: ", configJson.tauri.updater.endpoints);
-    console.log("Writing new dist config json ", tauriConfigPath);
+    console.log("Writing new dist config json ", tauriConfigPath, configJson);
     fs.writeFileSync(tauriConfigPath, JSON.stringify(configJson, null, 4));
 
     // patch info.plist for mac
