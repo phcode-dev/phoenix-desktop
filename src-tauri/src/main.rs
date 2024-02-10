@@ -4,6 +4,7 @@ windows_subsystem = "windows"
 )]
 use std::env;
 
+#[cfg(not(target_os = "linux"))]
 use webbrowser;
 
 use tauri::{Manager};
@@ -183,12 +184,23 @@ fn zoom_window(window: tauri::Window, scale_factor: f64) {
 
 #[tauri::command]
 fn open_url_in_browser(url: String) -> Result<(), String> {
-    // Attempt to open the URL in the default web browser
-    if webbrowser::open(&url).is_ok() {
-        Ok(())
-    } else {
-        Err("Failed to open URL in the browser".into())
+    #[cfg(target_os = "linux")]
+    {
+        // Use xdg-open for Linux
+        Command::new("xdg-open")
+            .arg(&url)
+            .spawn()
+            .map_err(|err| format!("Failed to open URL on Linux: {}", err))?;
     }
+
+    #[cfg(any(target_os = "windows", target_os = "macos"))]
+    {
+        // Use the webbrowser crate for Windows and Mac
+        webbrowser::open(&url)
+            .map_err(|err| format!("Failed to open URL in the browser: {}", err))?;
+    }
+
+    Ok(())
 }
 
 fn process_window_event(event: &GlobalWindowEvent) {
