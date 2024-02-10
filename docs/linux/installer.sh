@@ -5,7 +5,7 @@ APPIMAGE_DIR=$HOME/.local/bin
 DESKTOP_DIR=$HOME/.local/share/applications
 NEW_APPIMAGE=phcode
 ICON=phoenix_icon.png
-GITHUB_REPO="charlypa/phoenix-desktop"
+GITHUB_REPO="phcode-dev/phoenix-desktop"
 API_URL="https://api.github.com/repos/$GITHUB_REPO/releases/latest"
 ICON_URL="https://updates.phcode.io/icons/phoenix_icon.png"
 
