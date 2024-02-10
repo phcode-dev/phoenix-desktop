@@ -189,6 +189,7 @@ fn open_url_in_browser(url: String) -> Result<(), String> {
         // Use xdg-open for Linux
         Command::new("xdg-open")
             .arg(&url)
+            .current_dir("/tmp")
             .spawn()
             .map_err(|err| format!("Failed to open URL on Linux: {}", err))?;
     }
