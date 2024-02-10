@@ -1,0 +1,23 @@
+{
+    "version": "3.2.25",
+    "notes": "First Beta release test.",
+    "pub_date": "2024-02-09T08:17:34.326Z",
+    "platforms": {
+        "linux-x86_64": {
+            "signature": "dW50cnVzdGVkIGNvbW1lbnQ6IHNpZ25hdHVyZSBmcm9tIHRhdXJpIHNlY3JldCBrZXkKUlVUVTVEdXJNVyttWmxKS0x4Yk4rZ3R2Q1NucHJyM0xxMVA1cEZzQmRIaVM1VXArT0VMOHRQWDBmbFlybmpFR0tiQ3diclhtRkYvRWJURUExQ05xRXF4Qm5VMmI4cGdVUEE0PQp0cnVzdGVkIGNvbW1lbnQ6IHRpbWVzdGFtcDoxNzA3NDY0ODY2CWZpbGU6cGhvZW5peC1jb2RlXzMuMi4yNV9hbWQ2NC5BcHBJbWFnZS50YXIuZ3oKMStobVhoVHJKQkZ4eWs3RVJWQjZWRUsxeVgvd21qSVVidnBlR3NjZXRhNWE3bmxlNm13ak42Szk3bUlsMUtLVHJybnZsWXdndEZtSlRGeUxhQ1lOQlE9PQo=",
+            "url": "https://github.com/phcode-dev/phoenix-desktop/releases/download/prod-app-v3.2.25/phoenix-code_3.2.25_amd64.AppImage.tar.gz"
+        },
+        "windows-x86_64": {
+            "signature": "dW50cnVzdGVkIGNvbW1lbnQ6IHNpZ25hdHVyZSBmcm9tIHRhdXJpIHNlY3JldCBrZXkKUlVUVTVEdXJNVyttWmlFb1YvdllFeHlGZ2ZPc1hDKy90V1hDWnJQYWVRSlFSVnFzM05BZ0xwZ1VKQWczMWY0WnEwSjBqemUweHVhdnRjcVU0M0M5OFRyS1FaMVNXYVdlUlFFPQp0cnVzdGVkIGNvbW1lbnQ6IHRpbWVzdGFtcDoxNzA3NDY0OTg1CWZpbGU6UGhvZW5peCBDb2RlXzMuMi4yNV94NjQtc2V0dXAubnNpcy56aXAKLzhRSDVhdlJhTTdwLzZWdmNISUM2eHdsemF0REZOeWsxZSt6OTJtZEhacnFnWlNxMmlxWU1veXFZdDRDOHY1QVArZmR1cjhONHF3VHNoaVI3RTVEQmc9PQo=",
+            "url": "https://github.com/phcode-dev/phoenix-desktop/releases/download/prod-app-v3.2.25/Phoenix.Code_3.2.25_x64-setup.nsis.zip"
+        },
+        "darwin-x86_64": {
+            "signature": "dW50cnVzdGVkIGNvbW1lbnQ6IHNpZ25hdHVyZSBmcm9tIHRhdXJpIHNlY3JldCBrZXkKUlVUVTVEdXJNVyttWnNQM1cvYzdyYXJJMXoxUlNteE4zQ1BzcjNhM0UyNG8zeVVqMm05U0ZqRFkwKy9sQXBpK2cyQVlkeCtwN0lQV0pNcHN0bnEyQmg4WXJVNlNpTjl5R3cwPQp0cnVzdGVkIGNvbW1lbnQ6IHRpbWVzdGFtcDoxNzA3NDY1ODI3CWZpbGU6UGhvZW5peCBDb2RlLmFwcC50YXIuZ3oKMHZRVnpXSi9xS1lyNHoxK24rTndjNE9yNDIyNklxdUhnamx2MnpjZHJWM0tGejU0Mk1aTVQ3b1lmek90MG1vWU9pZkNnT0FQM2IxZ0RnUlRTNFVHQkE9PQo=",
+            "url": "https://github.com/phcode-dev/phoenix-desktop/releases/download/prod-app-v3.2.25/Phoenix.Code_x64.app.tar.gz"
+        },
+        "darwin-aarch64": {
+            "signature": "dW50cnVzdGVkIGNvbW1lbnQ6IHNpZ25hdHVyZSBmcm9tIHRhdXJpIHNlY3JldCBrZXkKUlVUVTVEdXJNVyttWm1JY1dISHBTaGUzTGdGOEpORkpPTHRtakpyWUlkVVNLcFlwc25oUm50TzNqblVhRVA2QzA2R29ENGpycEZmcUdJdm9SZTF0Z1dxYzN4NEVoVG1oQ3c0PQp0cnVzdGVkIGNvbW1lbnQ6IHRpbWVzdGFtcDoxNzA3NDY2NjQ1CWZpbGU6UGhvZW5peCBDb2RlLmFwcC50YXIuZ3oKaytxeThDTzNtMmU3WGlPZVpHNXFTR2VpRjNBd2FCT3hsdnphcTY0RXpwZ0crMGNpYUtRT2RlQjEvZjJYb1VOaHh2NXJDTjVUaEJhSEtWY0p2UVIwQVE9PQo=",
+            "url": "https://github.com/phcode-dev/phoenix-desktop/releases/download/prod-app-v3.2.25/Phoenix.Code_aarch64.app.tar.gz"
+        }
+    }
+}
