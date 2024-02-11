@@ -17,7 +17,7 @@ async function createDistReleaseConfig() {
         : `${__dirname}/../src-tauri/tauri-local.conf.json`;
     console.log("Reading Tauri config file: ", tauriConfigPath);
     let configJson = JSON.parse(fs.readFileSync(tauriConfigPath));
-    console.log(chalk.cyan("\n!Only creating executables. Creating msi, appimage and dmg installers are disabled in this build. If you want to create an installer, use: npm run tauri build manually after setting distDir in tauri conf!\n"));
+    console.log(chalk.cyan("\n!Only creating executables. Creating msi, appimage and dmg installers are disabled in this build. If you want to create an installer, use: npm run releaseDistBundle\n"));
     configJson.tauri.bundle.active = false;
     configJson.build.distDir = '../../phoenix/dist/';
     const phoenixVersion = configJson.package.version;

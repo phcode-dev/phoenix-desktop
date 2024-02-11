@@ -70,8 +70,8 @@ If you want to generate the release builds locally directly while you are editin
 ```bash
 cd phoenix-desktop
 # To generate debug builds:
-npm run releaseSrcDebug
-# OR to generate release builds, just run `npm run releaseSrc`
+npm run releaseSrc
+# OR to generate debug builds, just run `npm run releaseSrcDebug`
 ```
 This is the easiest way to quickly debug issues directly from the phoenix source folder.
 
@@ -86,11 +86,28 @@ npm run build
 npm run release:prod
 # Other release options are `npm run release:dev` and `npm run release:staging` 
 
-# Now generate the tauri debug builds:
+# Now generate the tauri release builds:
 cd ../phoenix-desktop
-npm run releaseDistDebug
-# OR to generate release builds, just run `npm run releaseDist`
+npm run releaseDist
+# OR to debug, just run `npm run releaseDistDebug`
 ```
+
+#### Generating installers/AppImage and DMGs locally from `phoenix/dist` folder
+To generate the installers, use the commands
+```bash
+# You should first build the appropriate release build in `phoenix`.
+cd phoenix
+npm install
+npm run build
+npm run release:prod
+# Other release options are `npm run release:dev` and `npm run release:staging` 
+
+# Now generate the bundles
+cd ../phoenix-desktop
+npm run releaseDistBundle
+# will generate appimages/DMGs or nsix windows installers in target/release/bundle
+```
+
 
 ## Building release binaries and installers in GitHub actions
 The npm commands that begin with `_ci-*` are exclusively designed to execute in a GitHub Actions environment.
