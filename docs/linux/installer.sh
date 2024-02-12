@@ -8,8 +8,46 @@ ICON=phoenix_icon.png
 GITHUB_REPO="phcode-dev/phoenix-desktop"
 API_URL="https://api.github.com/repos/$GITHUB_REPO/releases/latest"
 ICON_URL="https://updates.phcode.io/icons/phoenix_icon.png"
+check_and_install_libfuse() {
+    # Identify the Linux distribution
+    if [ -f /etc/os-release ]; then
+        . /etc/os-release
+        DISTRO=$ID
+    else
+        echo "Cannot identify the operating system."
+        exit 1
+    fi
+
+    echo "Checking for FUSE library..."
+
+    if [ "$DISTRO" = "ubuntu" ]; then
+        # Check and install libfuse2 on Ubuntu
+        if ! dpkg -s libfuse2 &> /dev/null; then
+            echo "libfuse2 not found, installing..."
+            sudo apt-get update && sudo apt-get install -y libfuse2 || { echo "Failed to install libfuse2"; exit 1; }
+        else
+            echo "libfuse2 is already installed."
+        fi
+    elif [ "$DISTRO" = "fedora" ]; then
+        # Check and install fuse-libs on Fedora
+        if [ "$DISTRO" = "fedora" ]; then
+            # Check and install fuse-libs on Fedora
+            if ! rpm -q fuse-libs &> /dev/null; then
+                echo "fuse-libs not found, installing..."
+                sudo dnf install -y fuse-libs || { echo "Failed to install fuse-libs"; exit 1; }
+            else
+                echo "fuse-libs is already installed."
+            fi
+        fi
+
+    else
+        echo "Unsupported distribution: $DISTRO"
+        exit 1
+    fi
+}
 
 install() {
+    check_and_install_libfuse
     # Fetch the latest release data from GitHub
     echo "Fetching latest release from $GITHUB_REPO..."
     wget -qO- $API_URL > latest_release.json || { echo "Failed to fetch latest release info"; exit 1; }
