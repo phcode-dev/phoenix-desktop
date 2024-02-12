@@ -80,6 +80,41 @@ function _extractSmallReleaseNotes(releaseNotes, releaseTitle) {
     return releaseTitle;
 }
 
+function getCurrentVersion(latestJsonPath) {
+    try{
+        return JSON.parse(fs.readFileSync(latestJsonPath, 'utf8')).version || '0.0.0';
+    } catch (e) {
+        console.error("Error getting current version from path: ", latestJsonPath, e);
+        return '0.0.0';
+    }
+}
+
+/**
+ * Checks if new version is higher or equal than the current version
+ * @param currentVersion
+ * @param newVersion
+ * @return {boolean}
+ */
+function isHigherOrEqualVersion(currentVersion, newVersion) {
+    if(currentVersion === newVersion){
+        return true;
+    }
+    const currentParts = currentVersion.split('.').map(Number);
+    const newParts = newVersion.split('.').map(Number);
+
+    for (let i = 0; i < currentParts.length; i++) {
+        if (newParts[i] > currentParts[i]) {
+            return true; // New version is higher
+        } else if (newParts[i] < currentParts[i]) {
+            return false; // New version is not higher
+        }
+        // If they are equal, move to the next part
+    }
+
+    // If all parts are equal, the versions are the same, so return false
+    return false;
+}
+
 export default async function printStuff({github, context, githubWorkspaceRoot}) {
     console.log(github, context, "yo");
     const fullRepoName = context.payload.repository.full_name;
@@ -110,6 +145,12 @@ export default async function printStuff({github, context, githubWorkspaceRoot})
     const latestJSON = JSON.parse(await _getLatestJson(releaseAssets));
     latestJSON.notes = _extractSmallReleaseNotes(releaseNotes, releaseTitle);
     const latestJsonPath = `${githubWorkspaceRoot}/docs/${_identifyUpdateJSONPath(releaseAssets)}`;
-    console.log("writing latest json to path: ", latestJsonPath, " contents: ",  latestJSON)
-    fs.writeFileSync(latestJsonPath, JSON.stringify(latestJSON, null, 4));
+    const currentVersion = getCurrentVersion(latestJsonPath);
+    const latestVersion = latestJSON.version;
+    if(isHigherOrEqualVersion(currentVersion, latestVersion)){
+        console.log("writing latest json to path: ", latestJsonPath, " contents: ",  latestJSON)
+        fs.writeFileSync(latestJsonPath, JSON.stringify(latestJSON, null, 4));
+    } else {
+        console.warn("Current version: ", currentVersion, " is higher than the new release version ", latestVersion, " . Ignoring this release update!");
+    }
 }
