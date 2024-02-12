@@ -103,9 +103,8 @@
             "category": "DeveloperTool",
             "copyright": "Copyright (c) 2022 - present Core.ai",
             "deb": {
+                "desktopTemplate" : "./src/bundle/linux/deb/main.desktop.download",
                 "depends": [
-                    "libwebkit2gtk-4.0-37",
-                    "libgtk-3-0"
                 ]
             },
             "appimage": {
