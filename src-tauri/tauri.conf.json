@@ -103,7 +103,10 @@
             "category": "DeveloperTool",
             "copyright": "Copyright (c) 2022 - present Core.ai",
             "deb": {
-                "depends": []
+                "depends": [
+                  "libwebkit2gtk-4.0-37",
+                  "libgtk-3-0"
+                ]
             },
             "appimage": {
                 "bundleMediaFramework": true
@@ -133,6 +136,7 @@
             ],
             "shortDescription": "Phoenix is a modern open-source IDE for the web, built for the browser",
             "targets": [
+                "deb",
                 "appimage",
                 "nsis",
                 "app",
