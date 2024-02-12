@@ -1,7 +1,7 @@
 {
     "version": "3.3.3",
-    "notes": "test release",
-    "pub_date": "2024-02-11T16:44:35.859Z",
+    "notes": "Beta release 1",
+    "pub_date": "2024-02-11T16:53:25.316Z",
     "platforms": {
         "linux-x86_64": {
             "signature": "dW50cnVzdGVkIGNvbW1lbnQ6IHNpZ25hdHVyZSBmcm9tIHRhdXJpIHNlY3JldCBrZXkKUlVUVTVEdXJNVyttWm5CVUsvT0FTdzdaaGpMc1VybXdsQldEYmhraHVRTjhpa1RsTEV2Y25tMDFBYnlxUW1LVHRHWDRZMkI5UUwxc04vclFJVEtIT3M1bVhVQjMrSUxEZlFZPQp0cnVzdGVkIGNvbW1lbnQ6IHRpbWVzdGFtcDoxNzA3NjY5NDUwCWZpbGU6cGhvZW5peC1jb2RlXzMuMy4zX2FtZDY0LkFwcEltYWdlLnRhci5negp5OGRiQzU1eUgwMk53RjJkWVk1L1lUNGtUVXRtV3FsOExKUlZDQVdHYWtBTlRpRGZsb0hGN3hlS3J6bTVESmFmR1ZLdmhmL0xxclVuWlB4RUpEd29DUT09Cg==",
@@ -14,6 +14,10 @@
         "darwin-x86_64": {
             "signature": "dW50cnVzdGVkIGNvbW1lbnQ6IHNpZ25hdHVyZSBmcm9tIHRhdXJpIHNlY3JldCBrZXkKUlVUVTVEdXJNVyttWnMwT04xZ1lRNzE5SStpNUVNdTY4N3h4cmRvTWFEcDRFRkEyTjVoa0lSSG1NaDRsQXBGdEVtcEx2eXlHQUFaN0dXejRHZ3NINGNqLzl2S2V4KzN6RXdFPQp0cnVzdGVkIGNvbW1lbnQ6IHRpbWVzdGFtcDoxNzA3NjY5ODY2CWZpbGU6UGhvZW5peCBDb2RlLmFwcC50YXIuZ3oKL1pudFI0NWlBcUpkQU9JS1g4RDd4eE9EeWZsdG5PSWVvRDFzTDVrYmk5b2kwaTNNbzYrU1IzdGg2elUveS9OTkU1cHQzUEdLMllGM0U4bExvTi9lRGc9PQo=",
             "url": "https://github.com/phcode-dev/phoenix-desktop/releases/download/prod-app-v3.3.3/Phoenix.Code_x64.app.tar.gz"
+        },
+        "darwin-aarch64": {
+            "signature": "dW50cnVzdGVkIGNvbW1lbnQ6IHNpZ25hdHVyZSBmcm9tIHRhdXJpIHNlY3JldCBrZXkKUlVUVTVEdXJNVyttWmlZOXpJMDlscVdQS0s5VGhsRWV4YWZKTWdkQ3k0bmFPd2lvRDY5Z2hUZ0d4L25pMFExKzc1ZTZEdTZjWXNkUlcrcVdFY1hVcE1ieWZkNEx0dWd4SndvPQp0cnVzdGVkIGNvbW1lbnQ6IHRpbWVzdGFtcDoxNzA3NjcwMzk1CWZpbGU6UGhvZW5peCBDb2RlLmFwcC50YXIuZ3oKYkRPaFRGYTl5REg3V0puSVZjRkd3ZVdncG03ZjlUNkJjS1lzTjVnSXIwVG5veTIwMFRwUkhBalF0aFJub0ZvTzNVUGhHcUorRHBaUVpOVFBwZ2djQXc9PQo=",
+            "url": "https://github.com/phcode-dev/phoenix-desktop/releases/download/prod-app-v3.3.3/Phoenix.Code_aarch64.app.tar.gz"
         }
     }
 }
