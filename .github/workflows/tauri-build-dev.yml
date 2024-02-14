@@ -256,12 +256,63 @@ jobs:
           args: --target aarch64-apple-darwin
           tagName: ${{ env.GIT_TAG_NAME }}
 
+  build-linux-bins:
+    needs: [ create-release ]
+    permissions:
+      contents: write
+    timeout-minutes: 60
+    strategy:
+      fail-fast: false
+      matrix:
+        platform: [ ubuntu-20.04, ubuntu-22.04]
+
+    runs-on: ${{ matrix.platform }}
+    steps:
+      - uses: actions/checkout@v4
+      - name: get Git Tag
+        shell: bash
+        run: echo "GIT_TAG_NAME=dev-app-v$(node -p "require('./package.json').version")" >> $GITHUB_ENV
+      - name: setup node
+        uses: actions/setup-node@v4
+        with:
+          node-version: 20
+
+      - name: GLIBC version
+        run: |
+          ldd --version
+      - name: install Rust stable
+        uses: dtolnay/rust-toolchain@stable
+      - name: install dependencies (ubuntu only)
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y libgtk-3-dev libwebkit2gtk-4.0-dev libayatana-appindicator3-dev librsvg2-dev
+          sudo apt-get install -y libwebrtc-audio-processing-dev
+          sudo apt-get install -y libunwind-dev
+          sudo apt-get install -y libgstreamer1.0-dev libgstreamer-plugins-base1.0-dev libgstreamer-plugins-bad1.0-dev gstreamer1.0-plugins-base gstreamer1.0-plugins-good gstreamer1.0-plugins-bad gstreamer1.0-plugins-ugly gstreamer1.0-libav gstreamer1.0-tools gstreamer1.0-x gstreamer1.0-alsa gstreamer1.0-gl gstreamer1.0-gtk3 gstreamer1.0-qt5 gstreamer1.0-pulseaudio
+      - name: install frontend dependencies
+        run: |
+          npm ci
+          npm run _ci-release:dev
+          npm run _ci-disableBundleConfig
+          npm run tauri build
+          ls -alh ./src-tauri/target/release
+          mkdir ./src-tauri/target/release/binDist
+          cp ./src-tauri/target/release/phoenix-code-experimental-build ./src-tauri/target/release/binDist
+          cp ./src-tauri/target/release/phnode ./src-tauri/target/release/binDist
+          cp -r ./src-tauri/target/release/src-node ./src-tauri/target/release/binDist
+          ls -alh ./src-tauri/target/release/binDist
+          tar -cvzf binDist.tar.gz -C ./src-tauri/target/release binDist
+          ls -alh binDist.tar.gz
+          GLIBC_VER=$(ldd --version | head -n1 | awk '{print $NF}')
+          mv binDist.tar.gz "binDist-needGLIBC-${GLIBC_VER}.tar.gz"
+          ls
+
   publish-release:
     permissions:
       contents: write
     timeout-minutes: 15
     runs-on: ubuntu-22.04
-    needs: [ create-release, build-tauri ]
+    needs: [ create-release, build-tauri, build-linux-bins ]
 
     steps:
       - uses: actions/checkout@v4
