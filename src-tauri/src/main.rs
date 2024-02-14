@@ -245,6 +245,11 @@ fn get_mac_deep_link_requests() -> Vec<String> {
 }
 
 fn main() {
+    let args: Vec<String> = env::args().collect();
+    if args.contains(&"--runVerify".to_string()) {
+        // Mainly used by linux installer to see if the app loaded successfully with all libs
+        std::process::exit(0);
+    }
 
     #[cfg(target_os = "macos")]{
         tauri_plugin_deep_link::prepare("io.phcode");
