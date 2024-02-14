@@ -11,6 +11,7 @@
         "_createDistBundleReleaseConfig": "node src-build/createDistBundleReleaseConfig.js",
         "_createDistTestReleaseConfig": "node src-build/createDistTestReleaseConfig.js",
         "_ci-createDistReleaseConfig": "node src-build/ci-createDistReleaseConfig.js",
+        "_ci-disableBundleConfig": "node src-build/ci-disableBundleConfig.js",
         "_ci-env-warn": "echo !!!This script is supposed to executed in github actions only. Ignore if you are seeing this message in a github actions log.",
         "releaseSrc": "npm run _make_src-node && npm run _createSrcReleaseConfig && tauri build --config ./src-tauri/tauri-local.conf.json",
         "releaseSrcDebug": "npm run _make_src-node && npm run _createSrcReleaseConfig && tauri build --config ./src-tauri/tauri-local.conf.json --debug --verbose",
