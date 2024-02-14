@@ -9,7 +9,7 @@
     },
     "package": {
         "productName": "Phoenix Code Experimental Build",
-        "version": "3.3.4"
+        "version": "3.3.5"
     },
     "tauri": {
         "allowlist": {
@@ -103,9 +103,8 @@
             "category": "DeveloperTool",
             "copyright": "Copyright (c) 2022 - present Core.ai",
             "deb": {
-                "desktopTemplate" : "./src/bundle/linux/deb/main.desktop.download",
-                "depends": [
-                ]
+                "desktopTemplate": "./src/bundle/linux/deb/main.desktop.download",
+                "depends": []
             },
             "appimage": {
                 "bundleMediaFramework": true
