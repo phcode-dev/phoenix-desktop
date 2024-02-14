@@ -301,11 +301,13 @@ jobs:
           cp ./src-tauri/target/release/phnode ./src-tauri/target/release/binDist
           cp -r ./src-tauri/target/release/src-node ./src-tauri/target/release/binDist
           ls -alh ./src-tauri/target/release/binDist
-          tar -cvzf binDist.tar.gz -C ./src-tauri/target/release binDist
-          ls -alh binDist.tar.gz
+          mv ./src-tauri/target/release/phoenix-code ./src-tauri/target/release/phoenix-code-backup
+          mv ./src-tauri/target/release/binDist ./src-tauri/target/release/phoenix-code
+          tar -cvzf phoenix-code.tar.gz -C ./src-tauri/target/release phoenix-code
+          ls -alh phoenix-code.tar.gz
           GLIBC_VER=$(ldd --version | head -n1 | awk '{print $NF}')
           OUTPUT_FILENAME="phoenix-code_$(node -p "require('./package.json').version")_amd64_linux_bin-GLIBC-${GLIBC_VER}.tar.gz"
-          mv binDist.tar.gz "$OUTPUT_FILENAME"
+          mv phoenix-code.tar.gz "$OUTPUT_FILENAME"
           echo "OUTPUT_FILENAME=$OUTPUT_FILENAME" >> $GITHUB_ENV
           ls
       - name: Upload Release Asset
