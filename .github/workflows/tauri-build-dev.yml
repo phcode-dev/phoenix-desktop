@@ -11,7 +11,6 @@ jobs:
     runs-on: ubuntu-latest
     outputs:
       release_id: ${{ steps.create-release.outputs.result }}
-      upload_url: ${{ steps.create-release.outputs.upload_url }}
 
     steps:
       - uses: actions/checkout@v4
@@ -45,7 +44,6 @@ jobs:
               draft: true,
               prerelease: true
             })
-            setOutput('upload_url', data.upload_url);
             return data.id
 
   build-mac-m1-node-modules:
@@ -318,15 +316,13 @@ jobs:
           echo "OUTPUT_FILENAME=$OUTPUT_FILENAME" >> $GITHUB_ENV
           ls
       - name: Upload Release Asset
-        id: upload-release-asset
-        uses: actions/upload-release-asset@v1
+        uses: softprops/action-gh-release@v1
+        with:
+          files: ${{ env.OUTPUT_FILENAME }}
+          tag_name: ${{ env.GIT_TAG_NAME }}
+          draft: true
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-        with:
-          upload_url: ${{ needs.create-release.outputs.upload_url }}
-          asset_path: ${{ env.OUTPUT_FILENAME }}
-          asset_name: ${{ env.OUTPUT_FILENAME }}
-          asset_content_type: application/gzip
 
   publish-release:
     permissions:
