@@ -5,143 +5,248 @@ APPIMAGE_DIR=$HOME/.local/bin
 DESKTOP_DIR=$HOME/.local/share/applications
 NEW_APPIMAGE=phcode
 ICON=phoenix_icon.png
-GITHUB_REPO="phcode-dev/phoenix-desktop"
+GITHUB_REPO="charlypa/phoenix-desktop"
 API_URL="https://api.github.com/repos/$GITHUB_REPO/releases/latest"
 ICON_URL="https://updates.phcode.io/icons/phoenix_icon.png"
-check_and_install_libfuse() {
-    # Identify the Linux distribution
+INSTALL_DIR="$HOME/.phoenix-code"
+LINK_DIR="$HOME/.local/bin"
+DESKTOP_DIR="$HOME/.local/share/applications"  # Directory for desktop entries
+DESKTOP_ENTRY="$DESKTOP_DIR/PhoenixCode.desktop"
+SCRIPT_NAME="phoenix-code"  # Name of the script to invoke the binary
+
+create_invocation_script() {
+    local binary_path="$1"
+    local script_name="$2"
+    local link_dir="$3"
+
+    echo "Creating an invocation script for the binary..."
+    echo "#!/bin/bash" > "$binary_path/$script_name.sh"
+    echo "$binary_path/$script_name \"\$@\"" >> "$binary_path/$script_name.sh"
+    chmod +x "$binary_path/$script_name.sh"
+
+    echo "Copying the invocation script to $link_dir..."
+    mkdir -p "$link_dir"  # Ensure the directory exists
+    cp "$binary_path/$script_name.sh" "$link_dir/$script_name"
+}
+install_dependencies() {
+    echo "Attempting to install required dependencies..."
+
+    # Attempt to identify the Linux distribution
     if [ -f /etc/os-release ]; then
         . /etc/os-release
         DISTRO=$ID
     else
-        echo "Cannot identify the operating system."
+        echo "Unable to identify the operating system."
         exit 1
     fi
 
-    echo "Checking for FUSE library..."
-
-    if [ "$DISTRO" = "ubuntu" ]; then
-        # Check and install libfuse2 on Ubuntu
-        if ! dpkg -s libfuse2 &> /dev/null; then
-            echo "libfuse2 not found, installing..."
-            sudo apt-get update && sudo apt-get install -y libfuse2 || { echo "Failed to install libfuse2"; exit 1; }
-        else
-            echo "libfuse2 is already installed."
-        fi
-    elif [ "$DISTRO" = "fedora" ]; then
-        # Check and install fuse-libs on Fedora
-        if [ "$DISTRO" = "fedora" ]; then
-            # Check and install fuse-libs on Fedora
-            if ! rpm -q fuse-libs &> /dev/null; then
-                echo "fuse-libs not found, installing..."
-                sudo dnf install -y fuse-libs || { echo "Failed to install fuse-libs"; exit 1; }
-            else
-                echo "fuse-libs is already installed."
-            fi
-        fi
-
+    # Install dependencies based on the distribution
+    case "$DISTRO" in
+        ubuntu|debian|linuxmint)
+            echo "Detected an Ubuntu/Debian based distribution."
+            sudo apt update
+            sudo apt install libgtk-3-0 libwebkit2gtk-4.0-37 \
+                             gstreamer1.0-plugins-base gstreamer1.0-plugins-good \
+                             gstreamer1.0-plugins-bad gstreamer1.0-plugins-ugly \
+                             gstreamer1.0-tools gstreamer1.0-libav
+            ;;
+        fedora|rhel|centos)
+            echo "Detected a Fedora/Red Hat based distribution."
+            sudo dnf update
+            sudo dnf install webkit2gtk3 gtk3 \
+                             gstreamer1-plugins-base gstreamer1-plugins-good \
+                             gstreamer1-plugins-bad-free gstreamer1-plugins-bad-freeworld \
+                             gstreamer1-plugins-ugly gstreamer1-libav
+            ;;
+        arch|manjaro)
+            echo "Detected an Arch Linux based distribution."
+            sudo pacman -Syu
+            sudo pacman -S webkit2gtk gtk3 \
+                           gst-plugins-base gst-plugins-good gst-plugins-bad gst-plugins-ugly gst-libav
+            ;;
+        *)
+            echo "Unsupported distribution. Please manually install the required dependencies."
+            exit 1
+            ;;
+    esac
+}
+verify_and_install_dependencies() {
+    # First attempt to verify the application launch
+    if ./phoenix-code --runVerify; then
+        echo "Application launch verification successful."
+        return 0  # Exit the function successfully if verification succeeds
     else
-        echo "Unsupported distribution: $DISTRO"
-        exit 1
+        echo "Initial verification failed. Attempting to install dependencies..."
+        install_dependencies  # Function to install required dependencies
+    fi
+
+    # Second attempt to verify the application launch after installing dependencies
+    if ./phoenix-code --runVerify; then
+        echo "Application launch verification successful after installing dependencies."
+        return 0  # Exit the function successfully if verification succeeds
+    else
+        echo "Verification failed even after installing dependencies. Please check the application requirements or contact support."
+        return 1  # Return an error code to indicate failure
     fi
 }
 
 install() {
-    check_and_install_libfuse
-    # Fetch the latest release data from GitHub
-    echo "Fetching latest release from $GITHUB_REPO..."
-    wget -qO- $API_URL > latest_release.json || { echo "Failed to fetch latest release info"; exit 1; }
+    GITHUB_REPO="charlypa/phoenix-desktop"  # Replace with your actual GitHub repository
+    API_URL="https://api.github.com/repos/$GITHUB_REPO/releases/latest"
+    INSTALL_DIR="$HOME/.phoenix-code"  # Installation directory
 
-    # Extract the download URL for the AppImage
-    APPIMAGE_URL=$(grep -oP '"browser_download_url": "\K(.*phoenix-desktop.*\.AppImage)(?=")' latest_release.json) || { echo "Failed to extract AppImage URL"; exit 1; }
+    cleanup() {
+        echo "Cleaning up temporary files in $TMP_DIR"
+        rm -rf "$TMP_DIR"  # This will delete the temporary directory and all its contents, including latest_release.json
+    }
 
-    # If no AppImage URL is found, exit the script
-    if [ -z "$APPIMAGE_URL" ]; then
-        echo "No AppImage URL found in the latest release."
-        rm latest_release.json
+    trap cleanup EXIT
+
+    TMP_DIR=$(mktemp -d)
+    echo "Using temporary directory $TMP_DIR for processing"
+
+    echo "Fetching the latest release information from $GITHUB_REPO..."
+    wget -qO "$TMP_DIR/latest_release.json" "$API_URL" || {
+        echo "Failed to fetch the latest release information. Please check your internet connection and try again."
+        exit 1
+    }
+
+    CURRENT_GLIBC_VERSION=$(ldd --version | grep "ldd" | awk '{print $NF}')
+    echo "Current GLIBC version: $CURRENT_GLIBC_VERSION"
+
+    BEST_MATCH_URL=""
+    BEST_MATCH_VERSION=0
+    echo "Searching for a compatible binary..."
+
+    while read -r BINARY_URL; do
+        BINARY_GLIBC_VERSION=$(echo "$BINARY_URL" | grep -oP 'GLIBC-\K[\d\.]+(?=\.tar\.gz)')
+        if awk -v bin_ver="$BINARY_GLIBC_VERSION" -v cur_ver="$CURRENT_GLIBC_VERSION" -v best_ver="$BEST_MATCH_VERSION" 'BEGIN { bin_ver += 0; cur_ver += 0; best_ver += 0; exit !(bin_ver <= cur_ver && bin_ver > best_ver) }'; then
+            BEST_MATCH_URL="$BINARY_URL"
+            BEST_MATCH_VERSION="$BINARY_GLIBC_VERSION"
+            echo "Found a new best match: $BEST_MATCH_URL with GLIBC version $BEST_MATCH_VERSION"
+        fi
+    done < <(grep -oP '"browser_download_url": "\K(.*_linux_bin-GLIBC-[\d\.]+\.tar\.gz)(?=")' "$TMP_DIR/latest_release.json")
+
+    if [ -z "$BEST_MATCH_URL" ]; then
+        echo "No compatible binary found for the current GLIBC version ($CURRENT_GLIBC_VERSION). Exiting installation."
         exit 1
     fi
 
-    # Download the AppImage
-    echo "Downloading AppImage from $APPIMAGE_URL..."
-    wget -c -N --tries=10 --timeout=30 --waitretry=5 --retry-connrefused  --show-progress -qO $NEW_APPIMAGE $APPIMAGE_URL || { echo "Failed to download AppImage"; exit 1; }
-    wget  -c -N --tries=10 --timeout=30 --waitretry=5 --retry-connrefused --show-progress -qO $ICON $ICON_URL  || { echo "Failed to download Icon"; exit 1; }
-    # Remove the temporary JSON file
-    rm latest_release.json
+    echo "Downloading the compatible binary from $BEST_MATCH_URL..."
+    wget -c -N --tries=10 --timeout=30 --waitretry=5 --retry-connrefused --show-progress -qO "$TMP_DIR/phoenix-code.tar.gz" "$BEST_MATCH_URL" || {
+        echo "Failed to download the binary. Please check your internet connection and try again."
+        exit 1
+    }
+    echo "Downloading the icon..."
+    wget -c -N --tries=10 --timeout=30 --waitretry=5 --retry-connrefused --show-progress -qO "$TMP_DIR/icon.png" "$ICON_URL" || {
+        echo "Failed to download Icon";
+        exit 1;
+    }
+    echo "Extracting the binary to $TMP_DIR..."
+    tar -xzf "$TMP_DIR/phoenix-code.tar.gz" -C "$TMP_DIR" || {
+        echo "Failed to extract the binary. The downloaded file might be corrupt."
+        exit 1
+    }
 
+    cd "$TMP_DIR/phoenix-code"
+    # Verify binary execution and install dependencies if necessary
+     if ! verify_and_install_dependencies; then
+         echo "Unable to successfully verify application launch. Exiting installation."
+         exit 1
+     fi
 
-    # Proceed with installation steps as before...
-    # Create necessary directories
-    mkdir -p $APPIMAGE_DIR
-    mkdir -p $DESKTOP_DIR
+    echo "Setting up the installation directory at $INSTALL_DIR..."
+    mkdir -p "$INSTALL_DIR"
+    mkdir -p "$DESKTOP_DIR"
 
-    # Copy and rename the AppImage, and copy the icon to the AppImage directory
-    echo "Installing Phoenix..."
-    mv $NEW_APPIMAGE $APPIMAGE_DIR/$NEW_APPIMAGE
-    mv "$ICON" $APPIMAGE_DIR  # Ensure this icon file is in the current directory
+    echo "Moving the necessary files to the installation directory..."
+    mv "$TMP_DIR"/phoenix-code/* "$INSTALL_DIR/" || {
+        echo "Failed to move the files to the installation directory. Please check the permissions and try again."
+        exit 1
+    }
+    # Move the icon to the installation directory
+    mv "$TMP_DIR/icon.png" "$INSTALL_DIR/"
 
-    # Make the new AppImage executable
-    chmod +x $APPIMAGE_DIR/$NEW_APPIMAGE
+    echo "Setting the correct permissions for the executable..."
+    chmod +x "$INSTALL_DIR/phoenix-code" || {
+        echo "Failed to set executable permissions. Please check the file path and permissions."
+        exit 1
+    }
 
-
+    mkdir -p "$LINK_DIR"  # Ensure the directory exists
+    # Call the function to create and copy the invocation script
+    create_invocation_script "$INSTALL_DIR" "$SCRIPT_NAME" "$LINK_DIR"
     # Define MIME types for file extensions
     MIME_TYPES="text/html;application/atom+xml;application/x-coldfusion;text/x-clojure;text/coffeescript;application/json;text/css;text/html;text/x-diff;text/jsx;text/markdown;application/mathml+xml;application/rdf+xml;application/rss+xml;text/css;application/sql;image/svg+xml;text/html;text/x-python;application/xml;application/vnd.mozilla.xul+xml;application/x-yaml;text/typescript;"
-
     # Add directory association
     MIME_TYPES+="inode/directory;"
-
-    # Create a desktop entry for the AppImage with MIME type associations
-cat > $DESKTOP_DIR/PhoenixCode.desktop <<EOF
+    # Create a desktop entry for the application
+    echo "Creating desktop entry..."
+    cat > "$DESKTOP_ENTRY" <<EOF
 [Desktop Entry]
 Type=Application
 Name=Phoenix Code
-Exec=$APPIMAGE_DIR/$NEW_APPIMAGE %F
-Icon=$APPIMAGE_DIR/$ICON
+Exec=$INSTALL_DIR/phoenix-code %F
+Icon=$INSTALL_DIR/icon.png
 Terminal=false
 MimeType=$MIME_TYPES
 EOF
-
     # Update the desktop database for GNOME, Unity, XFCE, etc.
-    if command -v update-desktop-database &> /dev/null
-    then
-        update-desktop-database $DESKTOP_DIR
+    echo "Updating desktop database..."
+    if command -v update-desktop-database &> /dev/null; then
+        update-desktop-database "$DESKTOP_DIR"
     fi
 
     # Update the KDE desktop database if KDE is in use
     if [ "$XDG_CURRENT_DESKTOP" = "KDE" ]; then
-        if command -v kbuildsycoca5 &> /dev/null
-        then
+        if command -v kbuildsycoca5 &> /dev/null; then
             kbuildsycoca5
         fi
     fi
-
-    echo "Phoenix Code installed successfully."
+    echo "Installation completed successfully. Phoenix Code is now installed."
 }
 
 uninstall() {
-    # Remove the AppImage and the icon
-    echo "Uninstalling Phoenix..."
-    rm -f $APPIMAGE_DIR/$NEW_APPIMAGE
-    rm -f $APPIMAGE_DIR/$ICON
+    echo "Starting uninstallation of Phoenix Code..."
 
-    # Remove the desktop entry
-    rm -f $DESKTOP_DIR/PhoenixCode.desktop
-
-    # Update the desktop database for GNOME, Unity, XFCE, etc. (if available)
-    if command -v update-desktop-database &> /dev/null
-    then
-        update-desktop-database $DESKTOP_DIR
+    # Remove the invocation script from ~/.local/bin
+    if [ -f "$LINK_DIR/$SCRIPT_NAME" ]; then
+        echo "Removing invocation script from $LINK_DIR..."
+        rm "$LINK_DIR/$SCRIPT_NAME"
+    else
+        echo "Invocation script not found in $LINK_DIR. Skipping..."
     fi
 
-    # Update the KDE desktop database if KDE is in use
-    if [ "$XDG_CURRENT_DESKTOP" = "KDE" ]; then
-        if command -v kbuildsycoca5 &> /dev/null
-        then
-            kbuildsycoca5
+    # Delete the desktop entry
+    if [ -f "$DESKTOP_ENTRY" ]; then
+        echo "Removing desktop entry..."
+        rm "$DESKTOP_ENTRY"
+
+        # Update the desktop database for GNOME, Unity, XFCE, etc.
+        echo "Updating desktop database..."
+        if command -v update-desktop-database &> /dev/null; then
+            update-desktop-database "$DESKTOP_DIR"
         fi
+
+        # Update the KDE desktop database if KDE is in use
+        if [ "$XDG_CURRENT_DESKTOP" = "KDE" ]; then
+            if command -v kbuildsycoca5 &> /dev/null; then
+                kbuildsycoca5
+            fi
+        fi
+    else
+        echo "Desktop entry not found. Skipping..."
     fi
 
-    echo "Phoenix uninstalled successfully."
+    # Remove the installation directory and its contents
+    if [ -d "$INSTALL_DIR" ]; then
+        echo "Removing installation directory and its contents..."
+        rm -rf "$INSTALL_DIR"
+    else
+        echo "Installation directory not found. Skipping..."
+    fi
+
+    echo "Uninstallation of Phoenix Code completed."
 }
 
 # Check for command-line arguments
