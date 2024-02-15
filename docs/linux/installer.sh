@@ -14,6 +14,12 @@ DESKTOP_DIR="$HOME/.local/share/applications"  # Directory for desktop entries
 DESKTOP_ENTRY="$DESKTOP_DIR/PhoenixCode.desktop"
 SCRIPT_NAME="phoenix-code"  # Name of the script to invoke the binary
 
+# Define color variables for easy reference
+GREEN="\e[32m"
+YELLOW="\e[33m"
+RED="\e[31m"
+RESET="\e[0m"
+
 create_invocation_script() {
     local binary_path="$1"
     local script_name="$2"
@@ -121,7 +127,6 @@ install() {
         esac
     fi
     cleanup() {
-        echo "Cleaning up temporary files in $TMP_DIR"
         rm -rf "$TMP_DIR"  # This will delete the temporary directory and all its contents, including latest_release.json
     }
     trap cleanup EXIT
@@ -129,9 +134,9 @@ install() {
     TMP_DIR=$(mktemp -d)
     echo "Using temporary directory $TMP_DIR for processing"
 
-    echo "Fetching the latest release information from $GITHUB_REPO..."
+    echo -e "${GREEN}Fetching the latest release information from $GITHUB_REPO...${RESET}"
     wget -qO "$TMP_DIR/latest_release.json" "$API_URL" || {
-        echo "Failed to fetch the latest release information. Please check your internet connection and try again."
+        echo -e "${RED}Failed to fetch the latest release information. Please check your internet connection and try again.${RESET}"
         exit 1
     }
 
@@ -152,29 +157,29 @@ install() {
     done < <(grep -oP '"browser_download_url": "\K(.*_linux_bin-GLIBC-[\d\.]+\.tar\.gz)(?=")' "$TMP_DIR/latest_release.json")
 
     if [ -z "$BEST_MATCH_URL" ]; then
-        echo "No compatible binary found for the current GLIBC version ($CURRENT_GLIBC_VERSION). Exiting installation."
+        echo -e "${RED}No compatible binary found for the current GLIBC version ($CURRENT_GLIBC_VERSION). Exiting installation.${RESET}"
         exit 1
     fi
 
-    echo "Downloading the compatible binary from $BEST_MATCH_URL..."
-    wget -c -N --tries=10 --timeout=30 --waitretry=5 --retry-connrefused --show-progress -qO "$TMP_DIR/phoenix-code.tar.gz" "$BEST_MATCH_URL" || {
-        echo "Failed to download the binary. Please check your internet connection and try again."
+    echo -e "${YELLOW}Downloading the compatible binary from $BEST_MATCH_URL...${RESET}"
+    wget -c -N --tries=10 --timeout=30 --waitretry=5 --retry-connrefused --show-progress -qO "$TMP_DIR/phoenix-code.tar.gz" "$BEST_MATCH_URL"  || {
+        echo -e "${RED}Failed to download the binary. Please check your internet connection and try again.${RESET}"
         exit 1
     }
-    echo "Downloading the icon..."
+    echo -e "${YELLOW}Downloading the icon...${RESET}"
     wget -c -N --tries=10 --timeout=30 --waitretry=5 --retry-connrefused --show-progress -qO "$TMP_DIR/icon.png" "$ICON_URL" || {
-        echo "Failed to download Icon";
+        echo -e  "${RED}Failed to download Icon${RESET}";
         exit 1;
     }
     echo "Extracting the binary to $TMP_DIR..."
     tar -xzf "$TMP_DIR/phoenix-code.tar.gz" -C "$TMP_DIR" || {
-        echo "Failed to extract the binary. The downloaded file might be corrupt."
+        echo -e "${RED}Failed to extract the binary. The downloaded file might be corrupt.${RESET}"
         exit 1
     }
 
     # Verify binary execution and install dependencies if necessary
      if ! verify_and_install_dependencies; then
-         echo "Unable to successfully verify application launch. Exiting installation."
+         echo -e "${RED}Unable to successfully verify application launch. Exiting installation.${RESET}"
          exit 1
      fi
 
@@ -184,7 +189,7 @@ install() {
 
     echo "Moving the necessary files to the installation directory..."
     mv "$TMP_DIR"/phoenix-code/* "$INSTALL_DIR/" || {
-        echo "Failed to move the files to the installation directory. Please check the permissions and try again."
+        echo -e "${RED}Failed to move the files to the installation directory. Please check the permissions and try again.${RESET}"
         exit 1
     }
     # Move the icon to the installation directory
@@ -192,7 +197,7 @@ install() {
 
     echo "Setting the correct permissions for the executable..."
     chmod +x "$INSTALL_DIR/phoenix-code" || {
-        echo "Failed to set executable permissions. Please check the file path and permissions."
+        echo -e "${RED}Failed to set executable permissions. Please check the file path and permissions.${RESET}"
         exit 1
     }
 
@@ -226,7 +231,7 @@ EOF
             kbuildsycoca5
         fi
     fi
-    echo "Installation completed successfully. Phoenix Code is now installed."
+    echo -e "${GREEN}Installation completed successfully. Phoenix Code is now installed.${RESET}"
 }
 
 uninstall() {
