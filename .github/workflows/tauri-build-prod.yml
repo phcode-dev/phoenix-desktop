@@ -298,6 +298,7 @@ jobs:
           ls -alh ./src-tauri/target/release
           mkdir ./src-tauri/target/release/binDist
           cp ./src-tauri/target/release/phoenix-code ./src-tauri/target/release/binDist
+          cp ./src-build/linux/install-readme.txt ./src-tauri/target/release/binDist/readme.txt
           cp ./src-tauri/target/release/phnode ./src-tauri/target/release/binDist
           cp -r ./src-tauri/target/release/src-node ./src-tauri/target/release/binDist
           ls -alh ./src-tauri/target/release/binDist

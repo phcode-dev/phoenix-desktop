@@ -298,6 +298,7 @@ jobs:
           ls -alh ./src-tauri/target/release
           mkdir ./src-tauri/target/release/phoenix-code
           cp ./src-tauri/target/release/phoenix-code-experimental-build ./src-tauri/target/release/phoenix-code
+          cp ./src-build/linux/install-readme.txt ./src-tauri/target/release/phoenix-code/readme.txt
           cp ./src-tauri/target/release/phnode ./src-tauri/target/release/phoenix-code
           cp -r ./src-tauri/target/release/src-node ./src-tauri/target/release/phoenix-code
           ls -alh ./src-tauri/target/release/phoenix-code
