@@ -71,15 +71,6 @@ async function _getLatestJson(releaseAssets) {
     throw new Error(`Could not locate ${LATEST_JSON_GITHUB_RELEASE} file in github releases.`);
 }
 
-function _extractSmallReleaseNotes(releaseNotes, releaseTitle) {
-    for(let line of releaseNotes.split("\n")){
-        if(line.startsWith(">UpdateNotification: ")){
-            return line.replace(">UpdateNotification: ", "");
-        }
-    }
-    return releaseTitle;
-}
-
 function getCurrentVersion(latestJsonPath) {
     try{
         return JSON.parse(fs.readFileSync(latestJsonPath, 'utf8')).version || '0.0.0';
@@ -143,7 +134,7 @@ export default async function printStuff({github, context, githubWorkspaceRoot})
     // write to the docs folder here. all changes made here to the docs folder will be part of the pull request
     console.log("Updating tauri update JSON file: ", _identifyUpdateJSONPath(releaseAssets));
     const latestJSON = JSON.parse(await _getLatestJson(releaseAssets));
-    latestJSON.notes = _extractSmallReleaseNotes(releaseNotes, releaseTitle);
+    latestJSON.notes = releaseNotes;
     const latestJsonPath = `${githubWorkspaceRoot}/docs/${_identifyUpdateJSONPath(releaseAssets)}`;
     const currentVersion = getCurrentVersion(latestJsonPath);
     const latestVersion = latestJSON.version;
