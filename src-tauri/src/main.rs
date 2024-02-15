@@ -250,7 +250,12 @@ fn main() {
         // Mainly used by linux installer to see if the app loaded successfully with all libs
         std::process::exit(0);
     }
-
+    let app_version = env!("CARGO_PKG_VERSION");
+    if args.contains(&"--version".to_string()) || args.contains(&"-v".to_string()) {
+        // Display the version and exit
+        println!("{}", app_version);
+        std::process::exit(0);
+    }
     #[cfg(target_os = "macos")]{
         tauri_plugin_deep_link::prepare("io.phcode");
     }
