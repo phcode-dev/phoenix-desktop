@@ -29,7 +29,15 @@ create_invocation_script() {
     cp "$binary_path/$script_name.sh" "$link_dir/$script_name"
 }
 install_dependencies() {
-    echo "Attempting to install required dependencies..."
+   echo "Attempting to install required dependencies..."
+
+    # Inform the user that the next steps require administrative access
+    echo "The installation of dependencies requires administrative access. You may be prompted to enter your password."
+
+    # Check if the script can execute sudo commands without interaction
+    if ! sudo -n true 2>/dev/null; then
+        echo "Please enter your password to proceed with the installation of dependencies."
+    fi
 
     # Attempt to identify the Linux distribution
     if [ -f /etc/os-release ]; then
@@ -71,6 +79,9 @@ install_dependencies() {
     esac
 }
 verify_and_install_dependencies() {
+    cd "$TMP_DIR/phoenix-code"
+    # Ensure the binary is executable
+    chmod +x "./phoenix-code"
     # First attempt to verify the application launch
     if ./phoenix-code --runVerify; then
         echo "Application launch verification successful."
@@ -88,18 +99,31 @@ verify_and_install_dependencies() {
         echo "Verification failed even after installing dependencies. Please check the application requirements or contact support."
         return 1  # Return an error code to indicate failure
     fi
+    cd -
 }
 
 install() {
-    GITHUB_REPO="charlypa/phoenix-desktop"  # Replace with your actual GitHub repository
-    API_URL="https://api.github.com/repos/$GITHUB_REPO/releases/latest"
-    INSTALL_DIR="$HOME/.phoenix-code"  # Installation directory
+   # Check if the application is already installed
+    if [ -f "$LINK_DIR/$SCRIPT_NAME" ] || [ -d "$INSTALL_DIR" ]; then
+        echo "Phoenix Code appears to be already installed."
 
+        # Prompt the user for input on whether to repair (reinstall)
+        read -p "Would you like to repair (reinstall) it? (y/N): " response
+        case "$response" in
+            [Yy]* )
+                echo "Proceeding with the reinstallation..."
+                uninstall
+                ;;
+            * )
+                echo "Installation aborted by the user."
+                exit 0
+                ;;
+        esac
+    fi
     cleanup() {
         echo "Cleaning up temporary files in $TMP_DIR"
         rm -rf "$TMP_DIR"  # This will delete the temporary directory and all its contents, including latest_release.json
     }
-
     trap cleanup EXIT
 
     TMP_DIR=$(mktemp -d)
@@ -148,7 +172,6 @@ install() {
         exit 1
     }
 
-    cd "$TMP_DIR/phoenix-code"
     # Verify binary execution and install dependencies if necessary
      if ! verify_and_install_dependencies; then
          echo "Unable to successfully verify application launch. Exiting installation."
