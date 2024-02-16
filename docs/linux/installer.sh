@@ -61,22 +61,17 @@ install_dependencies() {
             sudo apt update
             sudo apt install libgtk-3-0 libwebkit2gtk-4.0-37 \
                              gstreamer1.0-plugins-base gstreamer1.0-plugins-good \
-                             gstreamer1.0-plugins-bad gstreamer1.0-plugins-ugly \
-                             gstreamer1.0-tools gstreamer1.0-libav
+                             gstreamer1.0-tools
             ;;
         fedora|rhel|centos)
             echo "Detected a Fedora/Red Hat based distribution."
-            sudo dnf update
             sudo dnf install webkit2gtk3 gtk3 \
-                             gstreamer1-plugins-base gstreamer1-plugins-good \
-                             gstreamer1-plugins-bad-free gstreamer1-plugins-bad-freeworld \
-                             gstreamer1-plugins-ugly gstreamer1-libav
+                             gstreamer1-plugins-base gstreamer1-plugins-good
             ;;
         arch|manjaro)
             echo "Detected an Arch Linux based distribution."
             sudo pacman -Syu
-            sudo pacman -S webkit2gtk gtk3 \
-                           gst-plugins-base gst-plugins-good gst-plugins-bad gst-plugins-ugly gst-libav
+            sudo pacman -S webkit2gtk gtk3
             ;;
         *)
             echo "Unsupported distribution. Please manually install the required dependencies."
