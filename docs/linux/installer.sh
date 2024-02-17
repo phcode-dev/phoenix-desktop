@@ -17,6 +17,13 @@ YELLOW="\e[33m"
 RED="\e[31m"
 RESET="\e[0m"
 
+cleanup() {
+      rm -rf "$TMP_DIR"  # This will delete the temporary directory and all its contents, including latest_release.json
+}
+trap cleanup EXIT
+
+TMP_DIR=$(mktemp -d)
+
 create_invocation_script() {
   local binary_path="$1"
   local script_name="$2"
@@ -144,28 +151,37 @@ EOF
 
   # Update the KDE desktop database if KDE is in use
   if [ "$XDG_CURRENT_DESKTOP" = "KDE" ]; then
-      if command -v kbuildsycoca5 &> /dev/null; then
-          kbuildsycoca5
-      fi
+    if command -v kbuildsycoca5 &> /dev/null; then
+        kbuildsycoca5
+    fi
   fi
   echo -e "${GREEN}Installation completed successfully. Phoenix Code is now installed.${RESET}"
 
 }
-downloadAndInstall(){
-  cleanup() {
-        rm -rf "$TMP_DIR"  # This will delete the temporary directory and all its contents, including latest_release.json
-  }
-  trap cleanup EXIT
+downloadLatestReleaseInfo() {
+  local release_info_file="$TMP_DIR/latest_release.json"
 
-  TMP_DIR=$(mktemp -d)
-  echo "Using temporary directory $TMP_DIR for processing"
+  if [ -f "$release_info_file" ]; then
+    echo "Latest release information has already been fetched."
+    # Extract and print the latest version from the JSON file for logging purposes
+    LATEST_VERSION=$(grep -Po '"tag_name": "\K.*?(?=")' "$release_info_file")
+    echo "Latest available version: $LATEST_VERSION"
+    return  # Skip downloading if already done
+  fi
 
   echo -e "${GREEN}Fetching the latest release information from $GITHUB_REPO...${RESET}"
-  wget -qO "$TMP_DIR/latest_release.json" "$API_URL" || {
+  wget -qO "$release_info_file" "$API_URL" || {
     echo -e "${RED}Failed to fetch the latest release information. Please check your internet connection and try again.${RESET}"
     exit 1
   }
 
+  # After successful download, extract and print the latest version for logging purposes
+  LATEST_VERSION=$(grep -Po '"tag_name": "\K.*?(?=")' "$release_info_file")
+  echo "Latest available version: $LATEST_VERSION"
+}
+downloadAndInstall(){
+  echo "Using temporary directory $TMP_DIR for processing"
+  downloadLatestReleaseInfo
   CURRENT_GLIBC_VERSION=$(ldd --version | grep "ldd" | awk '{print $NF}')
   echo "Current GLIBC version: $CURRENT_GLIBC_VERSION"
 
@@ -290,12 +306,39 @@ uninstall() {
   echo -e "${GREEN}Uninstallation of Phoenix Code completed.${RESET}"
 }
 
-
-# Check for command-line arguments
-if [[ "$1" == "--uninstall" ]]; then
+show_help() {
+  echo "Usage: $0 [OPTION]"
+  echo "Install, upgrade, or uninstall Phoenix Code."
+  echo
+  echo "Options:"
+  echo "  -h, --help      Display this help and exit"
+  echo "  --uninstall     Uninstall Phoenix Code"
+  echo "  --upgrade       Upgrade Phoenix Code to the latest version"
+  echo
+  echo "Without any options, the script will install Phoenix Code."
+}
+case "$1" in
+  -h|--help)
+    show_help
+    exit 0
+    ;;
+  --uninstall)
     uninstall
-elif [[ "$1" == "--upgrade" ]]; then
+    exit 0
+    ;;
+  --upgrade)
     upgrade
-else
-    install
-fi
+    exit 0
+    ;;
+  "")
+    # No option was provided; proceed with install
+    ;;
+  *)
+    echo -e "${RED}Invalid option: $1${RESET}"
+    echo "Only '--uninstall', '--upgrade', or no option (for default installation) are valid."
+    exit 1  # Exit if an invalid option is provided
+    ;;
+esac
+
+# If no option is provided, proceed with the installation
+install
