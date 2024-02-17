@@ -162,26 +162,25 @@ downloadLatestReleaseInfo() {
   local release_info_file="$TMP_DIR/latest_release.json"
 
   if [ -f "$release_info_file" ]; then
-    echo "Latest release information has already been fetched."
-    # Extract and print the latest version from the JSON file for logging purposes
-    LATEST_VERSION=$(grep -Po '"tag_name": "\K.*?(?=")' "$release_info_file")
-    echo "Latest available version: $LATEST_VERSION"
-    return  # Skip downloading if already done
+    # Only extract and echo the version number, without any additional messages
+    grep -Po '"tag_name": "prod-app-v\K[\d.]+(?=")' "$release_info_file"
+    return
   fi
 
-  echo -e "${GREEN}Fetching the latest release information from $GITHUB_REPO...${RESET}"
+  # Direct informational messages to stderr to avoid them being captured or displayed unexpectedly
+  >&2 echo -e "${GREEN}Fetching the latest release information from $GITHUB_REPO...${RESET}"
   wget -qO "$release_info_file" "$API_URL" || {
-    echo -e "${RED}Failed to fetch the latest release information. Please check your internet connection and try again.${RESET}"
+    >&2 echo -e "${RED}Failed to fetch the latest release information. Please check your internet connection and try again.${RESET}"
     exit 1
   }
 
-  # After successful download, extract and print the latest version for logging purposes
-  LATEST_VERSION=$(grep -Po '"tag_name": "\K.*?(?=")' "$release_info_file")
-  echo "Latest available version: $LATEST_VERSION"
+  # Only extract and echo the version number after successful download
+  grep -Po '"tag_name": "prod-app-v\K[\d.]+(?=")' "$release_info_file"
 }
+
 downloadAndInstall(){
   echo "Using temporary directory $TMP_DIR for processing"
-  downloadLatestReleaseInfo
+  downloadLatestReleaseInfo > /dev/null
   CURRENT_GLIBC_VERSION=$(ldd --version | grep "ldd" | awk '{print $NF}')
   echo "Current GLIBC version: $CURRENT_GLIBC_VERSION"
 
@@ -247,21 +246,29 @@ install() {
   copyFilesToDestination
 }
 upgrade() {
-  echo -e "${YELLOW}Starting upgrade of Phoenix Code...${RESET}"
+  echo -e "${YELLOW}Checking for upgrades to Phoenix Code...${RESET}"
 
-  # Check if the application is installed
+  # Ensure Phoenix Code is installed
   if [ ! -f "$LINK_DIR/$SCRIPT_NAME" ] && [ ! -d "$INSTALL_DIR" ]; then
     echo -e "${RED}Phoenix Code is not installed. Please install it first.${RESET}"
     exit 1
   fi
+  # Get the current installed version
+  CURRENT_VERSION=$("$INSTALL_DIR/phoenix-code" --version)
+  echo "Current installed version: $CURRENT_VERSION"
 
-  echo -e "${YELLOW}Proceeding with the upgrade...${RESET}"
+  LATEST_VERSION=$(downloadLatestReleaseInfo)
+  # Now LATEST_VERSION should only contain the version number without extra messages
+  echo "Latest available version: $LATEST_VERSION"
 
-  # You can call the downloadAndInstall function directly if you want to reuse the installation logic for upgrading
-  downloadAndInstall
-  uninstall
-  copyFilesToDestination
-  echo -e "${GREEN}Upgrade completed successfully. Phoenix Code has been updated to the latest version.${RESET}"
+  # Compare versions and upgrade if the latest version is greater
+  if [ "$(printf '%s\n' "$LATEST_VERSION" "$CURRENT_VERSION" | sort -V | tail -n1)" = "$LATEST_VERSION" ] && [ "$LATEST_VERSION" != "$CURRENT_VERSION" ]; then
+    echo -e "${YELLOW}A newer version of Phoenix Code is available. Proceeding with the upgrade...${RESET}"
+    # Proceed with upgrade logic here
+  else
+    echo "Your Phoenix Code installation is up-to-date."
+  fi
+
 }
 
 uninstall() {
