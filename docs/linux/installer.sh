@@ -1,5 +1,5 @@
 #!/bin/bash
-set -e # Exit immediately if a command exits with a non-zero status.
+set -euo pipefail # Exit immediately if a command exits with a non-zero status.
 # Define common variables
 DESKTOP_DIR=$HOME/.local/share/applications
 GITHUB_REPO="charlypa/phoenix-desktop"
@@ -227,24 +227,29 @@ downloadAndInstall(){
 install() {
   # Check if the application is already installed
   if [ -f "$LINK_DIR/$SCRIPT_NAME" ] || [ -d "$INSTALL_DIR" ]; then
-    echo "Phoenix Code appears to be already installed."
+    echo -e "${YELLOW}Phoenix Code appears to be already installed.${RESET}"
 
-    # Prompt the user for input on whether to repair (reinstall)
-    read -r -p "Would you like to repair (reinstall) it? (y/N): " response
+    # Update the prompt to inform the user about the repair behavior with color
+    echo -e "${YELLOW}The repair option will download and install the latest version available, replacing the current version.${RESET}"
+    read -r -p "Would you like to proceed with the repair? (y/N): " response
     case "$response" in
       [Yy]* )
-          echo "Proceeding with the reinstallation..."
+          echo -e "${GREEN}Proceeding with the repair by installing the latest version...${RESET}"
           uninstall
+          downloadAndInstall
+          copyFilesToDestination
           ;;
       * )
-          echo "Installation aborted by the user."
+          echo -e "${RED}Repair aborted by the user.${RESET}"
           exit 0
           ;;
     esac
+  else
+    downloadAndInstall
+    copyFilesToDestination
   fi
-  downloadAndInstall
-  copyFilesToDestination
 }
+
 upgrade() {
   echo -e "${YELLOW}Checking for upgrades to Phoenix Code...${RESET}"
 
@@ -324,28 +329,25 @@ show_help() {
   echo
   echo "Without any options, the script will install Phoenix Code."
 }
-case "$1" in
+case "${1-}" in
   -h|--help)
-    show_help
-    exit 0
+    show_help  # Function to show help
     ;;
   --uninstall)
-    uninstall
-    exit 0
+    uninstall  # Function to uninstall
     ;;
   --upgrade)
-    upgrade
-    exit 0
+    upgrade  # Function to upgrade
     ;;
   "")
-    # No option was provided; proceed with install
+    # This case handles when $1 is unset (acts as a default action)
+    install  # Function to install
     ;;
   *)
-    echo -e "${RED}Invalid option: $1${RESET}"
-    echo "Only '--uninstall', '--upgrade', or no option (for default installation) are valid."
-    exit 1  # Exit if an invalid option is provided
+    # This case handles unexpected arguments
+    echo "Invalid option: $1" >&2
+    show_help  # Assuming you have a function to show usage information
+    exit 1
     ;;
 esac
 
-# If no option is provided, proceed with the installation
-install
