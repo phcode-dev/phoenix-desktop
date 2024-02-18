@@ -2,7 +2,7 @@
 set -euo pipefail # Exit immediately if a command exits with a non-zero status.
 # Define common variables
 DESKTOP_DIR=$HOME/.local/share/applications
-GITHUB_REPO="charlypa/phoenix-desktop"
+GITHUB_REPO="phcode-dev/phoenix-desktop"
 API_URL="https://api.github.com/repos/$GITHUB_REPO/releases/latest"
 ICON_URL="https://updates.phcode.io/icons/phoenix_icon.png"
 INSTALL_DIR="$HOME/.phoenix-code"
@@ -507,8 +507,8 @@ install() {
     copyFilesToDestination
   fi
 }
+# Temporary code to clean up earlier beta installations
 function uninstallBetaAppImage() {
-  rm -f "$LINK_DIR"/phcode
   rm -f "$LINK_DIR"/phoenix_icon.png
 }
 # Upgrade Function
@@ -614,7 +614,6 @@ upgrade() {
 #
 uninstall() {
   echo -e "${YELLOW}Starting uninstallation of Phoenix Code...${RESET}"
-
   uninstallBetaAppImage
   # Remove the invocation script from ~/.local/bin
   if [ -f "$LINK_DIR/$SCRIPT_NAME" ]; then
