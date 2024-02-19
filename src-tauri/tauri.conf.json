@@ -234,6 +234,7 @@
                     ],
                     "windows": [
                         "main",
+                        "updater",
                         "phcode-1",
                         "phcode-2",
                         "phcode-3",
@@ -305,6 +306,7 @@
                     ],
                     "windows": [
                         "main",
+                        "updater",
                         "phcode-1",
                         "phcode-2",
                         "phcode-3",
