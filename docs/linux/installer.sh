@@ -8,9 +8,39 @@ ICON_URL="https://updates.phcode.io/icons/phoenix_icon.png"
 INSTALL_DIR="$HOME/.phoenix-code"
 LINK_DIR="$HOME/.local/bin"
 DESKTOP_DIR="$HOME/.local/share/applications"  # Directory for desktop entries
-DESKTOP_ENTRY="$DESKTOP_DIR/PhoenixCode.desktop"
+DESKTOP_ENTRY_NAME="PhoenixCode.desktop"
+DESKTOP_ENTRY="$DESKTOP_DIR/$DESKTOP_ENTRY_NAME"
 SCRIPT_NAME="phcode"  # Name of the script to invoke the binary
 BINARY_NAME="phoenix-code"
+
+declare -a MIME_TYPES=(
+    "text/html"
+    "application/atom+xml"
+    "application/x-coldfusion"
+    "text/x-clojure"
+    "text/coffeescript"
+    "application/json"
+    "text/css"
+    "text/x-diff"
+    "text/jsx"
+    "text/markdown"
+    "application/mathml+xml"
+    "application/rdf+xml"
+    "application/rss+xml"
+    "application/sql"
+    "image/svg+xml"
+    "text/x-python"
+    "application/xml"
+    "application/vnd.mozilla.xul+xml"
+    "application/x-yaml"
+    "text/javascript"
+    "application/javascript"
+    "text/mjs"
+    "application/mjs"
+    "text/cjs"
+    "inode/directory"  # Added to include directory handling
+)
+
 
 # Define color variables for easy reference
 GREEN="\e[32m"
@@ -250,6 +280,15 @@ verify_and_install_dependencies() {
     return 1  # Return an error code to indicate failure
   fi
 }
+# Set Phoenix Code as the default application for specified MIME types
+set_default_application() {
+  local desktop_file="$DESKTOP_ENTRY_NAME"  # Name of the Phoenix Code desktop entry file
+
+  for mime_type in "${MIME_TYPES[@]}"; do
+      xdg-mime default "$desktop_file" "$mime_type"
+  done
+  echo -e "${GREEN}Success! You can now right-click on files in your file manager and choose Phoenix Code to edit them.${RESET}"
+}
 
 # Copy Files to Destination Function
 #
@@ -312,11 +351,8 @@ copyFilesToDestination(){
   mkdir -p "$LINK_DIR"  # Ensure the directory exists
   # Call the function to create and copy the invocation script
   create_invocation_script "$INSTALL_DIR" "$SCRIPT_NAME" "$LINK_DIR"
-  # Define MIME types for file extensions
-  MIME_TYPES="text/html;application/atom+xml;application/x-coldfusion;text/x-clojure;text/coffeescript;application/json;text/css;text/html;text/x-diff;text/jsx;text/markdown;application/mathml+xml;application/rdf+xml;application/rss+xml;text/css;application/sql;image/svg+xml;text/html;text/x-python;application/xml;application/vnd.mozilla.xul+xml;application/x-yaml;text/typescript;"
-  # Add directory association
-  MIME_TYPES+="inode/directory;"
-  # Create a desktop entry for the application
+  # Convert MIME types array to semicolon-separated string for the desktop entry
+  MIME_TYPES_STRING=$(IFS=";"; echo "${MIME_TYPES[*]}")
   echo "Creating desktop entry..."
   cat > "$DESKTOP_ENTRY" <<EOF
 [Desktop Entry]
@@ -325,7 +361,7 @@ Name=Phoenix Code
 Exec=$INSTALL_DIR/phoenix-code %F
 Icon=$INSTALL_DIR/icon.png
 Terminal=false
-MimeType=$MIME_TYPES
+MimeType=$MIME_TYPES_STRING;
 EOF
   # Update the desktop database for GNOME, Unity, XFCE, etc.
   echo "Updating desktop database..."
@@ -339,6 +375,8 @@ EOF
         kbuildsycoca5
     fi
   fi
+  # Set Phoenix Code as the default application for the MIME types
+  set_default_application
   echo -e "${GREEN}Installation completed successfully. Phoenix Code is now installed.${RESET}"
 
 }
