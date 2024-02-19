@@ -138,6 +138,8 @@ create_invocation_script() {
   echo "Copying the invocation script to $link_dir..."
   mkdir -p "$link_dir"  # Ensure the directory exists
   cp "$binary_path/$script_name" "$link_dir/$script_name"
+
+  echo -e "${YELLOW}Invocation script created at: $link_dir/$script_name${RESET}"
 }
 # Install Dependencies Function
 #
@@ -333,8 +335,10 @@ copyFilesToDestination(){
   echo "Setting up the installation directory at $INSTALL_DIR..."
   mkdir -p "$INSTALL_DIR"
   mkdir -p "$DESKTOP_DIR"
+  echo -e "${YELLOW}Installation directory set up at: $INSTALL_DIR${RESET}"
 
   echo "Moving the necessary files to the installation directory..."
+  echo -e "${YELLOW}Phoenix Code files moved to: $INSTALL_DIR${RESET}"
   mv "$TMP_DIR"/phoenix-code/* "$INSTALL_DIR/" || {
     echo -e "${RED}Failed to move the files to the installation directory. Please check the permissions and try again.${RESET}"
     exit 1
@@ -347,6 +351,7 @@ copyFilesToDestination(){
     echo -e "${RED}Failed to set executable permissions. Please check the file path and permissions.${RESET}"
     exit 1
   }
+  echo -e "${YELLOW}Executable permissions set for: $INSTALL_DIR/$BINARY_NAME${RESET}"
 
   mkdir -p "$LINK_DIR"  # Ensure the directory exists
   # Call the function to create and copy the invocation script
@@ -363,10 +368,12 @@ Icon=$INSTALL_DIR/icon.png
 Terminal=false
 MimeType=$MIME_TYPES_STRING;
 EOF
+  echo -e "${YELLOW}Desktop entry created at: $DESKTOP_ENTRY${RESET}"
   # Update the desktop database for GNOME, Unity, XFCE, etc.
   echo "Updating desktop database..."
   if command -v update-desktop-database &> /dev/null; then
       update-desktop-database "$DESKTOP_DIR"
+      echo -e "${YELLOW}Desktop database updated in: $DESKTOP_DIR${RESET}"
   fi
 
   # Update the KDE desktop database if KDE is in use
