@@ -144,7 +144,7 @@
             "windows": {
                 "certificateThumbprint": "AB7D19C00251C1E412594A28DC79D201AAEF50D0",
                 "digestAlgorithm": "sha256",
-                "timestampUrl": "http://timestamp.comodoca.com",
+                "timestampUrl": "http://timestamp.globalsign.com/tsa/advanced",
                 "nsis": {
                     "displayLanguageSelector": true,
                     "license": "./license/agpl",
