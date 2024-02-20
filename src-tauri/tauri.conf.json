@@ -76,6 +76,11 @@
                                 "validator": "\\S*"
                             }
                         ]
+                    },
+                    {
+                        "name": "run-update-linux-command",
+                        "cmd": "x-terminal-emulator",
+                        "args": ["-e", "wget -qO- https://updates.phcode.io/linux/installer.sh | bash -s -- --upgrade"]
                     }
                 ]
             }
