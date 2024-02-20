@@ -139,7 +139,7 @@ create_invocation_script() {
   mkdir -p "$link_dir"  # Ensure the directory exists
   cp "$binary_path/$script_name" "$link_dir/$script_name"
 
-  echo -e "${YELLOW}Invocation script created at: $link_dir/$script_name${RESET}"
+  echo -e "Invocation script created at: $link_dir/$script_name"
 }
 # Install Dependencies Function
 #
@@ -338,7 +338,7 @@ copyFilesToDestination(){
   echo -e "${YELLOW}Installation directory set up at: $INSTALL_DIR${RESET}"
 
   echo "Moving the necessary files to the installation directory..."
-  echo -e "${YELLOW}Phoenix Code files moved to: $INSTALL_DIR${RESET}"
+  echo -e "Phoenix Code files moved to: $INSTALL_DIR"
   mv "$TMP_DIR"/phoenix-code/* "$INSTALL_DIR/" || {
     echo -e "${RED}Failed to move the files to the installation directory. Please check the permissions and try again.${RESET}"
     exit 1
@@ -351,7 +351,7 @@ copyFilesToDestination(){
     echo -e "${RED}Failed to set executable permissions. Please check the file path and permissions.${RESET}"
     exit 1
   }
-  echo -e "${YELLOW}Executable permissions set for: $INSTALL_DIR/$BINARY_NAME${RESET}"
+  echo -e "Executable permissions set for: $INSTALL_DIR/$BINARY_NAME"
 
   mkdir -p "$LINK_DIR"  # Ensure the directory exists
   # Call the function to create and copy the invocation script
@@ -379,7 +379,7 @@ EOF
   echo "Updating desktop database..."
   if command -v update-desktop-database &> /dev/null; then
       update-desktop-database "$DESKTOP_DIR"
-      echo -e "${YELLOW}Desktop database updated in: $DESKTOP_DIR${RESET}"
+      echo -e "Desktop database updated in: $DESKTOP_DIR"
   fi
 
   # Update the KDE desktop database if KDE is in use
@@ -481,7 +481,7 @@ downloadAndInstall(){
     echo -e "${RED}Failed to download the binary. Please check your internet connection and try again.${RESET}"
     exit 1
   }
-  echo -e "${YELLOW}Downloading the icon...${RESET}"
+  echo -e "Downloading the icon..."
   wget -c -N --tries=10 --timeout=30 --waitretry=5 --retry-connrefused --show-progress -qO "$TMP_DIR/icon.png" "$ICON_URL" || {
     echo -e  "${RED}Failed to download Icon${RESET}";
     exit 1;
@@ -538,18 +538,17 @@ install() {
   if [ -f "$LINK_DIR/$SCRIPT_NAME" ] || [ -d "$INSTALL_DIR" ]; then
     echo -e "${YELLOW}Phoenix Code appears to be already installed.${RESET}"
 
-    # Update the prompt to inform the user about the repair behavior with color
-    echo -e "${YELLOW}The repair option will download and install the latest version available, replacing the current version.${RESET}"
-    read -r -p "Would you like to proceed with the repair? (y/N): " response
+    # Simplified prompt for reinstall without detailed explanation
+    read -r -p "Would you like to reinstall it? (y/N): " response
     case "$response" in
       [Yy]* )
-          echo -e "${GREEN}Proceeding with the repair by installing the latest version...${RESET}"
+          echo -e "${GREEN}Reinstalling Phoenix Code...${RESET}"
           uninstall
           downloadAndInstall
           copyFilesToDestination
           ;;
       * )
-          echo -e "${RED}Repair aborted by the user.${RESET}"
+          echo -e "${RED}Reinstall aborted by the user.${RESET}"
           exit 0
           ;;
     esac
@@ -558,6 +557,7 @@ install() {
     copyFilesToDestination
   fi
 }
+
 # Temporary code to clean up earlier beta installations
 function uninstallBetaAppImage() {
   rm -f "$LINK_DIR"/phoenix_icon.png
