@@ -1,5 +1,5 @@
 #!/bin/bash
-set -euo pipefail # Exit immediately if a command exits with a non-zero status.
+  set -euo pipefail # Exit immediately if a command exits with a non-zero status.
 # Define common variables
 DESKTOP_DIR=$HOME/.local/share/applications
 GITHUB_REPO="phcode-dev/phoenix-desktop"
@@ -363,10 +363,16 @@ copyFilesToDestination(){
 [Desktop Entry]
 Type=Application
 Name=Phoenix Code
+GenericName=Code Editor
+Comment=Code editor
+Keywords=Programming;Development;IDE;Editor;Code;
 Exec=$INSTALL_DIR/phoenix-code %F
 Icon=$INSTALL_DIR/icon.png
 Terminal=false
 MimeType=$MIME_TYPES_STRING;
+Categories=Development;IDE;Utility;TextEditor;
+StartupNotify=true
+StartupWMClass=phoenix-code
 EOF
   echo -e "${YELLOW}Desktop entry created at: $DESKTOP_ENTRY${RESET}"
   # Update the desktop database for GNOME, Unity, XFCE, etc.
