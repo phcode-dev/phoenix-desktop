@@ -1,5 +1,5 @@
 #!/bin/bash
-  set -euo pipefail # Exit immediately if a command exits with a non-zero status.
+set -euo pipefail # Exit immediately if a command exits with a non-zero status.
 # Define common variables
 DESKTOP_DIR=$HOME/.local/share/applications
 GITHUB_REPO="phcode-dev/phoenix-desktop"
