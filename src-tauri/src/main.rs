@@ -7,6 +7,10 @@ use std::env;
 use tauri::{Manager};
 use std::path::PathBuf;
 
+use tauri::{State};
+use std::collections::HashMap;
+use std::sync::Mutex;
+
 #[cfg(target_os = "linux")]
 use std::fs::metadata;
 #[cfg(target_os = "linux")]
@@ -90,6 +94,36 @@ fn _get_clipboard_files() -> Option<Vec<String>> {
         Err(_) => None,
     }
 }
+
+// this in memory hashmap is used to supplement the LMDB node layer in a multi window environment.
+struct Storage {
+    map: Mutex<HashMap<String, String>>,
+}
+
+#[tauri::command]
+fn put_item(state: State<'_, Storage>, key: String, value: String) {
+    let mut map = state.map.lock().unwrap();
+    map.insert(key, value);
+}
+
+#[tauri::command]
+fn get_item(state: State<'_, Storage>, key: String) -> Option<String> {
+    let map = state.map.lock().unwrap();
+    map.get(&key).cloned()
+}
+
+#[tauri::command]
+fn get_all_items(state: State<'_, Storage>) -> HashMap<String, String> {
+    let map = state.map.lock().unwrap();
+    map.clone()
+}
+
+#[tauri::command]
+fn delete_item(state: State<'_, Storage>, key: String) {
+    let mut map = state.map.lock().unwrap();
+    map.remove(&key);
+}
+// in memory hashmap end
 
 static mut DEVTOOLS_LOADED:bool = false;
 
@@ -245,6 +279,9 @@ fn main() {
     let _ = fix_path_env::fix();
 
     tauri::Builder::default()
+        .manage(Storage {
+                map: Mutex::new(HashMap::new()),
+        })
         .register_uri_scheme_protocol("phtauri", move |app, request| { // can't use `tauri` because that's already in use
             let path = remove_version_from_url(request.uri());
             let path = path.strip_prefix("phtauri://localhost");
@@ -302,6 +339,7 @@ fn main() {
             get_mac_deep_link_requests,
             toggle_devtools, console_log, console_error, _get_commandline_args, get_current_working_dir,
             _get_window_labels,
+            put_item, get_item, get_all_items, delete_item,
             _get_windows_drives, _rename_path, show_in_folder, zoom_window, _get_clipboard_files])
         .setup(|app| {
             init::init_app(app);
