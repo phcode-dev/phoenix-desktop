@@ -227,7 +227,7 @@ fn remove_version_from_url(url: &str) -> String {
 }
 
 #[cfg(target_os = "macos")]
-use std::sync::{Arc, Mutex};
+use std::sync::{Arc};
 
 #[cfg(target_os = "macos")]
 use lazy_static::lazy_static;
