@@ -7,10 +7,16 @@ import {dirname} from 'path';
 import * as fsExtra from "fs-extra";
 import {getPlatformDetails, getSideCarBinName, removeDir} from "./utils.js";
 import axios from 'axios';
-
+import axiosRetry from 'axios-retry';
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = dirname(__filename);
 
+// Setup axios-retry
+axiosRetry(axios, {
+    retries: 3,
+    retryDelay: axiosRetry.exponentialDelay,
+    retryCondition: (error) => error.code === 'ECONNABORTED' || /5\d{2}/.test(error.response?.status)
+});
 /**
  * Downloads the latest Node.js binary for the specified platform and architecture.
  * If the file already exists, it will not be downloaded again. If the download fails,
@@ -46,7 +52,7 @@ async function downloadNodeBinary(platform, arch, maxRetries = 3) {
 
         const outputPath = path.resolve(__dirname, asset.name);
         if (fs.existsSync(outputPath)) {
-            console.log('File already downloaded:', asset.name);
+            console.log(`File already downloaded: ${asset.name}`);
             return asset.name;
         }
 
@@ -62,19 +68,22 @@ async function downloadNodeBinary(platform, arch, maxRetries = 3) {
 
         return new Promise((resolve, reject) => {
             writer.on('finish', () => {
-                console.log('Download completed:', asset.name);
+                console.log(`Download completed: ${asset.name}`);
                 resolve(asset.name);
             });
-            writer.on('error', err => {
-                fs.unlinkSync(outputPath); // remove the partially downloaded file
+            writer.on('error', (err) => {
+                fs.unlink(outputPath, (unlinkErr) => {
+                    if (unlinkErr) console.error(`Error removing incomplete download: ${unlinkErr}`);
+                });
                 reject(err);
             });
         });
 
     } catch (err) {
-        console.error('Error:', err.message);
+        console.error(`Error: ${err.message}`);
         if (maxRetries > 0) {
             console.log('Retrying download...');
+            await new Promise(resolve => setTimeout(resolve, 1000)); // Wait before retrying
             return downloadNodeBinary(platform, arch, maxRetries - 1);
         } else {
             throw new Error('Max retries reached, download failed.');
