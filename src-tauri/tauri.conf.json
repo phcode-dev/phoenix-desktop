@@ -84,6 +84,14 @@
                             "-e",
                             "wget -qO- https://updates.phcode.io/linux/installer.sh | bash -s -- --upgrade"
                         ]
+                    },
+                    {
+                        "name": "run-update-linux-command-dev",
+                        "cmd": "x-terminal-emulator",
+                        "args": [
+                            "-e",
+                            "wget -qO- https://updates.phcode.io/linux/installer-latest-experimental-build.sh | bash -s -- --upgrade"
+                        ]
                     }
                 ]
             }
