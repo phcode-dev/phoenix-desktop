@@ -9,6 +9,7 @@ INSTALL_DIR="$HOME/.phoenix-code"
 LINK_DIR="$HOME/.local/bin"
 DESKTOP_DIR="$HOME/.local/share/applications"  # Directory for desktop entries
 DESKTOP_ENTRY_NAME="PhoenixCode.desktop"
+DESKTOP_APP_NAME="Phoenix Code"
 DESKTOP_ENTRY="$DESKTOP_DIR/$DESKTOP_ENTRY_NAME"
 SCRIPT_NAME="phcode"  # Name of the script to invoke the binary
 BINARY_NAME="phoenix-code"
@@ -362,7 +363,7 @@ copyFilesToDestination(){
   cat > "$DESKTOP_ENTRY" <<EOF
 [Desktop Entry]
 Type=Application
-Name=Phoenix Code
+Name=$DESKTOP_APP_NAME
 GenericName=Code Editor
 Comment=Code editor
 Keywords=Programming;Development;IDE;Editor;Code;
