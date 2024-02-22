@@ -92,6 +92,19 @@
                             "-e",
                             "wget -qO- https://updates.phcode.io/linux/installer-latest-experimental-build.sh | bash -s -- --upgrade"
                         ]
+                    },
+                    {
+                        "name": "recursive-copy-unix",
+                        "cmd": "cp",
+                        "args": [
+                            "-r",
+                            {
+                                "validator": "\\S*"
+                            },
+                            {
+                                "validator": "\\S*"
+                            }
+                        ]
                     }
                 ]
             }
