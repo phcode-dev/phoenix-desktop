@@ -746,6 +746,12 @@ show_help() {
   echo
   echo "Without any options, the script will install Phoenix Code."
 }
+# Check for GUI session by looking for DISPLAY or WAYLAND_DISPLAY variables
+if [ -z "${DISPLAY:-}" ] && [ -z "${WAYLAND_DISPLAY:-}" ]; then
+  echo "This script should only be run from terminals in GUI sessions."
+  exit 1
+fi
+
 case "${1-}" in
   -h|--help)
     show_help  # Function to show help
