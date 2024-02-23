@@ -105,6 +105,16 @@
                                 "validator": "\\S*"
                             }
                         ]
+                    },
+                    {
+                        "name": "recursive-rm-unix",
+                        "cmd": "rm",
+                        "args": [
+                            "-rf",
+                            {
+                                "validator": "\\S*"
+                            }
+                        ]
                     }
                 ]
             }
