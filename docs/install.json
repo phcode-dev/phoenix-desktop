@@ -1,0 +1,7 @@
+{
+  "phcode.io.DownloadURL": {
+    "mac_intel": "https://github.com/phcode-dev/phoenix-desktop/releases/download/prod-app-v3.3.3/Phoenix.Code_3.3.3_x64.dmg",
+    "mac_m1": "https://github.com/phcode-dev/phoenix-desktop/releases/download/prod-app-v3.3.3/Phoenix.Code_3.3.3_aarch64.dmg",
+    "windows_x64": "https://github.com/phcode-dev/phoenix-desktop/releases/download/dev-app-v3.4.2/Phoenix.Code.Experimental.Build_3.4.2_x64-setup.exe"
+  }
+}
