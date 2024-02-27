@@ -543,21 +543,28 @@ install() {
   # Check if the application is already installed
   if [ -f "$LINK_DIR/$SCRIPT_NAME" ] || [ -d "$INSTALL_DIR" ]; then
     echo -e "${YELLOW}Phoenix Code appears to be already installed.${RESET}"
-
-    # Simplified prompt for reinstall without detailed explanation
-    read -r -p "Would you like to reinstall it? (y/N): " response
-    case "$response" in
-      [Yy]* )
-          echo -e "${GREEN}Reinstalling Phoenix Code...${RESET}"
-          uninstall
-          downloadAndInstall
-          copyFilesToDestination
-          ;;
-      * )
-          echo -e "${RED}Reinstall aborted by the user.${RESET}"
-          exit 0
-          ;;
-    esac
+    # Checking if the shell has a controlling terminal if its non interactive reinstall phoenix with latest version
+    if [ ! -t 0 ]; then
+      echo -e "${GREEN}Reinstalling Phoenix Code...${RESET}"
+      uninstall
+      downloadAndInstall
+      copyFilesToDestination
+    else
+      # Simplified prompt for reinstall without detailed explanation
+      read -r -p "Would you like to reinstall it? (y/N): " response
+      case "$response" in
+        [Yy]* )
+            echo -e "${GREEN}Reinstalling Phoenix Code...${RESET}"
+            uninstall
+            downloadAndInstall
+            copyFilesToDestination
+            ;;
+        * )
+            echo -e "${RED}Reinstall aborted by the user.${RESET}"
+            exit 0
+            ;;
+      esac
+    fi
   else
     downloadAndInstall
     copyFilesToDestination
