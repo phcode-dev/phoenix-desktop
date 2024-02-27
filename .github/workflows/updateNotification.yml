@@ -13,12 +13,14 @@ jobs:
       contents: write
       pull-requests: write
     steps:
-      - name: Dump GitHub context
+      - name: Print GitHub context
+        uses: actions/github-script@v5
+        with:
+          script: |
+            console.log(JSON.stringify(github, null, 2))
+      - name: GitHub REF
         id: github_context_step
-        env:
-          GITHUB_CONTEXT_ECHO: ${{ toJson(github) }}
         run: |
-          echo '$GITHUB_CONTEXT_ECHO'
           echo "$GITHUB_REF repo=${{github.event.repository.full_name}}"
 
       - uses: actions/checkout@v4
