@@ -71,6 +71,24 @@ async function _getLatestJson(releaseAssets) {
     throw new Error(`Could not locate ${LATEST_JSON_GITHUB_RELEASE} file in github releases.`);
 }
 
+// "Phoenix.Code.Experimental.Build_3.4.2_x64-setup.exe"
+const WINDOWS_X64_NAME_SUFFIX = "_x64-setup.exe";
+// "Phoenix.Code.Experimental.Build_3.4.2_x64.dmg"
+const MAC_INTEL_NAME_SUFFIX = "_x64.dmg";
+// "Phoenix.Code.Experimental.Build_3.4.2_aarch64.dmg"
+const MAC_M1_NAME_SUFFIX = "_aarch64.dmg";
+function _getDownloadURLByNameSuffix(releaseAssets, suffix) {
+    for(let releaseAsset of releaseAssets) {
+        if(releaseAsset.name.endsWith(suffix)){
+            // "browser_download_url":  "https://github.com/phcode-dev/phoenix-desktop/releases/download/dev-app-v3.4.2/Phoenix.Code.Experimental.Build_3.4.2_x64-setup.exe"
+            const downloadURL = releaseAsset.browser_download_url;
+            console.log("Latest json download URL is: ", downloadURL);
+            return downloadURL;
+        }
+    }
+    throw new Error(`Could not locate ${LATEST_JSON_GITHUB_RELEASE} file in github releases.`);
+}
+
 function getCurrentVersion(latestJsonPath) {
     try{
         return JSON.parse(fs.readFileSync(latestJsonPath, 'utf8')).version || '0.0.0';
@@ -144,4 +162,20 @@ export default async function printStuff({github, context, githubWorkspaceRoot})
     } else {
         console.warn("Current version: ", currentVersion, " is higher than the new release version ", latestVersion, " . Ignoring this release update!");
     }
+
+    // now write the installer.json for phcode.io website download link updates
+    const installJsonPath = `${githubWorkspaceRoot}/docs/install.json`;
+    const windowsDownloadURL = _getDownloadURLByNameSuffix(releaseAssets, WINDOWS_X64_NAME_SUFFIX);
+    const macM1DownloadURL = _getDownloadURLByNameSuffix(releaseAssets, MAC_M1_NAME_SUFFIX);
+    const macIntelDownloadURL = _getDownloadURLByNameSuffix(releaseAssets, MAC_INTEL_NAME_SUFFIX);
+    let installJSON = {
+        "phcode.io.DownloadURL": {
+            "windows_x64": windowsDownloadURL,
+            "mac_m1": macM1DownloadURL,
+            "mac_intel": macIntelDownloadURL
+        }
+    };
+    installJSON = JSON.stringify(installJSON, null, 4);
+    console.log("writing install.json to path: ", installJsonPath, " contents: ",  installJSON)
+    fs.writeFileSync(installJsonPath, installJSON);
 }
