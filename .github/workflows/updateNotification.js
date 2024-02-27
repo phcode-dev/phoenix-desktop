@@ -57,6 +57,16 @@ function _identifyUpdateJSONPath(releaseAssets) {
     return UPDATE_NOTIFICATION_LATEST_JSON_FILE_PATH.production;
 }
 
+function isProdStage(releaseAssets) {
+    for(let releaseAsset of releaseAssets) {
+        if(releaseAsset.name.startsWith(DEV_STAGE_PRODUCT_NAME_PREFIX) ||
+            releaseAsset.name.startsWith(PRE_RELEASE_STAGE_PRODUCT_NAME_PREFIX)){
+            return false;
+        }
+    }
+    return true;
+}
+
 async function _getLatestJson(releaseAssets) {
     for(let releaseAsset of releaseAssets) {
         if(releaseAsset.name === LATEST_JSON_GITHUB_RELEASE){
@@ -164,18 +174,20 @@ export default async function printStuff({github, context, githubWorkspaceRoot})
     }
 
     // now write the installer.json for phcode.io website download link updates
-    const installJsonPath = `${githubWorkspaceRoot}/docs/install.json`;
-    const windowsDownloadURL = _getDownloadURLByNameSuffix(releaseAssets, WINDOWS_X64_NAME_SUFFIX);
-    const macM1DownloadURL = _getDownloadURLByNameSuffix(releaseAssets, MAC_M1_NAME_SUFFIX);
-    const macIntelDownloadURL = _getDownloadURLByNameSuffix(releaseAssets, MAC_INTEL_NAME_SUFFIX);
-    let installJSON = {
-        "phcode.io.DownloadURL": {
-            "windows_x64": windowsDownloadURL,
-            "mac_m1": macM1DownloadURL,
-            "mac_intel": macIntelDownloadURL
-        }
-    };
-    installJSON = JSON.stringify(installJSON, null, 4);
-    console.log("writing install.json to path: ", installJsonPath, " contents: ",  installJSON)
-    fs.writeFileSync(installJsonPath, installJSON);
+    if(isProdStage(releaseAssets)){
+        const installJsonPath = `${githubWorkspaceRoot}/docs/install.json`;
+        const windowsDownloadURL = _getDownloadURLByNameSuffix(releaseAssets, WINDOWS_X64_NAME_SUFFIX);
+        const macM1DownloadURL = _getDownloadURLByNameSuffix(releaseAssets, MAC_M1_NAME_SUFFIX);
+        const macIntelDownloadURL = _getDownloadURLByNameSuffix(releaseAssets, MAC_INTEL_NAME_SUFFIX);
+        let installJSON = {
+            "phcode.io.DownloadURL": {
+                "windows_x64": windowsDownloadURL,
+                "mac_m1": macM1DownloadURL,
+                "mac_intel": macIntelDownloadURL
+            }
+        };
+        installJSON = JSON.stringify(installJSON, null, 4);
+        console.log("writing install.json to path: ", installJsonPath, " contents: ",  installJSON)
+        fs.writeFileSync(installJsonPath, installJSON);
+    }
 }
