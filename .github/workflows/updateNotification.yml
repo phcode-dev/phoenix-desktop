@@ -15,8 +15,10 @@ jobs:
     steps:
       - name: Dump GitHub context
         id: github_context_step
+        env:
+          GITHUB_CONTEXT_ECHO: ${{ toJson(github) }}
         run: |
-          echo '${{ toJSON(github) }}'
+          echo '$GITHUB_CONTEXT_ECHO'
           echo "$GITHUB_REF repo=${{github.event.repository.full_name}}"
 
       - uses: actions/checkout@v4
