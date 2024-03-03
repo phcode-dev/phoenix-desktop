@@ -34,3 +34,5 @@ dist-ssr
 *.njsproj
 *.sln
 *.sw?
+
+src-tauri/src/bundle/windows/nsis/installer.nsi
