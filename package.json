@@ -34,7 +34,7 @@
         "_ci-update-phcode-build": "node src-build/update-phcode-build.js",
         "_watch_src-node": "chokidar '../phoenix/src-node/**/*' --ignore '../phoenix/src-node/node_modules/**/*' -c 'npm run _make_src-node_debug_dev'",
         "serve": "npm run _servePhoenix && npm run _make_src-node && tauri dev",
-        "postinstall": "node ./src-build/downloadNodeBinary.js",
+        "postinstall": "node ./src-build/downloadNodeBinary.js && shx cp src-tauri/src/bundle/windows/nsis/installer.txt src-tauri/src/bundle/windows/nsis/installer.nsi",
         "cleanNodeBinary": "node src-build/cleanNodeBinary.js",
         "installNodeArmDarwin": "node ./src-build/downloadNodeBinary.js '{\"platform\":\"darwin\",\"arch\":\"arm64\"}'",
         "getPackageVersion": "node ./src-build/getVersion.js"
