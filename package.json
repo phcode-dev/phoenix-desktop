@@ -3,6 +3,7 @@
     "private": true,
     "version": "3.4.6",
     "type": "module",
+    "testChange": "just to trigger a full build test suite run before prod launch",
     "scripts": {
         "tauri": "tauri",
         "tauriBuildDemoApp": "node src-build/createDemoReleaseConfig.js && tauri build --config ./src-tauri/tauri-local.conf.json",
