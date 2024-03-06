@@ -57,12 +57,21 @@ async function downloadNodeBinary(platform, arch, maxRetries = 3) {
         }
 
         const writer = fs.createWriteStream(outputPath);
-        const { data } = await axios({
+        const GH_TOKEN = process.env.GH_TOKEN; // Access the environment variable
+        const config = {
             url: asset.browser_download_url,
             method: 'GET',
             responseType: 'stream',
             timeout: 10000
-        });
+        };
+        // Only add the Authorization header if GH_TOKEN is set
+        if (GH_TOKEN) {
+            config.headers = {
+                'Authorization': `Bearer ${GH_TOKEN}`
+            };
+        }
+
+        const { data } = await axios(config);
 
         data.pipe(writer);
 
