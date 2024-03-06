@@ -23,6 +23,8 @@ jobs:
           node-version: 20
 
       - name: Update phcode and version
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: |
           npm ci
           npm run _ci-update-phcode-build ${{ github.event.client_payload.sha }}
