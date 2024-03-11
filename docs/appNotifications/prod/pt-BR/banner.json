@@ -1,0 +1,8 @@
+{
+  "DESKTOP_APP_BANNER": {
+    "DANGER_SHOW_ON_EVERY_BOOT" : false,
+    "HTML_CONTENT": "<div><b>Apresentamos</b> os <b>aplicativos de desktop</b> Phoenix Code para Windows, Mac e Linux. <a class='notification_ack' href='https://phcode.io' _target='_blank'> Clique aqui para obtê-lo agora!</a></div>",
+    "FOR_VERSIONS": ">=3.0.0",
+    "PLATFORM" : "allBrowser"
+  }
+}
