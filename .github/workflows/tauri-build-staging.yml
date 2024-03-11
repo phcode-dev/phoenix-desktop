@@ -307,7 +307,7 @@ jobs:
           echo "OUTPUT_FILENAME=$OUTPUT_FILENAME" >> $GITHUB_ENV
           ls
       - name: Upload Release Asset
-        uses: softprops/action-gh-release@v1
+        uses: softprops/action-gh-release@v2
         with:
           files: ${{ env.OUTPUT_FILENAME }}
           tag_name: ${{ env.GIT_TAG_NAME }}
