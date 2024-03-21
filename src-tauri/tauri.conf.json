@@ -107,7 +107,7 @@
                         ]
                     },
                     {
-                        "name": "untar-unix",
+                        "name": "tar-unix",
                         "cmd": "tar",
                         "args": [
                             {
