@@ -107,6 +107,24 @@
                         ]
                     },
                     {
+                        "name": "untar-unix",
+                        "cmd": "tar",
+                        "args": [
+                            {
+                                "validator": "\\S*"
+                            },
+                            {
+                                "validator": "\\S*"
+                            },
+                            {
+                                "validator": "\\S*"
+                            },
+                            {
+                                "validator": "\\S*"
+                            }
+                        ]
+                    },
+                    {
                         "name": "recursive-rm-unix",
                         "cmd": "rm",
                         "args": [
