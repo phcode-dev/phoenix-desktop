@@ -26,6 +26,16 @@ async function createSrcReleaseConfig() {
     } else {
         configJson.tauri.windows[0].url = `phtauri://localhost/v${phoenixVersion}/`;
     }
+    if(os.platform() === 'darwin'){
+        // inject macos icons
+        configJson.tauri.bundle.icon = [
+            "icons-mac/32x32.png",
+            "icons-mac/128x128.png",
+            "icons-mac/128x128@2x.png",
+            "icons-mac/icon.icns",
+            "icons-mac/icon.ico"
+        ];
+    }
     console.log("Window Boot url is: ", configJson.tauri.windows[0].url);
     console.log("Writing new local config json ", tauriLocalConfigPath);
     fs.writeFileSync(tauriLocalConfigPath, JSON.stringify(configJson, null, 4));
