@@ -92,6 +92,16 @@ async function ciCreateDistReleaseConfig() {
     } else {
         configJson.tauri.windows[0].url = `phtauri://localhost/v${phoenixVersion}/`;
     }
+    if(os.platform() === 'darwin'){
+        // inject macos icons
+        configJson.tauri.bundle.icon = [
+            "icons-mac/32x32.png",
+            "icons-mac/128x128.png",
+            "icons-mac/128x128@2x.png",
+            "icons-mac/icon.icns",
+            "icons-mac/icon.ico"
+        ];
+    }
     console.log("Window Boot url is: ", configJson.tauri.windows[0].url);
     configJson.tauri.updater.endpoints = [
         `${UPDATE_NOTIFICATIONS_BASE_URL}${UPDATE_NOTIFICATION_LATEST_JSON_FILE_PATH[phoenixStage]}`
