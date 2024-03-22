@@ -107,6 +107,17 @@
                         ]
                     },
                     {
+                        "name": "mac-remove-quarantine",
+                        "cmd": "xattr",
+                        "args": [
+                            "-rd",
+                            "com.apple.quarantine",
+                            {
+                                "validator": "\\S*"
+                            }
+                        ]
+                    },
+                    {
                         "name": "tar-unix",
                         "cmd": "tar",
                         "args": [
