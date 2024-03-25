@@ -1,6 +1,6 @@
 {
     "version": "3.5.1",
-    "notes": "## New mac update test pre-release\r\nThis is a test release\r\n![image](https://github.com/phcode-dev/phoenix-desktop/assets/5336369/29cf6ddf-d0ca-4cc9-9694-9a17d7e65ac7)\r\n",
+    "notes": "## New mac update test pre-release\r\nThis is a test release\r\n\r\n",
     "pub_date": "2024-03-23T06:00:26.784Z",
     "platforms": {
         "windows-x86_64": {
