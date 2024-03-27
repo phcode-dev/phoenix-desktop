@@ -1,7 +1,7 @@
 {
     "phcode.io.DownloadURL": {
-        "windows_x64": "https://github.com/phcode-dev/phoenix-desktop/releases/download/prod-app-v3.5.5/Phoenix.Code_3.5.5_x64-setup.exe",
-        "mac_m1": "https://github.com/phcode-dev/phoenix-desktop/releases/download/prod-app-v3.5.5/Phoenix.Code_3.5.5_aarch64.dmg",
-        "mac_intel": "https://github.com/phcode-dev/phoenix-desktop/releases/download/prod-app-v3.5.5/Phoenix.Code_3.5.5_x64.dmg"
+        "windows_x64": "https://github.com/phcode-dev/phoenix-desktop/releases/download/prod-app-v3.5.6/Phoenix.Code_3.5.6_x64-setup.exe",
+        "mac_m1": "https://github.com/phcode-dev/phoenix-desktop/releases/download/prod-app-v3.5.6/Phoenix.Code_3.5.6_aarch64.dmg",
+        "mac_intel": "https://github.com/phcode-dev/phoenix-desktop/releases/download/prod-app-v3.5.6/Phoenix.Code_3.5.6_x64.dmg"
     }
 }
