@@ -196,7 +196,7 @@ install_dependencies() {
 
   # Install dependencies based on the distribution
   case "$DISTRO" in
-    ubuntu|debian|linuxmint)
+    ubuntu|debian|linuxmint|kali)
       echo "Detected an Ubuntu/Debian based distribution."
       sudo apt update
       sudo apt install libgtk-3-0 libwebkit2gtk-4.0-37 \
