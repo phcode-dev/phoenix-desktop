@@ -173,7 +173,7 @@ fn show_in_folder(path: String) {
                 .arg("--type=method_call")
                 .arg("/org/freedesktop/FileManager1")
                 .arg("org.freedesktop.FileManager1.ShowItems")
-                .arg(format!("array:string:file:///{}", path))
+                .arg(format!("array:string:file://{}", path))
                 .arg("string:\"\"")
                 .spawn()
                 .unwrap();
