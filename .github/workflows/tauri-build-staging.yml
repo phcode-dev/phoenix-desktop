@@ -165,6 +165,14 @@ jobs:
           APPLE_CERTIFICATE: ${{ secrets.APPLE_CERTIFICATE }}
           APPLE_CERTIFICATE_PASSWORD: ${{ secrets.APPLE_CERTIFICATE_PASSWORD }}
         run: |
+          echo "Listing all files in src-tauri/src-node"
+          echo "======================================="
+          find src-tauri/src-node -type f
+          echo "======================================="
+          echo "Listing all files in src-node/"
+          echo "======================================="
+          find src-node/ -type f
+
           certificate_encoded="$APPLE_CERTIFICATE"
           certificate_password="$APPLE_CERTIFICATE_PASSWORD"
 
