@@ -404,7 +404,7 @@ downloadLatestReleaseInfo() {
 
   if [ -f "$release_info_file" ]; then
     # Only extract and echo the version number, without any additional messages
-    grep -Po '"tag_name": "prod-app-v\K[\d.]+(?=")' "$release_info_file"
+    grep -Po '"tag_name":\s*"prod-app-v\K[\d.]+(?=")' "$release_info_file"
     return
   fi
 
@@ -416,7 +416,7 @@ downloadLatestReleaseInfo() {
   }
 
   # Only extract and echo the version number after successful download
-  grep -Po '"tag_name": "prod-app-v\K[\d.]+(?=")' "$release_info_file"
+  grep -Po '"tag_name":\s*"prod-app-v\K[\d.]+(?=")' "$release_info_file"
 }
 
 # Download Latest Release Information Function
@@ -475,7 +475,7 @@ downloadAndInstall(){
         BEST_MATCH_VERSION="$BINARY_GLIBC_VERSION"
         echo "Found a new best match: $BEST_MATCH_URL with GLIBC version $BEST_MATCH_VERSION"
     fi
-  done < <(grep -oP '"browser_download_url": "\K(.*_linux_bin-GLIBC-[\d\.]+\.tar\.gz)(?=")' "$TMP_DIR/latest_release.json")
+  done < <(grep -oP '"browser_download_url"\s*:\s*"\K[^"]*_linux_bin-GLIBC-[\d\.]+\.tar\.gz(?=")' "$TMP_DIR/latest_release.json")
 
   if [ -z "$BEST_MATCH_URL" ]; then
     echo -e "${RED}No compatible binary found for the current GLIBC version ($CURRENT_GLIBC_VERSION). Exiting installation.${RESET}"
@@ -483,14 +483,21 @@ downloadAndInstall(){
   fi
 
   echo -e "${YELLOW}Downloading the compatible binary from $BEST_MATCH_URL...${RESET}"
-  wget -c -N --tries=10 --timeout=30 --waitretry=5 --retry-connrefused --show-progress -qO "$TMP_DIR/phoenix-code.tar.gz" "$BEST_MATCH_URL"  || {
+  # Set options based on wget version
+  WGET_OPTS=$(configure_wget_options)
+
+  # Download the code tarball
+  echo -e "Downloading the code tarball..."
+  wget $WGET_OPTS "$TMP_DIR/phoenix-code.tar.gz" "$BEST_MATCH_URL" 2>/dev/null || {
     echo -e "${RED}Failed to download the binary. Please check your internet connection and try again.${RESET}"
     exit 1
   }
+
+  # Download the icon
   echo -e "Downloading the icon..."
-  wget -c -N --tries=10 --timeout=30 --waitretry=5 --retry-connrefused --show-progress -qO "$TMP_DIR/icon.png" "$ICON_URL" || {
-    echo -e  "${RED}Failed to download Icon${RESET}";
-    exit 1;
+  wget $WGET_OPTS "$TMP_DIR/icon.png" "$ICON_URL" 2>/dev/null|| {
+    echo -e  "${RED}Failed to download the icon${RESET}"
+    exit 1
   }
   echo "Extracting the binary to $TMP_DIR..."
   tar -xzf "$TMP_DIR/phoenix-code.tar.gz" -C "$TMP_DIR" || {
@@ -502,6 +509,17 @@ downloadAndInstall(){
   if ! verify_and_install_dependencies; then
     echo -e "${RED}Unable to successfully verify application launch. Exiting installation.${RESET}"
     exit 1
+  fi
+}
+# Function to check wget version and configure options
+configure_wget_options() {
+  local wget_version=$(wget --version | head -n1 | awk '{print $3}')
+  local major_version=$(echo "$wget_version" | cut -d. -f1)
+
+  if [[ "$major_version" -ge 2 ]]; then
+    echo "-c -N --tries=10 --timeout=30 --waitretry=5 --progress=bar --retry-connrefused -O"
+  else
+    echo "-c -N --tries=10 --timeout=30 --waitretry=5 --retry-connrefused --show-progress -qO"
   fi
 }
 # Install Function
