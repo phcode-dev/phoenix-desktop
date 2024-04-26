@@ -486,8 +486,6 @@ downloadAndInstall(){
   # Set options based on wget version
   WGET_OPTS=$(configure_wget_options)
 
-  # Download the code tarball
-  echo -e "Downloading the code tarball..."
   wget $WGET_OPTS "$TMP_DIR/phoenix-code.tar.gz" "$BEST_MATCH_URL" 2>/dev/null || {
     echo -e "${RED}Failed to download the binary. Please check your internet connection and try again.${RESET}"
     exit 1
