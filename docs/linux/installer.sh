@@ -486,14 +486,14 @@ downloadAndInstall(){
   # Set options based on wget version
   WGET_OPTS=$(configure_wget_options)
 
-  wget $WGET_OPTS "$TMP_DIR/phoenix-code.tar.gz" "$BEST_MATCH_URL" 2>/dev/null || {
+  wget $WGET_OPTS "$TMP_DIR/phoenix-code.tar.gz" "$BEST_MATCH_URL" || {
     echo -e "${RED}Failed to download the binary. Please check your internet connection and try again.${RESET}"
     exit 1
   }
 
   # Download the icon
   echo -e "Downloading the icon..."
-  wget $WGET_OPTS "$TMP_DIR/icon.png" "$ICON_URL" 2>/dev/null|| {
+  wget $WGET_OPTS "$TMP_DIR/icon.png" "$ICON_URL" || {
     echo -e  "${RED}Failed to download the icon${RESET}"
     exit 1
   }
@@ -515,7 +515,7 @@ configure_wget_options() {
   local major_version=$(echo "$wget_version" | cut -d. -f1)
 
   if [[ "$major_version" -ge 2 ]]; then
-    echo "-c -N --tries=10 --timeout=30 --waitretry=5 --progress=bar --retry-connrefused -O"
+    echo "-c --tries=10 --timeout=30 --waitretry=5 --progress=bar --retry-connrefused -O"
   else
     echo "-c -N --tries=10 --timeout=30 --waitretry=5 --retry-connrefused --show-progress -qO"
   fi
