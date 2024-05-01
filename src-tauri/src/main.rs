@@ -82,6 +82,10 @@ fn _get_window_labels(app: tauri::AppHandle) -> Vec<String> {
         .collect()
 }
 
+#[tauri::command]
+fn get_process_id() -> u32 {
+    std::process::id()
+}
 
 #[tauri::command]
 fn _get_clipboard_files() -> Option<Vec<String>> {
@@ -336,7 +340,7 @@ fn main() {
                 }))
         .on_window_event(|event| process_window_event(&event))
         .invoke_handler(tauri::generate_handler![
-            get_mac_deep_link_requests,
+            get_mac_deep_link_requests, get_process_id,
             toggle_devtools, console_log, console_error, _get_commandline_args, get_current_working_dir,
             _get_window_labels,
             put_item, get_item, get_all_items, delete_item,
