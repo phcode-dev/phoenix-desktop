@@ -32,7 +32,7 @@ gtk = "0.15"
 webkit2gtk = "0.18" # if tauri build fails, make sure to match this version to what we have in tauri
 
 [target.'cfg(target_os = "macos")'.dependencies]
-objc = "0.2"
+objc = "0.2.7"
 tauri-plugin-deep-link = "0.1.2"
 lazy_static = "1.4"
 
