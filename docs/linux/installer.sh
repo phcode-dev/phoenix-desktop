@@ -205,7 +205,7 @@ install_dependencies() {
       ;;
     fedora|rhel|centos)
         echo "Detected a Fedora/Red Hat based distribution."
-        sudo dnf install webkit2gtk3 gtk3 \
+        yes | sudo dnf install webkit2gtk3 gtk3 \
                          gstreamer1-plugins-base gstreamer1-plugins-good
         ;;
     arch|manjaro)
