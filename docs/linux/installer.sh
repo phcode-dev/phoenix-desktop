@@ -459,6 +459,16 @@ downloadLatestReleaseInfo() {
 #   version and decide whether an upgrade is necessary.
 #
 downloadAndInstall(){
+  # Check Ubuntu version for compatibility
+  if [ -f /etc/os-release ]; then
+    . /etc/os-release
+    if [[ "$ID" = "ubuntu" && "$VERSION_ID" = "24.04" ]]; then
+      echo -e "${RED}Ubuntu 24.04 LTS is not currently supported by this installation script.${RESET}"
+      echo -e "${YELLOW}Please use an earlier version of Ubuntu for the time being. Check back later for updates.${RESET}"
+      exit 1
+    fi
+  fi
+
   echo "Using temporary directory $TMP_DIR for processing"
   downloadLatestReleaseInfo > /dev/null
   CURRENT_GLIBC_VERSION=$(ldd --version | grep "ldd" | awk '{print $NF}')
