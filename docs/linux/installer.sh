@@ -459,26 +459,25 @@ downloadLatestReleaseInfo() {
 #   version and decide whether an upgrade is necessary.
 #
 downloadAndInstall(){
-  # Check Ubuntu version for compatibility
-
 
   echo "Using temporary directory $TMP_DIR for processing"
   downloadLatestReleaseInfo > /dev/null
-   if [ -f /etc/os-release ]; then
-      . /etc/os-release
-     if [[ "$ID" = "ubuntu" && "$VERSION_ID" = "24.04" ]]; then
-        local latestFileUrl
-        latestFileUrl=$(grep -oP 'https://[^"]*latest\.json'  "$TMP_DIR/latest_release.json")
-        WGET_OPTS=$(configure_wget_options)
+    # Check Ubuntu version for compatibility
+  if [ -f /etc/os-release ]; then
+    . /etc/os-release
+   if [[ "$ID" = "ubuntu" && "$VERSION_ID" = "24.04" ]]; then
+      local latestFileUrl
+      latestFileUrl=$(grep -oP 'https://[^"]*latest\.json'  "$TMP_DIR/latest_release.json")
+      WGET_OPTS=$(configure_wget_options)
 
-        wget $WGET_OPTS "$TMP_DIR/latest.json" "$latestFileUrl" || {
-          echo -e "${RED}Failed to download the latestFile. Please check your internet connection and try again.${RESET}"
-        }
-        echo -e "${RED}Ubuntu 24.04 LTS is not currently supported by this installation script.${RESET}"
-        echo -e "${YELLOW}Please use an earlier version of Ubuntu for the time being. Check back later for updates.${RESET}"
-        exit 1
-      fi
+      wget $WGET_OPTS "$TMP_DIR/latest.json" "$latestFileUrl" || {
+        echo -e "${RED}Failed to download the latestFile. Please check your internet connection and try again.${RESET}"
+      }
+      echo -e "${RED}Ubuntu 24.04 LTS is not currently supported by this installation script.${RESET}"
+      echo -e "${YELLOW}Please use an earlier version of Ubuntu for the time being. Check back later for updates.${RESET}"
+      exit 1
     fi
+  fi
   CURRENT_GLIBC_VERSION=$(ldd --version | grep "ldd" | awk '{print $NF}')
   echo "Current GLIBC version: $CURRENT_GLIBC_VERSION"
 
