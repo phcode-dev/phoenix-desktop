@@ -33,6 +33,7 @@ use tauri::GlobalWindowEvent;
 mod init;
 mod utilities;
 mod boot_config;
+use trash;
 
 mod platform;
 use tauri_plugin_window_state::StateFlags;
@@ -72,6 +73,12 @@ fn get_current_working_dir() -> Result<PathBuf, String> {
 #[tauri::command]
 fn _rename_path(old_path: &str, new_path: &str) -> Result<(), String> {
     platform::rename_path(old_path, new_path)
+}
+
+#[tauri::command]
+fn move_to_trash(delete_path: &str) -> Result<(), String> {
+     trash::delete(delete_path)
+             .map_err(|e| e.to_string())
 }
 
 #[tauri::command]
@@ -344,7 +351,7 @@ fn main() {
             toggle_devtools, console_log, console_error, _get_commandline_args, get_current_working_dir,
             _get_window_labels,
             put_item, get_item, get_all_items, delete_item,
-            _get_windows_drives, _rename_path, show_in_folder, zoom_window, _get_clipboard_files])
+            _get_windows_drives, _rename_path, show_in_folder, move_to_trash, zoom_window, _get_clipboard_files])
         .setup(|app| {
             init::init_app(app);
             #[cfg(target_os = "linux")]
