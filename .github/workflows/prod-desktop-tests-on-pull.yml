@@ -27,12 +27,12 @@ jobs:
 
       - name: npm install ci deps
         env:
-          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          GH_TOKEN: ${{ github.token }}
         run: npm ci
 
       - name: Download phoenix and build build phoenix dist-test
         env:
-          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          GH_TOKEN: ${{ github.token }}
         run: |
           npm run _ci-clonePhoenixForTests
           cd ..
@@ -95,12 +95,12 @@ jobs:
 
       - name: npm install ci deps
         env:
-          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          GH_TOKEN: ${{ github.token }}
         run: npm ci
 
       - name: Download phoenix and build build phoenix dist-test
         env:
-          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          GH_TOKEN: ${{ github.token }}
         run: |
           npm run _ci-clonePhoenixForTests
           cd ..
@@ -111,7 +111,7 @@ jobs:
 
       - name: build test runner
         env:
-          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          GH_TOKEN: ${{ github.token }}
         run: |
           npm ci
           npm run releaseDistTestDebug
@@ -165,12 +165,12 @@ jobs:
 
       - name: npm install ci deps
         env:
-          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          GH_TOKEN: ${{ github.token }}
         run: npm ci
 
       - name: Download phoenix and build build phoenix dist-test
         env:
-          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          GH_TOKEN: ${{ github.token }}
         run: |
           npm run _ci-clonePhoenixForTests
           cd ..
@@ -181,7 +181,7 @@ jobs:
 
       - name: build test runner
         env:
-          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          GH_TOKEN: ${{ github.token }}
         run: |
           npm ci
           npm run releaseDistTestDebug
