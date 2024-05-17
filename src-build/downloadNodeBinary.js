@@ -66,9 +66,12 @@ async function downloadNodeBinary(platform, arch, maxRetries = 3) {
         };
         // Only add the Authorization header if GH_TOKEN is set
         if (GH_TOKEN) {
+            console.log("Using GH_TOKEN passed in from github actions.");
             config.headers = {
                 'Authorization': `Bearer ${GH_TOKEN}`
             };
+        } else {
+            console.warn("GH_TOKEN not passed in from github actions, using unauthorized fetch.");
         }
 
         const { data } = await axios(config);
