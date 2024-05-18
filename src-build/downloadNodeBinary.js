@@ -40,8 +40,21 @@ axiosRetry(axios, {
 
 async function downloadNodeBinary(platform, arch, maxRetries = 3) {
     try {
+        console.log("fetching release details....");
+
         const url = 'https://api.github.com/repos/phcode-dev/phnode/releases/latest';
-        const releaseResponse = await axios.get(url);
+        const GH_TOKEN = process.env.GH_TOKEN; // Access the environment variable
+        // Only add the Authorization header if GH_TOKEN is set
+        let headers = {};
+        if (GH_TOKEN) {
+            console.log("Using GH_TOKEN passed in from github actions.");
+            headers = {
+                'Authorization': `Bearer ${GH_TOKEN}`
+            };
+        } else {
+            console.warn("GH_TOKEN not passed in from github actions, using unauthorized fetch for .", url);
+        }
+        const releaseResponse = await axios.get(url, { headers });
         const extension = platform === 'win' ? 'zip' : 'tar.gz';
         const regex = new RegExp(`node-v[\\d.]+-${platform}-${arch}\\.${extension}`);
         const asset = releaseResponse.data.assets.find(a => regex.test(a.name));
@@ -50,6 +63,8 @@ async function downloadNodeBinary(platform, arch, maxRetries = 3) {
             throw new Error(`No asset found for platform: ${platform}, arch: ${arch}`);
         }
 
+        console.log("fetching asset ", asset);
+
         const outputPath = path.resolve(__dirname, asset.name);
         if (fs.existsSync(outputPath)) {
             console.log(`File already downloaded: ${asset.name}`);
@@ -57,7 +72,6 @@ async function downloadNodeBinary(platform, arch, maxRetries = 3) {
         }
 
         const writer = fs.createWriteStream(outputPath);
-        const GH_TOKEN = process.env.GH_TOKEN; // Access the environment variable
         const config = {
             url: asset.browser_download_url,
             method: 'GET',
@@ -71,7 +85,7 @@ async function downloadNodeBinary(platform, arch, maxRetries = 3) {
                 'Authorization': `Bearer ${GH_TOKEN}`
             };
         } else {
-            console.warn("GH_TOKEN not passed in from github actions, using unauthorized fetch.");
+            console.warn("GH_TOKEN not passed in from github actions, using unauthorized fetch for", config.url);
         }
 
         const { data } = await axios(config);
