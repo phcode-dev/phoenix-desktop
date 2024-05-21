@@ -7,7 +7,6 @@ API_URL="https://api.github.com/repos/$GITHUB_REPO/releases/latest"
 ICON_URL="https://updates.phcode.io/icons/phoenix_icon.png"
 INSTALL_DIR="$HOME/.phoenix-code"
 LINK_DIR="$HOME/.local/bin"
-DESKTOP_DIR="$HOME/.local/share/applications"  # Directory for desktop entries
 DESKTOP_ENTRY_NAME="PhoenixCode.desktop"
 DESKTOP_APP_NAME="Phoenix Code"
 DESKTOP_ENTRY="$DESKTOP_DIR/$DESKTOP_ENTRY_NAME"
@@ -199,24 +198,24 @@ install_dependencies() {
     ubuntu|debian|linuxmint|kali)
       echo "Detected an Ubuntu/Debian based distribution."
       sudo apt update
-      sudo apt install libgtk-3-0 libwebkit2gtk-4.0-37 \
+      yes | sudo apt install libgtk-3-0 libwebkit2gtk-4.0-37 \
                        gstreamer1.0-plugins-base gstreamer1.0-plugins-good \
                        gstreamer1.0-tools
       ;;
     fedora|rhel|centos)
-        echo "Detected a Fedora/Red Hat based distribution."
-        yes | sudo dnf install webkit2gtk3 gtk3 \
+      echo "Detected a Fedora/Red Hat based distribution."
+      yes | sudo dnf install webkit2gtk3 gtk3 \
                          gstreamer1-plugins-base gstreamer1-plugins-good
-        ;;
+      ;;
     arch|manjaro)
-        echo "Detected an Arch Linux based distribution."
-        sudo pacman -Syu
-        sudo pacman -S webkit2gtk gtk3
-        ;;
+      echo "Detected an Arch Linux based distribution."
+      sudo pacman -Syu
+      sudo pacman -S webkit2gtk gtk3
+      ;;
     *)
-        echo "Unsupported distribution. Please manually install the required dependencies."
-        exit 1
-        ;;
+      echo "Unsupported distribution. Please manually install the required dependencies."
+      exit 1
+      ;;
   esac
 }
 # Verify and Install Dependencies Function
@@ -394,11 +393,18 @@ EOF
         kbuildsycoca5
     fi
   fi
+
+  if [[ "$XDG_CURRENT_DESKTOP" =~ LXQt ]]; then
+    if command -v lxqt-config &> /dev/null; then
+        lxqt-config --clear-cache
+    fi
+  fi
   # Set Phoenix Code as the default application for the MIME types
   set_default_application
   echo -e "${GREEN}Installation completed successfully. Phoenix Code is now installed.${RESET}"
 
 }
+
 downloadLatestReleaseInfo() {
   local release_info_file="$TMP_DIR/latest_release.json"
 
@@ -459,13 +465,12 @@ downloadLatestReleaseInfo() {
 #   version and decide whether an upgrade is necessary.
 #
 downloadAndInstall(){
-
   echo "Using temporary directory $TMP_DIR for processing"
   downloadLatestReleaseInfo > /dev/null
     # Check Ubuntu version for compatibility
   if [ -f /etc/os-release ]; then
     . /etc/os-release
-   if [[ "$ID" = "ubuntu" && "$VERSION_ID" = "24.04" ]]; then
+    if [[ "$ID" = "ubuntu" && "$VERSION_ID" = "24.04" ]]; then
       local latestFileUrl
       latestFileUrl=$(grep -oP 'https://[^"]*latest\.json'  "$TMP_DIR/latest_release.json")
       WGET_OPTS=$(configure_wget_options)
@@ -736,6 +741,12 @@ uninstall() {
         if command -v kbuildsycoca5 &> /dev/null; then
             kbuildsycoca5
         fi
+    fi
+
+    if [[ "$XDG_CURRENT_DESKTOP" =~ LXQt ]]; then
+      if command -v lxqt-config &> /dev/null; then
+          lxqt-config --clear-cache
+      fi
     fi
   else
       echo -e "${RED}Desktop entry not found. Skipping...${RESET}"
