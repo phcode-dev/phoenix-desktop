@@ -1,7 +1,7 @@
 #!/bin/bash
 set -euo pipefail # Exit immediately if a command exits with a non-zero status.
 # Define common variables
-DESKTOP_DIR=$HOME/.local/share/applications
+DESKTOP_DIR=$HOME/.local/share/applications  # Directory for desktop entries
 GITHUB_REPO="phcode-dev/phoenix-desktop"
 API_URL="https://api.github.com/repos/$GITHUB_REPO/releases/latest"
 ICON_URL="https://updates.phcode.io/icons/phoenix_icon.png"
