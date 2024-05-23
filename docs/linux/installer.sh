@@ -395,8 +395,8 @@ EOF
   fi
 
   if [[ "$XDG_CURRENT_DESKTOP" =~ LXQt ]]; then
-    if command -v lxqt-config &> /dev/null; then
-        lxqt-config --clear-cache
+    if command -v xdg-desktop-menu &> /dev/null; then
+        xdg-desktop-menu forceupdate
     fi
   fi
   # Set Phoenix Code as the default application for the MIME types
@@ -744,8 +744,8 @@ uninstall() {
     fi
 
     if [[ "$XDG_CURRENT_DESKTOP" =~ LXQt ]]; then
-      if command -v lxqt-config &> /dev/null; then
-          lxqt-config --clear-cache
+      if command -v xdg-desktop-menu &> /dev/null; then
+          xdg-desktop-menu forceupdate
       fi
     fi
   else
