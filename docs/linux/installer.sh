@@ -397,6 +397,9 @@ EOF
   if [[ "$XDG_CURRENT_DESKTOP" =~ LXQt ]]; then
     if command -v xdg-desktop-menu &> /dev/null; then
         xdg-desktop-menu forceupdate
+        echo -e "${YELLOW}Please log out and log back in to see Phoenix Code in the panel.${RESET}"
+    else
+        echo -e "${RED}Failed to update LXQt menu. Please log out and log back in to see Phoenix Code in the panel.${RESET}"
     fi
   fi
   # Set Phoenix Code as the default application for the MIME types
