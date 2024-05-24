@@ -86,6 +86,23 @@ trap cleanup EXIT  # Register the cleanup function to be called on script exit.
 
 TMP_DIR=$(mktemp -d)
 
+check_ubuntu_version() {
+    if [ -f /etc/os-release ]; then
+        . /etc/os-release
+        if [[ "$ID" = "ubuntu" && "$VERSION_ID" = "24.04" ]]; then
+            local latestFileUrl
+            latestFileUrl=$(grep -oP 'https://[^"]*latest\.json'  "$TMP_DIR/latest_release.json")
+            WGET_OPTS=$(configure_wget_options)
+
+            wget $WGET_OPTS "$TMP_DIR/latest.json" "$latestFileUrl" || {
+                echo -e "${RED}Failed to download the latestFile. Please check your internet connection and try again.${RESET}"
+            }
+            echo -e "${RED}Ubuntu 24.04 LTS is not currently supported by this installation script.${RESET}"
+            echo -e "${YELLOW}Please use an earlier version of Ubuntu for the time being. Check back later for updates.${RESET}"
+            exit 1
+        fi
+    fi
+}
 # Create Invocation Script Function
 #
 # Purpose:
@@ -267,6 +284,8 @@ verify_and_install_dependencies() {
     echo "Application launch verification successful."
     return 0  # Exit the function successfully if verification succeeds
   else
+    # Check Ubuntu version for compatibility
+    check_ubuntu_version
     echo "Initial verification failed. Attempting to install dependencies..."
     install_dependencies  # Function to install required dependencies
   fi
@@ -470,22 +489,6 @@ downloadLatestReleaseInfo() {
 downloadAndInstall(){
   echo "Using temporary directory $TMP_DIR for processing"
   downloadLatestReleaseInfo > /dev/null
-    # Check Ubuntu version for compatibility
-  if [ -f /etc/os-release ]; then
-    . /etc/os-release
-    if [[ "$ID" = "ubuntu" && "$VERSION_ID" = "24.04" ]]; then
-      local latestFileUrl
-      latestFileUrl=$(grep -oP 'https://[^"]*latest\.json'  "$TMP_DIR/latest_release.json")
-      WGET_OPTS=$(configure_wget_options)
-
-      wget $WGET_OPTS "$TMP_DIR/latest.json" "$latestFileUrl" || {
-        echo -e "${RED}Failed to download the latestFile. Please check your internet connection and try again.${RESET}"
-      }
-      echo -e "${RED}Ubuntu 24.04 LTS is not currently supported by this installation script.${RESET}"
-      echo -e "${YELLOW}Please use an earlier version of Ubuntu for the time being. Check back later for updates.${RESET}"
-      exit 1
-    fi
-  fi
   CURRENT_GLIBC_VERSION=$(ldd --version | grep "ldd" | awk '{print $NF}')
   echo "Current GLIBC version: $CURRENT_GLIBC_VERSION"
 
