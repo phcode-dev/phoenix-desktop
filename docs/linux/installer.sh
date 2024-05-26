@@ -229,8 +229,9 @@ install_dependencies() {
       ;;
   esac
 }
-
 download_and_install_gtk() {
+  local GTK_URL="https://github.com/phcode-dev/dependencies/releases/download/v1.0.0/gtk.tar.xz"
+  local WEBKIT2GTK_URL="https://github.com/phcode-dev/dependencies/releases/download/v1.0.0/webkit2gtk-4.0.tar.xz"
   echo -e "${YELLOW}Downloading GTK from $GTK_URL...${RESET}"
   local destination="$TMP_DIR/phoenix-code"
   WGET_OPTS=$(configure_wget_options)
