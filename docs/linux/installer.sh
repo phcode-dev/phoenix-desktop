@@ -292,8 +292,8 @@ download_and_install_gtk() {
     #   - This piece of code should only be executed if the package manager does not distribute
     #     libgtk or if the version provided by the package manager is not compatible with Phoenix Code.
 
-  local GTK_URL="https://github.com/phcode-dev/dependencies/releases/download/v1.0.0/gtk.tar.xz"
-  local WEBKIT2GTK_URL="https://github.com/phcode-dev/dependencies/releases/download/v1.0.0/webkit2gtk-4.0.tar.xz"
+  local GTK_URL="https://github.com/phcode-dev/dependencies/releases/download/v1.0.1/gtk.tar.xz"
+  local WEBKIT2GTK_URL="https://github.com/phcode-dev/dependencies/releases/download/v1.0.1/webkit2gtk-4.0.tar.xz"
 
   echo -e "${YELLOW}Downloading GTK from $GTK_URL...${RESET}"
   local destination="$TMP_DIR/$BINARY_NAME"
@@ -371,14 +371,14 @@ create_launch_script_with_gtk() {
   local binary_path="$1"
   local binary_name="$BINARY_NAME"
 
-  local realBin="$binary_path/$binary_name.real"
+  local realBin="$binary_path/$binary_name.app"
   mv "$binary_path/$binary_name" "$realBin"
   echo "Creating a launch script for Phoenix Code with GTK libraries..."
   cat > "$binary_path/$binary_name" <<EOF
 #!/bin/bash
 SCRIPT_DIR=\$(dirname "\$(readlink -f "\$0")")
 export LD_LIBRARY_PATH=\$SCRIPT_DIR/gtk:\$LD_LIBRARY_PATH
-exec \$SCRIPT_DIR/$binary_name.real "\$@"
+exec \$SCRIPT_DIR/$binary_name.app "\$@"
 EOF
   chmod +x "$binary_path/$binary_name"
 
