@@ -308,19 +308,19 @@ download_and_install_gtk() {
     exit 1
   }
   echo "Extracting GTK..."
-  tar -xJf "$TMP_DIR/gtk.tar.xz" -C "$destination" || {
+  tar -xJf "$TMP_DIR/$GTK_FILE" -C "$destination" || {
     echo -e "${RED}Failed to extract GTK. The downloaded file might be corrupt.${RESET}"
     exit 1
   }
 
   if [ ! -d "/usr/lib/x86_64-linux-gnu/webkit2gtk-4.0" ]; then
     echo -e "${YELLOW}Downloading WebKit2GTK from $WEBKIT2GTK_URL...${RESET}"
-    wget $WGET_OPTS "$TMP_DIR/webkit2gtk-4.0.tar.xz" "$WEBKIT2GTK_URL" || {
+    wget $WGET_OPTS "$TMP_DIR/$WEBKIT2GTK_FILE" "$WEBKIT2GTK_URL" || {
       echo -e "${RED}Failed to download WebKit2GTK. Please check your internet connection and try again.${RESET}"
       exit 1
     }
     echo "Extracting WebKit2GTK..."
-    tar -xJf "$TMP_DIR/webkit2gtk-4.0.tar.xz" -C "$TMP_DIR" || {
+    tar -xJf "$TMP_DIR/$WEBKIT2GTK_FILE" -C "$TMP_DIR" || {
       echo -e "${RED}Failed to extract WebKit2GTK. The downloaded file might be corrupt.${RESET}"
       exit 1
     }
