@@ -88,6 +88,33 @@ trap cleanup EXIT  # Register the cleanup function to be called on script exit.
 
 TMP_DIR=$(mktemp -d)
 
+# Check Ubuntu Version Function
+#
+# Purpose:
+#   This function checks if the current operating system is Ubuntu 24.04. It does this by reading
+#   the /etc/os-release file, which contains identification data for the operating system.
+#
+# Behavior:
+#   1. The function first checks if the /etc/os-release file exists.
+#   2. If the file exists, it sources the file to load the OS identification variables.
+#   3. It then checks if the ID variable is set to "ubuntu" and the VERSION_ID variable is set to "24.04".
+#   4. If both conditions are met, the function returns 0 (indicating success).
+#   5. If the conditions are not met, the function returns 1 (indicating failure).
+#
+# Usage:
+#   This function can be called to determine if special handling is needed for Ubuntu 24.04, such as
+#   installing additional libraries or making compatibility adjustments.
+#
+# Example:
+#   if check_ubuntu_version; then
+#     echo "Ubuntu 24.04 detected."
+#   else
+#     echo "Not Ubuntu 24.04."
+#   fi
+#
+# Notes:
+#   - This function assumes that the /etc/os-release file follows the standard format for Linux OS
+#     identification.
 check_ubuntu_version() {
     if [ -f /etc/os-release ]; then
         . /etc/os-release
@@ -230,10 +257,46 @@ install_dependencies() {
   esac
 }
 download_and_install_gtk() {
+   # Function: create_launch_script_with_gtk
+    #
+    # Purpose:
+    #   This function creates a launch script for the Phoenix Code application that sets the required
+    #   GTK library paths in the LD_LIBRARY_PATH environment variable. The launch script ensures that
+    #   the Phoenix Code application uses the correct GTK libraries, which are included in the
+    #   application's installation directory.
+    #
+    # Parameters:
+    #   - binary_path: The path to the directory containing the Phoenix Code binary.
+    #   - binary_name: The name of the Phoenix Code binary file.
+    #
+    # Behavior:
+    #   1. The function renames the original Phoenix Code binary to append ".real" to its name.
+    #   2. It then creates a new launch script with the original binary name in the same directory.
+    #   3. The launch script sets the LD_LIBRARY_PATH environment variable to include the path to the
+    #      GTK libraries located in the same directory as the binary.
+    #   4. The launch script executes the original Phoenix Code binary (now renamed) with any
+    #      arguments passed to the script.
+    #   5. The function sets the appropriate executable permissions on the launch script.
+    #
+    # Usage:
+    #   This function should be called after the Phoenix Code binary and its required GTK libraries
+    #   have been installed. It ensures that the application uses the correct libraries when launched.
+    #
+    # Example:
+    #   create_launch_script_with_gtk "/path/to/phoenix-code" "phoenix-code"
+    #
+    # Notes:
+    #   - This function assumes that the GTK libraries are located in a subdirectory named "gtk" within
+    #     the same directory as the Phoenix Code binary.
+    #   - The function requires the mv, chmod, and cat commands to be available in the environment.
+    #   - This piece of code should only be executed if the package manager does not distribute
+    #     libgtk or if the version provided by the package manager is not compatible with Phoenix Code.
+
   local GTK_URL="https://github.com/phcode-dev/dependencies/releases/download/v1.0.0/gtk.tar.xz"
   local WEBKIT2GTK_URL="https://github.com/phcode-dev/dependencies/releases/download/v1.0.0/webkit2gtk-4.0.tar.xz"
+
   echo -e "${YELLOW}Downloading GTK from $GTK_URL...${RESET}"
-  local destination="$TMP_DIR/phoenix-code"
+  local destination="$TMP_DIR/$BINARY_NAME"
   WGET_OPTS=$(configure_wget_options)
 
   wget $WGET_OPTS "$TMP_DIR/gtk.tar.xz" "$GTK_URL" || {
@@ -246,28 +309,67 @@ download_and_install_gtk() {
     exit 1
   }
 
-  echo -e "${YELLOW}Downloading WebKit2GTK from $WEBKIT2GTK_URL...${RESET}"
-  wget $WGET_OPTS "$TMP_DIR/webkit2gtk-4.0.tar.xz" "$WEBKIT2GTK_URL" || {
-    echo -e "${RED}Failed to download WebKit2GTK. Please check your internet connection and try again.${RESET}"
-    exit 1
-  }
-  echo "Extracting WebKit2GTK..."
-  tar -xJf "$TMP_DIR/webkit2gtk-4.0.tar.xz" -C "$TMP_DIR" || {
-    echo -e "${RED}Failed to extract WebKit2GTK. The downloaded file might be corrupt.${RESET}"
-    exit 1
-  }
-  echo "Installing WebKit2GTK..."
-  sudo cp -r "$TMP_DIR/webkit2gtk-4.0" /usr/lib/x86_64-linux-gnu/ || {
-    echo -e "${RED}Failed to install WebKit2GTK. Please check the permissions and try again.${RESET}"
-    exit 1
-  }
-  echo -e "${GREEN}WebKit2GTK installed successfully.${RESET}"
+  if [ ! -d "/usr/lib/x86_64-linux-gnu/webkit2gtk-4.0" ]; then
+    echo -e "${YELLOW}Downloading WebKit2GTK from $WEBKIT2GTK_URL...${RESET}"
+    wget $WGET_OPTS "$TMP_DIR/webkit2gtk-4.0.tar.xz"  "$WEBKIT2GTK_URL" || {
+      echo -e "${RED}Failed to download WebKit2GTK. Please check your internet connection and try again.${RESET}"
+      exit 1
+    }
+    echo "Extracting WebKit2GTK..."
+    tar -xJf "$TMP_DIR/webkit2gtk-4.0.tar.xz" -C "$TMP_DIR" || {
+      echo -e "${RED}Failed to extract WebKit2GTK. The downloaded file might be corrupt.${RESET}"
+      exit 1
+    }
+    echo "Installing WebKit2GTK..."
+    sudo cp -r "$TMP_DIR/webkit2gtk-4.0" /usr/lib/x86_64-linux-gnu/ || {
+      echo -e "${RED}Failed to install WebKit2GTK. Please check the permissions and try again.${RESET}"
+      exit 1
+    }
+    echo -e "${GREEN}WebKit2GTK installed successfully.${RESET}"
+  else
+    echo -e "${GREEN}WebKit2GTK already installed.${RESET}"
+  fi
 }
 
 
 create_launch_script_with_gtk() {
+   # Function: create_launch_script_with_gtk
+    #
+    # Purpose:
+    #   This function creates a launch script for the Phoenix Code application that sets the required
+    #   GTK library paths in the LD_LIBRARY_PATH environment variable. The launch script ensures that
+    #   the Phoenix Code application uses the correct GTK libraries, which are included in the
+    #   application's installation directory.
+    #
+    # Parameters:
+    #   - binary_path: The path to the directory containing the Phoenix Code binary.
+    #   - binary_name: The name of the Phoenix Code binary file.
+    #
+    # Behavior:
+    #   1. The function renames the original Phoenix Code binary to append ".real" to its name.
+    #   2. It then creates a new launch script with the original binary name in the same directory.
+    #   3. The launch script sets the LD_LIBRARY_PATH environment variable to include the path to the
+    #      GTK libraries located in the same directory as the binary.
+    #   4. The launch script executes the original Phoenix Code binary (now renamed) with any
+    #      arguments passed to the script.
+    #   5. The function sets the appropriate executable permissions on the launch script.
+    #
+    # Usage:
+    #   This function should be called after the Phoenix Code binary and its required GTK libraries
+    #   have been installed. It ensures that the application uses the correct libraries when launched.
+    #
+    # Example:
+    #   create_launch_script_with_gtk "/path/to/phoenix-code" "phoenix-code"
+    #
+    # Notes:
+    #   - This function assumes that the GTK libraries are located in a subdirectory named "gtk" within
+    #     the same directory as the Phoenix Code binary.
+    #   - The function requires the mv, chmod, and cat commands to be available in the environment.
+    #   - This piece of code should only be executed if the package manager does not distribute
+    #     libgtk or if the version provided by the package manager is not compatible with Phoenix Code.
+
   local binary_path="$1"
-  local binary_name="phoenix-code"
+  local binary_name="$BINARY_NAME"
 
   local realBin="$binary_path/$binary_name.real"
   mv "$binary_path/$binary_name" "$realBin"
