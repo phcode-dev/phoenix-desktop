@@ -257,43 +257,47 @@ install_dependencies() {
   esac
 }
 download_and_install_gtk() {
-   # Function: create_launch_script_with_gtk
-    #
-    # Purpose:
-    #   This function creates a launch script for the Phoenix Code application that sets the required
-    #   GTK library paths in the LD_LIBRARY_PATH environment variable. The launch script ensures that
-    #   the Phoenix Code application uses the correct GTK libraries, which are included in the
-    #   application's installation directory.
-    #
-    # Parameters:
-    #   - binary_path: The path to the directory containing the Phoenix Code binary.
-    #   - binary_name: The name of the Phoenix Code binary file.
-    #
-    # Behavior:
-    #   1. The function renames the original Phoenix Code binary to append ".real" to its name.
-    #   2. It then creates a new launch script with the original binary name in the same directory.
-    #   3. The launch script sets the LD_LIBRARY_PATH environment variable to include the path to the
-    #      GTK libraries located in the same directory as the binary.
-    #   4. The launch script executes the original Phoenix Code binary (now renamed) with any
-    #      arguments passed to the script.
-    #   5. The function sets the appropriate executable permissions on the launch script.
-    #
-    # Usage:
-    #   This function should be called after the Phoenix Code binary and its required GTK libraries
-    #   have been installed. It ensures that the application uses the correct libraries when launched.
-    #
-    # Example:
-    #   create_launch_script_with_gtk "/path/to/phoenix-code" "phoenix-code"
-    #
-    # Notes:
-    #   - This function assumes that the GTK libraries are located in a subdirectory named "gtk" within
-    #     the same directory as the Phoenix Code binary.
-    #   - The function requires the mv, chmod, and cat commands to be available in the environment.
-    #   - This piece of code should only be executed if the package manager does not distribute
-    #     libgtk or if the version provided by the package manager is not compatible with Phoenix Code.
+  # Function: create_launch_script_with_gtk
+  #
+  # Purpose:
+  #   This function creates a launch script for the Phoenix Code application that sets the required
+  #   GTK library paths in the LD_LIBRARY_PATH environment variable. The launch script ensures that
+  #   the Phoenix Code application uses the correct GTK libraries, which are included in the
+  #   application's installation directory.
+  #
+  # Parameters:
+  #   - binary_path: The path to the directory containing the Phoenix Code binary.
+  #   - binary_name: The name of the Phoenix Code binary file.
+  #
+  # Behavior:
+  #   1. The function renames the original Phoenix Code binary to append ".real" to its name.
+  #   2. It then creates a new launch script with the original binary name in the same directory.
+  #   3. The launch script sets the LD_LIBRARY_PATH environment variable to include the path to the
+  #      GTK libraries located in the same directory as the binary.
+  #   4. The launch script executes the original Phoenix Code binary (now renamed) with any
+  #      arguments passed to the script.
+  #   5. The function sets the appropriate executable permissions on the launch script.
+  #
+  # Usage:
+  #   This function should be called after the Phoenix Code binary and its required GTK libraries
+  #   have been installed. It ensures that the application uses the correct libraries when launched.
+  #
+  # Example:
+  #   create_launch_script_with_gtk "/path/to/phoenix-code" "phoenix-code"
+  #
+  # Notes:
+  #   - This function assumes that the GTK libraries are located in a subdirectory named "gtk" within
+  #     the same directory as the Phoenix Code binary.
+  #   - The function requires the mv, chmod, and cat commands to be available in the environment.
+  #   - This piece of code should only be executed if the package manager does not distribute
+  #     libgtk or if the version provided by the package manager is not compatible with Phoenix Code.
 
-  local GTK_URL="https://github.com/phcode-dev/dependencies/releases/download/v1.0.1/gtk.tar.xz"
-  local WEBKIT2GTK_URL="https://github.com/phcode-dev/dependencies/releases/download/v1.0.1/webkit2gtk-4.0.tar.xz"
+  local URL_PREFIX="https://github.com/phcode-dev/dependencies/releases/download/v1.0.2/"
+  local GTK_FILE="gtk.tar.xz"
+  local WEBKIT2GTK_FILE="webkit2gtk-4.0.tar.xz"
+
+  local GTK_URL="${URL_PREFIX}${GTK_FILE}"
+  local WEBKIT2GTK_URL="${URL_PREFIX}${WEBKIT2GTK_FILE}"
 
   echo -e "${YELLOW}Downloading GTK from $GTK_URL...${RESET}"
   local destination="$TMP_DIR/$BINARY_NAME"
@@ -311,7 +315,7 @@ download_and_install_gtk() {
 
   if [ ! -d "/usr/lib/x86_64-linux-gnu/webkit2gtk-4.0" ]; then
     echo -e "${YELLOW}Downloading WebKit2GTK from $WEBKIT2GTK_URL...${RESET}"
-    wget $WGET_OPTS "$TMP_DIR/webkit2gtk-4.0.tar.xz"  "$WEBKIT2GTK_URL" || {
+    wget $WGET_OPTS "$TMP_DIR/webkit2gtk-4.0.tar.xz" "$WEBKIT2GTK_URL" || {
       echo -e "${RED}Failed to download WebKit2GTK. Please check your internet connection and try again.${RESET}"
       exit 1
     }
@@ -320,6 +324,15 @@ download_and_install_gtk() {
       echo -e "${RED}Failed to extract WebKit2GTK. The downloaded file might be corrupt.${RESET}"
       exit 1
     }
+
+    # Inform the user that the next steps require administrative access
+    echo "The installation of dependencies requires administrative access. You may be prompted to enter your password."
+
+    # Check if the script can execute sudo commands without interaction
+    if ! sudo -n true 2>/dev/null; then
+      echo "Please enter your password to proceed with the installation of dependencies."
+    fi
+
     echo "Installing WebKit2GTK..."
     sudo cp -r "$TMP_DIR/webkit2gtk-4.0" /usr/lib/x86_64-linux-gnu/ || {
       echo -e "${RED}Failed to install WebKit2GTK. Please check the permissions and try again.${RESET}"
