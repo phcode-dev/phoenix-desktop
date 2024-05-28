@@ -23,6 +23,8 @@ jobs:
         uses: dtolnay/rust-toolchain@stable
 
       - name: npm install ci deps
+        env:
+          GH_TOKEN: ${{ github.token }}
         run: npm ci
 
       - name: Download phoenix and build build phoenix dist-test
