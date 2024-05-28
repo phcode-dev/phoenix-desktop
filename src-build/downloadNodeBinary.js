@@ -1,5 +1,5 @@
 import * as fs from "fs";
-import tar from "tar";
+import * as tar from "tar";
 import * as path from "path";
 import AdmZip from 'adm-zip';
 import {fileURLToPath} from 'url';
