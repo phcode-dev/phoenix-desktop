@@ -124,6 +124,7 @@ check_ubuntu_version() {
     fi
     return 1  # Not Ubuntu 24.04
 }
+
 # Create Invocation Script Function
 #
 # Purpose:
@@ -607,6 +608,20 @@ downloadLatestReleaseInfo() {
   grep -Po '"tag_name":\s*"prod-app-v\K[\d.]+(?=")' "$release_info_file"
 }
 
+# Function to check if the architecture is 64-bit x86
+check_architecture() {
+    ARCHITECTURE=$(uname -m)
+    if [ "$ARCHITECTURE" != "x86_64" ]; then
+      local latestFileUrl
+      latestFileUrl=$(grep -oP 'https://[^"]*latest\.json'  "$TMP_DIR/latest_release.json")
+      WGET_OPTS=$(configure_wget_options)
+      wget $WGET_OPTS "$TMP_DIR/latest.json" "$latestFileUrl" || {
+          echo -e "${RED}Failed to download the latestFile. Please check your internet connection and try again.${RESET}"
+      }
+      echo -e "${RED}This script can only be run on 64-bit x86 architecture.${RESET}"
+      exit 1
+    fi
+}
 # Download Latest Release Information Function
 #
 # Purpose:
@@ -649,6 +664,7 @@ downloadLatestReleaseInfo() {
 downloadAndInstall(){
   echo "Using temporary directory $TMP_DIR for processing"
   downloadLatestReleaseInfo > /dev/null
+  check_architecture
   CURRENT_GLIBC_VERSION=$(ldd --version | grep "ldd" | awk '{print $NF}')
   echo "Current GLIBC version: $CURRENT_GLIBC_VERSION"
 
