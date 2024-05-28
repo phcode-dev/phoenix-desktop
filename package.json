@@ -48,7 +48,7 @@
         "fs-extra": "11.2.0",
         "shx": "^0.3.4",
         "tar": "7.1.0",
-        "axios": "1.6.8",
+        "axios": "1.7.2",
         "axios-retry": "4.3.0"
     },
     "phoenixRepo": {
