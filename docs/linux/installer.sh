@@ -14,6 +14,12 @@ DESKTOP_APP_NAME="Phoenix Code"
 DESKTOP_ENTRY="$DESKTOP_DIR/$DESKTOP_ENTRY_NAME"
 SCRIPT_NAME="phcode"  # Name of the script to invoke the binary
 BINARY_NAME="phoenix-code"
+# STARTUP_WM_CLASS is set to the binary name and used as the application's class name in the desktop file.
+# This class name helps the desktop environment manage application windows. If native libraries are missing
+# and the application needs to be launched via a script instead of directly, this variable is updated
+# accordingly before the desktop file is created.
+STARTUP_WM_CLASS=$BINARY_NAME
+
 
 declare -a MIME_TYPES=(
     "text/html"
@@ -384,19 +390,20 @@ create_launch_script_with_gtk() {
 
   local binary_path="$1"
   local binary_name="$BINARY_NAME"
-
-  local realBin="$binary_path/$binary_name.app"
+  local original_bin=$binary_name.app
+  local realBin="$binary_path/$original_bin"
   mv "$binary_path/$binary_name" "$realBin"
   echo "Creating a launch script for Phoenix Code with GTK libraries..."
   cat > "$binary_path/$binary_name" <<EOF
 #!/bin/bash
 SCRIPT_DIR=\$(dirname "\$(readlink -f "\$0")")
 export LD_LIBRARY_PATH=\$SCRIPT_DIR/gtk:\$LD_LIBRARY_PATH
-exec \$SCRIPT_DIR/$binary_name.app "\$@"
+exec \$SCRIPT_DIR/$original_bin "\$@"
 EOF
   chmod +x "$binary_path/$binary_name"
 
   echo -e "Launch script created at: $binary_path/$binary_name"
+  STARTUP_WM_CLASS=$original_bin
 }
 
 # Verify and Install Dependencies Function
@@ -557,7 +564,7 @@ Terminal=false
 MimeType=$MIME_TYPES_STRING;
 Categories=Development;IDE;Utility;TextEditor;
 StartupNotify=true
-StartupWMClass=phoenix-code
+StartupWMClass=$STARTUP_WM_CLASS
 EOF
   echo -e "${YELLOW}Desktop entry created at: $DESKTOP_ENTRY${RESET}"
   # Update the desktop database for GNOME, Unity, XFCE, etc.
