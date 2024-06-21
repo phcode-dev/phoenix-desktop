@@ -25,11 +25,11 @@ async function createDistTestReleaseConfig() {
     const phoenixVersion = configJson.package.version;
     if(os.platform() === 'win32'){
         configJson.tauri.windows[0].url = `https://phtauri.localhost/v${phoenixVersion}/`;
-        // for test windows, desktop-metrics.html isn't needed
     } else {
         configJson.tauri.windows[0].url = `phtauri://localhost/v${phoenixVersion}/`;
-        // for test windows, desktop-metrics.html isn't needed
     }
+    // for tests we only need the main window. other windows seems to be breaking tests in github actions.
+    configJson.tauri.windows = [configJson.tauri.windows[0]];
     if(os.platform() === 'darwin'){
         // inject macos icons
         configJson.tauri.bundle.icon = [
