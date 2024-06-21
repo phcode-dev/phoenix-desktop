@@ -298,6 +298,7 @@
                     "windows": [
                         "main",
                         "updater",
+                        "fileDrop",
                         "phcode-1",
                         "phcode-2",
                         "phcode-3",
@@ -370,6 +371,7 @@
                     "windows": [
                         "main",
                         "updater",
+                        "fileDrop",
                         "phcode-1",
                         "phcode-2",
                         "phcode-3",
