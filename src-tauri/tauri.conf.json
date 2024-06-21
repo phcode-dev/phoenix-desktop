@@ -469,7 +469,16 @@
                 "label": "healthData",
                 "title": "Health data window",
                 "url": "http://localhost:8000/src/desktop-metrics.html",
-                "visible": false
+                "visible": false,
+                "fileDropEnabled": false
+            },
+            {
+                "label": "fileDrop",
+                "title": "Drop To Open Files",
+                "url": "http://localhost:8000/src/drop-files.html",
+                "visible": false,
+                "fileDropEnabled": true,
+                "decorations": false
             }
         ]
     }
