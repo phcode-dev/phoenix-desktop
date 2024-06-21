@@ -25,10 +25,10 @@ async function createDistTestReleaseConfig() {
     const phoenixVersion = configJson.package.version;
     if(os.platform() === 'win32'){
         configJson.tauri.windows[0].url = `https://phtauri.localhost/v${phoenixVersion}/`;
-        configJson.tauri.windows[2].url = `https://phtauri.localhost/v${phoenixVersion}/drop-files.html`;
+        // for test windows, desktop-metrics.html isn't needed
     } else {
         configJson.tauri.windows[0].url = `phtauri://localhost/v${phoenixVersion}/`;
-        configJson.tauri.windows[2].url = `phtauri://localhost/v${phoenixVersion}/drop-files.html`;
+        // for test windows, desktop-metrics.html isn't needed
     }
     if(os.platform() === 'darwin'){
         // inject macos icons
