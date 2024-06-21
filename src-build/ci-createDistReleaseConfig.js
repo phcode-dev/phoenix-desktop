@@ -89,8 +89,10 @@ async function ciCreateDistReleaseConfig() {
     configJson.tauri.windows[0].title = configJson.package.productName;
     if(os.platform() === 'win32'){
         configJson.tauri.windows[0].url = `https://phtauri.localhost/v${phoenixVersion}/`;
+        configJson.tauri.windows[2].url = `https://phtauri.localhost/v${phoenixVersion}/drop-files.html`;
     } else {
         configJson.tauri.windows[0].url = `phtauri://localhost/v${phoenixVersion}/`;
+        configJson.tauri.windows[2].url = `phtauri://localhost/v${phoenixVersion}/drop-files.html`;
     }
     if(os.platform() === 'darwin'){
         // inject macos icons
