@@ -1,19 +1,19 @@
 {
-    "version": "3.8.2",
-    "notes": "Test release with eslint support",
-    "pub_date": "2024-06-11T06:28:09.503Z",
+    "version": "3.8.4",
+    "notes": "Experimental build. not to be used.",
+    "pub_date": "2024-06-22T17:40:08.687Z",
     "platforms": {
         "windows-x86_64": {
-            "signature": "dW50cnVzdGVkIGNvbW1lbnQ6IHNpZ25hdHVyZSBmcm9tIHRhdXJpIHNlY3JldCBrZXkKUlVUVTVEdXJNVyttWnRuSWwxeXM0ODg0cUxyTVRGTHhtT1hTQkU2dld2K3ZSWWV2aVpta3RzeXBHdUxSU3NDTTZpdUZtQ3ZYRzZMbUxMV1YvT3ErSWpVYjJqMGh1b2lYZ2cwPQp0cnVzdGVkIGNvbW1lbnQ6IHRpbWVzdGFtcDoxNzE4MDg2NTUyCWZpbGU6UGhvZW5peCBDb2RlIEV4cGVyaW1lbnRhbCBCdWlsZF8zLjguMl94NjQtc2V0dXAubnNpcy56aXAKb1lpais1bnIrZnEzZUlMR294ZW5vZnZLTjE5OFlpcTFRQ3hTaFludngrNkFaUlUvWU9lZXgzSjlRTDQyT0NCc0ZXdGl3REIxV0E5dExUS2h3OE9nQ1E9PQo=",
-            "url": "https://github.com/phcode-dev/phoenix-desktop/releases/download/dev-app-v3.8.2/Phoenix.Code.Experimental.Build_3.8.2_x64-setup.nsis.zip"
+            "signature": "dW50cnVzdGVkIGNvbW1lbnQ6IHNpZ25hdHVyZSBmcm9tIHRhdXJpIHNlY3JldCBrZXkKUlVUVTVEdXJNVyttWnQyUEprczJ6RUhxcXUrMmJGYVZsai8wNit0aWZDWnMweDdtaGx5ZVpVK2w5MGFsNnNkckZXZ0pNSDJVODU0cWt3d1FlY1h2bWJIZWdZQ3NFZUtHcUFVPQp0cnVzdGVkIGNvbW1lbnQ6IHRpbWVzdGFtcDoxNzE5MDc3Mjk1CWZpbGU6UGhvZW5peCBDb2RlIEV4cGVyaW1lbnRhbCBCdWlsZF8zLjguNF94NjQtc2V0dXAubnNpcy56aXAKSFZrc0FxWjA1MytjWDZTays3cGJVUkV5TjZtaU5FSzc0aTFPazRFWm5Iaml4VmdSR2lTd0pvd2xRSmV0cy85VDVJOVpqbmdsYzhubEdSK0UrVkxaQmc9PQo=",
+            "url": "https://github.com/phcode-dev/phoenix-desktop/releases/download/dev-app-v3.8.4/Phoenix.Code.Experimental.Build_3.8.4_x64-setup.nsis.zip"
         },
         "darwin-x86_64": {
-            "signature": "dW50cnVzdGVkIGNvbW1lbnQ6IHNpZ25hdHVyZSBmcm9tIHRhdXJpIHNlY3JldCBrZXkKUlVUVTVEdXJNVyttWmh6TTE2QjZNbEFyZk5BQ0xsSFdHVllpR2tRSjRIM2RwUkhybjk0YUtPOUxOc1VhMUxMUHZlbk91dURnWk0wN2JEWjlsaUpIWUFXSkVKS0NDRzB5MFFzPQp0cnVzdGVkIGNvbW1lbnQ6IHRpbWVzdGFtcDoxNzE4MDg2NjU2CWZpbGU6UGhvZW5peCBDb2RlIEV4cGVyaW1lbnRhbCBCdWlsZC5hcHAudGFyLmd6Ck5oZ0tBaEMxOXk4Q0NzSFRnaiszc3lUOHZZQUZnSzJvYmZaRTVtZVZXQzFyWDNzUkpFT1RnZjJFQ0Zzb1ZHTndwVHpKQWt2TUF3SzJDOFEyUmI3OEFnPT0K",
-            "url": "https://github.com/phcode-dev/phoenix-desktop/releases/download/dev-app-v3.8.2/Phoenix.Code.Experimental.Build_x64.app.tar.gz"
+            "signature": "dW50cnVzdGVkIGNvbW1lbnQ6IHNpZ25hdHVyZSBmcm9tIHRhdXJpIHNlY3JldCBrZXkKUlVUVTVEdXJNVyttWm1ZdWlBUGFxOEcyVFhqMm11akpvMUVDNXZ2SE96YkdpU0h3UnFLNDNhMnZhSHZObkl2S2k4b2ZHdHMzcVAzWEFvcGdzajFNdWlOOHRsTFJrSUxEQkFrPQp0cnVzdGVkIGNvbW1lbnQ6IHRpbWVzdGFtcDoxNzE5MDc3NTM2CWZpbGU6UGhvZW5peCBDb2RlIEV4cGVyaW1lbnRhbCBCdWlsZC5hcHAudGFyLmd6CkxsaVdzM2N0UFg0ajBZUmhKL3RCb2NjcDVOdmdPQXl2ZzhqOW03R09kZXlEaFVmbDg1eHdVbzdYRy9VQ2Z2T2tIckorM2NmY3l5RE5ZKytsbHh5bUJRPT0K",
+            "url": "https://github.com/phcode-dev/phoenix-desktop/releases/download/dev-app-v3.8.4/Phoenix.Code.Experimental.Build_x64.app.tar.gz"
         },
         "darwin-aarch64": {
-            "signature": "dW50cnVzdGVkIGNvbW1lbnQ6IHNpZ25hdHVyZSBmcm9tIHRhdXJpIHNlY3JldCBrZXkKUlVUVTVEdXJNVyttWmtYaEoramFUZ2VIcU1tREdwT1JXWk9wRGIxZG8rYmJueHZZbTlnUVBrVGxxU05aTExSRzFUR3hOK3RvdDVMQ3piQlI2QzBuY3Zoc092OXhtT2xpWEFrPQp0cnVzdGVkIGNvbW1lbnQ6IHRpbWVzdGFtcDoxNzE4MDg3MjcwCWZpbGU6UGhvZW5peCBDb2RlIEV4cGVyaW1lbnRhbCBCdWlsZC5hcHAudGFyLmd6CnJDNjh5SmI0NDR0a2NqWXNmZGo4QmNlZnZWMVRjRFo5OE5rK1pPL01veHdKVXltdCtrYm9sYXI2OStuQlNkODY5MjdVbC9xQklMYjd5eld1bG1KYUNRPT0K",
-            "url": "https://github.com/phcode-dev/phoenix-desktop/releases/download/dev-app-v3.8.2/Phoenix.Code.Experimental.Build_aarch64.app.tar.gz"
+            "signature": "dW50cnVzdGVkIGNvbW1lbnQ6IHNpZ25hdHVyZSBmcm9tIHRhdXJpIHNlY3JldCBrZXkKUlVUVTVEdXJNVyttWnZNZ0ZreDFXOEZJbEp1dWdoWkVlKzREK3VrMEZqQ3pWVDdEM3pIUDl5aGZQUXEzVFZvVXQ2V3VNekp6dmFDUGtsRERpS0JDRVlCRnFVVkMxbWV6V1FVPQp0cnVzdGVkIGNvbW1lbnQ6IHRpbWVzdGFtcDoxNzE5MDc3OTkzCWZpbGU6UGhvZW5peCBDb2RlIEV4cGVyaW1lbnRhbCBCdWlsZC5hcHAudGFyLmd6Cmo5OEYzV2hVZTQ0cUVGa3VHL0Vnai9rdmp3S1NCRDVaUDNOSHJPdUlPRHVaWDZlc2R6c3ZjS24zNHRaalVudXZ4MlBGTTlMampWdy9MU2pTa3lvbUFBPT0K",
+            "url": "https://github.com/phcode-dev/phoenix-desktop/releases/download/dev-app-v3.8.4/Phoenix.Code.Experimental.Build_aarch64.app.tar.gz"
         }
     }
 }
