@@ -1,4 +1,8 @@
 {
   "newUser": "https://s.surveyplanet.com/jssqbld8",
-  "powerUser": "https://s.surveyplanet.com/v3j59a7z"
+  "powerUser": "https://s.surveyplanet.com/v3j59a7z",
+  "browser": {
+    "newUser": "https://s.surveyplanet.com/5lrpp9ud",
+    "powerUser": "https://s.surveyplanet.com/wtohpj8x"
+  }
 }
