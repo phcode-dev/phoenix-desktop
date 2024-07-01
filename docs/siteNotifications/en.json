@@ -1,0 +1,14 @@
+{
+  "all": {},
+  "mac": {
+    "titleHTML": "Critical Update Available",
+    "messageHTML": "Having trouble starting Phoenix Code on macOS? Download the app to resolve these issues!"
+  },
+  "linux": {
+    "titleHTML": "Critical Update Available",
+    "messageHTML": "Having trouble starting Phoenix Code on Linux? Download the app to resolve these issues!"
+  },
+  "win": {},
+  "android": {},
+  "ios": {}
+}
