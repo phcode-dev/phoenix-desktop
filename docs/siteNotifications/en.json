@@ -2,13 +2,24 @@
   "all": {},
   "mac": {
     "titleHTML": "Critical Update Available",
-    "messageHTML": "Having trouble starting Phoenix Code on macOS? Download now to resolve these issues!"
+    "messageHTML": "Having trouble starting Phoenix Code on macOS? Download the latest release here to resolve the issue!",
+    "severity": "critical",
+    "dismissable": true
   },
   "linux": {
     "titleHTML": "Critical Update Available",
-    "messageHTML": "Having trouble starting Phoenix Code on Linux? Download now to resolve these issues!"
+    "messageHTML": "Having trouble starting Phoenix Code on Linux? Download the latest release here to resolve the issue!",
+    "severity": "critical",
+    "dismissable": true
   },
   "win": {},
   "android": {},
-  "ios": {}
+  "ios": {},
+  "schema": {
+    "titleHTML": "an html text to show as title",
+    "messageHTML": "an html text to show error message",
+    "severity": "critical | warning | info",
+    "type": "1 | 2 | 3 - a number, not string, different styles of the message",
+    dismissable: "true | false - boolean, not string"
+  }
 }
