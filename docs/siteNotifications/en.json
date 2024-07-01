@@ -20,6 +20,6 @@
     "messageHTML": "an html text to show error message",
     "severity": "critical | warning | info",
     "type": "1 | 2 | 3 - a number, not string, different styles of the message",
-    dismissable: "true | false - boolean, not string"
+    "dismissable": "true | false - boolean, not string"
   }
 }
