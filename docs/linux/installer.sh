@@ -251,6 +251,8 @@ install_dependencies() {
       echo "Detected a Fedora/Red Hat based distribution."
       yes | sudo dnf install webkit2gtk3 gtk3 \
                          gstreamer1-plugins-base gstreamer1-plugins-good
+      yes | sudo dnf upgrade webkit2gtk3 gtk3 \
+                             gstreamer1  gstreamer1-plugins-base gstreamer1-plugins-good
       ;;
     arch|manjaro)
       echo "Detected an Arch Linux based distribution."
