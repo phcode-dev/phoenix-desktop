@@ -1,17 +1,7 @@
 {
   "all": {},
-  "mac": {
-    "titleHTML": "Critical Update Available",
-    "messageHTML": "Having trouble starting Phoenix Code on macOS? Download the latest release here to resolve the issue!",
-    "severity": "critical",
-    "dismissable": true
-  },
-  "linux": {
-    "titleHTML": "Critical Update Available",
-    "messageHTML": "Having trouble starting Phoenix Code on Linux? Download the latest release here to resolve the issue!",
-    "severity": "critical",
-    "dismissable": true
-  },
+  "mac": {},
+  "linux": {},
   "win": {},
   "android": {},
   "ios": {},
