@@ -21,5 +21,25 @@
     "severity": "critical | warning | info",
     "type": "1 | 2 | 3 - a number, not string, different styles of the message",
     "dismissable": "true | false - boolean, not string"
-  }
+  },
+  "features": [
+    {
+      "title": "Live Preview",
+      "subtitle": "See your HTML and CSS code changes instantly, without page reloads! Use powerful UI tools like the colour editor to tweak background and text colours, adjust font sizes and border-radius with number dials, or explore page layouts with live code hints.",
+      "titleIconSrc": "assets/images/preview_o.png",
+      "videoSrc": "https://docs-images.phcode.dev/videos/phcode.io-site/live_preview.mp4"
+    },
+    {
+      "title": "Code Intelligence for the Web",
+      "subtitle": "Write HTML, CSS, and JavaScript faster with on-the-fly code completion and catch errors before they become problems. We're always adding better smarts to our code intelligence, making Phoenix Code sharper with every release.",
+      "titleIconSrc": "assets/images/intelligence.png",
+      "videoSrc": "https://docs-images.phcode.dev/videos/phcode.io-site/error_detect.mp4"
+    },
+    {
+      "title": "Lightning-Fast Search",
+      "subtitle": "Find exactly what you need across your entire project with Instant search. We've fine-tuned the UX to help you pinpoint your query faster: search within specific file types, exclude files and folders, or use regular expressions for complex queries.",
+      "titleIconSrc": "assets/images/flash.gif",
+      "videoSrc": "https://docs-images.phcode.dev/videos/phcode.io-site/find_in_files.mp4"
+    }
+  ]
 }
