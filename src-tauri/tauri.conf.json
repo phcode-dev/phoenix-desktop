@@ -205,7 +205,7 @@
                 "updater"
             ],
             "windows": {
-                "certificateThumbprint": "AB7D19C00251C1E412594A28DC79D201AAEF50D0",
+                "certificateThumbprint": "09c46b557f16fcdd49b2706c9858e82018cba219",
                 "digestAlgorithm": "sha256",
                 "timestampUrl": "http://timestamp.globalsign.com/tsa/advanced",
                 "nsis": {
