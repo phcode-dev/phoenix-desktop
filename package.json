@@ -49,7 +49,7 @@
         "shx": "^0.3.4",
         "tar": "7.4.0",
         "axios": "1.7.2",
-        "axios-retry": "4.4.1"
+        "axios-retry": "4.4.2"
     },
     "phoenixRepo": {
         "gitClonrUrl": "https://github.com/phcode-dev/phoenix.git",
