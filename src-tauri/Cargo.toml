@@ -20,6 +20,9 @@ percent-encoding = "2.3.1"
 regex = "1.10.4"
 clipboard-files = "0.1.1"
 trash = "5"
+dialog = "0.3.0"
+bugsnag = "=0.2.1"
+webbrowser = "0.7"
 serde = { version = "1.0.200", features = ["derive"] }
 tauri = { version = "1.6.2", features = [ "updater", "cli", "api-all", "devtools", "linux-protocol-headers"] }
 winapi = { version = "0.3.9", features = ["fileapi"] }

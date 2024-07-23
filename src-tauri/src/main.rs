@@ -3,6 +3,8 @@ all(not(debug_assertions), target_os = "windows"),
 windows_subsystem = "windows"
 )]
 use std::env;
+use std::panic;
+use bugsnag;
 
 use tauri::{Manager};
 use std::path::PathBuf;
@@ -25,6 +27,7 @@ extern crate webkit2gtk;
 extern crate objc;
 
 use clipboard_files;
+use dialog::DialogBox;
 
 use regex::Regex;
 extern crate percent_encoding;
@@ -266,6 +269,51 @@ fn get_mac_deep_link_requests() -> Vec<String> {
 
 fn main() {
     let args: Vec<String> = env::args().collect();
+
+    panic::set_hook(Box::new(|panic_info| {
+        let panic_message = panic_info.payload().downcast_ref::<&str>().unwrap_or(&"No specific error message available");
+        eprintln!("Application panicked: {:?}", panic_message);
+
+        let mut api = bugsnag::Bugsnag::new("4dc115247125339aa551f3b11a5bee6b", env!("CARGO_MANIFEST_DIR"));
+        let args: Vec<String> = env::args().collect();
+        let executable_name = if !args.is_empty() {
+                // Get the executable name from the full path
+                let path = &args[0];
+                path.split(std::path::MAIN_SEPARATOR)
+                    .last()
+                    .unwrap_or("unknown_executable")
+                    .to_string()
+            } else {
+                "unknown_executable".to_string()
+            };
+        api.set_app_info(Some(env!("CARGO_PKG_VERSION")),
+                         Some(&executable_name),
+                         Some("rust"));
+
+        // Construct the error message with the panic message included
+        let error_message = format!(
+            "The app crashed unexpectedly with error: \n\n'{}'. \n\nWould you like to send an anonymised error report to help us fix the problem?",
+            panic_message
+        );
+
+        let choice = dialog::Question::new(&error_message)
+            .title("Oops! Phoenix Code Crashed :(")
+            .show()
+            .expect("Could not display dialog box");
+
+        // take user to support page. maybe we will have some notifications pinned there if its a large scale outage
+        let support_url = "https://github.com/orgs/phcode-dev/discussions";
+        if webbrowser::open(support_url).is_ok() {
+            println!("Opened support_url {} in the default browser.", support_url);
+        } else {
+            println!("Failed to open support_url {}.", support_url);
+        }
+
+        if choice == dialog::Choice::Yes {
+            let _ = bugsnag::panic::handle(&api, panic_info, None);
+        }
+    }));
+
     if args.contains(&"--runVerify".to_string()) {
         // Mainly used by linux installer to see if the app loaded successfully with all libs
         std::process::exit(0);
