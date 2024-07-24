@@ -20,8 +20,6 @@ percent-encoding = "2.3.1"
 regex = "1.10.4"
 clipboard-files = "0.1.1"
 trash = "5"
-dialog = "0.3.0"
-bugsnag = "=0.2.1"
 webbrowser = "0.7"
 serde = { version = "1.0.200", features = ["derive"] }
 tauri = { version = "1.6.2", features = [ "updater", "cli", "api-all", "devtools", "linux-protocol-headers"] }
@@ -31,14 +29,19 @@ tauri-plugin-window-state = { git = "https://github.com/tauri-apps/plugins-works
 tauri-plugin-single-instance = { git = "https://github.com/tauri-apps/plugins-workspace", branch = "v1" }
 fix-path-env = { git = "https://github.com/tauri-apps/fix-path-env-rs" }
 
+[target.'cfg(target_os = "windows")'.dependencies]
+native-dialog = "0.7.0"
+
 [target.'cfg(target_os = "linux")'.dependencies]
 gtk = "0.15"
 webkit2gtk = "0.18" # if tauri build fails, make sure to match this version to what we have in tauri
+dialog = "0.3.0"
 
 [target.'cfg(target_os = "macos")'.dependencies]
 objc = "0.2.7"
 tauri-plugin-deep-link = "0.1.2"
 lazy_static = "1.4"
+dialog = "0.3.0"
 
 [features]
 # by default Tauri runs in production mode
