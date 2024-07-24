@@ -27,10 +27,10 @@ extern crate objc;
 
 use clipboard_files;
 
-#[cfg(any(target_os = "macos", target_os = "linux"))]
+#[cfg(target_os = "linux")]
 use dialog::DialogBox;
 
-#[cfg(target_os = "windows")]
+#[cfg(any(target_os = "macos", target_os = "windows"))]
 use native_dialog::{MessageDialog, MessageType};
 
 use regex::Regex;
@@ -285,7 +285,7 @@ fn main() {
         );
 
         let mut should_log_to_bugsnag = false;
-        #[cfg(any(target_os = "macos", target_os = "linux"))]
+        #[cfg(target_os = "linux")]
         {
             let choice = dialog::Question::new(&error_message)
                 .title("Oops! Phoenix Code Crashed :(")
@@ -296,7 +296,7 @@ fn main() {
             }
         }
 
-        #[cfg(target_os = "windows")]
+        #[cfg(any(target_os = "macos", target_os = "windows"))]
         {
             should_log_to_bugsnag = MessageDialog::new()
                 .set_type(MessageType::Error)
