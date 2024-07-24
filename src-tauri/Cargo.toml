@@ -41,7 +41,7 @@ dialog = "0.3.0"
 objc = "0.2.7"
 tauri-plugin-deep-link = "0.1.2"
 lazy_static = "1.4"
-dialog = "0.3.0"
+native-dialog = "0.7.0"
 
 [features]
 # by default Tauri runs in production mode
