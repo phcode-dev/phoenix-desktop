@@ -5064,17 +5064,18 @@ dependencies = [
 
 [[package]]
 name = "webbrowser"
-version = "0.8.15"
+version = "1.0.1"
 source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "db67ae75a9405634f5882791678772c94ff5f16a66535aae186e26aa0841fc8b"
+checksum = "425ba64c1e13b1c6e8c5d2541c8fac10022ca584f33da781db01b5756aef1f4e"
 dependencies = [
+ "block2",
  "core-foundation",
  "home",
  "jni 0.21.1",
  "log",
  "ndk-context",
- "objc",
- "raw-window-handle",
+ "objc2 0.5.2",
+ "objc2-foundation",
  "url",
  "web-sys",
 ]
