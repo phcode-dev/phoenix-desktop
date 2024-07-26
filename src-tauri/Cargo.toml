@@ -50,3 +50,7 @@ default = ["custom-protocol"]
 # this feature is used used for production builds where `devPath` points to the filesystem
 # DO NOT remove this
 custom-protocol = ["tauri/custom-protocol"]
+
+[profile.release]
+debug = "line-tables-only"
+split-debuginfo = "unpacked"
