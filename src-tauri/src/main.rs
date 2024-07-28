@@ -38,6 +38,7 @@ extern crate percent_encoding;
 use tauri::http::ResponseBuilder;
 use tauri::GlobalWindowEvent;
 mod init;
+mod bugsnag;
 mod utilities;
 mod boot_config;
 use trash;
@@ -314,8 +315,7 @@ fn main() {
             println!("Failed to open support_url {}.", support_url);
         }
         if should_log_to_bugsnag {
-            // let _ = bugsnag::panic::handle(&api, panic_info, None);
-            println!("Log to bugsnag impl pending!");
+            bugsnag::handle(panic_info);
         }
     }));
 

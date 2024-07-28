@@ -21,6 +21,7 @@ regex = "1.10.4"
 clipboard-files = "0.1.1"
 trash = "5"
 webbrowser = "1.0"
+backtrace = "0.3.73"
 serde = { version = "1.0.200", features = ["derive"] }
 tauri = { version = "1.6.2", features = [ "updater", "cli", "api-all", "devtools", "linux-protocol-headers"] }
 winapi = { version = "0.3.9", features = ["fileapi"] }
