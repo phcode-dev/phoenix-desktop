@@ -3,9 +3,10 @@
 use serde::{Serialize, Deserialize};
 use backtrace::{self, Symbol};
 use std::path::Path;
-use std::panic::PanicInfo;
 use serde_json::to_string_pretty;
 use std::collections::HashMap;
+use reqwest::header::{HeaderMap, CONTENT_TYPE};
+use tokio::runtime::Runtime;
 
 #[derive(Serialize, Deserialize)]
 #[serde(rename_all = "camelCase")]
@@ -114,7 +115,7 @@ pub fn from_symbol(trace: &Symbol) -> JsonFrame
         .unwrap_or_else(|| "unknown".to_string());
 
     // Example hardcoded code snippet, this part should be dynamically populated based on your context
-    let mut code_snippet = std::collections::HashMap::new();
+    let code_snippet = std::collections::HashMap::new();
     // code_snippet.insert(1, "def a".to_string()); // add here is there are code snippets to show
 
     JsonFrame {
@@ -127,15 +128,37 @@ pub fn from_symbol(trace: &Symbol) -> JsonFrame
     }
 }
 
-pub fn handle(info: &PanicInfo){
-    let message = if let Some(data) = info.payload().downcast_ref::<String>() {
-        data.to_owned()
-    } else if let Some(data) = info.payload().downcast_ref::<&str>() {
-        (*data).to_owned()
-    } else {
-        format!("Error: {:?}", info.payload())
-    };
+async fn send_bugsnag_notification(notification: BugsnagNotification) -> Result<(), reqwest::Error> {
+    let client = reqwest::Client::new();
+    let headers = construct_headers();
 
+    let response = client.post("https://notify.bugsnag.com/")
+        .headers(headers)
+        .json(&notification)
+        .send()
+        .await?;
+
+    if response.status().is_success() {
+        println!("Status: {}", response.status());
+        if let Ok(resp_body) = response.text().await {
+            println!("Response: {}", resp_body);
+        }
+    } else {
+        eprintln!("Failed to send notification: {}", response.status());
+    }
+
+    Ok(())
+}
+
+fn construct_headers() -> HeaderMap {
+    let mut headers = HeaderMap::new();
+    headers.insert(CONTENT_TYPE, "application/json".parse().unwrap());
+    headers.insert("Bugsnag-Api-Key", "4dc115247125339aa551f3b11a5bee6b".parse().unwrap());
+    headers.insert("Bugsnag-Payload-Version", "5".parse().unwrap());
+    headers
+}
+
+pub fn handle(message: &String){
     let mut result: Vec<JsonFrame> = Vec::new();
     backtrace::trace(|frame| {
         backtrace::resolve(frame.ip(), |symbol| {
@@ -171,7 +194,7 @@ pub fn handle(info: &PanicInfo){
             version: "1.1.3".to_string(),
             release_stage: "staging".to_string(),
             binary_arch: "x86_64".to_string(),
-            running_on_rosetta: true,
+            running_on_rosetta: false,
         },
         device: BugsnagDevice {
             os_name: "android".to_string(),
@@ -199,8 +222,20 @@ pub fn handle(info: &PanicInfo){
 
     // Serialize and print the notification object
     if let Ok(json_string) = to_string_pretty(&notification) {
-        println!("Complete Bugsnag notification JSON:\n{}", json_string);
+        println!("Complete Bugsnag error report JSON:\n{}", json_string);
     } else {
         println!("Failed to serialize Bugsnag notification.");
     }
+   // Spawning a new thread to handle the asynchronous task
+   let handle = std::thread::spawn(move || {
+       // Creating a new Tokio runtime
+       let rt = Runtime::new().unwrap();
+       rt.block_on(async {
+           if let Err(e) = send_bugsnag_notification(notification).await {
+               eprintln!("Failed to send notification to Bugsnag: {}", e);
+           }
+       });
+   });
+   // Wait for the thread to finish
+   handle.join().unwrap();
 }

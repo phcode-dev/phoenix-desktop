@@ -315,7 +315,12 @@ fn main() {
             println!("Failed to open support_url {}.", support_url);
         }
         if should_log_to_bugsnag {
-            bugsnag::handle(panic_info);
+            let message = if let Some(s) = panic_info.payload().downcast_ref::<&str>() {
+                s.to_string()
+            } else {
+                "Unknown panic message".to_string()
+            };
+            bugsnag::handle(&message);
         }
     }));
 
