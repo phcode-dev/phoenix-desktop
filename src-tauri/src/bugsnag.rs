@@ -178,7 +178,7 @@ pub fn handle(message: &String){
         breadcrumbs: vec![],
         request: HashMap::new(),
         threads: vec![],
-        context: "rustPanicHandler".to_string(),
+        context: message.to_string(),
         grouping_hash: "bugsnag.rs".to_string(),
         unhandled: true,
         severity: "error".to_string(),
