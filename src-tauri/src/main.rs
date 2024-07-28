@@ -314,7 +314,8 @@ fn main() {
         } else {
             println!("Failed to open support_url {}.", support_url);
         }
-        if should_log_to_bugsnag {
+        let args: Vec<String> = env::args().collect();
+        if should_log_to_bugsnag && !args.contains(&"--runVerify".to_string()) {
             let message = if let Some(s) = panic_info.payload().downcast_ref::<&str>() {
                 s.to_string()
             } else {
