@@ -1,3 +1,5 @@
+// https://bugsnagerrorreportingapi.docs.apiary.io/#reference/0/minidump
+
 use serde::{Serialize, Deserialize};
 use backtrace::{self, Symbol};
 use std::path::Path;
