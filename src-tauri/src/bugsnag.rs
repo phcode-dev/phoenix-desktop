@@ -7,7 +7,6 @@ use serde_json::to_string_pretty;
 use std::collections::HashMap;
 use reqwest::header::{HeaderMap, CONTENT_TYPE};
 use tokio::runtime::Runtime;
-extern crate sys_info;
 extern crate chrono;
 use chrono::prelude::*;
 use std::fs::File;
@@ -218,22 +217,11 @@ fn get_linux_flavor() -> io::Result<String> {
 }
 
 fn get_sysinfo() -> (String, String, String, String) {
-    let os_type = sys_info::os_type().unwrap_or_else(|_| "Unknown OS".to_string());
-    let mut os_release = sys_info::os_release().unwrap_or_else(|_| "Unknown Version".to_string());
+    let info = os_info::get();
+    let os_type = info.os_type().to_string();
+    let os_release = info.version().to_string();
 
-    #[cfg(target_os = "linux")]
-    {
-        // Get the Linux flavor like ubuntu/fedora/arch etc.. too as part of version in Linux
-        if let Ok(flavor) = get_linux_flavor() {
-            os_release = format!("{} {}", flavor, os_release);
-        }
-    }
-
-
-    // Get the machine architecture using the standard library
-    let arch = std::env::consts::ARCH.to_string();
-
-    // Get the name of the current executable
+    let arch = info.architecture().unwrap_or("unknown").to_string();
     let exe_path = env::args().next().unwrap_or_else(|| "Unknown Executable".to_string());
     let exe_name = Path::new(&exe_path)
         .file_name()
@@ -243,7 +231,6 @@ fn get_sysinfo() -> (String, String, String, String) {
 
     (os_type, os_release, arch, exe_name)
 }
-
 
 pub fn handle(message: &String){
     let mut result: Vec<JsonFrame> = Vec::new();
@@ -290,7 +277,7 @@ pub fn handle(message: &String){
             os_name: os_type.to_string(),
             os_version: os_version.to_string(),
             time: current_time.to_string(),
-            cpu_abi: vec!["x86_64".to_string()],
+            cpu_abi: vec![arch.to_string()],
             runtime_versions: HashMap::new(),
         },
         session: HashMap::new(),
