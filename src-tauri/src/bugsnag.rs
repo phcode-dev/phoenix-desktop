@@ -102,16 +102,47 @@ struct BugsnagNotifier {
     dependencies: Vec<()>,
 }
 
+/// Redacts paths that are not recognized as well-known system paths.
+fn redact_path_for_privacy(path: &str) -> String {
+    let known_paths = [
+        // Linux common paths
+        "/usr", "/lib", "/var", "/etc", "/bin", "/sbin", "/dev", "/opt", "/boot", "/sys", "/proc",
+        "/run", "/tmp", "/root",
+
+        // macOS common paths
+        "/Applications", "/System", "/Library", "/private", "/opt", "/sbin",
+        "/usr/local",
+
+        // Windows common paths
+        "C:\\Windows", "C:\\Windows\\System32", "C:\\Program Files", "C:\\Program Files (x86)",
+        "C:\\ProgramData",
+    ];
+    let path_obj = Path::new(path);
+
+    if known_paths.iter().any(|&p| path.starts_with(p)) {
+        path.to_string()
+    } else {
+        format!("{} (path redacted for privacy)", path_obj.file_name().unwrap_or_default().to_str().unwrap_or("Unknown"))
+    }
+}
+
 // The function `from_symbol` now returns a JSON string
 pub fn from_symbol(trace: &Symbol) -> JsonFrame
 {
-    let file = trace
-        .filename()
-        .unwrap_or_else(|| Path::new(""))
-        .to_str()
-        .unwrap_or("");
-    let file = if file.is_empty() { "unknown".to_string() } else { file.to_string() };
+    let manifest_dir = env!("CARGO_MANIFEST_DIR");
+     let path = trace.filename()
+        .and_then(|p| p.to_str())  // Convert Path to &str as soon as possible
+        .unwrap_or("");  // Deal with None cases early, providing a default &str
 
+     let file = if path.starts_with(manifest_dir) {
+         Path::new(path)
+             .strip_prefix(manifest_dir)
+             .map(|p| p.to_str().unwrap_or("/pathRedacted/Unknown"))
+             .unwrap_or("/pathRedacted/Unknown")  // Use .unwrap_or here
+             .to_string()
+     } else {
+         redact_path_for_privacy(path)
+     };
     let linenumber = trace.lineno().unwrap_or(0);
     let columnnumber = trace.colno().unwrap_or(0);
     let method = trace.name()
@@ -127,7 +158,7 @@ pub fn from_symbol(trace: &Symbol) -> JsonFrame
         line_number: linenumber,
         column_number: columnnumber,
         method: method.clone(),
-        in_project: file.starts_with(env!("CARGO_MANIFEST_DIR")),
+        in_project: path.starts_with(manifest_dir),
         code: code_snippet,
     }
 }
