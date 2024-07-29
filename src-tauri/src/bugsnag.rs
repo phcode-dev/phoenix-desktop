@@ -7,6 +7,12 @@ use serde_json::to_string_pretty;
 use std::collections::HashMap;
 use reqwest::header::{HeaderMap, CONTENT_TYPE};
 use tokio::runtime::Runtime;
+extern crate sys_info;
+extern crate chrono;
+use chrono::prelude::*;
+use std::fs::File;
+use std::io::{self, BufRead, BufReader};
+use std::env;
 
 #[derive(Serialize, Deserialize)]
 #[serde(rename_all = "camelCase")]
@@ -18,8 +24,6 @@ struct JsonFrame {
     in_project: bool,
     code: HashMap<u32, String>,
 }
-
-
 
 #[derive(Serialize, Deserialize)]
 #[serde(rename_all = "camelCase")]
@@ -158,6 +162,58 @@ fn construct_headers() -> HeaderMap {
     headers
 }
 
+fn get_current_time() -> String {
+    // Get the current UTC time
+    let now = Utc::now();
+
+    // Format the time to a string in ISO 8601 format with milliseconds
+    now.to_rfc3339_opts(SecondsFormat::Millis, true)
+}
+
+fn get_linux_flavor() -> io::Result<String> {
+    let os_release_file = File::open("/etc/os-release")?;
+    let reader = BufReader::new(os_release_file);
+
+    // Parse the os-release file to find the PRETTY_NAME
+    for line in reader.lines() {
+        let line = line?;
+        if line.starts_with("PRETTY_NAME") {
+            // Typically the line looks like `PRETTY_NAME="Ubuntu 20.04 LTS"`
+            return Ok(line.split('=').nth(1).unwrap_or("\"Unknown\"").trim_matches('"').to_string());
+        }
+    }
+
+    Ok("Unknown Linux Flavor".to_string())
+}
+
+fn get_sysinfo() -> (String, String, String, String) {
+    let os_type = sys_info::os_type().unwrap_or_else(|_| "Unknown OS".to_string());
+    let mut os_release = sys_info::os_release().unwrap_or_else(|_| "Unknown Version".to_string());
+
+    #[cfg(target_os = "linux")]
+    {
+        // Get the Linux flavor like ubuntu/fedora/arch etc.. too as part of version in Linux
+        if let Ok(flavor) = get_linux_flavor() {
+            os_release = format!("{} {}", flavor, os_release);
+        }
+    }
+
+
+    // Get the machine architecture using the standard library
+    let arch = std::env::consts::ARCH.to_string();
+
+    // Get the name of the current executable
+    let exe_path = env::args().next().unwrap_or_else(|| "Unknown Executable".to_string());
+    let exe_name = Path::new(&exe_path)
+        .file_name()
+        .and_then(|name| name.to_str())
+        .unwrap_or("Unknown Executable")
+        .to_string();
+
+    (os_type, os_release, arch, exe_name)
+}
+
+
 pub fn handle(message: &String){
     let mut result: Vec<JsonFrame> = Vec::new();
     backtrace::trace(|frame| {
@@ -166,6 +222,9 @@ pub fn handle(message: &String){
         });
         true
     });
+    let (os_type, os_version, arch, exe_name) = get_sysinfo();
+    let app_version = env!("CARGO_PKG_VERSION");
+    let current_time = get_current_time();
      let event = BugsnagEvent {
         exceptions: vec![
             BugsnagException {
@@ -191,15 +250,15 @@ pub fn handle(message: &String){
         user: HashMap::new(),
         app: BugsnagApp {
             id: "phcode.io".to_string(),
-            version: "1.1.3".to_string(),
-            release_stage: "staging".to_string(),
-            binary_arch: "x86_64".to_string(),
+            version: app_version.to_string(),
+            release_stage: exe_name.to_string(),
+            binary_arch: arch.to_string(),
             running_on_rosetta: false,
         },
         device: BugsnagDevice {
-            os_name: "android".to_string(),
-            os_version: "8.0.1".to_string(),
-            time: "2018-08-07T10:16:34.564Z".to_string(),
+            os_name: os_type.to_string(),
+            os_version: os_version.to_string(),
+            time: current_time.to_string(),
             cpu_abi: vec!["x86_64".to_string()],
             runtime_versions: HashMap::new(),
         },
@@ -226,8 +285,8 @@ pub fn handle(message: &String){
     } else {
         println!("Failed to serialize Bugsnag notification.");
     }
-   // Spawning a new thread to handle the asynchronous task
-   let handle = std::thread::spawn(move || {
+    // Spawning a new thread to handle the asynchronous task
+    let handle = std::thread::spawn(move || {
        // Creating a new Tokio runtime
        let rt = Runtime::new().unwrap();
        rt.block_on(async {
@@ -235,7 +294,7 @@ pub fn handle(message: &String){
                eprintln!("Failed to send notification to Bugsnag: {}", e);
            }
        });
-   });
-   // Wait for the thread to finish
-   handle.join().unwrap();
+    });
+    // Wait for the thread to finish
+    handle.join().unwrap();
 }
