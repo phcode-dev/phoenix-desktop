@@ -97,39 +97,42 @@ TMP_DIR=$(mktemp -d)
 # Check Ubuntu Version Function
 #
 # Purpose:
-#   This function checks if the current operating system is Ubuntu 24.04. It does this by reading
+#   This function checks if the current operating system is Ubuntu 24.04 or Linux Mint 22. It does this by reading
 #   the /etc/os-release file, which contains identification data for the operating system.
 #
 # Behavior:
 #   1. The function first checks if the /etc/os-release file exists.
 #   2. If the file exists, it sources the file to load the OS identification variables.
-#   3. It then checks if the ID variable is set to "ubuntu" and the VERSION_ID variable is set to "24.04".
-#   4. If both conditions are met, the function returns 0 (indicating success).
-#   5. If the conditions are not met, the function returns 1 (indicating failure).
+#   3. It then checks if the ID variable is set to "ubuntu" and the VERSION_ID variable is set to "24.04",
+#      or if the ID variable is set to "linuxmint" and the VERSION_ID variable is set to "22".
+#   4. If either set of conditions is met, the function returns 0 (indicating success).
+#   5. If neither set of conditions is met, the function returns 1 (indicating failure).
 #
 # Usage:
-#   This function can be called to determine if special handling is needed for Ubuntu 24.04, such as
+#   This function can be called to determine if special handling is needed for Ubuntu 24.04 or Linux Mint 22, such as
 #   installing additional libraries or making compatibility adjustments.
 #
 # Example:
 #   if check_ubuntu_version; then
-#     echo "Ubuntu 24.04 detected."
+#     echo "Ubuntu 24.04 or Linux Mint 22 detected."
 #   else
-#     echo "Not Ubuntu 24.04."
+#     echo "Neither Ubuntu 24.04 nor Linux Mint 22."
 #   fi
 #
 # Notes:
 #   - This function assumes that the /etc/os-release file follows the standard format for Linux OS
 #     identification.
+
 check_ubuntu_version() {
     if [ -f /etc/os-release ]; then
         . /etc/os-release
-        if [[ "$ID" = "ubuntu" && "$VERSION_ID" = "24.04" ]]; then
-            return 0  # Ubuntu 24.04 detected
+        if [[ "$ID" = "ubuntu" && "$VERSION_ID" = "24.04" ]] || [[ "$ID" = "linuxmint" && "$VERSION_ID" = "22" ]]; then
+            return 0  # Ubuntu 24.04 or Linux Mint 22 detected
         fi
     fi
-    return 1  # Not Ubuntu 24.04
+    return 1  # Neither Ubuntu 24.04 nor Linux Mint 22
 }
+
 
 # Create Invocation Script Function
 #
