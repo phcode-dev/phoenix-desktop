@@ -285,7 +285,7 @@ fn main() {
             panic_message
         );
 
-        let mut should_log_to_bugsnag = false;
+        let should_log_to_bugsnag;
         #[cfg(target_os = "linux")]
         {
             let choice = dialog::Question::new(&error_message)
@@ -294,6 +294,8 @@ fn main() {
                 .expect("Could not display dialog box");
             if choice == dialog::Choice::Yes {
                 should_log_to_bugsnag = true;
+            } else {
+                should_log_to_bugsnag = false;
             }
         }
 

@@ -9,13 +9,11 @@ use reqwest::header::{HeaderMap, CONTENT_TYPE};
 use tokio::runtime::Runtime;
 extern crate chrono;
 use chrono::prelude::*;
-use std::fs::File;
-use std::io::{self, BufRead, BufReader};
 use std::env;
 
 #[derive(Serialize, Deserialize)]
 #[serde(rename_all = "camelCase")]
-struct JsonFrame {
+pub struct JsonFrame {
     file: String,
     line_number: u32,
     column_number: u32,
@@ -198,22 +196,6 @@ fn get_current_time() -> String {
 
     // Format the time to a string in ISO 8601 format with milliseconds
     now.to_rfc3339_opts(SecondsFormat::Millis, true)
-}
-
-fn get_linux_flavor() -> io::Result<String> {
-    let os_release_file = File::open("/etc/os-release")?;
-    let reader = BufReader::new(os_release_file);
-
-    // Parse the os-release file to find the PRETTY_NAME
-    for line in reader.lines() {
-        let line = line?;
-        if line.starts_with("PRETTY_NAME") {
-            // Typically the line looks like `PRETTY_NAME="Ubuntu 20.04 LTS"`
-            return Ok(line.split('=').nth(1).unwrap_or("\"Unknown\"").trim_matches('"').to_string());
-        }
-    }
-
-    Ok("Unknown Linux Flavor".to_string())
 }
 
 fn get_sysinfo() -> (String, String, String, String) {
