@@ -94,45 +94,49 @@ trap cleanup EXIT  # Register the cleanup function to be called on script exit.
 
 TMP_DIR=$(mktemp -d)
 
-# Check Ubuntu Version Function
+# Check OS Version Function
 #
 # Purpose:
-#   This function checks if the current operating system is Ubuntu 24.04 or Linux Mint 22. It does this by reading
-#   the /etc/os-release file, which contains identification data for the operating system.
+#   This function checks if the current operating system is Ubuntu 24.04, Linux Mint 22, or Kali Linux 2024.2 or newer.
+#   It reads the /etc/os-release file, which contains identification data for the operating system.
 #
 # Behavior:
 #   1. The function first checks if the /etc/os-release file exists.
 #   2. If the file exists, it sources the file to load the OS identification variables.
-#   3. It then checks if the ID variable is set to "ubuntu" and the VERSION_ID variable is set to "24.04",
-#      or if the ID variable is set to "linuxmint" and the VERSION_ID variable is set to "22".
-#   4. If either set of conditions is met, the function returns 0 (indicating success).
-#   5. If neither set of conditions is met, the function returns 1 (indicating failure).
+#   3. It then checks if:
+#       - The ID variable is set to "ubuntu" and the VERSION_ID variable is "24.04",
+#       - The ID variable is "linuxmint" and the VERSION_ID is "22",
+#       - The ID variable is "kali" and the VERSION_ID is "2024.2" or newer.
+#   4. If any of these conditions are met, the function returns 0 (indicating success).
+#   5. If none of these conditions are met, the function returns 1 (indicating failure).
 #
 # Usage:
-#   This function can be called to determine if special handling is needed for Ubuntu 24.04 or Linux Mint 22, such as
-#   installing additional libraries or making compatibility adjustments.
+#   This function can be called to determine if special handling is needed for these specific versions of
+#   Ubuntu, Linux Mint, or Kali Linux, such as installing additional libraries or making compatibility adjustments.
 #
 # Example:
-#   if check_ubuntu_version; then
-#     echo "Ubuntu 24.04 or Linux Mint 22 detected."
+#   if check_os_version; then
+#     echo "Supported OS version detected."
 #   else
-#     echo "Neither Ubuntu 24.04 nor Linux Mint 22."
+#     echo "Unsupported OS version."
 #   fi
 #
 # Notes:
 #   - This function assumes that the /etc/os-release file follows the standard format for Linux OS
-#     identification.
+#     identification and that the distribution's identifiers are consistent with those specified in the script.
 
-check_ubuntu_version() {
+
+check_os_version() {
     if [ -f /etc/os-release ]; then
         . /etc/os-release
-        if [[ "$ID" = "ubuntu" && "$VERSION_ID" = "24.04" ]] || [[ "$ID" = "linuxmint" && "$VERSION_ID" = "22" ]]; then
-            return 0  # Ubuntu 24.04 or Linux Mint 22 detected
+        if [[ "$ID" = "ubuntu" && "$VERSION_ID" = "24.04" ]] || 
+           [[ "$ID" = "linuxmint" && "$VERSION_ID" = "22" ]] ||
+           ([[ "$ID" = "kali" ]] && [[ "$VERSION_ID" > "2024.2" ]] || [[ "$VERSION_ID" == "2024.2" ]]); then
+            return 0  # Ubuntu 24.04, Linux Mint 22, or Kali Linux 2024.2 or newer detected
         fi
     fi
-    return 1  # Neither Ubuntu 24.04 nor Linux Mint 22
+    return 1  # None of the specified versions detected
 }
-
 
 # Create Invocation Script Function
 #
@@ -304,7 +308,7 @@ download_and_install_gtk() {
   #   - This piece of code should only be executed if the package manager does not distribute
   #     libgtk or if the version provided by the package manager is not compatible with Phoenix Code.
 
-  local URL_PREFIX="https://github.com/phcode-dev/dependencies/releases/download/v1.0.2/"
+  local URL_PREFIX="https://github.com/phcode-dev/dependencies/releases/download/v1.0.3/"
   local GTK_FILE="gtk.tar.xz"
   local WEBKIT2GTK_FILE="webkit2gtk-4.0.tar.xz"
 
@@ -456,7 +460,7 @@ verify_and_install_dependencies() {
     echo "Application launch verification successful."
     return 0
   else
-    if check_ubuntu_version; then
+    if check_os_version; then
       echo -e "${YELLOW}Ubuntu 24.04 detected. Attempting to download and install GTK and WebKit2GTK...${RESET}"
       download_and_install_gtk
       create_launch_script_with_gtk "$TMP_DIR/phoenix-code"
