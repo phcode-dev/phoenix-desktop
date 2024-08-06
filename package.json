@@ -41,7 +41,7 @@
     },
     "devDependencies": {
         "@tauri-apps/cli": "1.5.14",
-        "adm-zip": "0.5.14",
+        "adm-zip": "0.5.15",
         "chalk": "^5.3.0",
         "chokidar-cli": "^3.0.0",
         "execa": "^9.0.0",
