@@ -14,7 +14,7 @@ rust-version = "1.70"
 tauri-build = { version = "1.5.1", features = [] }
 
 [dependencies]
-reqwest = { version = "0.11", features = ["json"] }
+reqwest = { version = "0.12", features = ["json"] }
 tokio = { version = "1.0", features = ["full"] }
 os_info = "3"
 chrono = "0.4"
