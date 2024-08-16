@@ -183,7 +183,8 @@ export default async function printStuff({github, context, githubWorkspaceRoot})
             "phcode.io.DownloadURL": {
                 "windows_x64": windowsDownloadURL,
                 "mac_m1": macM1DownloadURL,
-                "mac_intel": macIntelDownloadURL
+                "mac_intel": macIntelDownloadURL,
+                "chrome_os": "https://play.google.com/store/apps/details?id=prod.phcode.twa"
             }
         };
         installJSON = JSON.stringify(installJSON, null, 4);
