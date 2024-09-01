@@ -114,6 +114,31 @@ fn _get_clipboard_files() -> Option<Vec<String>> {
     }
 }
 
+#[tauri::command]
+fn _open_url_in_browser_win(url: String, browser: String) -> Result<(), String> {
+    #[cfg(target_os = "windows")]
+    {
+        let browser_path = match browser.as_str() {
+                "firefox" => "C:\\Program Files\\Mozilla Firefox\\firefox.exe",
+                "chrome" => "C:\\Program Files\\Google\\Chrome\\Application\\chrome.exe",
+                "edge" => "C:\\Program Files (x86)\\Microsoft\\Edge\\Application\\msedge.exe",
+                _ => return Err(format!("Browser '{}' is not supported.", browser))
+            };
+
+            // Spawn the browser process without waiting for it to finish
+            Command::new(browser_path)
+                .arg(url)
+                .spawn()
+                .map_err(|e| format!("Failed to open URL in {}: {}", browser, e.to_string()))?;
+
+            Ok(())
+    }
+    #[cfg(not(target_os = "windows"))]
+    {
+        Err("This API is only supported on Windows.".to_string())
+    }
+}
+
 // this in memory hashmap is used to supplement the LMDB node layer in a multi window environment.
 struct Storage {
     map: Mutex<HashMap<String, String>>,
@@ -412,7 +437,8 @@ fn main() {
             toggle_devtools, console_log, console_error, _get_commandline_args, get_current_working_dir,
             _get_window_labels,
             put_item, get_item, get_all_items, delete_item,
-            _get_windows_drives, _rename_path, show_in_folder, move_to_trash, zoom_window, _get_clipboard_files])
+            _get_windows_drives, _rename_path, show_in_folder, move_to_trash, zoom_window,
+            _get_clipboard_files, _open_url_in_browser_win])
         .setup(|app| {
             init::init_app(app);
             #[cfg(target_os = "linux")]
