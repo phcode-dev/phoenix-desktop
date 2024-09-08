@@ -263,8 +263,7 @@ install_dependencies() {
       ;;
     arch|manjaro)
       echo "Detected an Arch Linux based distribution."
-      sudo pacman -Syu
-      sudo pacman -S webkit2gtk gtk3
+      yes | sudo pacman -S webkit2gtk gtk3
       ;;
     *)
       echo "Unsupported distribution. Please manually install the required dependencies."
