@@ -196,7 +196,7 @@
             "resources": [
                 "src-node/*"
             ],
-            "shortDescription": "Phoenix is a modern open-source IDE for the web, built for the browser",
+            "shortDescription": "Phoenix Code",
             "targets": [
                 "appimage",
                 "nsis",
