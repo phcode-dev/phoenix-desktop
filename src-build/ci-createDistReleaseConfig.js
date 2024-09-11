@@ -85,6 +85,7 @@ async function ciCreateDistReleaseConfig() {
     // configJson.tauri.bundle.active = false; // #uncomment_line_for_local_build_1
     configJson.package.version = phoenixVersion;
     configJson.package.productName = _getProductName(configJson.package.productName, phoenixStage);
+    configJson.tauri.bundle.shortDescription = configJson.package.productName;
     console.log("Product name is: ", configJson.package.productName);
     configJson.tauri.windows[0].title = configJson.package.productName;
     if(os.platform() === 'win32'){
