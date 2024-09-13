@@ -1,7 +1,7 @@
 [package]
 name = "phoenix-code-ide"
 version = "3.9.4"
-description = "Phoenix is a modern open-source IDE for the web, built for the browser."
+description = "Phoenix Code"
 authors = ["arun@core.ai, charly@core.ai"]
 license = "GNU AGPL 3.0"
 repository = "https://github.com/phcode-dev/phoenix-desktop"
