@@ -184,7 +184,8 @@
                 "icons/icon.ico"
             ],
             "identifier": "io.phcode.dev",
-            "longDescription": "Phoenix is a modern open-source IDE for the web, built for the browser",
+            "shortDescription": "Phoenix Code Experimental Build",
+            "longDescription": "Phoenix Code Experimental Build",
             "macOS": {
                 "entitlements": "../entitlements.plist",
                 "exceptionDomain": "localhost",
@@ -196,7 +197,6 @@
             "resources": [
                 "src-node/*"
             ],
-            "shortDescription": "Phoenix Code Experimental Build",
             "targets": [
                 "appimage",
                 "nsis",
