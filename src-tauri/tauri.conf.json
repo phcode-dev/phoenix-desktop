@@ -196,7 +196,7 @@
             "resources": [
                 "src-node/*"
             ],
-            "shortDescription": "Phoenix Code",
+            "shortDescription": "Phoenix Code Experimental Build",
             "targets": [
                 "appimage",
                 "nsis",
