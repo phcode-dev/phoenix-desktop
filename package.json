@@ -40,7 +40,7 @@
         "getPackageVersion": "node ./src-build/getVersion.js"
     },
     "devDependencies": {
-        "@tauri-apps/cli": "1.6.1",
+        "@tauri-apps/cli": "1.6.3",
         "adm-zip": "0.5.16",
         "chalk": "^5.3.0",
         "chokidar-cli": "^3.0.0",
