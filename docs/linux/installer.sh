@@ -46,7 +46,6 @@ declare -a MIME_TYPES=(
     "text/mjs"
     "application/mjs"
     "text/cjs"
-    "inode/directory"  # Added to include directory handling
 )
 
 
@@ -482,8 +481,8 @@ set_default_application() {
   local desktop_file="$DESKTOP_ENTRY_NAME"  # Name of the Phoenix Code desktop entry file
 
   for mime_type in "${MIME_TYPES[@]}"; do
-      # Skip setting default application for inode/directory and text/html
-      if [ "$mime_type" = "inode/directory" ] || [ "$mime_type" = "text/html" ]; then
+      # Skip setting default application for text/html
+      if [ "$mime_type" = "text/html" ]; then
           continue  # Skip to the next iteration
       fi
 
