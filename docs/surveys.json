@@ -1,8 +1,12 @@
 {
   "newUser": "https://s.surveyplanet.com/jssqbld8",
   "powerUser": "https://s.surveyplanet.com/v3j59a7z",
+  "newUserShowDelayMS": 1200000,
+  "powerUserShowIntervalDays": 35,
   "browser": {
     "newUser": "https://s.surveyplanet.com/5lrpp9ud",
-    "powerUser": "https://s.surveyplanet.com/wtohpj8x"
+    "powerUser": "https://s.surveyplanet.com/wtohpj8x",
+    "newUserShowDelayMS": 1200000,
+    "powerUserShowIntervalDays": 35
   }
 }
