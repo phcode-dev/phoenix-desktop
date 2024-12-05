@@ -78,7 +78,7 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        platform: [ macos-12, windows-latest ]
+        platform: [ macos-13, windows-latest ]
 
     runs-on: ${{ matrix.platform }}
     steps:
@@ -92,7 +92,7 @@ jobs:
           node-version: 20
 
       - name: Download src-node built on mac arm (Mac only)
-        if: matrix.platform == 'macos-12'
+        if: matrix.platform == 'macos-13'
         uses: actions/download-artifact@v4
         with:
           name: src-node-darwin-arm64.tar.gz
@@ -108,7 +108,7 @@ jobs:
           npm run _ci-release:prod
 
       - name: setup src-node built on mac arm (Mac only)
-        if: matrix.platform == 'macos-12'
+        if: matrix.platform == 'macos-13'
         run: |
           ls /tmp/src-node-darwin-arm64.tar.gz
           rm -rf src-node
@@ -162,7 +162,7 @@ jobs:
         shell: powershell
 
       - name: Sign embedded executables for (Mac Only)
-        if: matrix.platform == 'macos-12'
+        if: matrix.platform == 'macos-13'
         env :
           APPLE_KEY_IDENTITY_NAME: ${{ secrets.APPLE_KEY_IDENTITY_NAME }}
           APPLE_CERTIFICATE: ${{ secrets.APPLE_CERTIFICATE }}
@@ -230,7 +230,7 @@ jobs:
           tagName: ${{ env.GIT_TAG_NAME }}
 
       - name: inject src-node built on mac arm (Mac only)
-        if: matrix.platform == 'macos-12'
+        if: matrix.platform == 'macos-13'
         run: |
           ls src-node
           rm -rf src-tauri/src-node
@@ -240,12 +240,12 @@ jobs:
       - name: setup env for mac arm (Mac only)
         env:
           GH_TOKEN: ${{ github.token }}
-        if: matrix.platform == 'macos-12'
+        if: matrix.platform == 'macos-13'
         run: |
           rustup target add aarch64-apple-darwin
           npm run installNodeArmDarwin
       - name: build for mac arm (Mac only)
-        if: matrix.platform == 'macos-12'
+        if: matrix.platform == 'macos-13'
         uses: tauri-apps/tauri-action@v0
         env:
           GITHUB_TOKEN: ${{ github.token }}
