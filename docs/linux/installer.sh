@@ -128,11 +128,19 @@ TMP_DIR=$(mktemp -d)
 check_os_version() {
     if [ -f /etc/os-release ]; then
         . /etc/os-release
-        if [[ "$ID" = "ubuntu" && "$VERSION_ID" = "24.04" ]] || 
-           [[ "$ID" = "linuxmint" && "$VERSION_ID" = "22" ]] ||
-           ([[ "$ID" = "kali" ]] && [[ "$VERSION_ID" > "2024.2" ]] || [[ "$VERSION_ID" == "2024.2" ]]); then
-            return 0  # Ubuntu 24.04, Linux Mint 22, or Kali Linux 2024.2 or newer detected
-        fi
+
+        # Define supported OS and version combinations
+        case "$ID:$VERSION_ID" in
+            ubuntu:24.04|ubuntu:24.10)  # Ubuntu 24.04 or 24.10
+                return 0
+                ;;
+            linuxmint:22)              # Linux Mint 22
+                return 0
+                ;;
+            kali:2024.2|kali:2024.[3-9]|kali:20[2-9][0-9].[0-9]) # Kali 2024.2 or newer
+                return 0
+                ;;
+        esac
     fi
     return 1  # None of the specified versions detected
 }
