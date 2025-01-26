@@ -128,21 +128,20 @@ TMP_DIR=$(mktemp -d)
 check_os_version() {
     if [ -f /etc/os-release ]; then
         . /etc/os-release
-
         # Define supported OS and version combinations
-        case "$ID:$VERSION_ID" in
-            ubuntu:24.04|ubuntu:24.10)  # Ubuntu 24.04 or 24.10
+        case "$ID:${VERSION_ID%%.*}" in  # Extract major version number
+            ubuntu:24)                    # Ubuntu 24.x
                 return 0
                 ;;
-            linuxmint:22)              # Linux Mint 22
+            linuxmint:22)                # Linux Mint 22.x
                 return 0
                 ;;
-            kali:2024.2|kali:2024.[3-9]|kali:20[2-9][0-9].[0-9]) # Kali 2024.2 or newer
+            kali:2024|kali:20[2-9][0-9]) # Kali 2024.x or newer
                 return 0
                 ;;
         esac
     fi
-    return 1  # None of the specified versions detected
+    return 1
 }
 
 # Create Invocation Script Function
