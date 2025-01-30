@@ -201,7 +201,6 @@
                 "appimage",
                 "nsis",
                 "app",
-                "dmg",
                 "updater"
             ],
             "windows": {

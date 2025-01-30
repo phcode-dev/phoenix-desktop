@@ -372,6 +372,110 @@ jobs:
         env:
           GITHUB_TOKEN: ${{ github.token }}
 
+  copyMacAppWithVersion:
+    name: Copy Mac .app Files With Version
+    needs: [ create-release, build-tauri, build-linux-bins ]
+    runs-on: ubuntu-22.04
+    permissions:
+      contents: write
+    steps:
+      - uses: actions/checkout@v4
+
+      # Recompute or ensure we have PACKAGE_VERSION and GIT_TAG_NAME in the env
+      - name: get version
+        run: |
+          echo "PACKAGE_VERSION=$(node -p \"require('./package.json').version\")" >> $GITHUB_ENV
+          echo "GIT_TAG_NAME=prod-app-v$(node -p \"require('./package.json').version\")" >> $GITHUB_ENV
+
+      #
+      # 1) Download the x64 .app.tar.gz from the existing draft release
+      #
+      - name: Download x64 Mac asset
+        id: download_x64
+        uses: actions/github-script@v7
+        with:
+          script: |
+            const fs = require("fs");
+            const { data: release } = await github.rest.repos.getRelease({
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              release_id:  parseInt("${{ needs.create-release.outputs.release_id }}", 10)
+            });
+            const asset = release.assets.find(a => a.name === "Phoenix.Code_x64.app.tar.gz");
+            if (!asset) {
+              core.setFailed("Could not find 'Phoenix.Code_x64.app.tar.gz' in draft release assets.");
+              return;
+            }
+            // Download the asset
+            const download = await github.rest.repos.getReleaseAsset({
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              asset_id: asset.id,
+              headers: {
+                accept: "application/octet-stream"
+              }
+            });
+            fs.writeFileSync("Phoenix.Code_x64.app.tar.gz", Buffer.from(download.data));
+
+      #
+      # 2) Download the aarch64 .app.tar.gz from the existing draft release
+      #
+      - name: Download aarch64 Mac asset
+        id: download_aarch64
+        uses: actions/github-script@v7
+        with:
+          script: |
+            const fs = require("fs");
+            const { data: release } = await github.rest.repos.getRelease({
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              release_id: parseInt("${{ needs.create-release.outputs.release_id }}", 10)
+            });
+            const asset = release.assets.find(a => a.name === "Phoenix.Code_aarch64.app.tar.gz");
+            if (!asset) {
+              core.setFailed("Could not find 'Phoenix.Code_aarch64.app.tar.gz' in draft release assets.");
+              return;
+            }
+            // Download the asset
+            const download = await github.rest.repos.getReleaseAsset({
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              asset_id: asset.id,
+              headers: {
+                accept: "application/octet-stream"
+              }
+            });
+            fs.writeFileSync("Phoenix.Code_aarch64.app.tar.gz", Buffer.from(download.data));
+
+      #
+      # 3) Rename each asset with the version appended
+      #
+      - name: Rename Mac assets to include version
+        run: |
+          echo "Renaming x64 Mac app..."
+          mv Phoenix.Code_x64.app.tar.gz "Phoenix.Code_x64_${PACKAGE_VERSION}_intel.app.tar.gz"
+
+          echo "Renaming aarch64 Mac app..."
+          mv Phoenix.Code_aarch64.app.tar.gz "Phoenix.Code_aarch64_${PACKAGE_VERSION}_M1.app.tar.gz"
+
+          echo "Final check of renamed files:"
+          ls -lh
+
+      #
+      # 4) Re-upload them to the draft release with new filenames. This is needed for download from web workflows
+      #
+      - name: Upload renamed Mac app tarballs to draft release
+        uses: softprops/action-gh-release@v2
+        with:
+          release_id: ${{ needs.create-release.outputs.release_id }}
+          draft: true
+          tag_name: ${{ env.GIT_TAG_NAME }}
+          files: |
+            Phoenix.Code_x64_${{ env.PACKAGE_VERSION }}_intel.app.tar.gz
+            Phoenix.Code_aarch64_${{ env.PACKAGE_VERSION }}_M1.app.tar.gz
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
   publish-release:
     permissions:
       contents: write
