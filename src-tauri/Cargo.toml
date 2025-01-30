@@ -1,6 +1,6 @@
 [package]
 name = "phoenix-code-ide"
-version = "4.0.0"
+version = "4.0.1"
 description = "Phoenix Code"
 authors = ["arun@core.ai, charly@core.ai"]
 license = "GNU AGPL 3.0"
