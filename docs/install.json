@@ -1,8 +1,8 @@
 {
     "phcode.io.DownloadURL": {
-        "windows_x64": "https://github.com/phcode-dev/phoenix-desktop/releases/download/prod-app-v3.10.0/Phoenix.Code_3.10.0_x64-setup.exe",
-        "mac_m1": "https://github.com/phcode-dev/phoenix-desktop/releases/download/prod-app-v3.10.0/Phoenix.Code_3.10.0_aarch64.dmg",
-        "mac_intel": "https://github.com/phcode-dev/phoenix-desktop/releases/download/prod-app-v3.10.0/Phoenix.Code_3.10.0_x64.dmg",
+        "windows_x64": "https://github.com/phcode-dev/phoenix-desktop/releases/download/prod-app-v4.0.3/Phoenix.Code_4.0.3_x64-setup.exe",
+        "mac_m1": "https://github.com/phcode-dev/phoenix-desktop/releases/download/prod-app-v4.0.3/Phoenix.Code_4.0.3_aarch64.dmg",
+        "mac_intel": "https://github.com/phcode-dev/phoenix-desktop/releases/download/prod-app-v4.0.3/Phoenix.Code_4.0.3_x64.dmg",
         "chrome_os": "https://play.google.com/store/apps/details?id=prod.phcode.twa"
     }
 }
