@@ -15,7 +15,7 @@
   "features": [
     {
       "title": "Live Preview",
-      "subtitle": "See your HTML and CSS code changes instantly, without page reloads! Use powerful UI tools like the colour editor to tweak background and text colours, adjust font sizes and border-radius with number dials, or explore page layouts with live code hints. <a href='https://docs.phcode.dev/docs/Features/live-preview/' target='blank'>Read more...</a>",
+      "subtitle": "See your HTML and CSS code changes instantly, without page reloads! Use powerful UI tools like the colour editor to tweak background and text colours, adjust font sizes and border-radius with number dials, or explore page layouts with live code hints. <a href='https://docs.phcode.dev/docs/Features/Live%20Preview/live-preview' target='blank'>Read more...</a>",
       "titleIconSrc": "assets/images/preview_o.png",
       "videoSrc": "https://docs-images.phcode.dev/videos/phcode.io-site/live_preview.mp4"
     },
