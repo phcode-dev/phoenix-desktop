@@ -257,12 +257,12 @@ fn zoom_window(window: tauri::Window, scale_factor: f64) {
       });
 }
 
-fn process_window_event(event: &GlobalWindowEvent) {
-    if let tauri::WindowEvent::CloseRequested { .. } = event.event() {
-        // this does nothing and is here if in future you need to persist something on window close.
-        boot_config::write_boot_config(1);
-    }
-}
+// here in case you need to process windows events
+// fn process_window_event(event: &GlobalWindowEvent) {
+//     if let tauri::WindowEvent::CloseRequested { .. } = event.event() {
+//         // this does nothing and is here if in future you need to persist something on window close.
+//     }
+// }
 
 // convert url of form "protocol://host/v1.2.3/path/to/something" to "protocol://host/path/to/something"
 fn remove_version_from_url(url: &str) -> String {
@@ -431,7 +431,7 @@ fn main() {
 
                     app.emit_all("single-instance", Payload { args: argv, cwd }).unwrap();
                 }))
-        .on_window_event(|event| process_window_event(&event))
+        //.on_window_event(|event| process_window_event(&event))
         .invoke_handler(tauri::generate_handler![
             get_mac_deep_link_requests, get_process_id,
             toggle_devtools, console_log, console_error, _get_commandline_args, get_current_working_dir,
@@ -440,7 +440,14 @@ fn main() {
             _get_windows_drives, _rename_path, show_in_folder, move_to_trash, zoom_window,
             _get_clipboard_files, _open_url_in_browser_win])
         .setup(|app| {
-            init::init_app(app);
+            let boot_config = init::init_app(app);
+
+            if boot_config.start_as_hidden_window {
+                if let Some(main_window) = app.get_window("main") {
+                    main_window.hide().expect("Failed to hide main window");
+                }
+            }
+
             #[cfg(target_os = "linux")]
             {
                 // In linux, f10 key press events are reserved for gtk-menu-bar-accel and not passed.

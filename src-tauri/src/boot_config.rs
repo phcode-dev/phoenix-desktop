@@ -15,7 +15,8 @@ pub static APP_CONSTANTS: OnceCell<AppConstants> = OnceCell::new();
 
 #[derive(Serialize)]
 pub struct BootConfig {
-    pub version: u32
+    pub version: u32,
+    pub start_as_hidden_window: bool,
 }
 static BOOT_CONFIG_FILE_NAME: &'static str = "boot_config.json";
 
@@ -26,15 +27,17 @@ fn get_boot_config_file_path(app_local_data_dir: &PathBuf) -> PathBuf {
 }
 
 fn _set_boot_config(boot_config: &mut BootConfig, value: &Value) {
-    boot_config.version = match value["version"].as_u64() {
-        Some(value) => value as u32,
-        None => 0
-    };
+    boot_config.version = value["version"].as_u64().map(|v| v as u32).unwrap_or(0);
+
+    boot_config.start_as_hidden_window = value["start_as_hidden_window"]
+        .as_bool()
+        .unwrap_or(false); // Default to `false` if missing or invalid
 }
 
 pub fn read_boot_config() -> BootConfig {
     let mut boot_config = BootConfig {
-        version: 1
+        version: 1,
+        start_as_hidden_window: false
     };
     if let Some(app_constants) = APP_CONSTANTS.get() {
         let boot_config_file_path = get_boot_config_file_path(&app_constants.app_local_data_dir);
@@ -50,20 +53,4 @@ pub fn read_boot_config() -> BootConfig {
     return boot_config;
 }
 
-fn _write_boot_config(boot_config: &BootConfig) {
-    if let Some(app_constants) = APP_CONSTANTS.get() {
-        let boot_config_file_path = get_boot_config_file_path(&app_constants.app_local_data_dir);
-        // Convert the BootConfig struct to JSON
-        let json_string = serde_json::to_string(boot_config).unwrap();
-        let mut file = File::create(boot_config_file_path).expect("Failed to create file");
-        file.write_all(json_string.as_bytes())
-            .expect("Failed to write to boot config file");   
-    }
-}
-
-// WARNING: If there are multiple windows, this will be called on each window close.
-pub fn write_boot_config(version: u32) {
-    _write_boot_config(&BootConfig {
-         version
-     })
-}
+// writing the boot config is always done from js to be simpler, as js is eazier to handle json.
