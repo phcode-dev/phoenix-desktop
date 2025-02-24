@@ -36,8 +36,10 @@ use native_dialog::{MessageDialog, MessageType};
 use regex::Regex;
 extern crate percent_encoding;
 use tauri::http::ResponseBuilder;
-use tauri::GlobalWindowEvent;
-mod init;
+use tauri::api::path::app_local_data_dir;
+use tauri::generate_context;
+use crate::utilities::ensure_dir_exists;
+use crate::boot_config::read_boot_config;
 mod bugsnag;
 mod utilities;
 mod boot_config;
@@ -258,6 +260,7 @@ fn zoom_window(window: tauri::Window, scale_factor: f64) {
 }
 
 // here in case you need to process windows events
+// use tauri::GlobalWindowEvent;
 // fn process_window_event(event: &GlobalWindowEvent) {
 //     if let tauri::WindowEvent::CloseRequested { .. } = event.event() {
 //         // this does nothing and is here if in future you need to persist something on window close.
@@ -366,6 +369,28 @@ fn main() {
         tauri_plugin_deep_link::prepare("io.phcode");
     }
 
+    let context = generate_context!();
+    let mut tauri_config = context.config().clone(); // Clone the config to modify it
+
+    // Get the app data directory before Tauri starts
+    let app_data_dir: Option<PathBuf> = app_local_data_dir(&tauri_config);
+
+    if let Some(dir) = &app_data_dir {
+        println!("App Data Directory: {}", dir.display());
+        ensure_dir_exists(dir);
+    } else {
+        eprintln!("Failed to retrieve app data directory.");
+    }
+
+    let boot_config = read_boot_config(&app_data_dir);
+
+    // Modify the first window's visibility based on boot_config.start_as_hidden_window
+    if let Some(first_window) = tauri_config.tauri.windows.get_mut(0) {
+        if !boot_config.start_as_hidden_window {
+            first_window.visible = true;
+        }
+    }
+
     // warning: any string that resembles the following strings will be rewritten in source in prod by build scripts.
     // This is so that app bundle IDs are correct. IF they are app bundle IDs use the strings. else dont.
     // do not use strings: "io.phcode.dev" "io.phcode.staging" "io.phcode" for anything other than bundle identifiers
@@ -439,15 +464,7 @@ fn main() {
             put_item, get_item, get_all_items, delete_item,
             _get_windows_drives, _rename_path, show_in_folder, move_to_trash, zoom_window,
             _get_clipboard_files, _open_url_in_browser_win])
-        .setup(|app| {
-            let boot_config = init::init_app(app);
-
-            if boot_config.start_as_hidden_window {
-                if let Some(main_window) = app.get_window("main") {
-                    main_window.hide().expect("Failed to hide main window");
-                }
-            }
-
+        .setup(move |_app| {
             #[cfg(target_os = "linux")]
             {
                 // In linux, f10 key press events are reserved for gtk-menu-bar-accel and not passed.
@@ -478,6 +495,6 @@ fn main() {
             }
             Ok(())
         })
-        .run(tauri::generate_context!())
+        .run(context)
         .expect("error while running tauri application");
 }

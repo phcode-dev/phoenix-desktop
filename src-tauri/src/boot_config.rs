@@ -1,29 +1,18 @@
-use std::sync::Arc;
-use once_cell::sync::OnceCell;
 use serde_json::Value;
 use serde::Serialize;
 use crate::utilities::read_json_file;
-use std::path::PathBuf;
-use std::fs::File;
-use std::io::Write;
-
-pub struct AppConstants {
-    pub tauri_config : Arc<tauri::Config>,
-    pub app_local_data_dir: std::path::PathBuf
-}
-pub static APP_CONSTANTS: OnceCell<AppConstants> = OnceCell::new();
+use std::path::{Path, PathBuf};
 
 #[derive(Serialize)]
 pub struct BootConfig {
     pub version: u32,
     pub start_as_hidden_window: bool,
 }
-static BOOT_CONFIG_FILE_NAME: &'static str = "boot_config.json";
 
-fn get_boot_config_file_path(app_local_data_dir: &PathBuf) -> PathBuf {
-    let mut config_file_path = app_local_data_dir.clone();
-    config_file_path.push(BOOT_CONFIG_FILE_NAME);
-    return config_file_path;
+fn get_boot_config_file_path(base_path: &Path) -> PathBuf {
+    let mut config_file_path = base_path.to_path_buf();
+    config_file_path.push("boot_config.json");
+    config_file_path
 }
 
 fn _set_boot_config(boot_config: &mut BootConfig, value: &Value) {
@@ -34,23 +23,31 @@ fn _set_boot_config(boot_config: &mut BootConfig, value: &Value) {
         .unwrap_or(false); // Default to `false` if missing or invalid
 }
 
-pub fn read_boot_config() -> BootConfig {
+/// Reads boot_config.json from the given `Option<PathBuf>`.
+/// If `None` is provided, it returns a default `BootConfig`.
+pub fn read_boot_config(base_path: &Option<PathBuf>) -> BootConfig {
     let mut boot_config = BootConfig {
         version: 1,
-        start_as_hidden_window: false
+        start_as_hidden_window: false,
     };
-    if let Some(app_constants) = APP_CONSTANTS.get() {
-        let boot_config_file_path = get_boot_config_file_path(&app_constants.app_local_data_dir);
+
+    if let Some(ref path) = base_path {
+        let boot_config_file_path = get_boot_config_file_path(path);
+
         match read_json_file(&boot_config_file_path) {
-            Some(value) =>{
+            Some(value) => {
                 _set_boot_config(&mut boot_config, &value);
             }
             None => {
-                eprintln!("No boot restore config file found {}", boot_config_file_path.display());
+                eprintln!(
+                    "No boot restore config file found at {}",
+                    boot_config_file_path.display()
+                );
             }
         }
+    } else {
+        eprintln!("Base path is None, using default boot config.");
     }
-    return boot_config;
-}
 
-// writing the boot config is always done from js to be simpler, as js is eazier to handle json.
+    boot_config
+}
