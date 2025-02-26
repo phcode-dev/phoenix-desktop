@@ -136,6 +136,10 @@ check_os_version() {
             linuxmint:22)                # Linux Mint 22.x
                 return 0
                 ;;
+            neon:24)                     # KDE Neon 24.x
+                return 0
+                ;;
+
             kali:2024|kali:20[2-9][0-9]) # Kali 2024.x or newer
                 return 0
                 ;;
@@ -313,7 +317,7 @@ download_and_install_gtk() {
   #   - This piece of code should only be executed if the package manager does not distribute
   #     libgtk or if the version provided by the package manager is not compatible with Phoenix Code.
 
-  local URL_PREFIX="https://github.com/phcode-dev/dependencies/releases/download/v1.0.3/"
+  local URL_PREFIX="https://github.com/phcode-dev/dependencies/releases/download/v1.0.4/"
   local GTK_FILE="gtk.tar.xz"
   local WEBKIT2GTK_FILE="webkit2gtk-4.0.tar.xz"
 
