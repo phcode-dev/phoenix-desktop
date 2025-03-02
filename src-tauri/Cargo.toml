@@ -36,6 +36,7 @@ fix-path-env = { git = "https://github.com/tauri-apps/fix-path-env-rs" }
 keyring = "2.3.3"
 totp-rs = "5.6.0"
 base32 = "0.5.1"
+whoami = "1.5.2"
 
 [target.'cfg(target_os = "windows")'.dependencies]
 native-dialog = "0.7.0"

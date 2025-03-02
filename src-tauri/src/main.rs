@@ -51,6 +51,7 @@ use totp_rs::{Algorithm, Secret, TOTP};
 use std::time::{SystemTime, UNIX_EPOCH};
 use serde_json::json;
 use base32::{Alphabet, encode as base32_encode};
+use whoami;
 
 #[derive(Clone, serde::Serialize)]
 struct Payload {
@@ -305,6 +306,14 @@ fn get_mac_deep_link_requests() -> Vec<String> {
 
 const PHOENIX_CRED_PREFIX: &str = "phcode_";
 
+fn get_username() -> String {
+    // Ensure a fallback username in case retrieval fails
+    match whoami::username().as_str() {
+        "" => "unknown_user".to_string(), // Fallback if username is empty
+        username => username.to_string(), // Otherwise, use the retrieved username
+    }
+}
+
 //  Stores or updates the sessionID and OTP seed securely. The otp_seed can never be read from js and only
 // the 30-second valid t-otp can be read. this helps improving security posture with auth flows as
 // unsecure extensions are not being able to get long term session tokens.
@@ -313,11 +322,12 @@ const PHOENIX_CRED_PREFIX: &str = "phcode_";
 #[tauri::command]
 fn store_credential(scope_name: String, session_id: String, otp_seed: String) -> Result<(), String> {
     let service = format!("{}{}", PHOENIX_CRED_PREFIX, scope_name); // Unique service name per scope
+    let user = get_username();
 
     // Combine sessionID and OTP seed into one stored value
     let credential_data = format!("{}|{}", session_id, otp_seed);
 
-    let entry = Entry::new(&service, "default_user").map_err(|e| e.to_string())?;
+    let entry = Entry::new(&service, &user).map_err(|e| e.to_string())?;
     entry.set_password(&credential_data).map_err(|e| e.to_string())?;
 
     Ok(())
@@ -327,8 +337,9 @@ fn store_credential(scope_name: String, session_id: String, otp_seed: String) ->
 #[tauri::command]
 fn delete_credential(scope_name: String) -> Result<(), String> {
     let service = format!("{}{}", PHOENIX_CRED_PREFIX, scope_name);
+    let user = get_username();
 
-    let entry = Entry::new(&service, "default_user").map_err(|e| e.to_string())?;
+    let entry = Entry::new(&service, &user).map_err(|e| e.to_string())?;
     entry.delete_password().map_err(|e| e.to_string())?;
 
     Ok(())
@@ -338,7 +349,8 @@ fn delete_credential(scope_name: String) -> Result<(), String> {
 #[tauri::command]
 fn get_credential_otp(scope_name: String) -> serde_json::Value {
     let service = format!("{}{}", PHOENIX_CRED_PREFIX, scope_name);
-    let entry = match Entry::new(&service, "default_user") {
+    let user = get_username();
+    let entry = match Entry::new(&service, &user) {
         Ok(entry) => entry,
         Err(_) => return json!({ "err_code": "CREDENTIAL_ERROR" }), // Error creating keyring entry
     };
