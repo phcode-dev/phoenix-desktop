@@ -46,6 +46,12 @@ use trash;
 mod platform;
 use tauri_plugin_window_state::StateFlags;
 
+use keyring::Entry;
+use totp_rs::{Algorithm, Secret, TOTP};
+use std::time::{SystemTime, UNIX_EPOCH};
+use serde_json::json;
+use base32::{Alphabet, encode as base32_encode};
+
 #[derive(Clone, serde::Serialize)]
 struct Payload {
   args: Vec<String>,
@@ -297,6 +303,89 @@ fn get_mac_deep_link_requests() -> Vec<String> {
     }
 }
 
+const PHOENIX_CRED_PREFIX: &str = "phcode_";
+
+//  Stores or updates the sessionID and OTP seed securely. The otp_seed can never be read from js and only
+// the 30-second valid t-otp can be read. this helps improving security posture with auth flows as
+// unsecure extensions are not being able to get long term session tokens.
+// A compromised extension will need real time control of the editor instance to get the changing session
+// otp to steal user session serving as a deterrent.
+#[tauri::command]
+fn store_credential(scope_name: String, session_id: String, otp_seed: String) -> Result<(), String> {
+    let service = format!("{}{}", PHOENIX_CRED_PREFIX, scope_name); // Unique service name per scope
+
+    // Combine sessionID and OTP seed into one stored value
+    let credential_data = format!("{}|{}", session_id, otp_seed);
+
+    let entry = Entry::new(&service, "default_user").map_err(|e| e.to_string())?;
+    entry.set_password(&credential_data).map_err(|e| e.to_string())?;
+
+    Ok(())
+}
+
+// Deletes a stored credential securely
+#[tauri::command]
+fn delete_credential(scope_name: String) -> Result<(), String> {
+    let service = format!("{}{}", PHOENIX_CRED_PREFIX, scope_name);
+
+    let entry = Entry::new(&service, "default_user").map_err(|e| e.to_string())?;
+    entry.delete_password().map_err(|e| e.to_string())?;
+
+    Ok(())
+}
+
+// credential is applied on seed that is base32:Rfc4648 encoded
+#[tauri::command]
+fn get_credential_otp(scope_name: String) -> serde_json::Value {
+    let service = format!("{}{}", PHOENIX_CRED_PREFIX, scope_name);
+    let entry = match Entry::new(&service, "default_user") {
+        Ok(entry) => entry,
+        Err(_) => return json!({ "err_code": "CREDENTIAL_ERROR" }), // Error creating keyring entry
+    };
+
+    // Retrieve stored credentials
+    let stored_data = match entry.get_password() {
+        Ok(data) => data,
+        Err(keyring::Error::NoEntry) => return json!({ "err_code": "NO_ENTRY" }), // No credentials stored
+        Err(_) => return json!({ "err_code": "RETRIEVE_ERROR" }), // Other keyring errors
+    };
+
+    let parts: Vec<&str> = stored_data.split('|').collect();
+    if parts.len() != 2 {
+        return json!({ "err_code": "INVALID_FORMAT" }); // Data stored incorrectly
+    }
+
+    let session_id = parts[0].to_string();
+    let otp_seed = parts[1];
+
+    // Convert the OTP seed to Base32 (Required for TOTP)
+    let otp_seed_base32 = base32_encode(Alphabet::Rfc4648 { padding: false }, otp_seed.as_bytes());
+
+    // Convert the Base32-encoded OTP seed into a Secret
+    let secret = match Secret::Encoded(otp_seed_base32).to_bytes() {
+        Ok(secret) => secret,
+        Err(_) => return json!({ "err_code": "SECRET_ERROR" }), // Error converting seed
+    };
+
+    // Create a TOTP instance
+    let totp = match TOTP::new(Algorithm::SHA1, 6, 1, 30, secret) {
+        Ok(totp) => totp,
+        Err(_) => return json!({ "err_code": "TOTP_CREATION_ERROR" }), // Error creating TOTP instance
+    };
+
+    // Get the current timestamp (Unix time in seconds)
+    let timestamp = SystemTime::now().duration_since(UNIX_EPOCH).unwrap().as_secs();
+
+    // Generate the OTP
+    let otp = totp.generate(timestamp);
+
+    // Return JSON with sessionID and OTP
+    json!({
+        "session_id": session_id,
+        "totp": otp
+    })
+}
+
 fn main() {
     let args: Vec<String> = env::args().collect();
 
@@ -436,6 +525,7 @@ fn main() {
             get_mac_deep_link_requests, get_process_id,
             toggle_devtools, console_log, console_error, _get_commandline_args, get_current_working_dir,
             _get_window_labels,
+            store_credential, get_credential_otp, delete_credential,
             put_item, get_item, get_all_items, delete_item,
             _get_windows_drives, _rename_path, show_in_folder, move_to_trash, zoom_window,
             _get_clipboard_files, _open_url_in_browser_win])
