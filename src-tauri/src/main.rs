@@ -305,6 +305,7 @@ fn get_mac_deep_link_requests() -> Vec<String> {
 }
 
 const PHOENIX_CRED_PREFIX: &str = "phcode_";
+const MIN_SEED_LENGTH: usize = 10; // Minimum required length for a valid TOTP seed
 
 fn get_username() -> String {
     // Ensure a fallback username in case retrieval fails
@@ -323,6 +324,14 @@ fn get_username() -> String {
 fn store_credential(scope_name: String, session_id: String, otp_seed: String) -> Result<(), String> {
     let service = format!("{}{}", PHOENIX_CRED_PREFIX, scope_name); // Unique service name per scope
     let user = get_username();
+
+    // Check if the seed is too short
+    if otp_seed.len() < MIN_SEED_LENGTH {
+        return Err(format!(
+            "SEED_TOO_SHORT: Seed length must be at least {} characters, but got {}.",
+            MIN_SEED_LENGTH, otp_seed.len()
+        ));
+    }
 
     // Combine sessionID and OTP seed into one stored value
     let credential_data = format!("{}|{}", session_id, otp_seed);
@@ -370,8 +379,15 @@ fn get_credential_otp(scope_name: String) -> serde_json::Value {
     let session_id = parts[0].to_string();
     let otp_seed = parts[1];
 
+    if otp_seed.len() < MIN_SEED_LENGTH {
+        return json!({
+            "err_code": "SEED_TOO_SHORT",
+            "message": format!("Seed length must be at least {} characters, but got {}.", MIN_SEED_LENGTH, otp_seed.len())
+        });
+    }
+
     // Convert the OTP seed to Base32 (Required for TOTP)
-    let otp_seed_base32 = base32_encode(Alphabet::Rfc4648 { padding: false }, otp_seed.as_bytes());
+    let otp_seed_base32 = base32_encode(Alphabet::Rfc4648 { padding: true }, otp_seed.as_bytes());
 
     // Convert the Base32-encoded OTP seed into a Secret
     let secret = match Secret::Encoded(otp_seed_base32).to_bytes() {
