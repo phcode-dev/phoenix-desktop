@@ -43,6 +43,15 @@ jobs:
           npm ci
           npm run releaseDistTestDebug
 
+      - name: Upload build artifacts
+        uses: actions/upload-artifact@v3
+        with:
+          name: phoenix-debug-binaries
+          path: |
+            .\src-tauri\target\debug\phoenix-test.exe
+            .\src-tauri\target\debug\phnode.exe
+            .\src-tauri\target\debug\src-node\
+
       - name: Run tauri unit tests in windows
         # GUI apps in windows doesn't log on console. so we capture the output to a text file and print it, then fail on error.
         uses: nick-fields/retry@v3

@@ -3375,7 +3375,7 @@ dependencies = [
 
 [[package]]
 name = "phoenix-code-ide"
-version = "4.0.3"
+version = "4.1.0"
 dependencies = [
  "backtrace",
  "base32 0.5.1",
