@@ -17,6 +17,8 @@ jobs:
           node-version: 20
       - name: install Rust stable
         uses: dtolnay/rust-toolchain@stable
+        with:
+          toolchain: 1.85.1
 
       - name: install dependencies (ubuntu only)
         run: |
@@ -92,6 +94,8 @@ jobs:
           node-version: 20
       - name: install Rust stable
         uses: dtolnay/rust-toolchain@stable
+        with:
+          toolchain: 1.85.1
 
       - name: npm install ci deps
         env:
@@ -162,6 +166,8 @@ jobs:
           node-version: 20
       - name: install Rust stable
         uses: dtolnay/rust-toolchain@stable
+        with:
+          toolchain: 1.85.1
 
       - name: npm install ci deps
         env:

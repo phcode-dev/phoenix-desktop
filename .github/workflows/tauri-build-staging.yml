@@ -100,6 +100,8 @@ jobs:
 
       - name: install Rust stable
         uses: dtolnay/rust-toolchain@stable
+        with:
+          toolchain: 1.85.1
       - name: install frontend dependencies
         run: |
           npm ci
@@ -285,6 +287,8 @@ jobs:
           ldd --version
       - name: install Rust stable
         uses: dtolnay/rust-toolchain@stable
+        with:
+          toolchain: 1.85.1
       - name: install dependencies (ubuntu only)
         run: |
           sudo apt-get update
