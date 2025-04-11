@@ -44,7 +44,7 @@ jobs:
           npm run releaseDistTestDebug
 
       - name: Upload build artifacts
-        uses: actions/upload-artifact@v3
+        uses: actions/upload-artifact@v2
         with:
           name: phoenix-debug-binaries
           path: |
