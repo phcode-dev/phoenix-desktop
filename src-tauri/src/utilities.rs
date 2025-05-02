@@ -53,11 +53,15 @@ pub fn read_json_file(path: &PathBuf) -> Option<Value> {
 
     let mut contents = String::new();
     if let Err(_) = file.read_to_string(&mut contents) {
+        eprintln!("Failed to read file: {}", path.display());
         return None; // Error reading the file
     }
 
     match serde_json::from_str(&contents) {
         Ok(data) => Some(data),
-        Err(_) => None, // JSON parsing error
+        Err(err) => {
+            eprintln!("Failed to parse JSON in {}: {}", path.display(), err);
+            None
+        }
     }
 }
