@@ -133,6 +133,9 @@ check_os_version() {
             ubuntu:24)                    # Ubuntu 24.x
                 return 0
                 ;;
+            ubuntu:25)                    # Ubuntu 25.x
+                return 0
+                ;;
             linuxmint:22)                # Linux Mint 22.x
                 return 0
                 ;;
@@ -317,7 +320,7 @@ download_and_install_gtk() {
   #   - This piece of code should only be executed if the package manager does not distribute
   #     libgtk or if the version provided by the package manager is not compatible with Phoenix Code.
 
-  local URL_PREFIX="https://github.com/phcode-dev/dependencies/releases/download/v1.0.4/"
+  local URL_PREFIX="https://github.com/phcode-dev/dependencies/releases/download/v1.0.5/"
   local GTK_FILE="gtk.tar.xz"
   local WEBKIT2GTK_FILE="webkit2gtk-4.0.tar.xz"
 
