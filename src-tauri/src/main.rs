@@ -47,16 +47,23 @@ mod platform;
 use tauri_plugin_window_state::StateFlags;
 
 use keyring::Entry;
-use totp_rs::{Algorithm, Secret, TOTP};
-use std::time::{SystemTime, UNIX_EPOCH};
-use serde_json::json;
-use base32::{Alphabet, encode as base32_encode};
 use whoami;
 
 #[derive(Clone, serde::Serialize)]
 struct Payload {
   args: Vec<String>,
   cwd: String,
+}
+
+// AES Key Trust Management Structure
+#[derive(Clone, Debug)]
+struct AesKeyData {
+    key: String,
+    iv: String,
+}
+
+struct WindowAesTrust {
+    trust_map: Mutex<HashMap<String, AesKeyData>>,
 }
 
 // Learn more about Tauri commands at https://tauri.app/v1/guides/features/command
@@ -176,6 +183,74 @@ fn delete_item(state: State<'_, Storage>, key: String) {
 }
 // in memory hashmap end
 
+// AES Key Trust Management Commands
+#[tauri::command]
+fn trust_window_aes_key(window: tauri::Window, key: String, iv: String, trust_state: State<'_, WindowAesTrust>) -> Result<(), String> {
+    let window_label = window.label().to_string();
+    let mut trust_map = trust_state.trust_map.lock().unwrap();
+
+    // Check if trust is already established
+    if trust_map.contains_key(&window_label) {
+        return Err("Trust has already been established for this window. remove trust to set again.".to_string());
+    }
+
+    // Validate AES key format and length
+    let key_bytes = hex::decode(&key).map_err(|_| "Invalid AES key format. Key must be a valid hex string.".to_string())?;
+    if key_bytes.len() != 32 {
+        return Err("Invalid AES key length. Key must be 32 bytes (64 hex characters) for AES-256.".to_string());
+    }
+
+    // Validate nonce format and length
+    let nonce_bytes = hex::decode(&iv).map_err(|_| "Invalid nonce format. Nonce must be a valid hex string.".to_string())?;
+    if nonce_bytes.len() != 12 {
+        return Err("Invalid nonce length. Nonce must be 12 bytes (24 hex characters) for AES-GCM.".to_string());
+    }
+
+    // Test that we can create a valid cipher with these parameters
+    use aes_gcm::{Aes256Gcm, Key};
+    use aes_gcm::aead::KeyInit;
+
+    let aes_key = Key::<Aes256Gcm>::from_slice(&key_bytes);
+    let _cipher = Aes256Gcm::new(aes_key);
+
+    // Just verify we can create a slice of the right size - no need to store it
+    if nonce_bytes.len() == 12 {
+        // This validates that we have the right size for AES-GCM nonce
+    } else {
+        return Err("Invalid nonce length. Nonce must be 12 bytes (24 hex characters) for AES-GCM.".to_string());
+    }
+
+    // If we get here, the key and nonce are valid
+    // Store the AES key and IV for this window
+    trust_map.insert(window_label.clone(), AesKeyData { key, iv });
+
+    println!("AES trust established for window: {}", window_label);
+    Ok(())
+}
+
+#[tauri::command]
+fn remove_trust_window_aes_key(window: tauri::Window, key: String, iv: String, trust_state: State<'_, WindowAesTrust>) -> Result<(), String> {
+    let window_label = window.label().to_string();
+    let mut trust_map = trust_state.trust_map.lock().unwrap();
+
+    // Check if trust exists for this window
+    match trust_map.get(&window_label) {
+        Some(stored_data) => {
+            // Verify the provided key and IV match the stored ones
+            if stored_data.key == key && stored_data.iv == iv {
+                trust_map.remove(&window_label);
+                println!("AES trust removed for window: {}", window_label);
+                Ok(())
+            } else {
+                Err("Provided key and IV do not match the stored trust data.".to_string())
+            }
+        }
+        None => {
+            Err("No trust association found for this window.".to_string())
+        }
+    }
+}
+
 static mut DEVTOOLS_LOADED:bool = false;
 
 #[tauri::command]
@@ -264,8 +339,16 @@ fn zoom_window(window: tauri::Window, scale_factor: f64) {
       });
 }
 
-fn process_window_event(event: &GlobalWindowEvent) {
+fn process_window_event(event: &GlobalWindowEvent, trust_state: &State<WindowAesTrust>) {
     if let tauri::WindowEvent::CloseRequested { .. } = event.event() {
+        // Remove AES trust for the closing window
+        let window_label = event.window().label().to_string();
+        let mut trust_map = trust_state.trust_map.lock().unwrap();
+
+        if trust_map.remove(&window_label).is_some() {
+            println!("AES trust removed for closing window: {}", window_label);
+        }
+
         // this does nothing and is here if in future you need to persist something on window close.
         boot_config::write_boot_config(1);
     }
@@ -305,7 +388,6 @@ fn get_mac_deep_link_requests() -> Vec<String> {
 }
 
 const PHOENIX_CRED_PREFIX: &str = "phcode_";
-const MIN_SEED_LENGTH: usize = 10; // Minimum required length for a valid TOTP seed
 
 fn get_username() -> String {
     // Ensure a fallback username in case retrieval fails
@@ -315,29 +397,14 @@ fn get_username() -> String {
     }
 }
 
-//  Stores or updates the sessionID and OTP seed securely. The otp_seed can never be read from js and only
-// the 30-second valid t-otp can be read. this helps improving security posture with auth flows as
-// unsecure extensions are not being able to get long term session tokens.
-// A compromised extension will need real time control of the editor instance to get the changing session
-// otp to steal user session serving as a deterrent.
+// Stores the secret value securely in the system keyring
 #[tauri::command]
-fn store_credential(scope_name: String, session_id: String, otp_seed: String) -> Result<(), String> {
+fn store_credential(scope_name: String, secret_val: String) -> Result<(), String> {
     let service = format!("{}{}", PHOENIX_CRED_PREFIX, scope_name); // Unique service name per scope
     let user = get_username();
 
-    // Check if the seed is too short
-    if otp_seed.len() < MIN_SEED_LENGTH {
-        return Err(format!(
-            "SEED_TOO_SHORT: Seed length must be at least {} characters, but got {}.",
-            MIN_SEED_LENGTH, otp_seed.len()
-        ));
-    }
-
-    // Combine sessionID and OTP seed into one stored value
-    let credential_data = format!("{}|{}", session_id, otp_seed);
-
     let entry = Entry::new(&service, &user).map_err(|e| e.to_string())?;
-    entry.set_password(&credential_data).map_err(|e| e.to_string())?;
+    entry.set_password(&secret_val).map_err(|e| e.to_string())?;
 
     Ok(())
 }
@@ -354,64 +421,58 @@ fn delete_credential(scope_name: String) -> Result<(), String> {
     Ok(())
 }
 
-// credential is applied on seed that is base32:Rfc4648 encoded
+// Gets the stored credential, encrypts it with the window's AES key, and returns the encrypted value
 #[tauri::command]
-fn get_credential_otp(scope_name: String) -> serde_json::Value {
+fn get_credential(window: tauri::Window, scope_name: String, trust_state: State<'_, WindowAesTrust>) -> Result<String, String> {
+    let window_label = window.label().to_string();
+
+    // Check if AES trust is established for this window
+    let trust_map = trust_state.trust_map.lock().unwrap();
+    let aes_data = match trust_map.get(&window_label) {
+        Some(data) => data.clone(),
+        None => {
+            return Err("Trust needs to be first established by calling the trust_window_aes_key API to use this API.".to_string());
+        }
+    };
+    drop(trust_map); // Release the lock early
+
+    // Retrieve the stored credential
     let service = format!("{}{}", PHOENIX_CRED_PREFIX, scope_name);
     let user = get_username();
-    let entry = match Entry::new(&service, &user) {
-        Ok(entry) => entry,
-        Err(_) => return json!({ "err_code": "CREDENTIAL_ERROR" }), // Error creating keyring entry
-    };
+    let entry = Entry::new(&service, &user).map_err(|e| e.to_string())?;
 
-    // Retrieve stored credentials
-    let stored_data = match entry.get_password() {
+    let stored_credential = match entry.get_password() {
         Ok(data) => data,
-        Err(keyring::Error::NoEntry) => return json!({ "err_code": "NO_ENTRY" }), // No credentials stored
-        Err(_) => return json!({ "err_code": "RETRIEVE_ERROR" }), // Other keyring errors
+        Err(keyring::Error::NoEntry) => return Err("No credential found for the specified scope.".to_string()),
+        Err(e) => return Err(format!("Failed to retrieve credential: {}", e.to_string())),
     };
 
-    let parts: Vec<&str> = stored_data.split('|').collect();
-    if parts.len() != 2 {
-        return json!({ "err_code": "INVALID_FORMAT" }); // Data stored incorrectly
+    // Encrypt the credential using AES-GCM
+    use aes_gcm::{Aes256Gcm, Key, Nonce};
+    use aes_gcm::aead::{Aead, KeyInit};
+
+    // Decode the key and nonce from hex strings
+    let key_bytes = hex::decode(&aes_data.key).map_err(|_| "Invalid AES key format".to_string())?;
+    let nonce_bytes = hex::decode(&aes_data.iv).map_err(|_| "Invalid nonce format".to_string())?;
+
+    if key_bytes.len() != 32 {
+        return Err("AES key must be 32 bytes (256 bits)".to_string());
+    }
+    if nonce_bytes.len() != 12 {
+        return Err("Nonce must be 12 bytes for AES-GCM".to_string());
     }
 
-    let session_id = parts[0].to_string();
-    let otp_seed = parts[1];
+    // Create cipher
+    let key = Key::<Aes256Gcm>::from_slice(&key_bytes);
+    let cipher = Aes256Gcm::new(key);
+    let nonce = Nonce::from_slice(&nonce_bytes);
 
-    if otp_seed.len() < MIN_SEED_LENGTH {
-        return json!({
-            "err_code": "SEED_TOO_SHORT",
-            "message": format!("Seed length must be at least {} characters, but got {}.", MIN_SEED_LENGTH, otp_seed.len())
-        });
-    }
+    // Encrypt the credential
+    let encrypted_data = cipher.encrypt(nonce, stored_credential.as_bytes())
+        .map_err(|_| "Failed to encrypt credential".to_string())?;
 
-    // Convert the OTP seed to Base32 (Required for TOTP)
-    let otp_seed_base32 = base32_encode(Alphabet::Rfc4648 { padding: true }, otp_seed.as_bytes());
-
-    // Convert the Base32-encoded OTP seed into a Secret
-    let secret = match Secret::Encoded(otp_seed_base32).to_bytes() {
-        Ok(secret) => secret,
-        Err(_) => return json!({ "err_code": "SECRET_ERROR" }), // Error converting seed
-    };
-
-    // Create a TOTP instance
-    let totp = match TOTP::new(Algorithm::SHA1, 6, 1, 30, secret) {
-        Ok(totp) => totp,
-        Err(_) => return json!({ "err_code": "TOTP_CREATION_ERROR" }), // Error creating TOTP instance
-    };
-
-    // Get the current timestamp (Unix time in seconds)
-    let timestamp = SystemTime::now().duration_since(UNIX_EPOCH).unwrap().as_secs();
-
-    // Generate the OTP
-    let otp = totp.generate(timestamp);
-
-    // Return JSON with sessionID and OTP
-    json!({
-        "session_id": session_id,
-        "totp": otp
-    })
+    // Return the encrypted data as a hex string
+    Ok(hex::encode(encrypted_data))
 }
 
 fn main() {
@@ -496,6 +557,9 @@ fn main() {
         .manage(Storage {
                 map: Mutex::new(HashMap::new()),
         })
+        .manage(WindowAesTrust {
+            trust_map: Mutex::new(HashMap::new()),
+        })
         .register_uri_scheme_protocol("phtauri", move |app, request| { // can't use `tauri` because that's already in use
             let path = remove_version_from_url(request.uri());
             let path = path.strip_prefix("phtauri://localhost");
@@ -548,13 +612,19 @@ fn main() {
 
                     app.emit_all("single-instance", Payload { args: argv, cwd }).unwrap();
                 }))
-        .on_window_event(|event| process_window_event(&event))
+        .on_window_event(|event| {
+            // Get the trust state from the app handle
+            let app_handle = event.window().app_handle();
+            let trust_state = app_handle.state::<WindowAesTrust>();
+            process_window_event(&event, &trust_state);
+        })
         .invoke_handler(tauri::generate_handler![
             get_mac_deep_link_requests, get_process_id,
             toggle_devtools, console_log, console_error, _get_commandline_args, get_current_working_dir,
             _get_window_labels,
-            store_credential, get_credential_otp, delete_credential,
+            store_credential, get_credential, delete_credential,
             put_item, get_item, get_all_items, delete_item,
+            trust_window_aes_key, remove_trust_window_aes_key,
             _get_windows_drives, _rename_path, show_in_folder, move_to_trash, zoom_window,
             _get_clipboard_files, _open_url_in_browser_win])
         .setup(|app| {
