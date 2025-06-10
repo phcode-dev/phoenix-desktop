@@ -422,8 +422,9 @@ fn delete_credential(scope_name: String) -> Result<(), String> {
 }
 
 // Gets the stored credential, encrypts it with the window's AES key, and returns the encrypted value
+// Returns None if no credential is found
 #[tauri::command]
-fn get_credential(window: tauri::Window, scope_name: String, trust_state: State<'_, WindowAesTrust>) -> Result<String, String> {
+fn get_credential(window: tauri::Window, scope_name: String, trust_state: State<'_, WindowAesTrust>) -> Result<Option<String>, String> {
     let window_label = window.label().to_string();
 
     // Check if AES trust is established for this window
@@ -443,7 +444,7 @@ fn get_credential(window: tauri::Window, scope_name: String, trust_state: State<
 
     let stored_credential = match entry.get_password() {
         Ok(data) => data,
-        Err(keyring::Error::NoEntry) => return Err("No credential found for the specified scope.".to_string()),
+        Err(keyring::Error::NoEntry) => return Ok(None), // Return None if no credential found
         Err(e) => return Err(format!("Failed to retrieve credential: {}", e.to_string())),
     };
 
@@ -471,8 +472,8 @@ fn get_credential(window: tauri::Window, scope_name: String, trust_state: State<
     let encrypted_data = cipher.encrypt(nonce, stored_credential.as_bytes())
         .map_err(|_| "Failed to encrypt credential".to_string())?;
 
-    // Return the encrypted data as a hex string
-    Ok(hex::encode(encrypted_data))
+    // Return the encrypted data as a hex string wrapped in Some
+    Ok(Some(hex::encode(encrypted_data)))
 }
 
 fn main() {
