@@ -15,7 +15,7 @@ tauri-build = { version = "1.5.1", features = [] }
 
 [dependencies]
 reqwest = { version = "0.12", features = ["json"] }
-tokio = { version = "1.0", features = ["full"] }
+tokio = { version = "1.44", features = ["full"] }
 os_info = "3"
 chrono = "0.4"
 serde_json = "1.0.116"
