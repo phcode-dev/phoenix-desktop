@@ -124,7 +124,6 @@ TMP_DIR=$(mktemp -d)
 #   - This function assumes that the /etc/os-release file follows the standard format for Linux OS
 #     identification and that the distribution's identifiers are consistent with those specified in the script.
 
-
 check_os_version() {
     if [ -f /etc/os-release ]; then
         . /etc/os-release
@@ -142,7 +141,9 @@ check_os_version() {
             neon:24)                     # KDE Neon 24.x
                 return 0
                 ;;
-
+            debian:13)                   # Debian 13.x (Trixie)
+                return 0
+                ;;
             kali:2024|kali:20[2-9][0-9]) # Kali 2024.x or newer
                 return 0
                 ;;
