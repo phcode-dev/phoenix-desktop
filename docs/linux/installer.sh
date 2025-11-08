@@ -127,6 +127,8 @@ TMP_DIR=$(mktemp -d)
 check_os_version() {
     if [ -f /etc/os-release ]; then
         . /etc/os-release
+        # Set VERSION_ID to empty string if not defined (for rolling releases)
+        VERSION_ID="${VERSION_ID:-}"
         # Define supported OS and version combinations
         case "$ID:${VERSION_ID%%.*}" in  # Extract major version number
             ubuntu:24)                    # Ubuntu 24.x
@@ -275,9 +277,11 @@ install_dependencies() {
       yes | sudo dnf upgrade webkit2gtk3 gtk3 \
                              gstreamer1  gstreamer1-plugins-base gstreamer1-plugins-good
       ;;
-    arch|manjaro)
+    arch|manjaro|cachyos)
       echo "Detected an Arch Linux based distribution."
-      yes | sudo pacman -S webkit2gtk gtk3
+      echo "Updating package database..."
+      sudo pacman -Sy
+      yes | sudo pacman -S webkit2gtk gtk3 libxml2
       ;;
     *)
       echo "Unsupported distribution. Please manually install the required dependencies."
@@ -494,6 +498,26 @@ verify_and_install_dependencies() {
 # Set Phoenix Code as the default application for specified MIME types
 set_default_application() {
   local desktop_file="$DESKTOP_ENTRY_NAME"  # Name of the Phoenix Code desktop entry file
+
+  # Dynamically detect qtpaths if KDE is running and qtpaths is not in PATH
+  if [ "${KDE_SESSION_VERSION:-0}" -gt 0 ] && ! command -v qtpaths &> /dev/null; then
+    # Common locations where qtpaths might be installed
+    local qtpaths_locations=(
+      "/usr/lib/qt6/bin"
+      "/usr/lib/qt5/bin"
+      "/usr/lib64/qt6/bin"
+      "/usr/lib64/qt5/bin"
+      "/opt/qt6/bin"
+      "/opt/qt5/bin"
+    )
+
+    for qtpath_dir in "${qtpaths_locations[@]}"; do
+      if [ -x "$qtpath_dir/qtpaths" ] || [ -x "$qtpath_dir/qtpaths6" ]; then
+        export PATH="$qtpath_dir:$PATH"
+        break
+      fi
+    done
+  fi
 
   for mime_type in "${MIME_TYPES[@]}"; do
       # Skip setting default application for text/html
