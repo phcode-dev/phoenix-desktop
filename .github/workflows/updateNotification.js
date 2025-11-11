@@ -83,10 +83,10 @@ async function _getLatestJson(releaseAssets) {
 
 // "Phoenix.Code.Experimental.Build_3.4.2_x64-setup.exe"
 const WINDOWS_X64_NAME_SUFFIX = "_x64-setup.exe";
-// "Phoenix.Code.Experimental.Build_3.4.2_x64.dmg"
-const MAC_INTEL_NAME_SUFFIX = "_x64.dmg";
-// "Phoenix.Code.Experimental.Build_3.4.2_aarch64.dmg"
-const MAC_M1_NAME_SUFFIX = "_aarch64.dmg";
+// "Phoenix.Code.Experimental.Build_3.4.2_intel.app.tar.gz"
+const MAC_INTEL_NAME_SUFFIX = "_intel.app.tar.gz";
+// "Phoenix.Code.Experimental.Build_3.4.2_M1.app.tar.gz"
+const MAC_M1_NAME_SUFFIX = "_M1.app.tar.gz";
 function _getDownloadURLByNameSuffix(releaseAssets, suffix) {
     for(let releaseAsset of releaseAssets) {
         if(releaseAsset.name.endsWith(suffix)){
