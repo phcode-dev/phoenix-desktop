@@ -4,11 +4,5 @@
     "HTML_CONTENT": "<div>Windows, Mac 및 Linux용 <b>소개</b> Phoenix Code <b>데스크톱 앱</b>. <a class='notification_ack' href='https://phcode.io' _target='_blank'> 지금 다운로드하려면 여기를 클릭하세요!</a></div>",
     "FOR_VERSIONS": ">=3.0.0",
     "PLATFORM" : "allBrowser"
-  },
-  "DISABLE_AI_FOR_EDUCATION_NOTICE": {
-    "DANGER_SHOW_ON_EVERY_BOOT": false,
-    "HTML_CONTENT": "<div style=\"background-color: #f0f7fa; padding: 16px; border-radius: 4px; position: relative; border-left: 4px solid #17a2b8; margin-top: 25px; margin-right: 20px; margin-bottom: 10px;\"><svg style=\"display: inline-block; vertical-align: middle; margin-right: 8px; color: #17a2b8;\" xmlns=\"http://www.w3.org/2000/svg\" width=\"24\" height=\"24\" viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"2\" stroke-linecap=\"round\" stroke-linejoin=\"round\"><circle cx=\"12\" cy=\"12\" r=\"10\"></circle><line x1=\"12\" y1=\"16\" x2=\"12\" y2=\"12\"></line><line x1=\"12\" y1=\"8\" x2=\"12.01\" y2=\"8\"></line></svg><span style=\"font-weight: 600; color: #2c3e50; text-transform: uppercase;\">학교 주의사항: Phoenix Code AI</span><p style=\"margin-top: 8px; margin-bottom: 0; color: #2c3e50;\">Phoenix Code AI는 2025년 5월 20일 이후 출시됩니다. 교육기관은 이 날짜 전에 <a href=\"https://docs.phcode.dev/docs/control-ai\" style=\"color: #17a2b8; text-decoration: none; font-weight: 500;\">이 가이드</a>를 따라 AI를 비활성화하거나 설정해야 합니다.</p></div>",
-    "FOR_VERSIONS": ">=3.0.0",
-    "PLATFORM": "all"
   }
 }
