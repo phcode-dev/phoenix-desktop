@@ -55,6 +55,8 @@ jobs:
       - name: install frontend dependencies
         env:
           GH_TOKEN: ${{ github.token }}
+          PRO_REPO_URL: ${{ secrets.PRO_REPO_URL }}
+          PRO_REPO_ACCESS_TOKEN: ${{ secrets.PRO_REPO_ACCESS_TOKEN }}
         run: |
           npm ci
           npm run _ci-cloneAndBuildPhoenix
@@ -105,6 +107,8 @@ jobs:
       - name: install frontend dependencies
         env:
           GH_TOKEN: ${{ github.token }}
+          PRO_REPO_URL: ${{ secrets.PRO_REPO_URL }}
+          PRO_REPO_ACCESS_TOKEN: ${{ secrets.PRO_REPO_ACCESS_TOKEN }}
         run: |
           npm ci
           npm run _ci-release:prod
@@ -229,6 +233,8 @@ jobs:
           APPLE_ID: ${{ secrets.APPLE_ID }}
           APPLE_PASSWORD: ${{ secrets.APPLE_PASSWORD }}
           APPLE_TEAM_ID: ${{ secrets.APPLE_TEAM_ID }}
+          PRO_REPO_URL: ${{ secrets.PRO_REPO_URL }}
+          PRO_REPO_ACCESS_TOKEN: ${{ secrets.PRO_REPO_ACCESS_TOKEN }}
         with:
           releaseId: ${{ needs.create-release.outputs.release_id }}
           updaterJsonPreferNsis: true
@@ -250,6 +256,8 @@ jobs:
           APPLE_ID: ${{ secrets.APPLE_ID }}
           APPLE_PASSWORD: ${{ secrets.APPLE_PASSWORD }}
           APPLE_TEAM_ID: ${{ secrets.APPLE_TEAM_ID }}
+          PRO_REPO_URL: ${{ secrets.PRO_REPO_URL }}
+          PRO_REPO_ACCESS_TOKEN: ${{ secrets.PRO_REPO_ACCESS_TOKEN }}
         with:
           releaseId: ${{ needs.create-release.outputs.release_id }}
           updaterJsonPreferNsis: true
@@ -270,6 +278,8 @@ jobs:
           APPLE_ID: ${{ secrets.APPLE_ID }}
           APPLE_PASSWORD: ${{ secrets.APPLE_PASSWORD }}
           APPLE_TEAM_ID: ${{ secrets.APPLE_TEAM_ID }}
+          PRO_REPO_URL: ${{ secrets.PRO_REPO_URL }}
+          PRO_REPO_ACCESS_TOKEN: ${{ secrets.PRO_REPO_ACCESS_TOKEN }}
         with:
           releaseId: ${{ needs.create-release.outputs.release_id }}
           updaterJsonPreferNsis: true
@@ -304,6 +314,8 @@ jobs:
           APPLE_ID: ${{ secrets.APPLE_ID }}
           APPLE_PASSWORD: ${{ secrets.APPLE_PASSWORD }}
           APPLE_TEAM_ID: ${{ secrets.APPLE_TEAM_ID }}
+          PRO_REPO_URL: ${{ secrets.PRO_REPO_URL }}
+          PRO_REPO_ACCESS_TOKEN: ${{ secrets.PRO_REPO_ACCESS_TOKEN }}
         with:
           releaseId: ${{ needs.create-release.outputs.release_id }}
           args: --target aarch64-apple-darwin
@@ -346,6 +358,8 @@ jobs:
       - name: install frontend dependencies
         env:
           GH_TOKEN: ${{ github.token }}
+          PRO_REPO_URL: ${{ secrets.PRO_REPO_URL }}
+          PRO_REPO_ACCESS_TOKEN: ${{ secrets.PRO_REPO_ACCESS_TOKEN }}
         run: |
           npm ci
           npm run _ci-release:prod

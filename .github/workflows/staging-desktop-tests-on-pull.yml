@@ -35,6 +35,8 @@ jobs:
       - name: Download phoenix and build build phoenix dist-test
         env:
           GH_TOKEN: ${{ github.token }}
+          PRO_REPO_URL: ${{ secrets.PRO_REPO_URL }}
+          PRO_REPO_ACCESS_TOKEN: ${{ secrets.PRO_REPO_ACCESS_TOKEN }}
         run: |
           npm run _ci-clonePhoenixForTests
           cd ..
@@ -46,6 +48,8 @@ jobs:
       - name: build test runner
         env:
           GH_TOKEN: ${{ github.token }}
+          PRO_REPO_URL: ${{ secrets.PRO_REPO_URL }}
+          PRO_REPO_ACCESS_TOKEN: ${{ secrets.PRO_REPO_ACCESS_TOKEN }}
         run: |
           npm ci
           npm run releaseDistTestDebug
@@ -100,6 +104,8 @@ jobs:
       - name: Download phoenix and build build phoenix dist-test
         env:
           GH_TOKEN: ${{ github.token }}
+          PRO_REPO_URL: ${{ secrets.PRO_REPO_URL }}
+          PRO_REPO_ACCESS_TOKEN: ${{ secrets.PRO_REPO_ACCESS_TOKEN }}
         run: |
           npm run _ci-clonePhoenixForTests
           cd ..
@@ -109,6 +115,10 @@ jobs:
           npm run release:staging
 
       - name: build test runner
+        env:
+          GH_TOKEN: ${{ github.token }}
+          PRO_REPO_URL: ${{ secrets.PRO_REPO_URL }}
+          PRO_REPO_ACCESS_TOKEN: ${{ secrets.PRO_REPO_ACCESS_TOKEN }}
         run: |
           npm ci
           npm run releaseDistTestDebug
@@ -161,6 +171,10 @@ jobs:
         run: npm ci
 
       - name: Download phoenix and build build phoenix dist-test
+        env:
+          GH_TOKEN: ${{ github.token }}
+          PRO_REPO_URL: ${{ secrets.PRO_REPO_URL }}
+          PRO_REPO_ACCESS_TOKEN: ${{ secrets.PRO_REPO_ACCESS_TOKEN }}
         run: |
           npm run _ci-clonePhoenixForTests
           cd ..
@@ -172,6 +186,8 @@ jobs:
       - name: build test runner
         env:
           GH_TOKEN: ${{ github.token }}
+          PRO_REPO_URL: ${{ secrets.PRO_REPO_URL }}
+          PRO_REPO_ACCESS_TOKEN: ${{ secrets.PRO_REPO_ACCESS_TOKEN }}
         run: |
           npm ci
           npm run releaseDistTestDebug
