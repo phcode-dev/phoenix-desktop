@@ -56,6 +56,8 @@ jobs:
 
       - name: Run tauri unit tests
         uses: nick-fields/retry@v3
+        id: linuxRunUnit
+        continue-on-error: true
         with:
           timeout_minutes: 12
           max_attempts: 3
@@ -63,6 +65,8 @@ jobs:
 
       - name: Run tauri integration tests
         uses: nick-fields/retry@v3
+        id: linuxRunIntegration
+        continue-on-error: true
         with:
           timeout_minutes: 12
           max_attempts: 3
@@ -70,6 +74,8 @@ jobs:
 
       - name: Run tauri mainview tests
         uses: nick-fields/retry@v3
+        id: linuxRunMainview
+        continue-on-error: true
         with:
           timeout_minutes: 12
           max_attempts: 3
@@ -77,10 +83,31 @@ jobs:
 
       - name: Run tauri LegacyInteg tests
         uses: nick-fields/retry@v3
+        id: linuxRunLegacyInteg
+        continue-on-error: true
         with:
           timeout_minutes: 20
           max_attempts: 3
           command: xvfb-run ./src-tauri/target/debug/phoenix-test --run-tests=LegacyInteg -q
+
+      - name: Fail on test runs failed in Linux (staging)
+        if: steps.linuxRunUnit.outcome == 'failure' || steps.linuxRunIntegration.outcome == 'failure' || steps.linuxRunMainview.outcome == 'failure' || steps.linuxRunLegacyInteg.outcome == 'failure'
+        run: |
+          echo "Linux (staging) tests failed, marking step as failed"
+          echo "Failed tests:"
+          if [ "${{ steps.linuxRunUnit.outcome }}" == "failure" ]; then
+            echo "- Run tauri unit tests"
+          fi
+          if [ "${{ steps.linuxRunIntegration.outcome }}" == "failure" ]; then
+            echo "- Run tauri integration tests"
+          fi
+          if [ "${{ steps.linuxRunMainview.outcome }}" == "failure" ]; then
+            echo "- Run tauri mainview tests"
+          fi
+          if [ "${{ steps.linuxRunLegacyInteg.outcome }}" == "failure" ]; then
+            echo "- Run tauri LegacyInteg tests"
+          fi
+          exit 1
 
   testDesktopMac:
     runs-on: macos-15
@@ -125,6 +152,8 @@ jobs:
 
       - name: Run tauri unit tests
         uses: nick-fields/retry@v3
+        id: macRunUnit
+        continue-on-error: true
         with:
           timeout_minutes: 12
           max_attempts: 3
@@ -132,6 +161,8 @@ jobs:
 
       - name: Run tauri integration tests
         uses: nick-fields/retry@v3
+        id: macRunIntegration
+        continue-on-error: true
         with:
           timeout_minutes: 12
           max_attempts: 3
@@ -139,6 +170,8 @@ jobs:
 
       - name: Run tauri mainview tests
         uses: nick-fields/retry@v3
+        id: macRunMainview
+        continue-on-error: true
         with:
           timeout_minutes: 12
           max_attempts: 3
@@ -146,10 +179,31 @@ jobs:
 
       - name: Run tauri LegacyInteg tests
         uses: nick-fields/retry@v3
+        id: macRunLegacyInteg
+        continue-on-error: true
         with:
           timeout_minutes: 30
           max_attempts: 3
           command: ./src-tauri/target/debug/phoenix-test --run-tests=LegacyInteg -q
+
+      - name: Fail on test runs failed in Mac (staging)
+        if: steps.macRunUnit.outcome == 'failure' || steps.macRunIntegration.outcome == 'failure' || steps.macRunMainview.outcome == 'failure' || steps.macRunLegacyInteg.outcome == 'failure'
+        run: |
+          echo "Mac (staging) tests failed, marking step as failed"
+          echo "Failed tests:"
+          if [ "${{ steps.macRunUnit.outcome }}" == "failure" ]; then
+            echo "- Run tauri unit tests"
+          fi
+          if [ "${{ steps.macRunIntegration.outcome }}" == "failure" ]; then
+            echo "- Run tauri integration tests"
+          fi
+          if [ "${{ steps.macRunMainview.outcome }}" == "failure" ]; then
+            echo "- Run tauri mainview tests"
+          fi
+          if [ "${{ steps.macRunLegacyInteg.outcome }}" == "failure" ]; then
+            echo "- Run tauri LegacyInteg tests"
+          fi
+          exit 1
 
   testDesktopWindows:
     runs-on: windows-latest
