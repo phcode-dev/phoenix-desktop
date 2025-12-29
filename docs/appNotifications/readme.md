@@ -25,10 +25,10 @@ A sample json is as follows:
 {
   "SAMPLE_NOTIFICATION_NAME": {
     "DANGER_SHOW_ON_EVERY_BOOT" : false,
-    "PRO_EDITION_ONLY" : false,
     "HTML_CONTENT": "<div>hello world <a class='notification_ack'>Click to acknowledge.</a></div>",
     "FOR_VERSIONS": "1.x || >=2.5.0 || 5.0.0 - 7.2.3", 
-    "PLATFORM" : "allDesktop"
+    "PLATFORM" : "allDesktop",
+    "USER_TYPE" : "all"
   },
   "ANOTHER_SAMPLE_NOTIFICATION_NAME": {...}
 }
@@ -38,8 +38,6 @@ A sample json is as follows:
  or there is an html element with class `notification_ack`.
 
 1. `SAMPLE_NOTIFICATION_NAME` : This is a unique ID. It is used to check if the notification was shown to user.
-2. `PRO_EDITION_ONLY` : (Default false) Setting this to true will not show the notification on community editions.
-   Only works in versions > 5.0.0 - so combine it with that is must!
 2. `DANGER_SHOW_ON_EVERY_BOOT` : (Default false) Setting this to true will cause the
    notification to be shown on every boot. This is bad ux and only be used if there is a critical security issue
    that we want the version not to be used.
@@ -51,3 +49,6 @@ A sample json is as follows:
     The notification will be shown to all versions satisfying this.
 5. `PLATFORM`: A comma seperated list(no spaces) of all platforms in which the message will be shown.
     allowed values are: `mac,win,linux,allDesktop,firefox,chrome,safari,allBrowser,all`
+6. `USER_TYPE`: A comma seperated list(no spaces) of all user types in which the message will be shown.
+    allowed values are: [`all`, `notLoggedIn`, `loggedIn`, `trial`, `paidSubscriber`]. This filter is only available
+    in versions > 5, else it is ignored in older versions. combine with `FOR_VERSIONS` to filter based on user type.
