@@ -28,7 +28,7 @@ A sample json is as follows:
     "HTML_CONTENT": "<div>hello world <a class='notification_ack'>Click to acknowledge.</a></div>",
     "FOR_VERSIONS": "1.x || >=2.5.0 || 5.0.0 - 7.2.3", 
     "PLATFORM" : "allDesktop",
-    "USER_TYPE" : "all"
+    "USER_TYPE" : ["paidSubscriber", "loggedIn"]
   },
   "ANOTHER_SAMPLE_NOTIFICATION_NAME": {...}
 }
@@ -49,6 +49,6 @@ A sample json is as follows:
     The notification will be shown to all versions satisfying this.
 5. `PLATFORM`: A comma seperated list(no spaces) of all platforms in which the message will be shown.
     allowed values are: `mac,win,linux,allDesktop,firefox,chrome,safari,allBrowser,all`
-6. `USER_TYPE`: A comma seperated list(no spaces) of all user types in which the message will be shown.
+6. `USER_TYPE`: An array of all user types in which the message will be shown.
     allowed values are: [`all`, `notLoggedIn`, `loggedIn`, `trial`, `paidSubscriber`]. This filter is only available
     in versions > 5, else it is ignored in older versions. combine with `FOR_VERSIONS` to filter based on user type.
