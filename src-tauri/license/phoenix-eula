@@ -1,0 +1,546 @@
+PHOENIX CODE USER AGREEMENT
+Effective Date: 1-Jan-2026
+
+Thank you for choosing Phoenix Code!
+
+This is a license agreement between you and CORE.AI Scientific
+Technologies Private Limited (the "Company", "we", "us") that governs
+your use of Phoenix Code (the "Product"), unless other terms accompany
+the Product.
+
+----------------------------------------------------------------------
+THIS IS A LEGAL AGREEMENT
+----------------------------------------------------------------------
+
+By clicking "I Agree", or by downloading, installing, accessing, or
+using the Product, you confirm that you have the legal capacity to
+enter into this Agreement and that you agree to be bound by its terms.
+
+If you do not agree, do not install or use the Product.
+
+----------------------------------------------------------------------
+PLAIN-ENGLISH SUMMARY (NON-BINDING)
+----------------------------------------------------------------------
+
+This summary is provided for convenience only. The full legal terms
+below control.
+
+- You always own your own code and content.
+- We do not use your code, files, or content to train AI models unless
+  you explicitly grant permission.
+- Phoenix Code includes free Community features and paid Pro features
+  in the same application distribution.
+- You can use Community Edition features without payment.
+- Pro features require an active Phoenix Pro plan (trial or paid plan).
+- When Pro access ends, the app automatically switches back to
+  Community Edition.
+- Your files and data are not deleted when this happens.
+- Phoenix Code can send anonymous usage statistics and error reports
+  ("Health Reports"). You can opt out in Help > Health Report, and view
+  a preview of what would be sent.
+- Some features depend on online services (ours or third parties).
+  Those services may change, be limited, or be discontinued over time.
+- If you purchase a Lifetime Plan, you can keep using eligible
+  on-device Pro features perpetually, but updates and service-backed
+  features may only be included through the Lifetime Update Period
+  stated at purchase.
+
+----------------------------------------------------------------------
+1. OVERVIEW AND SCOPE
+----------------------------------------------------------------------
+
+This Agreement governs your installation and use of the Product,
+including:
+
+- Desktop applications
+- Web-based applications
+- Installers and binaries
+- Updates, upgrades, patches, and related services (including online
+  services)
+
+The Product may include both Community Edition (free) features and Pro
+Edition (paid) features within the same application.
+
+Your ability to use certain features depends on whether you have an
+active Phoenix Pro Plan or other entitlement.
+
+----------------------------------------------------------------------
+2. DEFINITIONS
+----------------------------------------------------------------------
+
+- Product: Phoenix Code, including desktop applications, web-based
+  applications, installers, updates, and related services
+- Installer: The installation package distributed by the Company
+- Documentation: Official Phoenix Code documentation and materials
+- Community Edition: Functionality made available at no charge
+- Pro Edition: Paid, commercial functionality of Phoenix Code
+- Phoenix Pro Plan: Any Company-authorized plan that grants access to
+  Pro Edition features, including trials or paid plans
+- Lifetime Plan: A one-time paid plan that grants long-term access to
+  certain Pro Edition features, subject to Section 4.4
+- Lifetime Update Period: The specific update/service access period
+  stated at purchase for a Lifetime Plan
+- Online Services: Services operated by the Company or third parties
+  that support some features (for example hosted libraries, cloud
+  features, account services, licensing/activation, AI services)
+- Third-Party Software: Software or services provided by third parties,
+  governed by separate terms
+- AI Features: Features that use artificial intelligence services
+  (Company-operated or third-party)
+- Your Content: Your code, files, text, prompts, inputs, projects, and
+  other content you create or provide
+- Health Reports: Anonymous usage statistics and error/diagnostic
+  reports sent by the Product to improve stability, usability, and
+  prioritization (Section 9)
+
+----------------------------------------------------------------------
+3. LICENSE STRUCTURE AND EDITIONS
+----------------------------------------------------------------------
+
+3.1 Unified Application License
+
+The Installer and distributed application binary are licensed under
+this Agreement.
+
+This Agreement governs use of:
+
+- Phoenix Code as distributed by the Company
+- Both Community Edition and Pro Edition functionality contained within
+  the same application
+
+Feature availability depends on your plan/entitlements.
+
+3.2 Community Edition and Open-Source Components
+
+Certain components may be made available under open-source licenses
+(including the GNU Affero General Public License (AGPL)) when the
+Company separately distributes specific source code under those
+licenses.
+
+Open-source components are governed solely by the applicable open-source
+license.
+
+This Agreement does not replace or override applicable open-source
+licenses for source code expressly released under them.
+
+The compiled binaries and Installer provided by the Company are not
+distributed under AGPL.
+
+3.3 Pro Edition (Commercial)
+
+Pro Edition features are proprietary and licensed under this Agreement
+only.
+
+- Pro Edition is not open source
+- Open-source licenses do not apply to Pro Edition features unless
+  explicitly stated
+
+----------------------------------------------------------------------
+4. PRO ACCESS, TRIALS, LIFETIME PLANS, AND DOWNGRADES
+----------------------------------------------------------------------
+
+4.1 Pro Access
+
+Access to Pro Edition features requires an active Phoenix Pro Plan or
+other entitlement.
+
+The scope, duration, eligibility, and limits of Pro access are
+determined by the Company and described at purchase, in-app, or in
+Documentation.
+
+4.2 Automatic Downgrade
+
+If your Phoenix Pro Plan expires, is cancelled, or otherwise ends, the
+Product automatically reverts to Community Edition functionality. No
+additional notice is required.
+
+4.3 No Data Deletion
+
+Downgrading does not delete Your Content. Some Pro features and related
+data formats/outputs may become unavailable or restricted.
+
+4.4 Lifetime Plan Terms
+
+A Lifetime Plan grants long-term access to eligible Pro Edition features
+that run entirely on your device, subject to this Agreement and your
+compliance with it.
+
+Lifetime does not mean we must provide updates, support, or Online
+Services forever.
+
+1. Perpetual use of eligible on-device features:
+   You may continue using the last Pro-enabled version you are entitled
+   to indefinitely for eligible on-device Pro features.
+
+2. Updates and service-backed features limited by Lifetime Update Period:
+   Your entitlement to updates, upgrades, support, and any Pro features
+   that rely on Online Services may be limited to the Lifetime Update
+   Period stated at purchase.
+
+3. Online Services may change:
+   Online Services (including hosted libraries, cloud features,
+   licensing, AI, or other service-backed features) may be modified,
+   limited, or discontinued as described in Section 6.
+
+4. Feature classification reference:
+   The Company may publish which Pro features are on-device vs
+   service-backed in the Phoenix Pro feature set/Documentation.
+
+4.5 Activation, License Checks, and Internet Requirements
+
+Some Pro features (including trial, subscription, and Lifetime Plan
+entitlements) may require:
+
+- Sign-in to your account (if applicable)
+- Periodic license verification
+- Internet access for activation, verification, or Online Services
+
+If verification cannot be completed for a period of time, Pro features
+may be temporarily unavailable until verification succeeds. Community
+Edition features may remain available.
+
+4.6 Pro Activation and Credential Sharing
+
+Pro Edition access is granted through a Phoenix Pro Plan entitlement
+(for example via account sign-in, license key, or other activation
+method described in the applicable plan terms). Unless your plan terms
+expressly allow otherwise, Pro entitlements are personal to the
+purchaser/authorized user, and you may not share or make Pro access
+available to others (including by sharing credentials, keys, tokens, or
+activated copies).
+
+----------------------------------------------------------------------
+5. LICENSE GRANT
+----------------------------------------------------------------------
+
+Subject to your compliance with this Agreement, the Company grants you a
+limited, non-exclusive, non-transferable, revocable license to install
+and use the Product for your internal personal or business purposes.
+
+Unless the Company’s plan terms specify otherwise:
+
+- You may install and use the Product on devices you own or control.
+- You may copy and redistribute the Installer and Community Edition
+  freely. However, you may not share, sell, transfer, sublicense, rent,
+  or lease any Phoenix Pro Plan access, activation method, license key,
+  entitlement, or account credentials, except where your plan terms
+  expressly allow it or where prohibited by law.
+
+All rights not expressly granted are reserved by the Company.
+
+----------------------------------------------------------------------
+6. UPDATES, ONLINE SERVICES, AND AVAILABILITY
+----------------------------------------------------------------------
+
+6.1 Updates and Changes
+
+The Company may provide updates, upgrades, patches, or feature changes.
+Some updates may be required to maintain security, compatibility, or
+continued operation.
+
+We may add, modify, limit, or discontinue features at any time,
+including Pro features and Online Services.
+
+6.2 Online Services
+
+Some features rely on Online Services operated by the Company or third
+parties. The Company will use commercially reasonable efforts to operate
+Online Services in a reliable manner, but Online Services may from time
+to time be unavailable due to maintenance, upgrades, outages, security
+issues, capacity limits, third-party service failures, or events beyond
+our reasonable control.
+
+We may add, modify, limit, or discontinue Online Services (including
+related features), and may change eligibility, limits, or access
+requirements.
+
+For paid Phoenix Pro Plans, if we elect to discontinue an Online Service
+(or a paid feature that materially depends on that Online Service), we
+will use commercially reasonable efforts to provide at least thirty (30)
+days’ advance notice where reasonably practicable. We may discontinue or
+suspend Online Services immediately (or with shorter notice) if required
+by law, to address security, fraud, or abuse, or to prevent material
+harm to the Company, users, or third parties.
+
+If an Online Service is discontinued, you may still be able to use
+Product features that do not depend on that Online Service. Mandatory
+consumer rights remain unaffected.
+
+----------------------------------------------------------------------
+7. RESTRICTIONS
+----------------------------------------------------------------------
+
+You may not:
+
+- Reverse engineer, decompile, or disassemble Pro Edition features,
+  except to the extent such restriction is prohibited by applicable law
+- Circumvent, disable, or interfere with licensing, payments, feature
+  controls, usage limits, or security mechanisms
+- Provide access to Pro Edition features to third parties as a hosted
+  service, time-share, service bureau, or similar arrangement unless
+  expressly authorized
+- Use the Product to develop or offer a product or service that
+  substantially replicates Phoenix Code’s Pro Edition core functionality
+- Remove or alter proprietary notices, trademarks, or license notices
+  included in the Product
+
+----------------------------------------------------------------------
+8. YOUR CONTENT AND OWNERSHIP
+----------------------------------------------------------------------
+
+8.1 You Own Your Content
+
+You retain ownership of Your Content. The Company does not claim
+ownership of your code, files, or projects.
+
+8.2 Access to Your Content
+
+To provide Product features (including sync, collaboration, AI Features,
+or Online Services), the Product may process or transmit Your Content as
+needed to perform the requested function.
+
+----------------------------------------------------------------------
+9. PRIVACY, HEALTH REPORTS, AND AI DATA USE
+----------------------------------------------------------------------
+
+9.1 Privacy Policy
+
+Our privacy practices are described in the Company’s Privacy Policy:
+https://phcode.io/privacy
+
+9.2 Health Reports (Anonymous Usage Statistics and Error Reports)
+
+Phoenix Code provides optional Health Reports that collect anonymous
+usage statistics and error/diagnostic reports to help us prioritize
+features, find bugs, and improve usability and stability.
+
+1. No personally identifiable information in Health Reports:
+   Health Reports are designed so that the Company does not collect or
+   process personally identifiable information through Health Reports.
+
+2. Install ID (random):
+   Health Reports may include a randomly generated Install ID created on
+   installation to measure anonymous counts and trends over time. The
+   Install ID is not derived from device hardware identifiers and is not
+   intended to identify you. We do not use the Install ID to directly
+   identify you, and it is not your account identifier.
+
+3. Preview and control:
+   You can view what would be sent and enable/disable Health Reports in
+   the Product (for example, Help > Health Report).
+
+4. Necessary anonymous health indicators:
+   Certain anonymous measurements may be collected as necessary app
+   health indicators, such as:
+   - security/app update status checks,
+   - analytics library initialization,
+   - anonymous user counts, and
+   - anonymous usage time, which are aggregate statistics and do not
+     include personal data.
+
+5. Support submissions:
+   If you choose to send support materials, logs, screenshots, or files,
+   those materials may include content you provide voluntarily and will
+   be used to assist you and improve the Product.
+
+9.3 No AI Training
+
+By default, the Company does not use Your Content (including code,
+files, or prompts) to train AI models, unless you explicitly opt in or
+otherwise grant permission in a manner that clearly indicates your
+intent.
+
+9.4 AI Feature Processing
+
+If you use AI Features:
+
+- Your input (which may include Your Content) may be processed to
+  generate output.
+- AI outputs may be similar or identical for other users.
+- You are responsible for reviewing and verifying AI output before
+  relying on it.
+- The Company does not claim ownership of AI-generated output produced
+  for you.
+
+If AI Features involve Third-Party Software or third-party AI services,
+those providers may process data under their own terms, and details may
+be described in the Privacy Policy or Documentation.
+
+9.5 Account and Subscription Data (Separate from Health Reports)
+
+If you create an account or purchase a Phoenix Pro Plan, the Company may
+process account and subscription information (such as email address and
+plan status) to provide authentication, billing, entitlement management,
+fraud prevention, and customer support. This processing is governed by
+the Privacy Policy.
+
+----------------------------------------------------------------------
+10. THIRD-PARTY SOFTWARE
+----------------------------------------------------------------------
+
+The Product may include or depend on third-party software components,
+libraries, and services ("Third-Party Software") that are governed by
+their own licenses or terms. Your use of Third-Party Software is subject
+to those third-party licenses and terms.
+
+Third-Party Software license notices and attributions are provided with
+the Product and/or made available at:
+
+- In the source repository:
+  https://github.com/phcode-dev/phoenix/tree/main/src/thirdparty/licences
+- Within the installed Product distribution (for example, in a
+  "Third-Party Licenses" or similar notices location, where provided)
+
+If there is a conflict between this Agreement and a Third-Party Software
+license regarding that Third-Party Software, the Third-Party Software
+license will control for that component. Third-Party Software is
+provided by its respective owners, and the Company does not make any
+warranties on behalf of third-party licensors.
+
+----------------------------------------------------------------------
+11. DISCLAIMER OF WARRANTIES
+----------------------------------------------------------------------
+
+To the maximum extent permitted by law, the Product and Online Services
+are provided "as is" and "as available."
+
+The Company disclaims all warranties, whether express, implied, or
+statutory, including but not limited to warranties of merchantability,
+fitness for a particular purpose, title, and non-infringement.
+
+We do not warrant that the Product will meet your requirements, operate
+without interruption, be secure, or be error-free, or that defects will
+be corrected.
+
+----------------------------------------------------------------------
+12. LIMITATION OF LIABILITY
+----------------------------------------------------------------------
+
+To the maximum extent permitted by law:
+
+1. The Company is not liable for any indirect, incidental, special,
+   consequential, or punitive damages, or for loss of profits, revenue,
+   data, goodwill, or business interruption, arising out of or related
+   to the Product or this Agreement.
+
+2. The Company’s total aggregate liability arising out of or relating to
+   this Agreement will not exceed:
+   - for subscription plans: the amount you paid to the Company for the
+     Product in the 12 months immediately before the event giving rise
+     to the claim, and
+   - for Lifetime Plans: the one-time amount paid for the Lifetime Plan,
+   - and for free users: no liability (except to the extent liability
+     cannot be excluded under applicable law),
+   in each case whichever is applicable.
+
+Some jurisdictions do not allow certain limitations, so some of the
+above may not apply to you. Mandatory consumer protection laws remain
+unaffected.
+
+----------------------------------------------------------------------
+13. TERM, TERMINATION, AND SURVIVAL
+----------------------------------------------------------------------
+
+13.1 Term
+
+This Agreement applies while you use the Product.
+
+13.2 Termination
+
+You may stop using the Product at any time.
+
+The Company may terminate or suspend your rights to use the Product
+(including Pro features or Online Services) if you breach this
+Agreement, if required for legal compliance, or if the Product is
+discontinued.
+
+13.3 Effect of Termination
+
+Upon termination, you must stop using the Product. However, if you
+purchased a Lifetime Plan and we terminate solely due to Product
+discontinuation (not your breach), you may retain the right to use the
+last entitled version for eligible on-device features, subject to
+applicable law.
+
+13.4 Survival
+
+Sections that by their nature should survive termination will survive,
+including Sections on ownership, privacy/AI data use (as applicable),
+disclaimers, limitation of liability, governing law, and dispute
+provisions.
+
+----------------------------------------------------------------------
+14. EXPORT AND SANCTIONS COMPLIANCE
+----------------------------------------------------------------------
+
+You must comply with applicable export control and sanctions laws. You
+may not use or export the Product in violation of such laws.
+
+----------------------------------------------------------------------
+15. GOVERNING LAW, JURISDICTION, AND COMPANY INFORMATION
+----------------------------------------------------------------------
+
+This Agreement is governed by the laws of India, without regard to
+conflict of laws principles.
+
+Subject to applicable consumer protection laws, the courts located in
+Ernakulam, Kerala, India will have exclusive jurisdiction over disputes
+arising from or relating to this Agreement.
+
+Mandatory consumer rights available under applicable law remain
+unaffected.
+
+Company Information
+
+CORE.AI SCIENTIFIC TECHNOLOGIES PRIVATE LIMITED
+(CIN: U72501KL2020PTC063362)
+
+Registered Office:
+No. 6/858-M, 2nd Floor, Suite No. 695 Valamkottil Towers,
+Judgemukku Kakkanad, Ernakulam, Kerala - 682021 India
+
+Contact: legal@core.ai
+
+----------------------------------------------------------------------
+16. CHANGES TO THIS AGREEMENT
+----------------------------------------------------------------------
+
+We may update this Agreement from time to time.
+
+Unless otherwise required by applicable law, we are not obligated to
+provide notice of updates to this Agreement. However, if (a) you have a
+paid Phoenix Pro Plan and a change would materially reduce your paid
+entitlements during an active paid term, or (b) we make a material
+change to our privacy practices, we will use commercially reasonable
+efforts to provide notice through reasonable means (for example, in-app
+notice, on our website, or via email associated with your account). Any
+updated Agreement will apply prospectively from its effective date.
+
+By continuing to use the Product after the effective date of an updated
+Agreement, you accept the updated terms. If you do not agree, you must
+stop using the Product.
+
+----------------------------------------------------------------------
+17. ENTIRE AGREEMENT
+----------------------------------------------------------------------
+
+This Agreement constitutes the entire agreement between you and the
+Company regarding the Product and supersedes all prior agreements or
+understandings relating to the Product.
+
+If any provision of this Agreement is held unenforceable, the remaining
+provisions remain in full force and effect.
+
+The Company’s failure to enforce any right or provision does not
+constitute a waiver.
+
+You may not assign this Agreement without the Company’s prior written
+consent. The Company may assign this Agreement as part of a merger,
+acquisition, or sale of assets.
+
+----------------------------------------------------------------------
+REFERENCE LINKS
+----------------------------------------------------------------------
+
+Privacy Policy:       https://phcode.io/privacy
+Phoenix Pro Features: https://phcode.io/
