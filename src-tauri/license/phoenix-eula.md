@@ -1,6 +1,6 @@
 # PHOENIX CODE USER AGREEMENT
 
-**Version: 1.3.1** **Effective Date: 1-Jan-2026**
+**Effective Date: 1-Jan-2026**  **Version: 5**
 
 **Thank you for choosing Phoenix Code!**
 
