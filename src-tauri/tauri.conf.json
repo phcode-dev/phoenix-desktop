@@ -192,7 +192,7 @@
                 "frameworks": [],
                 "providerShortName": null,
                 "signingIdentity": null,
-                "license": "./license/agpl"
+                "license": "./license/phoenix-eula"
             },
             "resources": [
                 "src-node/*"
@@ -210,7 +210,7 @@
                 "timestampUrl": "http://timestamp.globalsign.com/tsa/advanced",
                 "nsis": {
                     "displayLanguageSelector": true,
-                    "license": "./license/agpl",
+                    "license": "./license/phoenix-eula",
                     "template": "./src/bundle/windows/nsis/installer.nsi",
                     "languages": [
                         "English",
