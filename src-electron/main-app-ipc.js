@@ -7,6 +7,10 @@ let processInstanceId = 0;
 // Map of instanceId -> { process, terminated }
 const spawnedProcesses = new Map();
 
+// In-memory key-value store shared across all windows (mirrors Tauri's put_item/get_all_items)
+// Used for multi-window storage synchronization
+const sharedStorageMap = new Map();
+
 function waitForTrue(fn, timeout) {
     return new Promise((resolve) => {
         const startTime = Date.now();
@@ -115,6 +119,20 @@ function registerAppIpcHandlers() {
     // App name from package.json
     ipcMain.handle('get-app-name', () => {
         return productName;
+    });
+
+    // Set zoom factor on the webview (mirrors Tauri's zoom_window)
+    ipcMain.handle('zoom-window', (event, scaleFactor) => {
+        event.sender.setZoomFactor(scaleFactor);
+    });
+
+    // In-memory storage for multi-window sync (mirrors Tauri's put_item/get_all_items)
+    ipcMain.handle('put-item', (event, key, value) => {
+        sharedStorageMap.set(key, value);
+    });
+
+    ipcMain.handle('get-all-items', () => {
+        return Object.fromEntries(sharedStorageMap);
     });
 }
 
