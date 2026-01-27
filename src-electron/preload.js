@@ -62,5 +62,12 @@ contextBridge.exposeInMainWorld('electronAPI', {
         // Normalize path separators to forward slashes for URL
         const normalizedPath = platformPath.replace(/\\/g, '/');
         return `asset://localhost/${encodeURIComponent(normalizedPath)}`;
-    }
+    },
+
+    // Set zoom factor on the webview (mirrors Tauri's zoom_window)
+    zoomWindow: (scaleFactor) => ipcRenderer.invoke('zoom-window', scaleFactor),
+
+    // In-memory storage for multi-window sync (mirrors Tauri's put_item/get_all_items)
+    putItem: (key, value) => ipcRenderer.invoke('put-item', key, value),
+    getAllItems: () => ipcRenderer.invoke('get-all-items')
 });
