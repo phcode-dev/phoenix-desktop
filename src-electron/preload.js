@@ -87,5 +87,13 @@ contextBridge.exposeInMainWorld('electronAPI', {
     removeTrustWindowAesKey: (key, iv) => ipcRenderer.invoke('remove-trust-window-aes-key', key, iv),
     storeCredential: (scopeName, secretVal) => ipcRenderer.invoke('store-credential', scopeName, secretVal),
     getCredential: (scopeName) => ipcRenderer.invoke('get-credential', scopeName),
-    deleteCredential: (scopeName) => ipcRenderer.invoke('delete-credential', scopeName)
+    deleteCredential: (scopeName) => ipcRenderer.invoke('delete-credential', scopeName),
+
+    // Window management APIs (mirrors Tauri's window labeling scheme)
+    getWindowLabels: () => ipcRenderer.invoke('get-window-labels'),
+    getCurrentWindowLabel: () => ipcRenderer.invoke('get-current-window-label'),
+    createPhoenixWindow: (url, options) => ipcRenderer.invoke('create-phoenix-window', url, options),
+    closeWindow: () => ipcRenderer.invoke('close-window'),
+    quitApp: (exitCode) => ipcRenderer.invoke('quit-app', exitCode),
+    focusWindow: () => ipcRenderer.invoke('focus-window')
 });

@@ -5,6 +5,7 @@ const fs = require('fs');
 const { registerAppIpcHandlers, terminateAllProcesses } = require('./main-app-ipc');
 const { registerFsIpcHandlers, getAppDataDir } = require('./main-fs-ipc');
 const { registerCredIpcHandlers, cleanupWindowTrust } = require('./main-cred-ipc');
+const { registerWindowIpcHandlers, registerWindow } = require('./main-window-ipc');
 
 // In-memory key-value store shared across all windows (mirrors Tauri's put_item/get_all_items)
 // Used for multi-window storage synchronization
@@ -23,6 +24,9 @@ async function createWindow() {
         },
         icon: path.join(__dirname, '..', 'src-tauri', 'icons', 'icon.png')
     });
+
+    // Register main window with label 'main' (mirrors Tauri's window labeling)
+    registerWindow(mainWindow, 'main');
 
     // Load the test page from the http-server
     mainWindow.loadURL('http://localhost:8000/src/');
@@ -46,6 +50,7 @@ async function gracefulShutdown(exitCode = 0) {
 registerAppIpcHandlers();
 registerFsIpcHandlers();
 registerCredIpcHandlers();
+registerWindowIpcHandlers();
 
 /**
  * IPC handlers for electronAPI
