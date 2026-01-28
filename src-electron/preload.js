@@ -11,6 +11,7 @@ contextBridge.exposeInMainWorld('electronAppAPI', {
     onProcessStdout: (callback) => ipcRenderer.on('process-stdout', (_event, instanceId, line) => callback(instanceId, line)),
     onProcessStderr: (callback) => ipcRenderer.on('process-stderr', (_event, instanceId, line) => callback(instanceId, line)),
     onProcessClose: (callback) => ipcRenderer.on('process-close', (_event, instanceId, data) => callback(instanceId, data)),
+    onProcessError: (callback) => ipcRenderer.on('process-error', (_event, instanceId, err) => callback(instanceId, err)),
 
     // Quit the app with an exit code (for CI)
     quitApp: (exitCode) => ipcRenderer.invoke('quit-app', exitCode),
