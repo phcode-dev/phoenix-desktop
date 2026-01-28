@@ -363,7 +363,6 @@ jobs:
         run: |
           npm ci
           npm run _ci-release:prod
-          npm run _ci-disableBundleConfig
           npm run tauri build
           ls -alh ./src-tauri/target/release
           mkdir ./src-tauri/target/release/binDist

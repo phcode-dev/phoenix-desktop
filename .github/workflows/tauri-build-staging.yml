@@ -314,7 +314,6 @@ jobs:
         run: |
           npm ci
           npm run _ci-release:staging
-          npm run _ci-disableBundleConfig
           npm run tauri build
           ls -alh ./src-tauri/target/release
           mkdir ./src-tauri/target/release/phoenix-code
