@@ -83,7 +83,11 @@ function registerAppIpcHandlers() {
         });
 
         childProcess.on('error', (err) => {
+            instance.terminated = true;
             console.error(`Failed to start process (instance ${instanceId}):`, err);
+            if (!sender.isDestroyed()) {
+                sender.send('process-error', instanceId, { message: err.message, code: err.code });
+            }
         });
 
         return instanceId;
