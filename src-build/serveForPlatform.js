@@ -1,6 +1,7 @@
 import {getPlatformDetails} from "./utils.js";
 import {execa} from "execa";
 import chalk from "chalk";
+import {resolve} from "path";
 
 const {platform} = getPlatformDetails();
 
@@ -44,14 +45,18 @@ console.log(`Platform: ${platform}, target: ${target}`);
 console.log('\nEnsure to start phoenix server at http://localhost:8000 for development.');
 console.log('Follow https://github.com/phcode-dev/phoenix#running-phoenix for instructions.\n');
 
-console.log('Setting up src-node...');
-await execa("npm", ["run", "_make_src-node"], {stdio: "inherit"});
-
 // Run platform-specific command
 if (target === "tauri") {
+    console.log('Setting up src-node...');
+    await execa("npm", ["run", "_make_src-node"], {stdio: "inherit"});
+
     console.log('Starting Tauri dev server...');
     await execa("npx", ["tauri", "dev"], {stdio: "inherit"});
 } else {
+    const srcNodePath = resolve("../phoenix/src-node");
+    console.log(`Running "npm ci" in ${srcNodePath}`);
+    await execa("npm", ["ci"], {cwd: srcNodePath, stdio: "inherit"});
+
     console.log('Starting Electron...');
     await execa("./src-electron/node_modules/.bin/electron", ["src-electron/main.js"], {stdio: "inherit"});
 }
