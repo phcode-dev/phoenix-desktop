@@ -4,7 +4,7 @@ const fs = require('fs');
 
 const { registerAppIpcHandlers, terminateAllProcesses } = require('./main-app-ipc');
 const { registerFsIpcHandlers, getAppDataDir } = require('./main-fs-ipc');
-const { registerCredIpcHandlers, cleanupWindowTrust } = require('./main-cred-ipc');
+const { registerCredIpcHandlers } = require('./main-cred-ipc');
 const { registerWindowIpcHandlers, registerWindow } = require('./main-window-ipc');
 
 // Request single instance lock - only one instance of the app should run at a time
@@ -19,10 +19,8 @@ if (!gotTheLock) {
 // Used for multi-window storage synchronization
 const sharedStorageMap = new Map();
 
-let mainWindow;
-
 async function createWindow() {
-    mainWindow = new BrowserWindow({
+    const win = new BrowserWindow({
         width: 1200,
         height: 800,
         webPreferences: {
@@ -34,18 +32,11 @@ async function createWindow() {
     });
 
     // Register main window with label 'main' (mirrors Tauri's window labeling)
-    registerWindow(mainWindow, 'main');
+    // Trust cleanup is handled by registerWindow's closed handler
+    registerWindow(win, 'main');
 
     // Load the test page from the http-server
-    mainWindow.loadURL('http://localhost:8000/src/');
-
-    mainWindow.webContents.on('destroyed', () => {
-        cleanupWindowTrust(mainWindow.webContents.id);
-    });
-
-    mainWindow.on('closed', () => {
-        mainWindow = null;
-    });
+    win.loadURL('http://localhost:8000/src/');
 }
 
 async function gracefulShutdown(exitCode = 0) {
