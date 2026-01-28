@@ -1,4 +1,4 @@
-const { contextBridge, ipcRenderer } = require('electron');
+const { contextBridge, ipcRenderer, webUtils } = require('electron');
 
 /**
  * electronAppAPI - Process lifecycle and app info APIs
@@ -136,5 +136,8 @@ contextBridge.exposeInMainWorld('electronAPI', {
     allowClose: () => ipcRenderer.invoke('allow-close'),
 
     // Single instance event listener (mirrors Tauri's single-instance event)
-    onSingleInstance: (callback) => ipcRenderer.on('single-instance', (_event, payload) => callback(payload))
+    onSingleInstance: (callback) => ipcRenderer.on('single-instance', (_event, payload) => callback(payload)),
+
+    // Drag and drop: get native file path from a dropped File object
+    getPathForFile: (file) => webUtils.getPathForFile(file)
 });
