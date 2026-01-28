@@ -83,13 +83,16 @@ function registerWindowIpcHandlers() {
         app.exit(exitCode || 0);
     });
 
-    // Focus current window
+    // Focus current window and bring to front
     ipcMain.handle('focus-window', (event) => {
         const win = BrowserWindow.fromWebContents(event.sender);
         if (win) {
-            win.setAlwaysOnTop(true);
+            if (win.isMinimized()) {
+                win.restore();
+            }
+            win.moveTop();
+            win.show();
             win.focus();
-            win.setAlwaysOnTop(false);
         }
     });
 }
