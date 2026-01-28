@@ -1,6 +1,7 @@
 const { ipcMain, BrowserWindow, shell, clipboard } = require('electron');
 const path = require('path');
 const { spawn } = require('child_process');
+const { cleanupWindowTrust } = require('./main-cred-ipc');
 
 const PHOENIX_WINDOW_PREFIX = 'phcode-';
 const PHOENIX_EXTENSION_WINDOW_PREFIX = 'extn-';
@@ -25,13 +26,16 @@ function getNextLabel(prefix) {
 const windowCloseHandlers = new Map();
 
 function registerWindow(win, label) {
+    const webContentsId = win.webContents.id;
     windowRegistry.set(label, win);
-    webContentsToLabel.set(win.webContents.id, label);
+    webContentsToLabel.set(webContentsId, label);
 
     win.on('closed', () => {
         windowRegistry.delete(label);
-        webContentsToLabel.delete(win.webContents.id);
-        windowCloseHandlers.delete(win.webContents.id);
+        webContentsToLabel.delete(webContentsId);
+        windowCloseHandlers.delete(webContentsId);
+        // Clean up AES trust for closing window (mirrors Tauri's on_window_event CloseRequested handler)
+        cleanupWindowTrust(webContentsId);
     });
 }
 
