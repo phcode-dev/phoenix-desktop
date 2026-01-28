@@ -1,5 +1,10 @@
 const { contextBridge, ipcRenderer } = require('electron');
 
+/**
+ * electronAppAPI - Process lifecycle and app info APIs
+ * NOTE: This API block is copied from phoenix-fs library. Do not modify without
+ * updating the source library. Only add new Phoenix-specific APIs to electronAPI below.
+ */
 contextBridge.exposeInMainWorld('electronAppAPI', {
     // App info
     getAppName: () => ipcRenderer.invoke('get-app-name'),
@@ -26,7 +31,11 @@ contextBridge.exposeInMainWorld('electronAppAPI', {
     getCliArgs: () => ipcRenderer.invoke('get-cli-args')
 });
 
-// the electronFSAPI is the fn that you need to copy to your election app impl for the fs to work.
+/**
+ * electronFSAPI - File system APIs
+ * NOTE: This API block is copied from phoenix-fs library. Do not modify without
+ * updating the source library. Only add new Phoenix-specific APIs to electronAPI below.
+ */
 contextBridge.exposeInMainWorld('electronFSAPI', {
     // Path utilities
     path: {

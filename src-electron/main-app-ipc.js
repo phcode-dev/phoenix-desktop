@@ -1,6 +1,9 @@
 /**
  * IPC handlers for electronAppAPI
  * Preload location: contextBridge.exposeInMainWorld('electronAppAPI', { ... })
+ *
+ * NOTE: This file is copied from phoenix-fs library. Do not modify without
+ * updating the source library. Only add new Phoenix-specific handlers to main-window-ipc.js.
  */
 
 const { app, ipcMain } = require('electron');
