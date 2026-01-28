@@ -2,7 +2,7 @@ const { app, BrowserWindow, protocol, Menu, ipcMain } = require('electron');
 const path = require('path');
 const fs = require('fs');
 
-const { registerAppIpcHandlers, terminateAllProcesses } = require('./main-app-ipc');
+const { registerAppIpcHandlers, terminateAllProcesses, filterCliArgs } = require('./main-app-ipc');
 const { registerFsIpcHandlers, getAppDataDir } = require('./main-fs-ipc');
 const { registerCredIpcHandlers } = require('./main-cred-ipc');
 const { registerWindowIpcHandlers, registerWindow } = require('./main-window-ipc');
@@ -105,10 +105,12 @@ app.on('quit-requested', (exitCode) => {
 app.on('second-instance', (event, commandLine, workingDirectory) => {
     // Forward to all windows via IPC
     // Window focusing is handled by the renderer's singleInstanceHandler
+    // Filter out internal electron args (executable and main.js script)
+    const filteredArgs = filterCliArgs(commandLine);
     BrowserWindow.getAllWindows().forEach(win => {
         if (!win.isDestroyed()) {
             win.webContents.send('single-instance', {
-                args: commandLine,
+                args: filteredArgs,
                 cwd: workingDirectory
             });
         }

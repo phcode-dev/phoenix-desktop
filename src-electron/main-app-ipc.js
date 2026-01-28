@@ -9,9 +9,33 @@
 const { app, ipcMain } = require('electron');
 const { spawn } = require('child_process');
 const readline = require('readline');
+const path = require('path');
 const { productName } = require('./package.json');
 
 let processInstanceId = 0;
+
+// Path to main.js - used to filter it out from CLI args in dev mode
+const mainScriptPath = path.resolve(__dirname, 'main.js');
+
+/**
+ * Filter CLI args to remove internal Electron arguments.
+ * In dev mode, process.argv includes: [electron, main.js, ...userArgs]
+ * In production, it includes: [app, ...userArgs]
+ * This function filters out the main.js entry point in dev mode.
+ */
+function filterCliArgs(args) {
+    if (!args || args.length === 0) {
+        return args;
+    }
+
+    const normalizedMainScript = mainScriptPath.toLowerCase();
+
+    return args.filter(arg => {
+        // Resolve to handle both absolute and relative paths
+        const resolvedArg = path.resolve(arg).toLowerCase();
+        return resolvedArg !== normalizedMainScript;
+    });
+}
 // Map of instanceId -> { process, terminated }
 const spawnedProcesses = new Map();
 
@@ -115,8 +139,9 @@ function registerAppIpcHandlers() {
     });
 
     // CLI args (mirrors Tauri's cli.getMatches for --quit-when-done / -q)
+    // Filter out internal Electron args (main.js in dev mode)
     ipcMain.handle('get-cli-args', () => {
-        return process.argv;
+        return filterCliArgs(process.argv);
     });
 
     // App path (repo root when running from source)
@@ -132,5 +157,6 @@ function registerAppIpcHandlers() {
 
 module.exports = {
     registerAppIpcHandlers,
-    terminateAllProcesses
+    terminateAllProcesses,
+    filterCliArgs
 };
