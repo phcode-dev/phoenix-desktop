@@ -133,5 +133,8 @@ contextBridge.exposeInMainWorld('electronAPI', {
     // Close requested handler
     onCloseRequested: (callback) => ipcRenderer.on('close-requested', () => callback()),
     registerCloseHandler: () => ipcRenderer.invoke('register-close-handler'),
-    allowClose: () => ipcRenderer.invoke('allow-close')
+    allowClose: () => ipcRenderer.invoke('allow-close'),
+
+    // Single instance event listener (mirrors Tauri's single-instance event)
+    onSingleInstance: (callback) => ipcRenderer.on('single-instance', (_event, payload) => callback(payload))
 });

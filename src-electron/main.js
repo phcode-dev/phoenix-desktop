@@ -7,6 +7,14 @@ const { registerFsIpcHandlers, getAppDataDir } = require('./main-fs-ipc');
 const { registerCredIpcHandlers, cleanupWindowTrust } = require('./main-cred-ipc');
 const { registerWindowIpcHandlers, registerWindow } = require('./main-window-ipc');
 
+// Request single instance lock - only one instance of the app should run at a time
+const gotTheLock = app.requestSingleInstanceLock();
+
+if (!gotTheLock) {
+    // Another instance is running, quit this one immediately
+    app.quit();
+}
+
 // In-memory key-value store shared across all windows (mirrors Tauri's put_item/get_all_items)
 // Used for multi-window storage synchronization
 const sharedStorageMap = new Map();
@@ -99,6 +107,20 @@ app.on('quit-requested', (exitCode) => {
     gracefulShutdown(exitCode);
 });
 
+// Handle second instance attempts - forward args to existing windows
+app.on('second-instance', (event, commandLine, workingDirectory) => {
+    // Forward to all windows via IPC
+    // Window focusing is handled by the renderer's singleInstanceHandler
+    BrowserWindow.getAllWindows().forEach(win => {
+        if (!win.isDestroyed()) {
+            win.webContents.send('single-instance', {
+                args: commandLine,
+                cwd: workingDirectory
+            });
+        }
+    });
+});
+
 app.whenReady().then(async () => {
     // Remove default menu bar
     Menu.setApplicationMenu(null);
@@ -136,6 +158,10 @@ app.on('window-all-closed', () => {
     gracefulShutdown(0);
 });
 
+// macOS: When dock icon is clicked and no windows are open, create a new window.
+// Currently this won't fire because window-all-closed quits the app. If macOS support
+// is added and we want apps to stay running with no windows, change window-all-closed
+// to not quit on macOS (process.platform !== 'darwin').
 app.on('activate', () => {
     if (BrowserWindow.getAllWindows().length === 0) {
         createWindow();
