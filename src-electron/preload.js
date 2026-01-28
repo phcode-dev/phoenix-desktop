@@ -71,6 +71,9 @@ contextBridge.exposeInMainWorld('electronAPI', {
     putItem: (key, value) => ipcRenderer.invoke('put-item', key, value),
     getAllItems: () => ipcRenderer.invoke('get-all-items'),
 
+    // Toggle DevTools
+    toggleDevTools: () => ipcRenderer.invoke('toggle-dev-tools'),
+
     // Path to phnode binary (src-electron/bin/phnode)
     getPhNodePath: () => ipcRenderer.invoke('get-phnode-path'),
 

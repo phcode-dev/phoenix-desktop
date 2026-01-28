@@ -1,17 +1,16 @@
+/**
+ * IPC handlers for electronAppAPI
+ * Preload location: contextBridge.exposeInMainWorld('electronAppAPI', { ... })
+ */
+
 const { app, ipcMain } = require('electron');
 const { spawn } = require('child_process');
 const readline = require('readline');
-const path = require('path');
-const fs = require('fs');
 const { productName } = require('./package.json');
 
 let processInstanceId = 0;
 // Map of instanceId -> { process, terminated }
 const spawnedProcesses = new Map();
-
-// In-memory key-value store shared across all windows (mirrors Tauri's put_item/get_all_items)
-// Used for multi-window storage synchronization
-const sharedStorageMap = new Map();
 
 function waitForTrue(fn, timeout) {
     return new Promise((resolve) => {
@@ -121,38 +120,6 @@ function registerAppIpcHandlers() {
     // App name from package.json
     ipcMain.handle('get-app-name', () => {
         return productName;
-    });
-
-    // Set zoom factor on the webview (mirrors Tauri's zoom_window)
-    ipcMain.handle('zoom-window', (event, scaleFactor) => {
-        event.sender.setZoomFactor(scaleFactor);
-    });
-
-    // In-memory storage for multi-window sync (mirrors Tauri's put_item/get_all_items)
-    ipcMain.handle('put-item', (event, key, value) => {
-        sharedStorageMap.set(key, value);
-    });
-
-    ipcMain.handle('get-all-items', () => {
-        return Object.fromEntries(sharedStorageMap);
-    });
-
-    // Get path to phnode binary
-    ipcMain.handle('get-phnode-path', () => {
-        const phNodePath = path.resolve(__dirname, 'bin', 'phnode');
-        if (!fs.existsSync(phNodePath)) {
-            throw new Error(`phnode binary does not exist: ${phNodePath}`);
-        }
-        return phNodePath;
-    });
-
-    // Get path to src-node (for development)
-    ipcMain.handle('get-src-node-path', () => {
-        const srcNodePath = path.resolve(__dirname, '..', '..', 'phoenix', 'src-node');
-        if (!fs.existsSync(srcNodePath)) {
-            throw new Error(`src-node path does not exist: ${srcNodePath}`);
-        }
-        return srcNodePath;
     });
 }
 
