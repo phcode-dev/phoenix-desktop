@@ -96,12 +96,6 @@ function registerWindowIpcHandlers() {
         }
     });
 
-    // Quit app (for last window scenario)
-    ipcMain.handle('quit-app', (event, exitCode) => {
-        const { app } = require('electron');
-        app.exit(exitCode || 0);
-    });
-
     // Focus current window and bring to front
     ipcMain.handle('focus-window', (event) => {
         const win = BrowserWindow.fromWebContents(event.sender);
