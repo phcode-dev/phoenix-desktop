@@ -21,6 +21,7 @@ phoenix
 
 # Electron things
 src-electron/bin
+src-electron/src-node
 
 node_modules
 dist
