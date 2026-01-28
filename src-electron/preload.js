@@ -80,5 +80,12 @@ contextBridge.exposeInMainWorld('electronAPI', {
 
     // Path to src-node for development (../phoenix/src-node)
     // Throws if path does not exist
-    getSrcNodePath: () => ipcRenderer.invoke('get-src-node-path')
+    getSrcNodePath: () => ipcRenderer.invoke('get-src-node-path'),
+
+    // Trust ring / credential APIs
+    trustWindowAesKey: (key, iv) => ipcRenderer.invoke('trust-window-aes-key', key, iv),
+    removeTrustWindowAesKey: (key, iv) => ipcRenderer.invoke('remove-trust-window-aes-key', key, iv),
+    storeCredential: (scopeName, secretVal) => ipcRenderer.invoke('store-credential', scopeName, secretVal),
+    getCredential: (scopeName) => ipcRenderer.invoke('get-credential', scopeName),
+    deleteCredential: (scopeName) => ipcRenderer.invoke('delete-credential', scopeName)
 });

@@ -5,6 +5,9 @@
   "productName": "Phoenix Code Experimental Build",
   "description": "Phoenix Code Experimental Build",
   "main": "main.js",
+  "dependencies": {
+    "keytar": "^7.9.0"
+  },
   "devDependencies": {
     "electron": "^40.0.0"
   }
