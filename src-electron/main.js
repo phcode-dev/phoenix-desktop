@@ -35,6 +35,9 @@ async function createWindow() {
     // Trust cleanup is handled by registerWindow's closed handler
     registerWindow(win, 'main');
 
+    // uncomment line below if you want to open dev tools at app start
+    // win.webContents.openDevTools();
+
     // Load the test page from the http-server
     win.loadURL('http://localhost:8000/src/');
 }
