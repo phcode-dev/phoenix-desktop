@@ -69,5 +69,12 @@ contextBridge.exposeInMainWorld('electronAPI', {
 
     // In-memory storage for multi-window sync (mirrors Tauri's put_item/get_all_items)
     putItem: (key, value) => ipcRenderer.invoke('put-item', key, value),
-    getAllItems: () => ipcRenderer.invoke('get-all-items')
+    getAllItems: () => ipcRenderer.invoke('get-all-items'),
+
+    // Path to phnode binary (src-electron/bin/phnode)
+    getPhNodePath: () => ipcRenderer.invoke('get-phnode-path'),
+
+    // Path to src-node for development (../phoenix/src-node)
+    // Throws if path does not exist
+    getSrcNodePath: () => ipcRenderer.invoke('get-src-node-path')
 });

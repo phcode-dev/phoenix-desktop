@@ -1,6 +1,8 @@
 const { app, ipcMain } = require('electron');
 const { spawn } = require('child_process');
 const readline = require('readline');
+const path = require('path');
+const fs = require('fs');
 const { productName } = require('./package.json');
 
 let processInstanceId = 0;
@@ -133,6 +135,24 @@ function registerAppIpcHandlers() {
 
     ipcMain.handle('get-all-items', () => {
         return Object.fromEntries(sharedStorageMap);
+    });
+
+    // Get path to phnode binary
+    ipcMain.handle('get-phnode-path', () => {
+        const phNodePath = path.resolve(__dirname, 'bin', 'phnode');
+        if (!fs.existsSync(phNodePath)) {
+            throw new Error(`phnode binary does not exist: ${phNodePath}`);
+        }
+        return phNodePath;
+    });
+
+    // Get path to src-node (for development)
+    ipcMain.handle('get-src-node-path', () => {
+        const srcNodePath = path.resolve(__dirname, '..', '..', 'phoenix', 'src-node');
+        if (!fs.existsSync(srcNodePath)) {
+            throw new Error(`src-node path does not exist: ${srcNodePath}`);
+        }
+        return srcNodePath;
     });
 }
 
