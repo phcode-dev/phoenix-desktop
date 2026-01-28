@@ -19,6 +19,9 @@ src-tauri/phnode-*
 src-tauri/tauri-local.conf.json
 phoenix
 
+# Electron things
+src-electron/bin
+
 node_modules
 dist
 dist-ssr
