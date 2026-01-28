@@ -3407,7 +3407,7 @@ dependencies = [
 
 [[package]]
 name = "phoenix-code-ide"
-version = "5.0.5"
+version = "5.1.0"
 dependencies = [
  "aes-gcm",
  "backtrace",
