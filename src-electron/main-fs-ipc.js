@@ -1,3 +1,8 @@
+/**
+ * IPC handlers for electronFSAPI
+ * Preload location: contextBridge.exposeInMainWorld('electronFSAPI', { ... })
+ */
+
 const { ipcMain, dialog, BrowserWindow } = require('electron');
 const path = require('path');
 const fsp = require('fs/promises');
