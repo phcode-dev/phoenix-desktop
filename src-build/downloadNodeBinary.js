@@ -239,6 +239,24 @@ async function copyLatestNodeForBuild(platform, arch) {
         console.log("Error Found:", err);
         throw new Error(err);
     }
+
+    // Also copy to src-electron/bin folder
+    const electronBinDir = (platform === "win") ? `${__dirname}\\..\\src-electron\\bin` : `${__dirname}/../src-electron/bin`;
+    const electronBinName = (platform === "win") ? "phnode.exe" : "phnode";
+    const electronDestNode = (platform === "win") ? `${electronBinDir}\\${electronBinName}` : `${electronBinDir}/${electronBinName}`;
+
+    try {
+        // Ensure the directory exists
+        if (!fs.existsSync(electronBinDir)) {
+            fs.mkdirSync(electronBinDir, { recursive: true });
+        }
+        fs.copyFileSync(srcNode, electronDestNode);
+        console.log("File copied to src-electron/bin successfully!");
+    } catch (err) {
+        console.log("Error copying to src-electron/bin:", err);
+        throw new Error(err);
+    }
+
     await removeDir(fullPathOfNode);
 }
 
