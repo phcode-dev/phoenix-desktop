@@ -95,5 +95,34 @@ contextBridge.exposeInMainWorld('electronAPI', {
     createPhoenixWindow: (url, options) => ipcRenderer.invoke('create-phoenix-window', url, options),
     closeWindow: () => ipcRenderer.invoke('close-window'),
     quitApp: (exitCode) => ipcRenderer.invoke('quit-app', exitCode),
-    focusWindow: () => ipcRenderer.invoke('focus-window')
+    focusWindow: () => ipcRenderer.invoke('focus-window'),
+
+    // Process and platform info
+    getProcessId: () => ipcRenderer.invoke('get-process-id'),
+    getPlatformArch: () => ipcRenderer.invoke('get-platform-arch'),
+    getCwd: () => ipcRenderer.invoke('get-cwd'),
+
+    // Fullscreen APIs
+    isFullscreen: () => ipcRenderer.invoke('is-fullscreen'),
+    setFullscreen: (enable) => ipcRenderer.invoke('set-fullscreen', enable),
+
+    // Window title APIs
+    setWindowTitle: (title) => ipcRenderer.invoke('set-window-title', title),
+    getWindowTitle: () => ipcRenderer.invoke('get-window-title'),
+
+    // Clipboard APIs
+    clipboardReadText: () => ipcRenderer.invoke('clipboard-read-text'),
+    clipboardWriteText: (text) => ipcRenderer.invoke('clipboard-write-text', text),
+    clipboardReadFiles: () => ipcRenderer.invoke('clipboard-read-files'),
+
+    // Shell APIs
+    moveToTrash: (platformPath) => ipcRenderer.invoke('move-to-trash', platformPath),
+    showInFolder: (platformPath) => ipcRenderer.invoke('show-in-folder', platformPath),
+    openExternal: (url) => ipcRenderer.invoke('open-external', url),
+    openUrlInBrowserWin: (url, browser) => ipcRenderer.invoke('open-url-in-browser-win', url, browser),
+
+    // Close requested handler
+    onCloseRequested: (callback) => ipcRenderer.on('close-requested', () => callback()),
+    registerCloseHandler: () => ipcRenderer.invoke('register-close-handler'),
+    allowClose: () => ipcRenderer.invoke('allow-close')
 });
