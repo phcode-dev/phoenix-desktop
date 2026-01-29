@@ -7,10 +7,14 @@
   "productName": "Phoenix Code Experimental Build",
   "description": "Phoenix Code Experimental Build",
   "main": "main.js",
+  "scripts": {
+    "build:appimage": "electron-builder --linux AppImage"
+  },
   "dependencies": {
     "keytar": "^7.9.0"
   },
   "devDependencies": {
-    "electron": "^40.0.0"
+    "electron": "^40.0.0",
+    "electron-builder": "^24.13.3"
   }
 }

@@ -8,8 +8,10 @@ const __dirname = dirname(__filename);
 
 const electronDir = join(__dirname, '..', 'src-electron');
 
-console.log('Installing src-electron dependencies...');
-execSync('npm ci', { cwd: electronDir, stdio: 'inherit' });
+// Use the same npm command that was used at root level (npm install vs npm ci)
+const npmCommand = process.env.npm_command === 'install' ? 'npm install' : 'npm ci';
+console.log(`Installing src-electron dependencies with ${npmCommand}...`);
+execSync(npmCommand, { cwd: electronDir, stdio: 'inherit' });
 console.log('src-electron dependencies installed successfully!');
 
 // Copy config.json to config-effective.json (dev config by default)

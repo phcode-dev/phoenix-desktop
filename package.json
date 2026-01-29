@@ -20,6 +20,7 @@
         "releaseDistTest": "npm run _make_src-node && npm run _createDistTestReleaseConfig && tauri build --config ./src-tauri/tauri-local.conf.json",
         "releaseDistTestDebug": "npm run _make_src-node && npm run _createDistTestReleaseConfig && tauri build --config ./src-tauri/tauri-local.conf.json --debug",
         "_make_src-node": "node ./src-build/makeSrcNode.js ../phoenix/src-node",
+        "build:electron": "npm run _make_src-node && cd src-electron && npm run build:appimage",
         "_ci_make_src-node": "node ./src-build/makeSrcNode.js phoenix/src-node",
         "_ci-clonePhoenixForTests": "npm run _ci-env-warn && node ./src-build/clonePhoenixForTests.js",
         "_ci-cloneAndBuildPhoenix": "npm run _ci-env-warn && node ./src-build/clonePhoenix.js && cd phoenix && npm ci && npm run build && cd ..",

@@ -16,6 +16,25 @@ const gotTheLock = app.requestSingleInstanceLock();
 if (!gotTheLock) {
     // Another instance is running, quit this one immediately
     app.quit();
+    // Return value is ignored but this stops further module execution
+    return;
+}
+
+function getPhNodePath() {
+    if (!app.isPackaged) {
+        return path.resolve(__dirname, 'bin', 'phnode');
+    }
+    // extraResources places files directly in resources/
+    return path.join(process.resourcesPath, 'bin', 'phnode');
+}
+
+function getSrcNodePath() {
+    if (!app.isPackaged) {
+        // Dev: use phoenix repo's src-node
+        return path.resolve(__dirname, '..', '..', 'phoenix', 'src-node');
+    }
+    // extraResources places files directly in resources/
+    return path.join(process.resourcesPath, 'src-node');
 }
 
 // In-memory key-value store shared across all windows (mirrors Tauri's put_item/get_all_items)
@@ -126,17 +145,17 @@ ipcMain.handle('toggle-dev-tools', (event) => {
 // Get path to phnode binary
 ipcMain.handle('get-phnode-path', (event) => {
     assertTrusted(event);
-    const phNodePath = path.resolve(__dirname, 'bin', 'phnode');
+    const phNodePath = getPhNodePath();
     if (!fs.existsSync(phNodePath)) {
         throw new Error(`phnode binary does not exist: ${phNodePath}`);
     }
     return phNodePath;
 });
 
-// Get path to src-node (for development)
+// Get path to src-node
 ipcMain.handle('get-src-node-path', (event) => {
     assertTrusted(event);
-    const srcNodePath = path.resolve(__dirname, '..', '..', 'phoenix', 'src-node');
+    const srcNodePath = getSrcNodePath();
     if (!fs.existsSync(srcNodePath)) {
         throw new Error(`src-node path does not exist: ${srcNodePath}`);
     }
