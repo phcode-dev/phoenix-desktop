@@ -3,6 +3,7 @@ const path = require('path');
 const { spawn } = require('child_process');
 const { cleanupWindowTrust } = require('./main-cred-ipc');
 const { isTrustedOrigin, updateTrustStatus, cleanupTrust, assertTrusted } = require('./ipc-security');
+const { DEFAULTS } = require('./window-state');
 
 const PHOENIX_WINDOW_PREFIX = 'phcode-';
 const PHOENIX_EXTENSION_WINDOW_PREFIX = 'extn-';
@@ -96,11 +97,29 @@ function registerWindowIpcHandlers() {
             webPreferences.preload = path.join(__dirname, 'preload.js');
         }
 
+        let windowConfig;
+        if (isExtension) {
+            // Extensions manage their own sizing
+            windowConfig = {
+                width: width || 800,
+                height: height || 600,
+                minWidth: minWidth,
+                minHeight: minHeight
+            };
+        } else {
+            // Phoenix windows: use defaults and ensure dimensions are at least the minimums
+            const actualMinWidth = Math.max(minWidth || DEFAULTS.minWidth, DEFAULTS.minWidth);
+            const actualMinHeight = Math.max(minHeight || DEFAULTS.minHeight, DEFAULTS.minHeight);
+            windowConfig = {
+                width: Math.max(width || DEFAULTS.width, actualMinWidth),
+                height: Math.max(height || DEFAULTS.height, actualMinHeight),
+                minWidth: actualMinWidth,
+                minHeight: actualMinHeight
+            };
+        }
+
         const win = new BrowserWindow({
-            width: width || 1366,
-            height: height || 900,
-            minWidth: minWidth || 800,
-            minHeight: minHeight || 600,
+            ...windowConfig,
             fullscreen: fullscreen || false,
             resizable: resizable !== false,
             title: windowTitle || label,

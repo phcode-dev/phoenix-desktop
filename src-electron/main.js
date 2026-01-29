@@ -7,6 +7,7 @@ const { registerFsIpcHandlers, getAppDataDir } = require('./main-fs-ipc');
 const { registerCredIpcHandlers } = require('./main-cred-ipc');
 const { registerWindowIpcHandlers, registerWindow } = require('./main-window-ipc');
 const { assertTrusted } = require('./ipc-security');
+const { getWindowOptions, trackWindowState, DEFAULTS } = require('./window-state');
 
 // Request single instance lock - only one instance of the app should run at a time
 const gotTheLock = app.requestSingleInstanceLock();
@@ -21,9 +22,15 @@ if (!gotTheLock) {
 const sharedStorageMap = new Map();
 
 async function createWindow() {
+    // Get window options with restored state or defaults
+    const windowOptions = getWindowOptions();
+    const wasMaximized = windowOptions._wasMaximized;
+    delete windowOptions._wasMaximized;
+
     const win = new BrowserWindow({
-        width: 1200,
-        height: 800,
+        ...windowOptions,
+        minWidth: DEFAULTS.minWidth,
+        minHeight: DEFAULTS.minHeight,
         webPreferences: {
             preload: path.join(__dirname, 'preload.js'),
             contextIsolation: true,
@@ -31,6 +38,14 @@ async function createWindow() {
         },
         icon: path.join(__dirname, '..', 'src-tauri', 'icons', 'icon.png')
     });
+
+    // Track window state for persistence
+    trackWindowState(win);
+
+    // Restore maximized state after window is ready
+    if (wasMaximized) {
+        win.maximize();
+    }
 
     // Register main window with label 'main' (mirrors Tauri's window labeling)
     // Trust cleanup is handled by registerWindow's closed handler
