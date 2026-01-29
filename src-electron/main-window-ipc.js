@@ -3,7 +3,7 @@ const path = require('path');
 const { spawn } = require('child_process');
 const { cleanupWindowTrust } = require('./main-cred-ipc');
 const { isTrustedOrigin, updateTrustStatus, cleanupTrust, assertTrusted } = require('./ipc-security');
-const { DEFAULTS } = require('./window-state');
+const { DEFAULTS, trackWindowState } = require('./window-state');
 
 const PHOENIX_WINDOW_PREFIX = 'phcode-';
 const PHOENIX_EXTENSION_WINDOW_PREFIX = 'extn-';
@@ -125,6 +125,11 @@ function registerWindowIpcHandlers() {
             title: windowTitle || label,
             webPreferences
         });
+
+        // Track window state for Phoenix windows (not extensions)
+        if (!isExtension) {
+            trackWindowState(win);
+        }
 
         registerWindow(win, label);
         await win.loadURL(url);

@@ -142,44 +142,22 @@ function getWindowOptions() {
 }
 
 /**
- * Track window state changes and save on close.
+ * Track window state and save on close.
  * Call this after creating the BrowserWindow.
  */
 function trackWindowState(win) {
-    let windowState = {
-        width: DEFAULTS.width,
-        height: DEFAULTS.height,
-        x: undefined,
-        y: undefined,
-        isMaximized: false
-    };
-
-    // Update state from current window bounds
-    function updateState() {
-        if (!win.isMaximized() && !win.isMinimized() && !win.isFullScreen()) {
-            const bounds = win.getBounds();
-            windowState.width = bounds.width;
-            windowState.height = bounds.height;
-            windowState.x = bounds.x;
-            windowState.y = bounds.y;
-        }
-        windowState.isMaximized = win.isMaximized();
-    }
-
-    // Listen for state changes
-    win.on('resize', updateState);
-    win.on('move', updateState);
-    win.on('maximize', updateState);
-    win.on('unmaximize', updateState);
-
-    // Save state before window closes
     win.on('close', () => {
-        updateState();
+        // getNormalBounds() returns the non-maximized bounds even when maximized
+        const bounds = win.getNormalBounds();
+        const windowState = {
+            width: bounds.width,
+            height: bounds.height,
+            x: bounds.x,
+            y: bounds.y,
+            isMaximized: win.isMaximized()
+        };
         saveWindowState(windowState);
     });
-
-    // Initialize state
-    updateState();
 }
 
 module.exports = {
