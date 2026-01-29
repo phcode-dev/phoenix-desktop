@@ -8,6 +8,7 @@ const { registerCredIpcHandlers } = require('./main-cred-ipc');
 const { registerWindowIpcHandlers, registerWindow } = require('./main-window-ipc');
 const { assertTrusted } = require('./ipc-security');
 const { getWindowOptions, trackWindowState, DEFAULTS } = require('./window-state');
+const { phoenixLoadURL } = require('./config');
 
 // Request single instance lock - only one instance of the app should run at a time
 const gotTheLock = app.requestSingleInstanceLock();
@@ -54,8 +55,8 @@ async function createWindow() {
     // uncomment line below if you want to open dev tools at app start
     // win.webContents.openDevTools();
 
-    // Load the test page from the http-server
-    win.loadURL('http://localhost:8000/src/');
+    // Load Phoenix from configured URL
+    win.loadURL(phoenixLoadURL);
 }
 
 async function gracefulShutdown(exitCode = 0) {
