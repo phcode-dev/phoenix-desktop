@@ -244,8 +244,8 @@ function registerWindowIpcHandlers() {
             // Try reading as file URLs
             const text = clipboard.read('public.file-url');
             if (text) {
-                // Convert file:// URLs to paths
-                const paths = text.split('\n')
+                // Convert file:// URLs to paths (handle both \n and \r\n line endings)
+                const paths = text.split(/\r?\n/)
                     .filter(url => url.startsWith('file://'))
                     .map(url => decodeURIComponent(url.replace('file://', '')));
                 if (paths.length > 0) {
@@ -254,11 +254,11 @@ function registerWindowIpcHandlers() {
             }
         }
 
-        // Linux: text/uri-list format
+        // Linux: text/uri-list format (uses \r\n line endings per RFC 2483)
         if (process.platform === 'linux' && formats.includes('text/uri-list')) {
             const text = clipboard.read('text/uri-list');
             if (text) {
-                const paths = text.split('\n')
+                const paths = text.split(/\r?\n/)
                     .filter(url => url.startsWith('file://'))
                     .map(url => decodeURIComponent(url.replace('file://', '')));
                 if (paths.length > 0) {
