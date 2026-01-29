@@ -2,24 +2,23 @@
  * Centralized Configuration Module
  *
  * This module provides a single source of truth for all configuration values.
- * It reads from package.json and can apply stage-wise transforms as needed.
+ * It reads from config.json and can apply stage-wise transforms as needed.
  *
  * Usage:
  *   const { stage, trustedElectronDomains, productName } = require('./config');
  */
 
-const packageJson = require('./package.json');
+const configJson = require('./config-effective.json');
 
-// Core package.json values
-const name = packageJson.name;
-const identifier = packageJson.identifier;
-const stage = packageJson.stage;
-const version = packageJson.version;
-const productName = packageJson.productName;
-const description = packageJson.description;
+// Core config values
+const identifier = configJson.identifier;
+const phoenixLoadURL = configJson.phoenixLoadURL;
+const stage = configJson.stage;
+const version = configJson.version;
+const productName = configJson.productName;
 
 // Security configuration
-const trustedElectronDomains = packageJson.trustedElectronDomains || [];
+const trustedElectronDomains = configJson.trustedElectronDomains || [];
 
 /**
  * Initialize configuration (call once at app startup if needed).
@@ -35,13 +34,12 @@ function initConfig() {
 }
 
 module.exports = {
-    // Package info
-    name,
+    // App info
     identifier,
+    phoenixLoadURL,
     stage,
     version,
     productName,
-    description,
 
     // Security
     trustedElectronDomains,

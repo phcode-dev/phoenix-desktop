@@ -1,0 +1,8 @@
+{
+  "identifier": "io.phcode.dev",
+  "phoenixLoadURL": "http://localhost:8000/src/",
+  "stage": "dev",
+  "trustedElectronDomains": ["phtauri://localhost/", "https://phcode.dev/"],
+  "version": "5.0.5",
+  "productName": "Phoenix Code Experimental Build"
+}

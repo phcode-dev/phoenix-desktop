@@ -2,6 +2,7 @@ import {getPlatformDetails} from "./utils.js";
 import {execa} from "execa";
 import chalk from "chalk";
 import {resolve} from "path";
+import {copyFileSync} from "fs";
 
 const {platform} = getPlatformDetails();
 
@@ -56,6 +57,13 @@ if (target === "tauri") {
     const srcNodePath = resolve("../phoenix/src-node");
     console.log(`Running "npm install" in ${srcNodePath}`);
     await execa("npm", ["install"], {cwd: srcNodePath, stdio: "inherit"});
+
+    // Copy config.json to config-effective.json (dev config for serve)
+    const electronDir = resolve("src-electron");
+    const configSrc = resolve(electronDir, "config.json");
+    const configDest = resolve(electronDir, "config-effective.json");
+    console.log('Copying config.json to config-effective.json...');
+    copyFileSync(configSrc, configDest);
 
     console.log('Starting Electron...');
     await execa("./src-electron/node_modules/.bin/electron", ["src-electron/main.js"], {stdio: "inherit"});

@@ -22,6 +22,7 @@ phoenix
 # Electron things
 src-electron/bin
 src-electron/src-node
+src-electron/config-effective.json
 
 node_modules
 dist
