@@ -1,5 +1,6 @@
 {
   "identifier": "io.phcode.staging",
   "stage": "stage",
-  "productName": "Phoenix Code Pre-release"
+  "productName": "Phoenix Code Pre-release",
+  "gaMetricsURL": "https://staging.phcode.dev/desktop-metrics.html"
 }

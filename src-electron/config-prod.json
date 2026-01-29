@@ -1,5 +1,6 @@
 {
   "identifier": "io.phcode",
   "stage": "production",
-  "productName": "Phoenix Code"
+  "productName": "Phoenix Code",
+  "gaMetricsURL": "https://phcode.dev/desktop-metrics.html"
 }
