@@ -1,0 +1,29 @@
+appId: io.phcode.dev
+productName: Phoenix Code
+copyright: Copyright © 2024 phcode.dev
+
+asar: true
+
+linux:
+  target:
+    - AppImage
+  category: Development
+  icon: ../src-tauri/icons
+
+files:
+  - "**/*"
+  - "!dist/**"
+  - "!src-node/**"
+  - "!bin/**"
+
+asarUnpack:
+  - "node_modules/keytar/**"
+
+extraResources:
+  - from: "src-node"
+    to: "src-node"
+  - from: "bin"
+    to: "bin"
+
+extraMetadata:
+  main: main.js
