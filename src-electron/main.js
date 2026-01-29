@@ -6,6 +6,7 @@ const { registerAppIpcHandlers, terminateAllProcesses, filterCliArgs } = require
 const { registerFsIpcHandlers, getAppDataDir } = require('./main-fs-ipc');
 const { registerCredIpcHandlers } = require('./main-cred-ipc');
 const { registerWindowIpcHandlers, registerWindow } = require('./main-window-ipc');
+const { assertTrusted } = require('./ipc-security');
 
 // Request single instance lock - only one instance of the app should run at a time
 const gotTheLock = app.requestSingleInstanceLock();
@@ -61,25 +62,30 @@ registerWindowIpcHandlers();
 
 // Set zoom factor on the webview (mirrors Tauri's zoom_window)
 ipcMain.handle('zoom-window', (event, scaleFactor) => {
+    assertTrusted(event);
     event.sender.setZoomFactor(scaleFactor);
 });
 
 // In-memory storage for multi-window sync (mirrors Tauri's put_item/get_all_items)
 ipcMain.handle('put-item', (event, key, value) => {
+    assertTrusted(event);
     sharedStorageMap.set(key, value);
 });
 
-ipcMain.handle('get-all-items', () => {
+ipcMain.handle('get-all-items', (event) => {
+    assertTrusted(event);
     return Object.fromEntries(sharedStorageMap);
 });
 
 // Toggle DevTools
 ipcMain.handle('toggle-dev-tools', (event) => {
+    assertTrusted(event);
     event.sender.toggleDevTools();
 });
 
 // Get path to phnode binary
-ipcMain.handle('get-phnode-path', () => {
+ipcMain.handle('get-phnode-path', (event) => {
+    assertTrusted(event);
     const phNodePath = path.resolve(__dirname, 'bin', 'phnode');
     if (!fs.existsSync(phNodePath)) {
         throw new Error(`phnode binary does not exist: ${phNodePath}`);
@@ -88,7 +94,8 @@ ipcMain.handle('get-phnode-path', () => {
 });
 
 // Get path to src-node (for development)
-ipcMain.handle('get-src-node-path', () => {
+ipcMain.handle('get-src-node-path', (event) => {
+    assertTrusted(event);
     const srcNodePath = path.resolve(__dirname, '..', '..', 'phoenix', 'src-node');
     if (!fs.existsSync(srcNodePath)) {
         throw new Error(`src-node path does not exist: ${srcNodePath}`);

@@ -10,7 +10,8 @@ const { ipcMain, dialog, BrowserWindow } = require('electron');
 const path = require('path');
 const fsp = require('fs/promises');
 const os = require('os');
-const { identifier: APP_IDENTIFIER } = require('./package.json');
+const { identifier: APP_IDENTIFIER } = require('./config');
+const { assertTrusted } = require('./ipc-security');
 
 // Electron IPC only preserves Error.message when errors cross the IPC boundary (see
 // https://github.com/electron/electron/issues/24427). To preserve error.code for FS
@@ -47,25 +48,32 @@ function getAppDataDir() {
 
 function registerFsIpcHandlers() {
     // Directory APIs
-    ipcMain.handle('get-documents-dir', () => {
+    ipcMain.handle('get-documents-dir', (event) => {
+        assertTrusted(event);
         // Match Tauri's documentDir which ends with a trailing slash
         return path.join(os.homedir(), 'Documents') + path.sep;
     });
 
-    ipcMain.handle('get-home-dir', () => {
+    ipcMain.handle('get-home-dir', (event) => {
+        assertTrusted(event);
         // Match Tauri's homeDir which ends with a trailing slash
         const home = os.homedir();
         return home.endsWith(path.sep) ? home : home + path.sep;
     });
 
-    ipcMain.handle('get-temp-dir', () => {
+    ipcMain.handle('get-temp-dir', (event) => {
+        assertTrusted(event);
         return os.tmpdir();
     });
 
-    ipcMain.handle('get-app-data-dir', () => getAppDataDir());
+    ipcMain.handle('get-app-data-dir', (event) => {
+        assertTrusted(event);
+        return getAppDataDir();
+    });
 
     // Get Windows drive letters (returns null on non-Windows platforms)
-    ipcMain.handle('get-windows-drives', async () => {
+    ipcMain.handle('get-windows-drives', async (event) => {
+        assertTrusted(event);
         if (process.platform !== 'win32') {
             return null;
         }
@@ -86,12 +94,14 @@ function registerFsIpcHandlers() {
 
     // Dialogs
     ipcMain.handle('show-open-dialog', async (event, options) => {
+        assertTrusted(event);
         const win = BrowserWindow.fromWebContents(event.sender);
         const result = await dialog.showOpenDialog(win, options);
         return result.filePaths;
     });
 
     ipcMain.handle('show-save-dialog', async (event, options) => {
+        assertTrusted(event);
         const win = BrowserWindow.fromWebContents(event.sender);
         const result = await dialog.showSaveDialog(win, options);
         return result.filePath;
@@ -99,6 +109,7 @@ function registerFsIpcHandlers() {
 
     // FS operations
     ipcMain.handle('fs-readdir', async (event, dirPath) => {
+        assertTrusted(event);
         return fsResult(
             fsp.readdir(dirPath, { withFileTypes: true })
                 .then(entries => entries.map(e => ({ name: e.name, isDirectory: e.isDirectory() })))
@@ -106,6 +117,7 @@ function registerFsIpcHandlers() {
     });
 
     ipcMain.handle('fs-stat', async (event, filePath) => {
+        assertTrusted(event);
         return fsResult(
             fsp.stat(filePath).then(stats => ({
                 isFile: stats.isFile(),
@@ -122,12 +134,30 @@ function registerFsIpcHandlers() {
         );
     });
 
-    ipcMain.handle('fs-mkdir', (event, dirPath, options) => fsResult(fsp.mkdir(dirPath, options)));
-    ipcMain.handle('fs-unlink', (event, filePath) => fsResult(fsp.unlink(filePath)));
-    ipcMain.handle('fs-rmdir', (event, dirPath, options) => fsResult(fsp.rm(dirPath, options)));
-    ipcMain.handle('fs-rename', (event, oldPath, newPath) => fsResult(fsp.rename(oldPath, newPath)));
-    ipcMain.handle('fs-read-file', (event, filePath) => fsResult(fsp.readFile(filePath)));
-    ipcMain.handle('fs-write-file', (event, filePath, data) => fsResult(fsp.writeFile(filePath, Buffer.from(data))));
+    ipcMain.handle('fs-mkdir', (event, dirPath, options) => {
+        assertTrusted(event);
+        return fsResult(fsp.mkdir(dirPath, options));
+    });
+    ipcMain.handle('fs-unlink', (event, filePath) => {
+        assertTrusted(event);
+        return fsResult(fsp.unlink(filePath));
+    });
+    ipcMain.handle('fs-rmdir', (event, dirPath, options) => {
+        assertTrusted(event);
+        return fsResult(fsp.rm(dirPath, options));
+    });
+    ipcMain.handle('fs-rename', (event, oldPath, newPath) => {
+        assertTrusted(event);
+        return fsResult(fsp.rename(oldPath, newPath));
+    });
+    ipcMain.handle('fs-read-file', (event, filePath) => {
+        assertTrusted(event);
+        return fsResult(fsp.readFile(filePath));
+    });
+    ipcMain.handle('fs-write-file', (event, filePath, data) => {
+        assertTrusted(event);
+        return fsResult(fsp.writeFile(filePath, Buffer.from(data)));
+    });
 }
 
 module.exports = {
