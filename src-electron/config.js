@@ -13,6 +13,7 @@ const configJson = require('./config-effective.json');
 // Core config values
 const identifier = configJson.identifier;
 const phoenixLoadURL = configJson.phoenixLoadURL;
+const gaMetricsURL = configJson.gaMetricsURL;
 const stage = configJson.stage;
 const version = configJson.version;
 const productName = configJson.productName;
@@ -37,6 +38,7 @@ module.exports = {
     // App info
     identifier,
     phoenixLoadURL,
+    gaMetricsURL,
     stage,
     version,
     productName,
