@@ -139,5 +139,9 @@ contextBridge.exposeInMainWorld('electronAPI', {
     onSingleInstance: (callback) => ipcRenderer.on('single-instance', (_event, payload) => callback(payload)),
 
     // Drag and drop: get native file path from a dropped File object
-    getPathForFile: (file) => webUtils.getPathForFile(file)
+    getPathForFile: (file) => webUtils.getPathForFile(file),
+
+    // Health metrics for Google Analytics (sends to hidden metrics window)
+    sendHealthMetric: (payload) => ipcRenderer.send('send-health-metric', payload),
+    onHealthMetric: (callback) => ipcRenderer.on('health-metric', (_event, payload) => callback(payload))
 });

@@ -5,10 +5,10 @@ const fs = require('fs');
 const { registerAppIpcHandlers, terminateAllProcesses, filterCliArgs } = require('./main-app-ipc');
 const { registerFsIpcHandlers, getAppDataDir } = require('./main-fs-ipc');
 const { registerCredIpcHandlers } = require('./main-cred-ipc');
-const { registerWindowIpcHandlers, registerWindow } = require('./main-window-ipc');
+const { registerWindowIpcHandlers, registerWindow, setOnAllWindowsClosed } = require('./main-window-ipc');
 const { assertTrusted } = require('./ipc-security');
 const { getWindowOptions, trackWindowState, DEFAULTS } = require('./window-state');
-const { phoenixLoadURL } = require('./config');
+const { phoenixLoadURL, gaMetricsURL } = require('./config');
 
 // Request single instance lock - only one instance of the app should run at a time
 const gotTheLock = app.requestSingleInstanceLock();
@@ -21,6 +21,25 @@ if (!gotTheLock) {
 // In-memory key-value store shared across all windows (mirrors Tauri's put_item/get_all_items)
 // Used for multi-window storage synchronization
 const sharedStorageMap = new Map();
+
+// Hidden metrics window for Google Analytics
+let metricsWindow = null;
+
+async function createMetricsWindow() {
+    metricsWindow = new BrowserWindow({
+        show: false,
+        width: 400,
+        height: 300,
+        webPreferences: {
+            preload: path.join(__dirname, 'preload.js'),
+            contextIsolation: true,
+            nodeIntegration: false
+        }
+    });
+    metricsWindow.loadURL(gaMetricsURL);
+    // uncomment line below if you want to open dev tools at app start
+    metricsWindow.webContents.openDevTools();
+}
 
 async function createWindow() {
     // Get window options with restored state or defaults
@@ -71,6 +90,11 @@ registerFsIpcHandlers();
 registerCredIpcHandlers();
 registerWindowIpcHandlers();
 
+// Quit when all registered Phoenix windows are closed (metrics window doesn't count)
+setOnAllWindowsClosed(() => {
+    gracefulShutdown(0);
+});
+
 /**
  * IPC handlers for electronAPI
  * Preload location: contextBridge.exposeInMainWorld('electronAPI', { ... })
@@ -117,6 +141,13 @@ ipcMain.handle('get-src-node-path', (event) => {
         throw new Error(`src-node path does not exist: ${srcNodePath}`);
     }
     return srcNodePath;
+});
+
+// Health metrics forwarding to hidden metrics window (no assertTrusted needed - metrics come from Phoenix windows)
+ipcMain.on('send-health-metric', (event, payload) => {
+    if (metricsWindow && !metricsWindow.isDestroyed()) {
+        metricsWindow.webContents.send('health-metric', payload);
+    }
 });
 
 // Handle quit request from renderer
@@ -170,6 +201,7 @@ app.whenReady().then(async () => {
         }
     });
 
+    await createMetricsWindow();
     await createWindow();
 });
 

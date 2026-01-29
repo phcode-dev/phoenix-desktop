@@ -27,6 +27,9 @@ function getNextLabel(prefix) {
 // Track close handlers per window
 const windowCloseHandlers = new Map();
 
+// Callback when all registered windows are closed
+let onAllWindowsClosedCallback = null;
+
 function registerWindow(win, label) {
     const webContents = win.webContents;
     const webContentsId = webContents.id;
@@ -52,6 +55,10 @@ function registerWindow(win, label) {
         cleanupWindowTrust(webContentsId, label);
         // Clean up security trust
         cleanupTrust(webContentsId);
+        // Notify if all registered windows are closed
+        if (windowRegistry.size === 0 && onAllWindowsClosedCallback) {
+            onAllWindowsClosedCallback();
+        }
     });
 }
 
@@ -313,4 +320,8 @@ function getWindowLabel(webContentsId) {
     return webContentsToLabel.get(webContentsId) || 'unknown';
 }
 
-module.exports = { registerWindowIpcHandlers, registerWindow, setupCloseHandler, windowRegistry, getWindowLabel };
+function setOnAllWindowsClosed(callback) {
+    onAllWindowsClosedCallback = callback;
+}
+
+module.exports = { registerWindowIpcHandlers, registerWindow, getWindowLabel, setOnAllWindowsClosed };

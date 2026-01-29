@@ -2,5 +2,6 @@
   "identifier": "io.phcode.staging",
   "stage": "stage",
   "productName": "Phoenix Code Pre-release",
+  "trustedElectronDomains": ["phtauri://localhost/", "https://phcode.dev/", "https://staging.phcode.dev/"],
   "gaMetricsURL": "https://staging.phcode.dev/desktop-metrics.html"
 }
