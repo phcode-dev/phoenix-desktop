@@ -20,7 +20,7 @@ const _trustedWebContents = new Set();
  * - Dev stage: trustedElectronDomains + all localhost URLs
  * - Other stages: only trustedElectronDomains
  */
-function _isTrustedOrigin(url) {
+function isTrustedOrigin(url) {
     if (!url) return false;
 
     // Check against trustedElectronDomains
@@ -51,7 +51,7 @@ function _isTrustedOrigin(url) {
  */
 function updateTrustStatus(webContents) {
     const url = webContents.getURL();
-    if (_isTrustedOrigin(url)) {
+    if (isTrustedOrigin(url)) {
         _trustedWebContents.add(webContents.id);
     } else {
         _trustedWebContents.delete(webContents.id);
@@ -84,6 +84,7 @@ function assertTrusted(event) {
 }
 
 module.exports = {
+    isTrustedOrigin,
     updateTrustStatus,
     cleanupTrust,
     assertTrusted

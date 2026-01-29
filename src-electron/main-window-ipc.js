@@ -2,7 +2,7 @@ const { ipcMain, BrowserWindow, shell, clipboard } = require('electron');
 const path = require('path');
 const { spawn } = require('child_process');
 const { cleanupWindowTrust } = require('./main-cred-ipc');
-const { updateTrustStatus, cleanupTrust, assertTrusted } = require('./ipc-security');
+const { isTrustedOrigin, updateTrustStatus, cleanupTrust, assertTrusted } = require('./ipc-security');
 
 const PHOENIX_WINDOW_PREFIX = 'phcode-';
 const PHOENIX_EXTENSION_WINDOW_PREFIX = 'extn-';
@@ -91,8 +91,8 @@ function registerWindowIpcHandlers() {
             sandbox: true
         };
 
-        // Only inject preload for Phoenix windows, not extensions
-        if (!isExtension) {
+        // Only inject preload for Phoenix windows with trusted URLs, not extensions
+        if (!isExtension && isTrustedOrigin(url)) {
             webPreferences.preload = path.join(__dirname, 'preload.js');
         }
 
