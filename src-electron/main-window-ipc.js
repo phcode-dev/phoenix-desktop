@@ -48,7 +48,7 @@ function registerWindow(win, label) {
         webContentsToLabel.delete(webContentsId);
         windowCloseHandlers.delete(webContentsId);
         // Clean up AES trust for closing window (mirrors Tauri's on_window_event CloseRequested handler)
-        cleanupWindowTrust(webContentsId);
+        cleanupWindowTrust(webContentsId, label);
         // Clean up security trust
         cleanupTrust(webContentsId);
     });
@@ -285,4 +285,8 @@ function registerWindowIpcHandlers() {
     });
 }
 
-module.exports = { registerWindowIpcHandlers, registerWindow, setupCloseHandler, windowRegistry };
+function getWindowLabel(webContentsId) {
+    return webContentsToLabel.get(webContentsId) || 'unknown';
+}
+
+module.exports = { registerWindowIpcHandlers, registerWindow, setupCloseHandler, windowRegistry, getWindowLabel };
