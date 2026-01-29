@@ -54,8 +54,8 @@ if (target === "tauri") {
     await execa("npx", ["tauri", "dev"], {stdio: "inherit"});
 } else {
     const srcNodePath = resolve("../phoenix/src-node");
-    console.log(`Running "npm ci" in ${srcNodePath}`);
-    await execa("npm", ["ci"], {cwd: srcNodePath, stdio: "inherit"});
+    console.log(`Running "npm install" in ${srcNodePath}`);
+    await execa("npm", ["install"], {cwd: srcNodePath, stdio: "inherit"});
 
     console.log('Starting Electron...');
     await execa("./src-electron/node_modules/.bin/electron", ["src-electron/main.js"], {stdio: "inherit"});
