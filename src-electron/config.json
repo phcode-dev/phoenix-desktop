@@ -3,7 +3,7 @@
   "stage": "dev",
   "version": "5.0.5",
   "productName": "Phoenix Code Experimental Build",
-  "phoenixLoadURL": "http://localhost:8000/src/",
+  "phoenixLoadURL": "phtauri://localhost/src/",
   "trustedElectronDomains": ["phtauri://localhost/", "https://phcode.dev/"],
-  "gaMetricsURL": "http://localhost:8000/src/desktop-metrics.html"
+  "gaMetricsURL": "phtauri://localhost/src/desktop-metrics.html"
 }

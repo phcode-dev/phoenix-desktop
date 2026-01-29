@@ -1,4 +1,4 @@
-const { app, BrowserWindow, protocol, Menu, ipcMain } = require('electron');
+const { app, BrowserWindow, protocol, Menu, ipcMain, net } = require('electron');
 const path = require('path');
 const fs = require('fs');
 
@@ -9,6 +9,21 @@ const { registerWindowIpcHandlers, registerWindow, setOnAllWindowsClosed } = req
 const { assertTrusted } = require('./ipc-security');
 const { getWindowOptions, trackWindowState, DEFAULTS } = require('./window-state');
 const { phoenixLoadURL, gaMetricsURL } = require('./config');
+
+// Register phtauri:// as a privileged scheme (must be done before app ready)
+// This enables standard web features: fetch, localStorage, cookies, etc.
+protocol.registerSchemesAsPrivileged([
+    {
+        scheme: 'phtauri',
+        privileges: {
+            standard: true,
+            secure: true,
+            supportFetchAPI: true,
+            corsEnabled: true,
+            stream: true
+        }
+    }
+]);
 
 // Request single instance lock - only one instance of the app should run at a time
 const gotTheLock = app.requestSingleInstanceLock();
@@ -194,11 +209,45 @@ app.whenReady().then(async () => {
     // Remove default menu bar
     Menu.setApplicationMenu(null);
 
+    // Register phtauri:// protocol for serving Phoenix files
+    // In dev: serves from ../phoenix/ repo
+    // In packaged: would need different handling (but typically uses https:// in production)
+    if (!app.isPackaged) {
+        const phoenixRepoPath = path.resolve(__dirname, '..', '..', 'phoenix');
+
+        protocol.handle('phtauri', (request) => {
+            try {
+                const url = new URL(request.url);
+                // phtauri://localhost/src/index.html -> ../phoenix/src/index.html
+                let requestedPath = decodeURIComponent(url.pathname);
+
+                // Serve index.html for directory requests
+                if (requestedPath.endsWith('/')) {
+                    requestedPath += 'index.html';
+                }
+
+                const filePath = path.join(phoenixRepoPath, requestedPath);
+                const normalizedFilePath = path.normalize(filePath);
+
+                // Security: Ensure path is under phoenix repo (prevent directory traversal)
+                if (!normalizedFilePath.startsWith(phoenixRepoPath)) {
+                    console.error('phtauri access denied - path not under phoenix repo:', requestedPath);
+                    return new Response('Access denied', { status: 403 });
+                }
+
+                return net.fetch(`file://${normalizedFilePath}`);
+            } catch (err) {
+                console.error('phtauri protocol error:', err);
+                return new Response('Not found', { status: 404 });
+            }
+        });
+    }
+
     // Register asset:// protocol for serving local files from appLocalData/assets/
     const appDataDir = getAppDataDir();
     const assetsDir = path.join(appDataDir, 'assets');
 
-    protocol.registerFileProtocol('asset', (request, callback) => {
+    protocol.handle('asset', (request) => {
         try {
             const url = new URL(request.url);
             // Decode the path from URL encoding
@@ -209,14 +258,13 @@ app.whenReady().then(async () => {
             // Security: Ensure path is under assets directory (prevent directory traversal)
             if (!normalizedRequested.startsWith(normalizedAssetsDir)) {
                 console.error('Asset access denied - path not under assets dir:', requestedPath);
-                callback({ error: -10 }); // net::ERR_ACCESS_DENIED
-                return;
+                return new Response('Access denied', { status: 403 });
             }
 
-            callback({ path: normalizedRequested });
+            return net.fetch(`file://${normalizedRequested}`);
         } catch (err) {
             console.error('Asset protocol error:', err);
-            callback({ error: -2 }); // net::ERR_FAILED
+            return new Response('Not found', { status: 404 });
         }
     });
 
