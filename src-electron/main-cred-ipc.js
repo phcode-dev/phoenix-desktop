@@ -36,7 +36,9 @@ function registerCredIpcHandlers() {
         }
 
         windowTrustMap.set(webContentsId, { key, iv });
-        console.log(`AES trust established for webContents: ${webContentsId}`);
+        // Lazy require to avoid circular dependency
+        const { getWindowLabel } = require('./main-window-ipc');
+        console.log(`AES trust established for window: ${getWindowLabel(webContentsId)} (webContentsId: ${webContentsId})`);
     });
 
     // Remove trust - requires matching key/iv
@@ -53,7 +55,8 @@ function registerCredIpcHandlers() {
         }
 
         windowTrustMap.delete(webContentsId);
-        console.log(`AES trust removed for webContents: ${webContentsId}`);
+        const { getWindowLabel } = require('./main-window-ipc');
+        console.log(`AES trust removed for window: ${getWindowLabel(webContentsId)} (webContentsId: ${webContentsId})`);
     });
 
     // Store credential in system keychain
@@ -108,10 +111,10 @@ function registerCredIpcHandlers() {
 }
 
 // Clean up trust when window closes
-function cleanupWindowTrust(webContentsId) {
+function cleanupWindowTrust(webContentsId, windowLabel) {
     if (windowTrustMap.has(webContentsId)) {
         windowTrustMap.delete(webContentsId);
-        console.log(`AES trust auto-removed for closed webContents: ${webContentsId}`);
+        console.log(`AES trust auto-removed for closed window: ${windowLabel} (webContentsId: ${webContentsId})`);
     }
 }
 
