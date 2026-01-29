@@ -1,5 +1,6 @@
 const { ipcMain } = require('electron');
 const crypto = require('crypto');
+const { assertTrusted } = require('./ipc-security');
 
 // Per-window AES trust map (mirrors Tauri's WindowAesTrust)
 // Uses webContents.id which persists across page reloads but changes when window is destroyed
@@ -18,6 +19,7 @@ const PHOENIX_CRED_PREFIX = 'phcode_electron_';
 function registerCredIpcHandlers() {
     // Trust window AES key - can only be called once per window
     ipcMain.handle('trust-window-aes-key', (event, key, iv) => {
+        assertTrusted(event);
         const webContentsId = event.sender.id;
 
         if (windowTrustMap.has(webContentsId)) {
@@ -39,6 +41,7 @@ function registerCredIpcHandlers() {
 
     // Remove trust - requires matching key/iv
     ipcMain.handle('remove-trust-window-aes-key', (event, key, iv) => {
+        assertTrusted(event);
         const webContentsId = event.sender.id;
         const stored = windowTrustMap.get(webContentsId);
 
@@ -55,6 +58,7 @@ function registerCredIpcHandlers() {
 
     // Store credential in system keychain
     ipcMain.handle('store-credential', async (event, scopeName, secretVal) => {
+        assertTrusted(event);
         if (!keytar) {
             throw new Error('keytar module not available.');
         }
@@ -64,6 +68,7 @@ function registerCredIpcHandlers() {
 
     // Get credential (encrypted with window's AES key)
     ipcMain.handle('get-credential', async (event, scopeName) => {
+        assertTrusted(event);
         if (!keytar) {
             throw new Error('keytar module not available.');
         }
@@ -93,6 +98,7 @@ function registerCredIpcHandlers() {
 
     // Delete credential from system keychain
     ipcMain.handle('delete-credential', async (event, scopeName) => {
+        assertTrusted(event);
         if (!keytar) {
             throw new Error('keytar module not available.');
         }

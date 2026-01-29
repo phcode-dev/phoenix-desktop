@@ -2,6 +2,7 @@ const { ipcMain, BrowserWindow, shell, clipboard } = require('electron');
 const path = require('path');
 const { spawn } = require('child_process');
 const { cleanupWindowTrust } = require('./main-cred-ipc');
+const { updateTrustStatus, cleanupTrust, assertTrusted } = require('./ipc-security');
 
 const PHOENIX_WINDOW_PREFIX = 'phcode-';
 const PHOENIX_EXTENSION_WINDOW_PREFIX = 'extn-';
@@ -26,9 +27,21 @@ function getNextLabel(prefix) {
 const windowCloseHandlers = new Map();
 
 function registerWindow(win, label) {
-    const webContentsId = win.webContents.id;
+    const webContents = win.webContents;
+    const webContentsId = webContents.id;
     windowRegistry.set(label, win);
     webContentsToLabel.set(webContentsId, label);
+
+    // Initial trust evaluation
+    updateTrustStatus(webContents);
+
+    // Re-evaluate trust on navigation
+    webContents.on('did-navigate', () => {
+        updateTrustStatus(webContents);
+    });
+    webContents.on('did-navigate-in-page', () => {
+        updateTrustStatus(webContents);
+    });
 
     win.on('closed', () => {
         windowRegistry.delete(label);
@@ -36,6 +49,8 @@ function registerWindow(win, label) {
         windowCloseHandlers.delete(webContentsId);
         // Clean up AES trust for closing window (mirrors Tauri's on_window_event CloseRequested handler)
         cleanupWindowTrust(webContentsId);
+        // Clean up security trust
+        cleanupTrust(webContentsId);
     });
 }
 
@@ -51,21 +66,35 @@ function setupCloseHandler(win) {
 
 function registerWindowIpcHandlers() {
     // Get all window labels (mirrors Tauri's _get_window_labels)
-    ipcMain.handle('get-window-labels', () => {
+    ipcMain.handle('get-window-labels', (event) => {
+        assertTrusted(event);
         return Array.from(windowRegistry.keys());
     });
 
     // Get current window's label
     ipcMain.handle('get-current-window-label', (event) => {
+        assertTrusted(event);
         return webContentsToLabel.get(event.sender.id) || null;
     });
 
     // Create new window (mirrors openURLInPhoenixWindow for Electron)
     ipcMain.handle('create-phoenix-window', async (event, url, options) => {
+        assertTrusted(event);
         const { windowTitle, fullscreen, resizable, height, minHeight, width, minWidth, isExtension } = options || {};
 
         const prefix = isExtension ? PHOENIX_EXTENSION_WINDOW_PREFIX : PHOENIX_WINDOW_PREFIX;
         const label = getNextLabel(prefix);
+
+        const webPreferences = {
+            contextIsolation: true,
+            nodeIntegration: false,
+            sandbox: true
+        };
+
+        // Only inject preload for Phoenix windows, not extensions
+        if (!isExtension) {
+            webPreferences.preload = path.join(__dirname, 'preload.js');
+        }
 
         const win = new BrowserWindow({
             width: width || 1366,
@@ -75,11 +104,7 @@ function registerWindowIpcHandlers() {
             fullscreen: fullscreen || false,
             resizable: resizable !== false,
             title: windowTitle || label,
-            webPreferences: {
-                preload: path.join(__dirname, 'preload.js'),
-                contextIsolation: true,
-                nodeIntegration: false
-            }
+            webPreferences
         });
 
         registerWindow(win, label);
@@ -90,6 +115,7 @@ function registerWindowIpcHandlers() {
 
     // Close current window
     ipcMain.handle('close-window', async (event) => {
+        assertTrusted(event);
         const win = BrowserWindow.fromWebContents(event.sender);
         if (win) {
             win.close();
@@ -98,6 +124,7 @@ function registerWindowIpcHandlers() {
 
     // Focus current window and bring to front
     ipcMain.handle('focus-window', (event) => {
+        assertTrusted(event);
         const win = BrowserWindow.fromWebContents(event.sender);
         if (win) {
             if (win.isMinimized()) {
@@ -110,27 +137,32 @@ function registerWindowIpcHandlers() {
     });
 
     // Get process ID
-    ipcMain.handle('get-process-id', () => {
+    ipcMain.handle('get-process-id', (event) => {
+        assertTrusted(event);
         return process.pid;
     });
 
     // Get platform architecture
-    ipcMain.handle('get-platform-arch', () => {
+    ipcMain.handle('get-platform-arch', (event) => {
+        assertTrusted(event);
         return process.arch;
     });
 
     // Get current working directory
-    ipcMain.handle('get-cwd', () => {
+    ipcMain.handle('get-cwd', (event) => {
+        assertTrusted(event);
         return process.cwd();
     });
 
     // Fullscreen APIs
     ipcMain.handle('is-fullscreen', (event) => {
+        assertTrusted(event);
         const win = BrowserWindow.fromWebContents(event.sender);
         return win ? win.isFullScreen() : false;
     });
 
     ipcMain.handle('set-fullscreen', (event, enable) => {
+        assertTrusted(event);
         const win = BrowserWindow.fromWebContents(event.sender);
         if (win) {
             win.setFullScreen(enable);
@@ -139,6 +171,7 @@ function registerWindowIpcHandlers() {
 
     // Window title APIs
     ipcMain.handle('set-window-title', (event, title) => {
+        assertTrusted(event);
         const win = BrowserWindow.fromWebContents(event.sender);
         if (win) {
             win.setTitle(title);
@@ -146,21 +179,25 @@ function registerWindowIpcHandlers() {
     });
 
     ipcMain.handle('get-window-title', (event) => {
+        assertTrusted(event);
         const win = BrowserWindow.fromWebContents(event.sender);
         return win ? win.getTitle() : '';
     });
 
     // Clipboard APIs
-    ipcMain.handle('clipboard-read-text', () => {
+    ipcMain.handle('clipboard-read-text', (event) => {
+        assertTrusted(event);
         return clipboard.readText();
     });
 
     ipcMain.handle('clipboard-write-text', (event, text) => {
+        assertTrusted(event);
         clipboard.writeText(text);
     });
 
     // Read file paths from clipboard (platform-specific)
-    ipcMain.handle('clipboard-read-files', () => {
+    ipcMain.handle('clipboard-read-files', (event) => {
+        assertTrusted(event);
         const formats = clipboard.availableFormats();
 
         // Windows: FileNameW format contains file paths
@@ -204,19 +241,23 @@ function registerWindowIpcHandlers() {
 
     // Shell APIs
     ipcMain.handle('move-to-trash', async (event, platformPath) => {
+        assertTrusted(event);
         await shell.trashItem(platformPath);
     });
 
     ipcMain.handle('show-in-folder', (event, platformPath) => {
+        assertTrusted(event);
         shell.showItemInFolder(platformPath);
     });
 
     ipcMain.handle('open-external', async (event, url) => {
+        assertTrusted(event);
         await shell.openExternal(url);
     });
 
     // Windows-only: open URL in specific browser (fire and forget)
     ipcMain.handle('open-url-in-browser-win', (event, url, browser) => {
+        assertTrusted(event);
         if (process.platform !== 'win32') {
             throw new Error('open-url-in-browser-win is only supported on Windows');
         }
@@ -225,6 +266,7 @@ function registerWindowIpcHandlers() {
 
     // Register close handler for current window
     ipcMain.handle('register-close-handler', (event) => {
+        assertTrusted(event);
         const win = BrowserWindow.fromWebContents(event.sender);
         if (win) {
             windowCloseHandlers.set(win.webContents.id, true);
@@ -234,6 +276,7 @@ function registerWindowIpcHandlers() {
 
     // Allow close after handler approves
     ipcMain.handle('allow-close', (event) => {
+        assertTrusted(event);
         const win = BrowserWindow.fromWebContents(event.sender);
         if (win) {
             win.forceClose = true;

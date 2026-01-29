@@ -10,7 +10,8 @@ const { app, ipcMain } = require('electron');
 const { spawn } = require('child_process');
 const readline = require('readline');
 const path = require('path');
-const { productName } = require('./package.json');
+const { productName } = require('./config');
+const { assertTrusted } = require('./ipc-security');
 
 let processInstanceId = 0;
 
@@ -73,6 +74,7 @@ function registerAppIpcHandlers() {
     // Spawn a child process and forward stdio to the calling renderer.
     // Returns an instanceId so the renderer can target the correct process.
     ipcMain.handle('spawn-process', async (event, command, args) => {
+        assertTrusted(event);
         const instanceId = ++processInstanceId;
         const sender = event.sender;
         console.log(`Spawning: ${command} ${args.join(' ')} (instance ${instanceId})`);
@@ -122,6 +124,7 @@ function registerAppIpcHandlers() {
 
     // Write data to a specific spawned process stdin
     ipcMain.handle('write-to-process', (event, instanceId, data) => {
+        assertTrusted(event);
         const instance = spawnedProcesses.get(instanceId);
         if (instance && !instance.terminated) {
             instance.process.stdin.write(data);
@@ -129,28 +132,33 @@ function registerAppIpcHandlers() {
     });
 
     ipcMain.handle('quit-app', (event, exitCode) => {
+        assertTrusted(event);
         console.log('Quit requested with exit code:', exitCode);
         // This will be handled by the main module's gracefulShutdown
         app.emit('quit-requested', exitCode);
     });
 
     ipcMain.on('console-log', (event, message) => {
+        assertTrusted(event);
         console.log('Renderer:', message);
     });
 
     // CLI args (mirrors Tauri's cli.getMatches for --quit-when-done / -q)
     // Filter out internal Electron args (main.js in dev mode)
-    ipcMain.handle('get-cli-args', () => {
+    ipcMain.handle('get-cli-args', (event) => {
+        assertTrusted(event);
         return filterCliArgs(process.argv);
     });
 
     // App path (repo root when running from source)
-    ipcMain.handle('get-app-path', () => {
+    ipcMain.handle('get-app-path', (event) => {
+        assertTrusted(event);
         return app.getAppPath();
     });
 
     // App name from package.json
-    ipcMain.handle('get-app-name', () => {
+    ipcMain.handle('get-app-name', (event) => {
+        assertTrusted(event);
         return productName;
     });
 }
