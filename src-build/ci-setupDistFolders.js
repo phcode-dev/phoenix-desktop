@@ -49,7 +49,7 @@ function replaceBundleIdentifierString(sourceStr, newIdentifier) {
     return sourceStr.replace(IDENTIFIER_PLACEHOLDER, newIdentifier);
 }
 
-async function ciCreateDistReleaseConfig() {
+function ciCreateTauriDistReleaseConfig() {
     const phoenixConfigPath = join(__dirname, '..', 'phoenix', 'dist', 'config.json');
     const packageJSONPath = join(__dirname, '..', 'package.json');
     const tauriTOMLPath = join(__dirname, '..', 'src-tauri', 'Cargo.toml');
@@ -133,4 +133,50 @@ async function ciCreateDistReleaseConfig() {
     return phoenixVersion;
 }
 
-await ciCreateDistReleaseConfig();
+function createElectronReleaseAssets() {
+    console.log("=== Setting up Electron release assets ===");
+    const projectRoot = join(__dirname, '..');
+    const electronDir = join(projectRoot, 'src-electron');
+
+    // 1. Copy phoenix/dist/ to src-electron/phoenix-dist/
+    const phoenixDistSrc = join(projectRoot, 'phoenix', 'dist');
+    const phoenixDistDest = join(electronDir, 'phoenix-dist');
+    console.log('Copying phoenix dist to:', phoenixDistDest);
+    // Remove existing and copy fresh
+    if (fs.existsSync(phoenixDistDest)) {
+        fs.rmSync(phoenixDistDest, { recursive: true });
+    }
+    fs.cpSync(phoenixDistSrc, phoenixDistDest, { recursive: true });
+
+    // 2. Create config-effective.json based on environment
+    const configPath = join(electronDir, 'config.json');
+    const configEffectivePath = join(electronDir, 'config-effective.json');
+
+    // Read phoenix/dist/config.json for environment
+    const phoenixDistConfigPath = join(projectRoot, 'phoenix', 'dist', 'config.json');
+    const phoenixDistConfig = JSON.parse(fs.readFileSync(phoenixDistConfigPath));
+    const environment = phoenixDistConfig.config.environment; // "dev", "stage", or "production"
+
+    // Map environment to config file
+    const envConfigMap = {
+        'dev': 'config-dev.json',
+        'stage': 'config-staging.json',
+        'production': 'config-prod.json'
+    };
+    const envConfigFile = envConfigMap[environment] || 'config-dev.json';
+    const envConfigPath = join(electronDir, envConfigFile);
+
+    console.log(`Environment: ${environment} -> using ${envConfigFile}`);
+
+    // Merge config.json + env-specific config
+    const baseConfig = JSON.parse(fs.readFileSync(configPath));
+    const envConfig = JSON.parse(fs.readFileSync(envConfigPath));
+    const effectiveConfig = { ...baseConfig, ...envConfig };
+
+    console.log('phoenixLoadURL:', effectiveConfig.phoenixLoadURL);
+    console.log('gaMetricsURL:', effectiveConfig.gaMetricsURL);
+    fs.writeFileSync(configEffectivePath, JSON.stringify(effectiveConfig, null, 2));
+}
+
+ciCreateTauriDistReleaseConfig();
+createElectronReleaseAssets();

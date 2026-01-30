@@ -3,7 +3,7 @@
     "build": {
         "beforeBuildCommand": "",
         "devPath": "http://localhost:8000/src/",
-        "distDir": "../src/",
+        "distDir": "../phoenix/dist/",
         "withGlobalTauri": true
     },
     "package": {
@@ -434,8 +434,8 @@
                     ]
                 },
                 {
-                    "scheme": "http",
-                    "domain": "localhost:8000",
+                    "scheme": "https",
+                    "domain": "dev.phcode.dev",
                     "enableTauriAPI": true,
                     "windows": [
                         "healthData"
@@ -464,19 +464,20 @@
                 "width": 1366,
                 "minWidth": 800,
                 "acceptFirstMouse": true,
-                "fileDropEnabled": false
+                "fileDropEnabled": false,
+                "url": "phtauri://localhost/v5.1.0/"
             },
             {
                 "label": "healthData",
                 "title": "Health data window",
-                "url": "http://localhost:8000/src/desktop-metrics.html",
+                "url": "https://dev.phcode.dev/desktop-metrics.html",
                 "visible": false,
                 "fileDropEnabled": false
             },
             {
                 "label": "fileDrop",
                 "title": "Drop To Open Files",
-                "url": "http://localhost:8000/src/drop-files.html",
+                "url": "phtauri://localhost/v5.1.0/drop-files.html",
                 "visible": false,
                 "fileDropEnabled": true,
                 "decorations": false
