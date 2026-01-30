@@ -71,7 +71,9 @@ contextBridge.exposeInMainWorld('electronAPI', {
         if (!platformPath) return null;
         // Normalize path separators to forward slashes for URL
         const normalizedPath = platformPath.replace(/\\/g, '/');
-        return `asset://localhost/${encodeURIComponent(normalizedPath)}`;
+        // Encode each path segment individually to preserve URL path structure (like Tauri's convertFileSrc)
+        const encodedPath = normalizedPath.split('/').map(segment => encodeURIComponent(segment)).join('/');
+        return `asset://localhost${encodedPath}`;
     },
 
     // Set zoom factor on the webview (mirrors Tauri's zoom_window)
