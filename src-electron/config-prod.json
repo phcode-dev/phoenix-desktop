@@ -3,5 +3,6 @@
   "stage": "production",
   "productName": "Phoenix Code",
   "phoenixLoadURL": "phtauri://localhost/",
+  "trustedElectronDomains": ["phtauri://localhost/", "https://phcode.dev/"],
   "gaMetricsURL": "https://phcode.dev/desktop-metrics.html"
 }

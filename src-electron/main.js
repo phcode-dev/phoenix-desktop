@@ -78,7 +78,7 @@ async function createMetricsWindow() {
     });
     metricsWindow.loadURL(gaMetricsURL);
     // uncomment line below if you want to open dev tools at app start
-    metricsWindow.webContents.openDevTools();
+    // metricsWindow.webContents.openDevTools();
 }
 
 async function createWindow() {

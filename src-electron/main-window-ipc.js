@@ -93,14 +93,25 @@ function registerWindowIpcHandlers() {
         const prefix = isExtension ? PHOENIX_EXTENSION_WINDOW_PREFIX : PHOENIX_WINDOW_PREFIX;
         const label = getNextLabel(prefix);
 
+        // Resolve relative URLs based on the sender's current URL
+        let resolvedUrl = url;
+        if (!url.startsWith('http://') && !url.startsWith('https://') && !url.startsWith('file://')) {
+            const senderUrl = event.sender.getURL();
+            if (senderUrl) {
+                resolvedUrl = new URL(url, senderUrl).href;
+            }
+        }
+
+        console.log(`Creating window ${label} with URL ${resolvedUrl}, isTrustedOrigin=${isTrustedOrigin(resolvedUrl)}`);
+
         const webPreferences = {
             contextIsolation: true,
             nodeIntegration: false,
             sandbox: true
         };
 
-        // Only inject preload for Phoenix windows with trusted URLs, not extensions
-        if (!isExtension && isTrustedOrigin(url)) {
+        // Only inject preload for Phoenix windows with trusted URLs
+        if (isTrustedOrigin(resolvedUrl)) {
             webPreferences.preload = path.join(__dirname, 'preload.js');
         }
 
@@ -133,13 +144,16 @@ function registerWindowIpcHandlers() {
             webPreferences
         });
 
+        // uncomment line below if you want to open dev tools at app start
+        // win.webContents.openDevTools();
+
         // Track window state for Phoenix windows (not extensions)
         if (!isExtension) {
             trackWindowState(win);
         }
 
         registerWindow(win, label);
-        await win.loadURL(url);
+        await win.loadURL(resolvedUrl);
 
         return label;
     });
