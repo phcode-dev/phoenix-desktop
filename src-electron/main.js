@@ -266,7 +266,11 @@ app.whenReady().then(async () => {
         try {
             const url = new URL(request.url);
             // Decode the path from URL encoding
-            const requestedPath = decodeURIComponent(url.pathname.substring(1)); // Remove leading /
+            let requestedPath = decodeURIComponent(url.pathname);
+            // On Windows, URL pathname has extra leading / before drive letter (e.g., /C:/...)
+            if (/^\/[A-Z]:/i.test(requestedPath)) {
+                requestedPath = requestedPath.substring(1);
+            }
             const normalizedRequested = path.normalize(requestedPath);
             const normalizedAssetsDir = path.normalize(assetsDir);
 
