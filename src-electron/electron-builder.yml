@@ -15,6 +15,7 @@ files:
   - "!dist/**"
   - "!src-node/**"
   - "!bin/**"
+  - "!phoenix-dist/**"
 
 asarUnpack:
   - "node_modules/keytar/**"
@@ -24,6 +25,8 @@ extraResources:
     to: "src-node"
   - from: "bin"
     to: "bin"
+  - from: "phoenix-dist"
+    to: "phoenix-dist"
 
 extraMetadata:
   main: main.js

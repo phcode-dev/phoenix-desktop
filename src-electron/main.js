@@ -210,38 +210,45 @@ app.whenReady().then(async () => {
     Menu.setApplicationMenu(null);
 
     // Register phtauri:// protocol for serving Phoenix files
-    // In dev: serves from ../phoenix/ repo
-    // In packaged: would need different handling (but typically uses https:// in production)
-    if (!app.isPackaged) {
-        const phoenixRepoPath = path.resolve(__dirname, '..', '..', 'phoenix');
+    // In dev: serves from ../phoenix/ repo (phtauri://localhost/src/ -> ../phoenix/src/)
+    // In packaged: serves from resources/phoenix-dist/ (phtauri://localhost/src/ -> phoenix-dist/)
+    const phoenixBasePath = app.isPackaged
+        ? path.join(process.resourcesPath, 'phoenix-dist')
+        : path.resolve(__dirname, '..', '..', 'phoenix', 'src');
 
-        protocol.handle('phtauri', (request) => {
-            try {
-                const url = new URL(request.url);
-                // phtauri://localhost/src/index.html -> ../phoenix/src/index.html
-                let requestedPath = decodeURIComponent(url.pathname);
+    protocol.handle('phtauri', (request) => {
+        try {
+            const url = new URL(request.url);
+            // phtauri://localhost/src/index.html -> strip /src prefix
+            let requestedPath = decodeURIComponent(url.pathname);
 
-                // Serve index.html for directory requests
-                if (requestedPath.endsWith('/')) {
-                    requestedPath += 'index.html';
-                }
-
-                const filePath = path.join(phoenixRepoPath, requestedPath);
-                const normalizedFilePath = path.normalize(filePath);
-
-                // Security: Ensure path is under phoenix repo (prevent directory traversal)
-                if (!normalizedFilePath.startsWith(phoenixRepoPath)) {
-                    console.error('phtauri access denied - path not under phoenix repo:', requestedPath);
-                    return new Response('Access denied', { status: 403 });
-                }
-
-                return net.fetch(`file://${normalizedFilePath}`);
-            } catch (err) {
-                console.error('phtauri protocol error:', err);
-                return new Response('Not found', { status: 404 });
+            // Strip /src/ prefix since phoenix-dist already contains src contents
+            if (requestedPath.startsWith('/src/')) {
+                requestedPath = requestedPath.substring(4); // Remove '/src'
+            } else if (requestedPath === '/src') {
+                requestedPath = '/';
             }
-        });
-    }
+
+            // Serve index.html for directory requests
+            if (requestedPath.endsWith('/')) {
+                requestedPath += 'index.html';
+            }
+
+            const filePath = path.join(phoenixBasePath, requestedPath);
+            const normalizedFilePath = path.normalize(filePath);
+
+            // Security: Ensure path is under phoenix base (prevent directory traversal)
+            if (!normalizedFilePath.startsWith(phoenixBasePath)) {
+                console.error('phtauri access denied - path not under phoenix base:', requestedPath);
+                return new Response('Access denied', { status: 403 });
+            }
+
+            return net.fetch(`file://${normalizedFilePath}`);
+        } catch (err) {
+            console.error('phtauri protocol error:', err);
+            return new Response('Not found', { status: 404 });
+        }
+    });
 
     // Register asset:// protocol for serving local files from appLocalData/assets/
     const appDataDir = getAppDataDir();

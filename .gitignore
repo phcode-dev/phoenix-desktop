@@ -24,6 +24,7 @@ src-electron/bin
 src-electron/src-node
 src-electron/config-effective.json
 src-electron/dist
+src-electron/phoenix-dist
 
 node_modules
 dist
