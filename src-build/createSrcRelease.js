@@ -138,12 +138,12 @@ function buildElectron() {
     createElectronConfig();
 
     const phoenixDir = join(projectRoot, '..', 'phoenix');
-    const phoenixDistSrc = join(phoenixDir, 'dist');
+    const phoenixDistSrc = join(phoenixDir, 'src');
     const phoenixDistDest = join(projectRoot, 'src-electron', 'phoenix-dist');
 
     // Build phoenix production dist
-    console.log('Building Phoenix production dist...');
-    run('npm run release:prod', { cwd: phoenixDir });
+    console.log('Building Phoenix');
+    run('npm run build', { cwd: phoenixDir });
 
     // Copy dist to electron
     console.log('Copying phoenix dist...');
