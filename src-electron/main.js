@@ -8,7 +8,13 @@ const { registerCredIpcHandlers } = require('./main-cred-ipc');
 const { registerWindowIpcHandlers, registerWindow, setOnAllWindowsClosed } = require('./main-window-ipc');
 const { assertTrusted } = require('./ipc-security');
 const { getWindowOptions, trackWindowState, DEFAULTS } = require('./window-state');
-const { phoenixLoadURL, gaMetricsURL } = require('./config');
+const { phoenixLoadURL, gaMetricsURL, version, productName } = require('./config');
+
+// Handle --version / -v flag before any Electron initialization
+if (process.argv.includes('-v') || process.argv.includes('--version')) {
+    console.log(`${version}`);
+    process.exit(0);
+}
 
 // Register phtauri:// as a privileged scheme (must be done before app ready)
 // This enables standard web features: fetch, localStorage, cookies, etc.
