@@ -210,24 +210,16 @@ app.whenReady().then(async () => {
     Menu.setApplicationMenu(null);
 
     // Register phtauri:// protocol for serving Phoenix files
-    // In dev: serves from ../phoenix/ repo (phtauri://localhost/src/ -> ../phoenix/src/)
-    // In packaged: serves from resources/phoenix-dist/ (phtauri://localhost/src/ -> phoenix-dist/)
+    // In dev: serves from ../phoenix/ (URL includes /src/ prefix from config.json)
+    // In packaged: serves from resources/phoenix-dist (URL has no /src/ prefix)
     const phoenixBasePath = app.isPackaged
         ? path.join(process.resourcesPath, 'phoenix-dist')
-        : path.resolve(__dirname, '..', '..', 'phoenix', 'src');
+        : path.resolve(__dirname, '..', '..', 'phoenix');
 
     protocol.handle('phtauri', (request) => {
         try {
             const url = new URL(request.url);
-            // phtauri://localhost/src/index.html -> strip /src prefix
             let requestedPath = decodeURIComponent(url.pathname);
-
-            // Strip /src/ prefix since phoenix-dist already contains src contents
-            if (requestedPath.startsWith('/src/')) {
-                requestedPath = requestedPath.substring(4); // Remove '/src'
-            } else if (requestedPath === '/src') {
-                requestedPath = '/';
-            }
 
             // Serve index.html for directory requests
             if (requestedPath.endsWith('/')) {

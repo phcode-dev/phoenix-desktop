@@ -2,5 +2,6 @@
   "identifier": "io.phcode",
   "stage": "production",
   "productName": "Phoenix Code",
+  "phoenixLoadURL": "phtauri://localhost/",
   "gaMetricsURL": "https://phcode.dev/desktop-metrics.html"
 }
