@@ -2,6 +2,16 @@ const { app, BrowserWindow, protocol, Menu, ipcMain, net } = require('electron')
 const path = require('path');
 const fs = require('fs');
 
+// Suppress Electron's noisy "Failed to load URL" stderr messages for subframe load failures
+const originalStderrWrite = process.stderr.write.bind(process.stderr);
+process.stderr.write = (chunk, encoding, callback) => {
+    const str = typeof chunk === 'string' ? chunk : chunk.toString();
+    if (str.includes('electron: Failed to load URL:')) {
+        return true; // Suppress this message
+    }
+    return originalStderrWrite(chunk, encoding, callback);
+};
+
 const { registerAppIpcHandlers, terminateAllProcesses, filterCliArgs } = require('./main-app-ipc');
 const { registerFsIpcHandlers, getAppDataDir } = require('./main-fs-ipc');
 const { registerCredIpcHandlers } = require('./main-cred-ipc');
