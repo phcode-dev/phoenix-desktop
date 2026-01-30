@@ -141,7 +141,7 @@ function buildElectron() {
     const phoenixDistSrc = join(phoenixDir, 'src');
     const phoenixDistDest = join(projectRoot, 'src-electron', 'phoenix-dist');
 
-    // Build phoenix production dist
+    // Build phoenix dev src
     console.log('Building Phoenix');
     run('npm run build', { cwd: phoenixDir });
 

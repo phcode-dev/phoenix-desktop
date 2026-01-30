@@ -42,12 +42,10 @@ if (target !== recommendedTarget) {
 
 console.log(`Platform: ${platform}, target: ${target}`);
 
-// Run common setup
-console.log('\nEnsure to start phoenix server at http://localhost:8000 for development.');
-console.log('Follow https://github.com/phcode-dev/phoenix#running-phoenix for instructions.\n');
-
 // Run platform-specific command
 if (target === "tauri") {
+    console.log('\nEnsure to start phoenix server at http://localhost:8000 for development.');
+    console.log('Follow https://github.com/phcode-dev/phoenix#running-phoenix for instructions.\n');
     console.log('Setting up src-node...');
     await execa("npm", ["run", "_make_src-node"], {stdio: "inherit"});
 
