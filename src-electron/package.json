@@ -8,7 +8,7 @@
   "description": "Phoenix Code Experimental Build",
   "main": "main.js",
   "scripts": {
-    "build:appimage": "electron-builder --linux AppImage"
+    "build:appimage": "electron-builder --linux AppImage && node renameBin.js"
   },
   "dependencies": {
     "keytar": "^7.9.0"
