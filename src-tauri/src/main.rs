@@ -542,12 +542,12 @@ fn main() {
         std::process::exit(0);
     }
     #[cfg(target_os = "macos")]{
-        tauri_plugin_deep_link::prepare("io.phcode");
+        tauri_plugin_deep_link::prepare("io.phcode.dev");
     }
 
     // warning: any string that resembles the following strings will be rewritten in source in prod by build scripts.
     // This is so that app bundle IDs are correct. IF they are app bundle IDs use the strings. else dont.
-    // do not use strings: "io.phcode.dev" "io.phcode.staging" "io.phcode" for anything other than bundle identifiers
+    // do not use strings: "TAURI_BUNDLE_IDENTIFIER_PLACE_HOLDER" "TAURI_BUNDLE_IDENTIFIER_PLACE_HOLDER" "io.phcode" for anything other than bundle identifiers
     // in this file!!!
 
     // GUI apps on macOS and Linux do not inherit the $PATH from your shell dotfiles (.bashrc, .bash_profile, .zshrc, etc).
