@@ -192,6 +192,29 @@ function registerWindowIpcHandlers() {
         }
     });
 
+    // Inter-window event system (mirrors Tauri's event system)
+    // Send event to a specific window by label
+    ipcMain.handle('emit-to-window', (event, targetLabel, eventName, payload) => {
+        assertTrusted(event);
+        const targetWin = windowRegistry.get(targetLabel);
+        if (targetWin && !targetWin.isDestroyed()) {
+            targetWin.webContents.send('window-event', { eventName, payload });
+            return true;
+        }
+        return false;
+    });
+
+    // Broadcast event to all windows
+    ipcMain.handle('emit-to-all-windows', (event, eventName, payload) => {
+        assertTrusted(event);
+        const senderLabel = webContentsToLabel.get(event.sender.id);
+        for (const [label, win] of windowRegistry) {
+            if (!win.isDestroyed() && label !== senderLabel) {
+                win.webContents.send('window-event', { eventName, payload });
+            }
+        }
+    });
+
     // Get process ID
     ipcMain.handle('get-process-id', (event) => {
         assertTrusted(event);
