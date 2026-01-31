@@ -26,7 +26,7 @@ if (process.argv.includes('-v') || process.argv.includes('--version')) {
     process.exit(0);
 }
 
-// Register phtauri:// as a privileged scheme (must be done before app ready)
+// Register custom schemes as privileged (must be done before app ready)
 // This enables standard web features: fetch, localStorage, cookies, etc.
 protocol.registerSchemesAsPrivileged([
     {
@@ -36,6 +36,15 @@ protocol.registerSchemesAsPrivileged([
             secure: true,
             supportFetchAPI: true,
             corsEnabled: true,
+            stream: true
+        }
+    },
+    {
+        // asset:// is for serving static files only - minimal privileges to match Tauri's security posture
+        // No standard/secure/corsEnabled - just enough for fetch() to read local assets
+        scheme: 'asset',
+        privileges: {
+            supportFetchAPI: true,
             stream: true
         }
     }

@@ -30,10 +30,15 @@ function isTrustedOrigin(url) {
         }
     }
 
-    // In dev stage, also allow localhost URLs
+    // In dev stage, also allow localhost URLs (but NOT asset:// protocol)
+    // asset:// is for static file serving only and should never have API access
     if (stage === 'dev') {
         try {
             const parsed = new URL(url);
+            // Exclude asset:// protocol - it's sandboxed like Tauri's asset protocol
+            if (parsed.protocol === 'asset:') {
+                return false;
+            }
             if (parsed.hostname === 'localhost' || parsed.hostname === '127.0.0.1') {
                 return true;
             }
