@@ -105,6 +105,7 @@ contextBridge.exposeInMainWorld('electronAPI', {
     getCurrentWindowLabel: () => ipcRenderer.invoke('get-current-window-label'),
     createPhoenixWindow: (url, options) => ipcRenderer.invoke('create-phoenix-window', url, options),
     closeWindow: () => ipcRenderer.invoke('close-window'),
+    closeWindowByLabel: (label) => ipcRenderer.invoke('close-window-by-label', label),
     quitApp: (exitCode) => ipcRenderer.invoke('quit-app', exitCode),
     focusWindow: () => ipcRenderer.invoke('focus-window'),
 

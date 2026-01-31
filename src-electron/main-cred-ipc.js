@@ -48,7 +48,8 @@ function registerCredIpcHandlers() {
         const stored = windowTrustMap.get(webContentsId);
 
         if (!stored) {
-            throw new Error('No trust established for this window.');
+            // Match Tauri's error message
+            throw new Error('No trust association found for this window.');
         }
         if (stored.key !== key || stored.iv !== iv) {
             throw new Error('Provided key and IV do not match.');
@@ -59,6 +60,10 @@ function registerCredIpcHandlers() {
         console.log(`AES trust removed for window: ${getWindowLabel(webContentsId)} (webContentsId: ${webContentsId})`);
     });
 
+    // Special marker for empty string credentials (keytar doesn't allow empty passwords)
+    // Using a unique string that's unlikely to be a real credential value
+    const EMPTY_CREDENTIAL_MARKER = '___PHCODE_EMPTY_CREDENTIAL_MARKER___';
+
     // Store credential in system keychain
     ipcMain.handle('store-credential', async (event, scopeName, secretVal) => {
         assertTrusted(event);
@@ -66,7 +71,11 @@ function registerCredIpcHandlers() {
             throw new Error('keytar module not available.');
         }
         const service = PHOENIX_CRED_PREFIX + scopeName;
-        await keytar.setPassword(service, process.env.USER || 'user', secretVal);
+        // Handle empty strings by storing a special marker (keytar requires non-empty passwords)
+        // Check for empty string, null, or undefined - all become the marker
+        const isEmpty = secretVal === '' || secretVal === null || secretVal === undefined;
+        const valueToStore = isEmpty ? EMPTY_CREDENTIAL_MARKER : secretVal;
+        await keytar.setPassword(service, process.env.USER || 'user', valueToStore);
     });
 
     // Get credential (encrypted with window's AES key)
@@ -79,13 +88,20 @@ function registerCredIpcHandlers() {
         const webContentsId = event.sender.id;
         const trustData = windowTrustMap.get(webContentsId);
         if (!trustData) {
-            throw new Error('Trust needs to be established first.');
+            // Match Tauri's error message
+            throw new Error('Trust needs to be first established for this window to get or set credentials.');
         }
 
         const service = PHOENIX_CRED_PREFIX + scopeName;
-        const credential = await keytar.getPassword(service, process.env.USER || 'user');
-        if (!credential) {
+        const account = process.env.USER || 'user';
+        let credential = await keytar.getPassword(service, account);
+        if (credential === null || credential === undefined) {
             return null;
+        }
+
+        // Convert empty credential marker back to empty string
+        if (credential === EMPTY_CREDENTIAL_MARKER) {
+            credential = '';
         }
 
         // Encrypt with AES-256-GCM (same as Tauri)
@@ -96,7 +112,9 @@ function registerCredIpcHandlers() {
         encrypted += cipher.final('hex');
         const authTag = cipher.getAuthTag().toString('hex');
 
-        return encrypted + authTag; // Return ciphertext + authTag as hex string
+        // For empty credentials, encrypted will be empty string, but authTag will still be present
+        const result = encrypted + authTag;
+        return result;
     });
 
     // Delete credential from system keychain
@@ -106,7 +124,11 @@ function registerCredIpcHandlers() {
             throw new Error('keytar module not available.');
         }
         const service = PHOENIX_CRED_PREFIX + scopeName;
-        await keytar.deletePassword(service, process.env.USER || 'user');
+        const deleted = await keytar.deletePassword(service, process.env.USER || 'user');
+        // Match Tauri's behavior: throw if credential didn't exist
+        if (!deleted) {
+            throw new Error('No matching entry found in secure storage');
+        }
     });
 }
 

@@ -167,6 +167,17 @@ function registerWindowIpcHandlers() {
         }
     });
 
+    // Close a window by its label
+    ipcMain.handle('close-window-by-label', async (event, label) => {
+        assertTrusted(event);
+        const win = windowRegistry.get(label);
+        if (win && !win.isDestroyed()) {
+            win.close();
+            return true;
+        }
+        return false;
+    });
+
     // Focus current window and bring to front
     ipcMain.handle('focus-window', (event) => {
         assertTrusted(event);
