@@ -109,6 +109,20 @@ contextBridge.exposeInMainWorld('electronAPI', {
     quitApp: (exitCode) => ipcRenderer.invoke('quit-app', exitCode),
     focusWindow: () => ipcRenderer.invoke('focus-window'),
 
+    // Inter-window event system (mirrors Tauri's event system)
+    emitToWindow: (targetLabel, eventName, payload) => ipcRenderer.invoke('emit-to-window', targetLabel, eventName, payload),
+    emitToAllWindows: (eventName, payload) => ipcRenderer.invoke('emit-to-all-windows', eventName, payload),
+    onWindowEvent: (eventName, callback) => {
+        const handler = (event, data) => {
+            if (data.eventName === eventName) {
+                callback(data.payload);
+            }
+        };
+        ipcRenderer.on('window-event', handler);
+        // Return unlisten function (like Tauri)
+        return () => ipcRenderer.removeListener('window-event', handler);
+    },
+
     // Process and platform info
     getProcessId: () => ipcRenderer.invoke('get-process-id'),
     getPlatformArch: () => ipcRenderer.invoke('get-platform-arch'),
