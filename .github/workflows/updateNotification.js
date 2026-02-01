@@ -87,6 +87,10 @@ const WINDOWS_X64_NAME_SUFFIX = "_x64-setup.exe";
 const MAC_INTEL_NAME_SUFFIX = "_x64.dmg";
 // "Phoenix.Code.Experimental.Build_3.4.2_aarch64.dmg"
 const MAC_M1_NAME_SUFFIX = "_aarch64.dmg";
+// "phoenix-code-experimental-build_3.4.2.AppImage"
+const LINUX_APPIMAGE_NAME_SUFFIX = ".AppImage";
+// "phoenix-code-experimental-build_3.4.2.AppImage.sig"
+const LINUX_APPIMAGE_SIG_SUFFIX = ".AppImage.sig";
 function _getDownloadURLByNameSuffix(releaseAssets, suffix) {
     for(let releaseAsset of releaseAssets) {
         if(releaseAsset.name.endsWith(suffix)){
@@ -163,6 +167,26 @@ export default async function printStuff({github, context, githubWorkspaceRoot})
     console.log("Updating tauri update JSON file: ", _identifyUpdateJSONPath(releaseAssets));
     const latestJSON = JSON.parse(await _getLatestJson(releaseAssets));
     latestJSON.notes = releaseNotes;
+
+    // Add Linux AppImage to platforms (Electron build with minisign signature)
+    try {
+        const linuxAppImageURL = _getDownloadURLByNameSuffix(releaseAssets, LINUX_APPIMAGE_NAME_SUFFIX);
+        let linuxSignature = "";
+        try {
+            const sigFileURL = _getDownloadURLByNameSuffix(releaseAssets, LINUX_APPIMAGE_SIG_SUFFIX);
+            linuxSignature = await _getTextHTTPS(sigFileURL);
+            console.log("Linux AppImage signature: ", linuxSignature);
+        } catch (sigErr) {
+            console.warn("Linux AppImage signature file not found, using empty signature");
+        }
+        latestJSON.platforms["linux-x86_64"] = {
+            "signature": linuxSignature,
+            "url": linuxAppImageURL
+        };
+    } catch (e) {
+        console.warn("Linux AppImage not found in release assets, skipping linux-x86_64 platform");
+    }
+
     const latestJsonPath = `${githubWorkspaceRoot}/docs/${_identifyUpdateJSONPath(releaseAssets)}`;
     const currentVersion = getCurrentVersion(latestJsonPath);
     const latestVersion = latestJSON.version;
@@ -179,6 +203,12 @@ export default async function printStuff({github, context, githubWorkspaceRoot})
         const windowsDownloadURL = _getDownloadURLByNameSuffix(releaseAssets, WINDOWS_X64_NAME_SUFFIX);
         const macM1DownloadURL = _getDownloadURLByNameSuffix(releaseAssets, MAC_M1_NAME_SUFFIX);
         const macIntelDownloadURL = _getDownloadURLByNameSuffix(releaseAssets, MAC_INTEL_NAME_SUFFIX);
+        let linuxAppImageURL = null;
+        try {
+            linuxAppImageURL = _getDownloadURLByNameSuffix(releaseAssets, LINUX_APPIMAGE_NAME_SUFFIX);
+        } catch (e) {
+            console.warn("Linux AppImage not found in release assets, skipping linux_appimage in install.json");
+        }
         let installJSON = {
             "phcode.io.DownloadURL": {
                 "windows_x64": windowsDownloadURL,
@@ -187,6 +217,9 @@ export default async function printStuff({github, context, githubWorkspaceRoot})
                 "chrome_os": "https://play.google.com/store/apps/details?id=prod.phcode.twa"
             }
         };
+        if (linuxAppImageURL) {
+            installJSON["phcode.io.DownloadURL"]["linux_appimage"] = linuxAppImageURL;
+        }
         installJSON = JSON.stringify(installJSON, null, 4);
         console.log("writing install.json to path: ", installJsonPath, " contents: ",  installJSON)
         fs.writeFileSync(installJsonPath, installJSON);
