@@ -311,8 +311,9 @@ jobs:
           sudo mv minisign-linux/x86_64/minisign /usr/local/bin/
           minisign -v
 
-          # Write private key to temp file (preserve newlines with printf)
-          printf '%s\n' "$TAURI_PRIVATE_KEY" > /tmp/tauri_private.key
+          # Reconstruct newlines in private key (GitHub secrets lose newlines)
+          # Format: "untrusted comment: rsign encrypted secret key" + newline + base64 key (starts with "RW")
+          echo "$TAURI_PRIVATE_KEY" | sed 's/\(untrusted comment: rsign encrypted secret key\)/\1\n/' > /tmp/tauri_private.key
 
           # Debug: show key file info (not contents)
           echo "Key file size: $(wc -c < /tmp/tauri_private.key) bytes"
