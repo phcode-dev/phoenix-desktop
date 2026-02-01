@@ -174,8 +174,10 @@ export default async function printStuff({github, context, githubWorkspaceRoot})
         let linuxSignature = "";
         try {
             const sigFileURL = _getDownloadURLByNameSuffix(releaseAssets, LINUX_APPIMAGE_SIG_SUFFIX);
-            linuxSignature = await _getTextHTTPS(sigFileURL);
-            console.log("Linux AppImage signature: ", linuxSignature);
+            const sigContent = await _getTextHTTPS(sigFileURL);
+            // Base64-encode the signature to match the format of other platforms
+            linuxSignature = Buffer.from(sigContent).toString('base64');
+            console.log("Linux AppImage signature (base64): ", linuxSignature);
         } catch (sigErr) {
             console.warn("Linux AppImage signature file not found, using empty signature");
         }
