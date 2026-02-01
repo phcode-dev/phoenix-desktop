@@ -8,7 +8,9 @@
   "description": "Phoenix Code Experimental Build",
   "main": "main.js",
   "scripts": {
-    "build:appimage": "electron-builder --linux AppImage && node renameBin.js"
+    "clean:appimage": "shx rm -rf dist/*.AppImage",
+    "build:appimage": "npm run clean:appimage && electron-builder --linux AppImage && node renameBin.js",
+    "build:appimageForTest": "npm run clean:appimage && electron-builder --linux AppImage && shx mv dist/*.AppImage dist/phoenix-test-runner.appimage"
   },
   "dependencies": {
     "keytar": "^7.9.0"
