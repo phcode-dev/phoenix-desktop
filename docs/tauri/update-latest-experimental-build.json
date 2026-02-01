@@ -1,19 +1,35 @@
 {
-    "version": "3.10.0",
-    "notes": "**Phoenix Code Release Notes**\r\n\r\nExperimental build for testing purposes -- do not use.",
-    "pub_date": "2024-11-25T06:56:04.373Z",
+    "version": "5.1.1",
+    "notes": "Testing new installer generation - do not install!",
+    "pub_date": "2026-02-01T10:24:31.012Z",
     "platforms": {
         "windows-x86_64": {
-            "signature": "dW50cnVzdGVkIGNvbW1lbnQ6IHNpZ25hdHVyZSBmcm9tIHRhdXJpIHNlY3JldCBrZXkKUlVUVTVEdXJNVyttWnJiWksxckw2cG9SaTJIQmcySm45bEZqZnZlK3AwTGtmcjBiV09iU1BxWEpaYlhpK3grMjQ5aitQZkJwREdySThWWml3STIzeHM0Sm1CVzNGdjVqc3dVPQp0cnVzdGVkIGNvbW1lbnQ6IHRpbWVzdGFtcDoxNzMyNTE2ODA1CWZpbGU6UGhvZW5peCBDb2RlIEV4cGVyaW1lbnRhbCBCdWlsZF8zLjEwLjBfeDY0LXNldHVwLm5zaXMuemlwCkF5Z3c0QjkxeDJiK3Nuc3dzTGhZL2pnd2ordkxCU2RaaWRTTmlSSUFiK0FYek1xRWNmTUtGcFlNS2RnZjBRMzhCRVJ1em9QbGFRbVBaNnNIQnIxdkF3PT0K",
-            "url": "https://github.com/phcode-dev/phoenix-desktop/releases/download/dev-app-v3.10.0/Phoenix.Code.Experimental.Build_3.10.0_x64-setup.nsis.zip"
+            "signature": "dW50cnVzdGVkIGNvbW1lbnQ6IHNpZ25hdHVyZSBmcm9tIHRhdXJpIHNlY3JldCBrZXkKUlVUVTVEdXJNVyttWm43d1FvWUxTSG9hNytaSXRuLzhwS1VVWjVrWUN6bi96NXliMTZvM1U0UnFzZXM5WFNqV2ltVFM5Q29QQlNkeEY0cGFjTDFKNW5LR3lhOHJYNTM1U3dnPQp0cnVzdGVkIGNvbW1lbnQ6IHRpbWVzdGFtcDoxNzY5OTM5ODA1CWZpbGU6UGhvZW5peCBDb2RlIEV4cGVyaW1lbnRhbCBCdWlsZF81LjEuMV94NjQtc2V0dXAubnNpcy56aXAKYzd2QjZCd1hiMGlGSlFIMzN5RnFqU1c1UThIamZsaG02QXhGNzAyQVBSRWFOY0ErMHBneWY5MTdKUlA5Nmo1WnZMc2FTQVlKZ3hVeThaNkd6eFZXRFE9PQo=",
+            "url": "https://github.com/phcode-dev/phoenix-desktop/releases/download/dev-app-v5.1.1/Phoenix.Code.Experimental.Build_5.1.1_x64-setup.nsis.zip"
+        },
+        "windows-x86_64-nsis": {
+            "signature": "dW50cnVzdGVkIGNvbW1lbnQ6IHNpZ25hdHVyZSBmcm9tIHRhdXJpIHNlY3JldCBrZXkKUlVUVTVEdXJNVyttWm43d1FvWUxTSG9hNytaSXRuLzhwS1VVWjVrWUN6bi96NXliMTZvM1U0UnFzZXM5WFNqV2ltVFM5Q29QQlNkeEY0cGFjTDFKNW5LR3lhOHJYNTM1U3dnPQp0cnVzdGVkIGNvbW1lbnQ6IHRpbWVzdGFtcDoxNzY5OTM5ODA1CWZpbGU6UGhvZW5peCBDb2RlIEV4cGVyaW1lbnRhbCBCdWlsZF81LjEuMV94NjQtc2V0dXAubnNpcy56aXAKYzd2QjZCd1hiMGlGSlFIMzN5RnFqU1c1UThIamZsaG02QXhGNzAyQVBSRWFOY0ErMHBneWY5MTdKUlA5Nmo1WnZMc2FTQVlKZ3hVeThaNkd6eFZXRFE9PQo=",
+            "url": "https://github.com/phcode-dev/phoenix-desktop/releases/download/dev-app-v5.1.1/Phoenix.Code.Experimental.Build_5.1.1_x64-setup.nsis.zip"
         },
         "darwin-x86_64": {
-            "signature": "dW50cnVzdGVkIGNvbW1lbnQ6IHNpZ25hdHVyZSBmcm9tIHRhdXJpIHNlY3JldCBrZXkKUlVUVTVEdXJNVyttWmhYSTF1WTNVTGpQN3hmd3g3UTdVczYrS015UHdoakRQUkl1NzIxN0J6cnpMbGphTG5TS0VybXZqaVhVT0xCbXlka004NWNDeXJBN0JhZnFkU0tWd1FnPQp0cnVzdGVkIGNvbW1lbnQ6IHRpbWVzdGFtcDoxNzMyNTE3MTMxCWZpbGU6UGhvZW5peCBDb2RlIEV4cGVyaW1lbnRhbCBCdWlsZC5hcHAudGFyLmd6ClBZN2pIclJsYmVMNFlYYi81aTMrd1prc1RYSVZaNktFT1U0NjczTlkyNEIvR0NZaElJODc1M1hRL0hmcVMyQlowTlcvN2FPVWx4QzJJVXV6Ly9Sb0JBPT0K",
-            "url": "https://github.com/phcode-dev/phoenix-desktop/releases/download/dev-app-v3.10.0/Phoenix.Code.Experimental.Build_x64.app.tar.gz"
+            "signature": "dW50cnVzdGVkIGNvbW1lbnQ6IHNpZ25hdHVyZSBmcm9tIHRhdXJpIHNlY3JldCBrZXkKUlVUVTVEdXJNVyttWmxuUFZJVUJ6U2xqaUU2aThjajBCME9GdWx2Tk9LRGxIZGJoQzVSbWp4U1R5cFgvQlFwTFoxRy9QR25MbVprV2x4ZllpaTI3MCtINTdHNEVXODVTandNPQp0cnVzdGVkIGNvbW1lbnQ6IHRpbWVzdGFtcDoxNzY5OTQwNDQ1CWZpbGU6UGhvZW5peCBDb2RlIEV4cGVyaW1lbnRhbCBCdWlsZC5hcHAudGFyLmd6CnB4NWxibjF6cHEwYlNqR3NVSGxJWEZsbWc4cE1YZlNlUDF3QTgrM3BoVWJwL2dCVnhtSjhCd3ZZK2ZPMDdMV3Erb2ZLRENIQjdRVWxJMWtxbVI2bENRPT0K",
+            "url": "https://github.com/phcode-dev/phoenix-desktop/releases/download/dev-app-v5.1.1/Phoenix.Code.Experimental.Build_x64.app.tar.gz"
+        },
+        "darwin-x86_64-app": {
+            "signature": "dW50cnVzdGVkIGNvbW1lbnQ6IHNpZ25hdHVyZSBmcm9tIHRhdXJpIHNlY3JldCBrZXkKUlVUVTVEdXJNVyttWmxuUFZJVUJ6U2xqaUU2aThjajBCME9GdWx2Tk9LRGxIZGJoQzVSbWp4U1R5cFgvQlFwTFoxRy9QR25MbVprV2x4ZllpaTI3MCtINTdHNEVXODVTandNPQp0cnVzdGVkIGNvbW1lbnQ6IHRpbWVzdGFtcDoxNzY5OTQwNDQ1CWZpbGU6UGhvZW5peCBDb2RlIEV4cGVyaW1lbnRhbCBCdWlsZC5hcHAudGFyLmd6CnB4NWxibjF6cHEwYlNqR3NVSGxJWEZsbWc4cE1YZlNlUDF3QTgrM3BoVWJwL2dCVnhtSjhCd3ZZK2ZPMDdMV3Erb2ZLRENIQjdRVWxJMWtxbVI2bENRPT0K",
+            "url": "https://github.com/phcode-dev/phoenix-desktop/releases/download/dev-app-v5.1.1/Phoenix.Code.Experimental.Build_x64.app.tar.gz"
         },
         "darwin-aarch64": {
-            "signature": "dW50cnVzdGVkIGNvbW1lbnQ6IHNpZ25hdHVyZSBmcm9tIHRhdXJpIHNlY3JldCBrZXkKUlVUVTVEdXJNVyttWnZuMTBVUEIwZnJnT05ESlE4d3RkR3IyTDVYM1RCcUszOE1oL1F6NGlaRjhEc2xmT2plRi9IS20weWt3Q2JZblFxU0t6M1gwMSsrWHlKQlRHTDJKV3drPQp0cnVzdGVkIGNvbW1lbnQ6IHRpbWVzdGFtcDoxNzMyNTE3NzU2CWZpbGU6UGhvZW5peCBDb2RlIEV4cGVyaW1lbnRhbCBCdWlsZC5hcHAudGFyLmd6CldUOGlLTThCckE0L2NTR2tVKy9OU3Y4M2ZYRmJVZkM1Vmc0UHVKQ0FqbTUvdXdxbDFqYzhkUGNyOTA0ZmxGUUhxd2ZOZ2YyTFFrS2lDRGN4ZUtkR0RBPT0K",
-            "url": "https://github.com/phcode-dev/phoenix-desktop/releases/download/dev-app-v3.10.0/Phoenix.Code.Experimental.Build_aarch64.app.tar.gz"
+            "signature": "dW50cnVzdGVkIGNvbW1lbnQ6IHNpZ25hdHVyZSBmcm9tIHRhdXJpIHNlY3JldCBrZXkKUlVUVTVEdXJNVyttWmdXb2F0T3hhaWd3OFNrcHdMeXlZT3c4S0R6Qm50WXJ5MmNNZzBzd3pqQVFNem1DdEVaSmZPZEkxZ0lnNXdhblZRZ0taOUdDR2NzbFhoRXB5aVJwTVFRPQp0cnVzdGVkIGNvbW1lbnQ6IHRpbWVzdGFtcDoxNzY5OTQxNDYyCWZpbGU6UGhvZW5peCBDb2RlIEV4cGVyaW1lbnRhbCBCdWlsZC5hcHAudGFyLmd6CmZ2ZGNVMWxDbWJxd01HVXJINXUvUlRTQTdnM256TEFjeXRzRHdsRlpYbU1lVmxmL2xKNU5ZN2ppdXVCWmU2NGpjMW9Qd2hNRGg1THR0YlNxZk1IMkNRPT0K",
+            "url": "https://github.com/phcode-dev/phoenix-desktop/releases/download/dev-app-v5.1.1/Phoenix.Code.Experimental.Build_aarch64.app.tar.gz"
+        },
+        "darwin-aarch64-app": {
+            "signature": "dW50cnVzdGVkIGNvbW1lbnQ6IHNpZ25hdHVyZSBmcm9tIHRhdXJpIHNlY3JldCBrZXkKUlVUVTVEdXJNVyttWmdXb2F0T3hhaWd3OFNrcHdMeXlZT3c4S0R6Qm50WXJ5MmNNZzBzd3pqQVFNem1DdEVaSmZPZEkxZ0lnNXdhblZRZ0taOUdDR2NzbFhoRXB5aVJwTVFRPQp0cnVzdGVkIGNvbW1lbnQ6IHRpbWVzdGFtcDoxNzY5OTQxNDYyCWZpbGU6UGhvZW5peCBDb2RlIEV4cGVyaW1lbnRhbCBCdWlsZC5hcHAudGFyLmd6CmZ2ZGNVMWxDbWJxd01HVXJINXUvUlRTQTdnM256TEFjeXRzRHdsRlpYbU1lVmxmL2xKNU5ZN2ppdXVCWmU2NGpjMW9Qd2hNRGg1THR0YlNxZk1IMkNRPT0K",
+            "url": "https://github.com/phcode-dev/phoenix-desktop/releases/download/dev-app-v5.1.1/Phoenix.Code.Experimental.Build_aarch64.app.tar.gz"
+        },
+        "linux-x86_64": {
+            "signature": "untrusted comment: signature from minisign secret key\nRUTU5DurMW+mZmKODekPH+YvjDZrR7LXF0vXLERmlfHkuPTBxdOcPcVBw6OC2X/b6VIyVIXcTdvKWXkdlaQvJvKcikkiNmvwqgQ=\ntrusted comment: 1769937806\tfile:phoenix-code-experimental-build_5.0.5.AppImage\n8UGpUVARWMtuvcfA1x1g97+n4V1n0VXf8V3nhV0lTwUZGIaskf14i54Gc92ySM6p2toXJFoA2uSquEOzjElhCw==\n",
+            "url": "https://github.com/phcode-dev/phoenix-desktop/releases/download/dev-app-v5.1.1/phoenix-code-experimental-build_5.0.5.AppImage"
         }
     }
 }
