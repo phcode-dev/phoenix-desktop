@@ -171,7 +171,7 @@ function buildElectron() {
 
     // Build AppImage
     console.log('Building AppImage...');
-    run('npm run build:appimage', { cwd: join(projectRoot, 'src-electron') });
+    run('npm run build:appimageForTest', { cwd: join(projectRoot, 'src-electron') });
 }
 
 async function main() {
