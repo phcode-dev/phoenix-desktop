@@ -360,9 +360,8 @@ jobs:
           sudo mv minisign-linux/x86_64/minisign /usr/local/bin/
           minisign -v
 
-          # Reconstruct newlines in private key (GitHub secrets lose newlines)
-          # Format: "untrusted comment: rsign encrypted secret key" + newline + base64 key (starts with "RW")
-          echo "$TAURI_PRIVATE_KEY" | sed 's/\(untrusted comment: rsign encrypted secret key\)/\1\n/' > /tmp/tauri_private.key
+          # Decode base64-encoded private key
+          echo "$TAURI_PRIVATE_KEY" | base64 -d > /tmp/tauri_private.key
 
           # Debug: show key file info (not contents)
           echo "Key file size: $(wc -c < /tmp/tauri_private.key) bytes"
