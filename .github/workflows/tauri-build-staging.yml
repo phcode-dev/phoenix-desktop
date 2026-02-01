@@ -277,35 +277,17 @@ jobs:
     permissions:
       contents: write
     timeout-minutes: 60
-    strategy:
-      fail-fast: false
-      matrix:
-        platform: [ ubuntu-22.04]
-
-    runs-on: ${{ matrix.platform }}
+    runs-on: ubuntu-22.04
     steps:
       - uses: actions/checkout@v4
       - name: get Git Tag
+        shell: bash
         run: echo "GIT_TAG_NAME=staging-app-v$(node -p "require('./package.json').version")" >> $GITHUB_ENV
       - name: setup node
         uses: actions/setup-node@v4
         with:
           node-version: 24
 
-      - name: GLIBC version
-        run: |
-          ldd --version
-      - name: install Rust stable
-        uses: dtolnay/rust-toolchain@stable
-        with:
-          toolchain: 1.85.1
-      - name: install dependencies (ubuntu only)
-        run: |
-          sudo apt-get update
-          sudo apt-get install -y libgtk-3-dev libwebkit2gtk-4.0-dev libayatana-appindicator3-dev librsvg2-dev
-          sudo apt-get install -y libwebrtc-audio-processing-dev
-          sudo apt-get install -y libunwind-dev
-          sudo apt-get install -y libgstreamer1.0-dev libgstreamer-plugins-base1.0-dev libgstreamer-plugins-bad1.0-dev gstreamer1.0-plugins-base gstreamer1.0-plugins-good gstreamer1.0-plugins-bad gstreamer1.0-plugins-ugly gstreamer1.0-libav gstreamer1.0-tools gstreamer1.0-x gstreamer1.0-alsa gstreamer1.0-gl gstreamer1.0-gtk3 gstreamer1.0-qt5 gstreamer1.0-pulseaudio
       - name: install frontend dependencies
         env:
           GH_TOKEN: ${{ github.token }}
@@ -314,25 +296,44 @@ jobs:
         run: |
           npm ci
           npm run _ci-release:staging
-          npm run tauri build
-          ls -alh ./src-tauri/target/release
-          mkdir ./src-tauri/target/release/phoenix-code
-          cp ./src-tauri/target/release/phoenix-code-pre-release ./src-tauri/target/release/phoenix-code
-          cp ./src-build/linux/install-readme.txt ./src-tauri/target/release/phoenix-code/readme.txt
-          cp ./src-tauri/target/release/phnode ./src-tauri/target/release/phoenix-code
-          cp -r ./src-tauri/target/release/src-node ./src-tauri/target/release/phoenix-code
-          ls -alh ./src-tauri/target/release/phoenix-code
-          tar -cvzf phoenix-code.tar.gz -C ./src-tauri/target/release phoenix-code
-          ls -alh phoenix-code.tar.gz
-          GLIBC_VER=$(ldd --version | head -n1 | awk '{print $NF}')
-          OUTPUT_FILENAME="phoenix-code-pre-release_$(node -p "require('./package.json').version")_amd64_linux_bin-GLIBC-${GLIBC_VER}.tar.gz"
-          mv phoenix-code.tar.gz "$OUTPUT_FILENAME"
-          echo "OUTPUT_FILENAME=$OUTPUT_FILENAME" >> $GITHUB_ENV
-          ls
+          npm run _ci-releaseElectronApp
+          ls -alh ./src-electron/dist/
+          echo "OUTPUT_FILENAME=$(ls ./src-electron/dist/*.AppImage | head -1 | xargs basename)" >> $GITHUB_ENV
+
+      - name: Sign AppImage with minisign
+        env:
+          TAURI_PRIVATE_KEY: ${{ secrets.TAURI_PRIVATE_KEY }}
+          TAURI_KEY_PASSWORD: ${{ secrets.TAURI_KEY_PASSWORD }}
+        run: |
+          # Download and install minisign
+          wget https://github.com/jedisct1/minisign/releases/download/0.11/minisign-0.11-linux.tar.gz
+          tar -xzf minisign-0.11-linux.tar.gz
+          sudo mv minisign-linux/x86_64/minisign /usr/local/bin/
+          minisign -v
+
+          # Write private key to temp file
+          echo "$TAURI_PRIVATE_KEY" > /tmp/tauri_private.key
+
+          # Sign the AppImage
+          APPIMAGE_PATH="./src-electron/dist/${{ env.OUTPUT_FILENAME }}"
+          echo "$TAURI_KEY_PASSWORD" | minisign -S -s /tmp/tauri_private.key -m "$APPIMAGE_PATH" -t "$(date +%s)	file:${{ env.OUTPUT_FILENAME }}"
+
+          # Clean up private key
+          rm /tmp/tauri_private.key
+
+          # Show signature file
+          echo "Signature file contents:"
+          cat "${APPIMAGE_PATH}.minisig"
+
+          # Rename .minisig to .sig for consistency
+          mv "${APPIMAGE_PATH}.minisig" "${APPIMAGE_PATH}.sig"
+
       - name: Upload Release Asset
         uses: softprops/action-gh-release@v2
         with:
-          files: ${{ env.OUTPUT_FILENAME }}
+          files: |
+            ./src-electron/dist/${{ env.OUTPUT_FILENAME }}
+            ./src-electron/dist/${{ env.OUTPUT_FILENAME }}.sig
           tag_name: ${{ env.GIT_TAG_NAME }}
           draft: true
         env:

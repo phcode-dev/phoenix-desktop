@@ -305,8 +305,11 @@ jobs:
           TAURI_PRIVATE_KEY: ${{ secrets.TAURI_PRIVATE_KEY }}
           TAURI_KEY_PASSWORD: ${{ secrets.TAURI_KEY_PASSWORD }}
         run: |
-          # Install minisign
-          sudo apt-get update && sudo apt-get install -y minisign
+          # Download and install minisign
+          wget https://github.com/jedisct1/minisign/releases/download/0.11/minisign-0.11-linux.tar.gz
+          tar -xzf minisign-0.11-linux.tar.gz
+          sudo mv minisign-linux/x86_64/minisign /usr/local/bin/
+          minisign -v
 
           # Write private key to temp file
           echo "$TAURI_PRIVATE_KEY" > /tmp/tauri_private.key
