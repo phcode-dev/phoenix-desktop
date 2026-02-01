@@ -360,8 +360,12 @@ jobs:
           sudo mv minisign-linux/x86_64/minisign /usr/local/bin/
           minisign -v
 
-          # Write private key to temp file
-          echo "$TAURI_PRIVATE_KEY" > /tmp/tauri_private.key
+          # Write private key to temp file (preserve newlines with printf)
+          printf '%s\n' "$TAURI_PRIVATE_KEY" > /tmp/tauri_private.key
+
+          # Debug: show key file info (not contents)
+          echo "Key file size: $(wc -c < /tmp/tauri_private.key) bytes"
+          echo "Key file lines: $(wc -l < /tmp/tauri_private.key)"
 
           # Sign the AppImage
           APPIMAGE_PATH="./src-electron/dist/${{ env.OUTPUT_FILENAME }}"
