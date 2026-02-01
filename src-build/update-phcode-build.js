@@ -72,3 +72,11 @@ for(let i=0;i<lines.length;i++){
 }
 const patchedTOML = lines.join(EOL);
 fs.writeFileSync(tauriTOMLPath, patchedTOML);
+
+
+// update file src-electron/package.json
+const electronPackagePath = join(__dirname, '..', 'src-electron', 'package.json');
+console.log("write version in src-electron/package.json", electronPackagePath);
+let electronPackageJson = JSON.parse(fs.readFileSync(electronPackagePath));
+electronPackageJson.version = phoenixVersion;
+fs.writeFileSync(electronPackagePath, JSON.stringify(electronPackageJson, null, 2));

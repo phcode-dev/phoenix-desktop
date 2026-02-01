@@ -2,7 +2,7 @@ import {getPlatformDetails} from "./utils.js";
 import {execa} from "execa";
 import chalk from "chalk";
 import {resolve} from "path";
-import {copyFileSync} from "fs";
+import {copyFileSync, readFileSync, writeFileSync} from "fs";
 
 const {platform} = getPlatformDetails();
 
@@ -62,6 +62,13 @@ if (target === "tauri") {
     const configDest = resolve(electronDir, "config-effective.json");
     console.log('Copying config.json to config-effective.json...');
     copyFileSync(configSrc, configDest);
+
+    // Inject version from package.json
+    const packageJsonPath = resolve(electronDir, "package.json");
+    const packageJson = JSON.parse(readFileSync(packageJsonPath, 'utf8'));
+    const effectiveConfig = JSON.parse(readFileSync(configDest, 'utf8'));
+    effectiveConfig.version = packageJson.version;
+    writeFileSync(configDest, JSON.stringify(effectiveConfig, null, 2));
 
     console.log('Starting Electron...');
     await execa("./src-electron/node_modules/.bin/electron", ["src-electron/main.js"], {stdio: "inherit"});

@@ -151,8 +151,14 @@ function createElectronConfig() {
     const envConfig = JSON.parse(fs.readFileSync(envConfigPath));
     const effectiveConfig = { ...baseConfig, ...envConfig };
 
+    // Inject version from src-electron/package.json
+    const electronPackagePath = join(electronDir, 'package.json');
+    const electronPackage = JSON.parse(fs.readFileSync(electronPackagePath));
+    effectiveConfig.version = electronPackage.version;
+
     console.log('phoenixLoadURL:', effectiveConfig.phoenixLoadURL);
     console.log('gaMetricsURL:', effectiveConfig.gaMetricsURL);
+    console.log('version:', effectiveConfig.version);
     fs.writeFileSync(configEffectivePath, JSON.stringify(effectiveConfig, null, 2));
 }
 

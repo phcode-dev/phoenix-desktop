@@ -45,6 +45,7 @@ jobs:
             package.json
             src-tauri/Cargo.toml
             src-tauri/tauri.conf.json
+            src-electron/package.json
           body: |
             A new version of phcode has been pushed to `${{github.event.client_payload.source}}` repo's `tauri` branch.
             This pull request updates the dependency to bring in the latest changes to phcode.
