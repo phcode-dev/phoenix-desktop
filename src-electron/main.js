@@ -137,10 +137,26 @@ async function createWindow() {
     win.loadURL(phoenixLoadURL);
 }
 
+let isShuttingDown = false;
+let pendingExitCode = 0;
+
 async function gracefulShutdown(exitCode = 0) {
+    // If non-zero exit code, always update (failure takes precedence)
+    if (exitCode !== 0) {
+        pendingExitCode = exitCode;
+    }
+    if (isShuttingDown) {
+        return; // Already shutting down
+    }
+    isShuttingDown = true;
     console.log('Initiating graceful shutdown...');
-    await terminateAllProcesses();
-    app.exit(exitCode);
+    try {
+        await terminateAllProcesses();
+        app.exit(pendingExitCode);
+    } catch (err) {
+        console.error('Error during shutdown:', err);
+        app.exit(pendingExitCode || 1);
+    }
 }
 
 // Register all IPC handlers
@@ -314,6 +330,6 @@ app.on('activate', () => {
     }
 });
 
-// Handle process termination signals
-process.on('SIGINT', () => gracefulShutdown(0));
-process.on('SIGTERM', () => gracefulShutdown(0));
+// Handle process termination signals (exit 128+signal per Unix convention)
+process.on('SIGINT', () => gracefulShutdown(130));   // 128 + 2
+process.on('SIGTERM', () => gracefulShutdown(143));  // 128 + 15
