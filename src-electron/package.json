@@ -2,8 +2,11 @@
   "name": "phoenix-code-electron-shell",
   "identifier": "io.phcode.dev",
   "stage": "dev",
-  "trustedElectronDomains": ["phtauri://localhost/", "https://phcode.dev/"],
-  "version": "5.0.5",
+  "trustedElectronDomains": [
+    "phtauri://localhost/",
+    "https://phcode.dev/"
+  ],
+  "version": "5.1.2",
   "productName": "Phoenix Code Experimental Build",
   "description": "Phoenix Code Experimental Build",
   "main": "main.js",
