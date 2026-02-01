@@ -225,6 +225,45 @@ ipcMain.on('send-health-metric', (event, payload) => {
     }
 });
 
+/**
+ * App updater IPC handlers
+ * These provide low-level APIs for the update-electron.js extension in Phoenix
+ */
+
+// Get app version from config
+ipcMain.handle('get-app-version', (event) => {
+    assertTrusted(event);
+    return version;
+});
+
+// Check if app is packaged (production build)
+ipcMain.handle('is-packaged', (event) => {
+    assertTrusted(event);
+    return app.isPackaged;
+});
+
+// Get executable path (path to the AppImage on Linux)
+ipcMain.handle('get-executable-path', (event) => {
+    assertTrusted(event);
+    return process.execPath;
+});
+
+// Run a shell command for update script execution
+ipcMain.handle('run-shell-command', async (event, command) => {
+    assertTrusted(event);
+    const { exec } = require('child_process');
+    return new Promise((resolve) => {
+        exec(command, { shell: '/bin/bash' }, (error, stdout, stderr) => {
+            if (error) {
+                console.error('Shell command error:', error);
+                resolve({ code: error.code || 1, stdout, stderr });
+            } else {
+                resolve({ code: 0, stdout, stderr });
+            }
+        });
+    });
+});
+
 // Handle quit request from renderer
 app.on('quit-requested', (exitCode) => {
     gracefulShutdown(exitCode);
