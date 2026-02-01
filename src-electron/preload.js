@@ -79,7 +79,10 @@ contextBridge.exposeInMainWorld('electronAPI', {
     // Set zoom factor on the webview (mirrors Tauri's zoom_window)
     zoomWindow: (scaleFactor) => ipcRenderer.invoke('zoom-window', scaleFactor),
 
-    // In-memory storage for multi-window sync (mirrors Tauri's put_item/get_all_items)
+    /**
+     * In-memory storage for multi-window sync (mirrors Tauri's put_item/get_all_items)
+     * WARNING: These APIs are ONLY for use by storage.js - do not use elsewhere
+     */
     putItem: (key, value) => ipcRenderer.invoke('put-item', key, value),
     getAllItems: () => ipcRenderer.invoke('get-all-items'),
 
@@ -166,5 +169,6 @@ contextBridge.exposeInMainWorld('electronAPI', {
     getAppVersion: () => ipcRenderer.invoke('get-app-version'),
     isPackaged: () => ipcRenderer.invoke('is-packaged'),
     getExecutablePath: () => ipcRenderer.invoke('get-executable-path'),
-    runShellCommand: (command) => ipcRenderer.invoke('run-shell-command', command)
+    setUpdateScheduled: (scheduled) => ipcRenderer.invoke('set-update-scheduled', scheduled),
+    getUpdateScheduled: () => ipcRenderer.invoke('get-update-scheduled')
 });
