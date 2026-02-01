@@ -30,3 +30,5 @@ extraResources:
 
 extraMetadata:
   main: main.js
+
+publish: null
