@@ -78,8 +78,11 @@ function getSrcNodePath() {
 }
 
 // In-memory key-value store shared across all windows (mirrors Tauri's put_item/get_all_items)
-// Used for multi-window storage synchronization
+// Used for multi-window storage synchronization - ONLY for use by storage.js
 const sharedStorageMap = new Map();
+
+// Update scheduled flag - shared across all windows for app updater
+let updateScheduled = false;
 
 // Hidden metrics window for Google Analytics
 let metricsWindow = null;
@@ -248,20 +251,15 @@ ipcMain.handle('get-executable-path', (event) => {
     return process.execPath;
 });
 
-// Run a shell command for update script execution
-ipcMain.handle('run-shell-command', async (event, command) => {
+// Update scheduled state - shared across windows for multi-window update persistence
+ipcMain.handle('set-update-scheduled', (event, scheduled) => {
     assertTrusted(event);
-    const { exec } = require('child_process');
-    return new Promise((resolve) => {
-        exec(command, { shell: '/bin/bash' }, (error, stdout, stderr) => {
-            if (error) {
-                console.error('Shell command error:', error);
-                resolve({ code: error.code || 1, stdout, stderr });
-            } else {
-                resolve({ code: 0, stdout, stderr });
-            }
-        });
-    });
+    updateScheduled = scheduled;
+});
+
+ipcMain.handle('get-update-scheduled', (event) => {
+    assertTrusted(event);
+    return updateScheduled;
 });
 
 // Handle quit request from renderer
