@@ -160,5 +160,11 @@ contextBridge.exposeInMainWorld('electronAPI', {
 
     // Health metrics for Google Analytics (sends to hidden metrics window)
     sendHealthMetric: (payload) => ipcRenderer.send('send-health-metric', payload),
-    onHealthMetric: (callback) => ipcRenderer.on('health-metric', (_event, payload) => callback(payload))
+    onHealthMetric: (callback) => ipcRenderer.on('health-metric', (_event, payload) => callback(payload)),
+
+    // App updater APIs - just expose primitives, logic is in update-electron.js
+    getAppVersion: () => ipcRenderer.invoke('get-app-version'),
+    isPackaged: () => ipcRenderer.invoke('is-packaged'),
+    getExecutablePath: () => ipcRenderer.invoke('get-executable-path'),
+    runShellCommand: (command) => ipcRenderer.invoke('run-shell-command', command)
 });
