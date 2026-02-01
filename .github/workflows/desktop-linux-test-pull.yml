@@ -23,6 +23,8 @@ jobs:
           sudo apt-get update
           sudo apt install build-essential curl wget file libssl-dev
           sudo apt-get install xvfb
+          # libfuse2 is required for AppImages to run
+          sudo apt-get install libfuse2
 
       - name: npm install ci deps
         env:
