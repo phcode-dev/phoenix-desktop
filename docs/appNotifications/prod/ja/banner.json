@@ -4,5 +4,12 @@
     "HTML_CONTENT": "<div>Windows、Mac、Linux 用の <b>Phoenix Code の<b>デスクトップ アプリ</b>を紹介</b>します。 <a class='notification_ack' href='https://phcode.io' _target='_blank'> ここをクリックして今すぐ入手してください。</a></div>",
     "FOR_VERSIONS": ">=3.0.0",
     "PLATFORM" : "allBrowser"
+  },
+  "LIFETIME_DEAL_V_5_0_0_DEAL": {
+    "DANGER_SHOW_ON_EVERY_BOOT": false,
+    "HTML_CONTENT": "<div style='display:flex;align-items:center;gap:10px;'><div><div style='font-weight:600;'>Phoenix Pro 永久ライセンス</div><div style='opacity:0.85;font-size:0.9em;'>一度の支払いで <a href='https://phcode.io/pricing' target='_blank' rel='noopener' class='phoenix-pro-title phoenix-pro'>Phoenix Pro<i class='fa-solid fa-feather orange-gold' style='margin-left: 3px;'></i></a> を永久に利用できます。14日後に終了します。</div></div><button class='btn primary notification_ack' onclick=\"Phoenix.app.openURLInDefaultBrowser('https://phcode.io/pricing')\">詳細を見る</button></div>",
+    "FOR_VERSIONS": ">=5.0.0",
+    "PLATFORM": "allDesktop",
+    "USER_TYPE": ["trial"]
   }
 }
