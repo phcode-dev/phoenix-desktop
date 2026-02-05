@@ -50,5 +50,5 @@ A sample json is as follows:
 5. `PLATFORM`: A comma seperated list(no spaces) of all platforms in which the message will be shown.
     allowed values are: `mac,win,linux,allDesktop,firefox,chrome,safari,allBrowser,all`
 6. `USER_TYPE`: An array of all user types in which the message will be shown.
-    allowed values are: [`all`, `notLoggedIn`, `loggedIn`, `trial`, `paidSubscriber`]. This filter is only available
-    in versions > 5, else it is ignored in older versions. combine with `FOR_VERSIONS` to filter based on user type.
+    allowed values are: [`all`, `notLoggedIn`, `loggedIn`, `trial`, `paidSubscriber`, `notPaidsubscriber`]. This filter
+    is only available in versions > 5, else it is ignored in older versions. combine with `FOR_VERSIONS` to filter based on user type.
