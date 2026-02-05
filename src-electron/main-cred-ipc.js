@@ -17,7 +17,7 @@ try {
 const PHOENIX_CRED_PREFIX = 'phcode_electron_';
 
 function registerCredIpcHandlers() {
-    // Trust window AES key - can only be called once per window
+    // Trust window AES key - can only be called once per page load
     ipcMain.handle('trust-window-aes-key', (event, key, iv) => {
         assertTrusted(event);
         const webContentsId = event.sender.id;
@@ -140,4 +140,12 @@ function cleanupWindowTrust(webContentsId, windowLabel) {
     }
 }
 
-module.exports = { registerCredIpcHandlers, cleanupWindowTrust };
+// Clear trust on navigation (page reload) - allows fresh trust to be established after reload
+function clearTrustOnNavigation(webContentsId, windowLabel) {
+    if (windowTrustMap.has(webContentsId)) {
+        windowTrustMap.delete(webContentsId);
+        console.log(`AES trust cleared for navigation in window: ${windowLabel} (webContentsId: ${webContentsId})`);
+    }
+}
+
+module.exports = { registerCredIpcHandlers, cleanupWindowTrust, clearTrustOnNavigation };

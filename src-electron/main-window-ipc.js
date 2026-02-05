@@ -1,7 +1,7 @@
 const { ipcMain, BrowserWindow, shell, clipboard } = require('electron');
 const path = require('path');
 const { spawn } = require('child_process');
-const { cleanupWindowTrust } = require('./main-cred-ipc');
+const { cleanupWindowTrust, clearTrustOnNavigation } = require('./main-cred-ipc');
 const { isTrustedOrigin, updateTrustStatus, cleanupTrust, assertTrusted } = require('./ipc-security');
 const { DEFAULTS, trackWindowState } = require('./window-state');
 
@@ -38,6 +38,14 @@ function registerWindow(win, label) {
 
     // Initial trust evaluation
     updateTrustStatus(webContents);
+
+    // Clear AES trust before navigation starts (page reload/navigate)
+    // This allows the new page to establish fresh trust with its own keys
+    webContents.on('did-start-navigation', (event, url, isInPlace, isMainFrame) => {
+        if (isMainFrame) {
+            clearTrustOnNavigation(webContentsId, label);
+        }
+    });
 
     // Re-evaluate trust on navigation
     webContents.on('did-navigate', () => {
