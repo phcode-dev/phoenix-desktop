@@ -25,6 +25,9 @@ extern crate webkit2gtk;
 #[macro_use]
 extern crate objc;
 
+#[cfg(target_os = "macos")]
+extern crate cocoa;
+
 use clipboard_files;
 
 #[cfg(target_os = "linux")]
@@ -387,6 +390,209 @@ fn get_mac_deep_link_requests() -> Vec<String> {
     }
 }
 
+// Screenshot capture types
+#[derive(serde::Deserialize)]
+struct CaptureRect {
+    x: f64,
+    y: f64,
+    width: f64,
+    height: f64,
+}
+
+#[tauri::command]
+async fn capture_page(window: tauri::Window, rect: Option<CaptureRect>) -> Result<Vec<u8>, String> {
+    #[cfg(target_os = "linux")]
+    {
+        let _ = (&window, &rect);
+        return Err("capture_page is not implemented on Linux".to_string());
+    }
+
+    #[cfg(target_os = "macos")]
+    {
+        let (tx, rx) = tokio::sync::oneshot::channel::<Result<Vec<u8>, String>>();
+
+        let _ = window.with_webview(move |webview| {
+            unsafe {
+                let wk_webview = webview.inner();
+
+                // Create WKSnapshotConfiguration
+                let config: *mut objc::runtime::Object = msg_send![class!(WKSnapshotConfiguration), new];
+
+                // Set capture rect if provided
+                if let Some(r) = &rect {
+                    // CGRect layout: {origin.x, origin.y, size.width, size.height}
+                    #[repr(C)]
+                    struct CGRect { x: f64, y: f64, w: f64, h: f64 }
+                    unsafe impl objc::Encode for CGRect {
+                        fn encode() -> objc::Encoding {
+                            unsafe { objc::Encoding::from_str("{CGRect={CGPoint=dd}{CGSize=dd}}") }
+                        }
+                    }
+                    let cg_rect = CGRect { x: r.x, y: r.y, w: r.width, h: r.height };
+                    let () = msg_send![config, setRect: cg_rect];
+                }
+
+                // Wrap sender in Arc<Mutex<Option>> so the closure is Fn (not FnOnce)
+                let tx = std::sync::Arc::new(std::sync::Mutex::new(Some(tx)));
+
+                let handler = block::ConcreteBlock::new(move |image: cocoa::base::id, error: cocoa::base::id| {
+                    let mut guard = tx.lock().unwrap();
+                    let tx = match guard.take() {
+                        Some(tx) => tx,
+                        None => return,
+                    };
+                    if !image.is_null() {
+                        // NSImage -> TIFF -> NSBitmapImageRep -> PNG
+                        let tiff_data: cocoa::base::id = msg_send![image, TIFFRepresentation];
+                        if tiff_data.is_null() {
+                            let _ = tx.send(Err("Failed to get TIFF representation".to_string()));
+                            return;
+                        }
+                        let bitmap_rep: cocoa::base::id = msg_send![
+                            class!(NSBitmapImageRep), imageRepWithData: tiff_data
+                        ];
+                        if bitmap_rep.is_null() {
+                            let _ = tx.send(Err("Failed to create bitmap representation".to_string()));
+                            return;
+                        }
+                        let empty_dict: cocoa::base::id = msg_send![class!(NSDictionary), dictionary];
+                        // NSBitmapImageFileTypePNG = 4
+                        let png_data: cocoa::base::id = msg_send![
+                            bitmap_rep, representationUsingType: 4usize properties: empty_dict
+                        ];
+                        if png_data.is_null() {
+                            let _ = tx.send(Err("Failed to create PNG data".to_string()));
+                            return;
+                        }
+                        let length: usize = msg_send![png_data, length];
+                        let bytes: *const u8 = msg_send![png_data, bytes];
+                        let vec = std::slice::from_raw_parts(bytes, length).to_vec();
+                        let _ = tx.send(Ok(vec));
+                    } else {
+                        let err_msg = if !error.is_null() {
+                            let desc: cocoa::base::id = msg_send![error, localizedDescription];
+                            let utf8: *const std::os::raw::c_char = msg_send![desc, UTF8String];
+                            if !utf8.is_null() {
+                                std::ffi::CStr::from_ptr(utf8).to_string_lossy().to_string()
+                            } else {
+                                "Screenshot failed".to_string()
+                            }
+                        } else {
+                            "Screenshot failed with unknown error".to_string()
+                        };
+                        let _ = tx.send(Err(err_msg));
+                    }
+                });
+                let handler = handler.copy();
+                let completion_handler: &block::Block<(cocoa::base::id, cocoa::base::id), ()> = &handler;
+
+                let () = msg_send![
+                    wk_webview,
+                    takeSnapshotWithConfiguration: config
+                    completionHandler: completion_handler
+                ];
+            }
+        }).map_err(|e| e.to_string())?;
+
+        return rx.await.map_err(|_| "Capture channel closed".to_string())?;
+    }
+
+    #[cfg(windows)]
+    {
+        return capture_page_windows(window, rect);
+    }
+}
+
+#[cfg(windows)]
+fn capture_page_windows(window: tauri::Window, rect: Option<CaptureRect>) -> Result<Vec<u8>, String> {
+    use winapi::um::winuser::{GetDC, ReleaseDC, GetClientRect, PrintWindow};
+    use winapi::um::wingdi::{
+        CreateCompatibleDC, CreateCompatibleBitmap, SelectObject, GetDIBits,
+        DeleteDC, DeleteObject, BITMAPINFOHEADER, BITMAPINFO, BI_RGB, DIB_RGB_COLORS,
+    };
+    use winapi::shared::windef::{RECT, HGDIOBJ};
+
+    unsafe {
+        let hwnd = window.hwnd().map_err(|e| e.to_string())?;
+        let hwnd = hwnd.0 as winapi::shared::windef::HWND;
+
+        let mut client_rect: RECT = std::mem::zeroed();
+        GetClientRect(hwnd, &mut client_rect);
+        let full_width = client_rect.right - client_rect.left;
+        let full_height = client_rect.bottom - client_rect.top;
+
+        if full_width <= 0 || full_height <= 0 {
+            return Err("Window has zero client area".to_string());
+        }
+
+        let hdc_screen = GetDC(hwnd);
+        let hdc_mem = CreateCompatibleDC(hdc_screen);
+        let hbitmap = CreateCompatibleBitmap(hdc_screen, full_width, full_height);
+        let old_bitmap = SelectObject(hdc_mem, hbitmap as HGDIOBJ);
+
+        // PW_CLIENTONLY=1 | PW_RENDERFULLCONTENT=2 (captures HW-accelerated content)
+        PrintWindow(hwnd, hdc_mem, 1 | 2);
+
+        let mut bmi: BITMAPINFO = std::mem::zeroed();
+        bmi.bmiHeader.biSize = std::mem::size_of::<BITMAPINFOHEADER>() as u32;
+        bmi.bmiHeader.biWidth = full_width;
+        bmi.bmiHeader.biHeight = -full_height; // negative = top-down
+        bmi.bmiHeader.biPlanes = 1;
+        bmi.bmiHeader.biBitCount = 32;
+        bmi.bmiHeader.biCompression = BI_RGB;
+
+        let mut pixels = vec![0u8; (full_width * full_height * 4) as usize];
+        GetDIBits(
+            hdc_mem, hbitmap, 0, full_height as u32,
+            pixels.as_mut_ptr() as *mut _,
+            &mut bmi, DIB_RGB_COLORS,
+        );
+
+        SelectObject(hdc_mem, old_bitmap);
+        DeleteObject(hbitmap as HGDIOBJ);
+        DeleteDC(hdc_mem);
+        ReleaseDC(hwnd, hdc_screen);
+
+        // BGRA -> RGBA
+        for chunk in pixels.chunks_exact_mut(4) {
+            chunk.swap(0, 2);
+        }
+
+        // Extract the requested region (or full image)
+        let (cap_x, cap_y, cap_w, cap_h) = if let Some(r) = &rect {
+            let x = (r.x as i32).max(0).min(full_width);
+            let y = (r.y as i32).max(0).min(full_height);
+            let w = (r.width as i32).min(full_width - x).max(0);
+            let h = (r.height as i32).min(full_height - y).max(0);
+            (x, y, w, h)
+        } else {
+            (0, 0, full_width, full_height)
+        };
+
+        if cap_w <= 0 || cap_h <= 0 {
+            return Err("Capture region is empty".to_string());
+        }
+
+        let mut region_pixels = Vec::with_capacity((cap_w * cap_h * 4) as usize);
+        for y in cap_y..(cap_y + cap_h) {
+            let start = ((y * full_width + cap_x) * 4) as usize;
+            let end = start + (cap_w * 4) as usize;
+            region_pixels.extend_from_slice(&pixels[start..end]);
+        }
+
+        // Encode as PNG
+        let mut png_bytes: Vec<u8> = Vec::new();
+        {
+            let mut encoder = png::Encoder::new(&mut png_bytes, cap_w as u32, cap_h as u32);
+            encoder.set_color(png::ColorType::Rgba);
+            encoder.set_depth(png::BitDepth::Eight);
+            let mut writer = encoder.write_header().map_err(|e| e.to_string())?;
+            writer.write_image_data(&region_pixels).map_err(|e| e.to_string())?;
+        }
+        Ok(png_bytes)
+    }
+}
+
 const PHOENIX_CRED_PREFIX: &str = "phcode_";
 
 fn get_username() -> String {
@@ -627,7 +833,7 @@ fn main() {
             put_item, get_item, get_all_items, delete_item,
             trust_window_aes_key, remove_trust_window_aes_key,
             _get_windows_drives, _rename_path, show_in_folder, move_to_trash, zoom_window,
-            _get_clipboard_files, _open_url_in_browser_win])
+            _get_clipboard_files, _open_url_in_browser_win, capture_page])
         .setup(|app| {
             init::init_app(app);
             #[cfg(target_os = "linux")]

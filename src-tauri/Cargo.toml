@@ -28,7 +28,8 @@ webbrowser = "1.0"
 backtrace = "0.3.73"
 serde = { version = "1.0.200", features = ["derive"] }
 tauri = { version = "1.6.2", features = [ "updater", "cli", "api-all", "devtools", "linux-protocol-headers"] }
-winapi = { version = "0.3.9", features = ["fileapi"] }
+winapi = { version = "0.3.9", features = ["fileapi", "wingdi", "winuser", "windef"] }
+png = "0.17"
 tauri-plugin-fs-extra = { git = "https://github.com/tauri-apps/plugins-workspace", branch = "v1" }
 tauri-plugin-window-state = { git = "https://github.com/tauri-apps/plugins-workspace", branch = "v1" }
 tauri-plugin-single-instance = { git = "https://github.com/tauri-apps/plugins-workspace", branch = "v1" }
@@ -50,6 +51,8 @@ dialog = "0.3.0"
 
 [target.'cfg(target_os = "macos")'.dependencies]
 objc = "0.2.7"
+block = "0.1"
+cocoa = "0.25"
 tauri-plugin-deep-link = "0.1.2"
 lazy_static = "1.4"
 native-dialog = "0.7.0"

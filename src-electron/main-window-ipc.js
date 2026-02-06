@@ -370,6 +370,18 @@ function registerWindowIpcHandlers() {
             win.close();
         }
     });
+
+    // Capture a region of the current window as PNG
+    // rect is optional {x, y, width, height} — if omitted, captures the full visible page
+    ipcMain.handle('capture-page', async (event, rect) => {
+        assertTrusted(event);
+        const win = BrowserWindow.fromWebContents(event.sender);
+        if (!win) {
+            throw new Error('No window found for capture');
+        }
+        const nativeImage = await event.sender.capturePage(rect);
+        return nativeImage.toPNG();
+    });
 }
 
 function getWindowLabel(webContentsId) {
