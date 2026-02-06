@@ -6,6 +6,31 @@ import {copyFileSync, readFileSync, writeFileSync} from "fs";
 
 const {platform} = getPlatformDetails();
 
+function createTauriDevConfig() {
+    const tauriDir = resolve("src-tauri");
+    const tauriConfigPath = resolve(tauriDir, "tauri.conf.json");
+    const tauriLocalConfigPath = resolve(tauriDir, "tauri-local.conf.json");
+
+    console.log('Creating Tauri dev config...');
+    const configJson = JSON.parse(readFileSync(tauriConfigPath, 'utf8'));
+
+    // Override window URLs for dev mode
+    const devUrl = configJson.build.devPath; // "http://localhost:8000/src/"
+
+    // Main window - remove hardcoded URL so devPath is used
+    if (configJson.tauri.windows[0]) {
+        delete configJson.tauri.windows[0].url;
+    }
+
+    // fileDrop window - point to dev server
+    if (configJson.tauri.windows[2]) {
+        configJson.tauri.windows[2].url = devUrl + "drop-files.html";
+    }
+
+    writeFileSync(tauriLocalConfigPath, JSON.stringify(configJson, null, 4));
+    console.log('Dev config written to:', tauriLocalConfigPath);
+}
+
 // Get target from CLI arg, or detect from platform
 const cliArg = process.argv[2];
 let target;
@@ -49,8 +74,10 @@ if (target === "tauri") {
     console.log('Setting up src-node...');
     await execa("npm", ["run", "_make_src-node"], {stdio: "inherit"});
 
+    createTauriDevConfig();
+
     console.log('Starting Tauri dev server...');
-    await execa("npx", ["tauri", "dev"], {stdio: "inherit"});
+    await execa("npx", ["tauri", "dev", "--config", "./src-tauri/tauri-local.conf.json"], {stdio: "inherit"});
 } else {
     const srcNodePath = resolve("../phoenix/src-node");
     console.log(`Running "npm install" in ${srcNodePath}`);
