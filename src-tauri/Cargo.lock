@@ -3407,12 +3407,14 @@ dependencies = [
 
 [[package]]
 name = "phoenix-code-ide"
-version = "5.1.0"
+version = "5.1.2"
 dependencies = [
  "aes-gcm",
  "backtrace",
+ "block",
  "chrono",
  "clipboard-files",
+ "cocoa 0.25.0",
  "dialog",
  "fix-path-env",
  "gtk",
@@ -3424,6 +3426,7 @@ dependencies = [
  "once_cell",
  "os_info",
  "percent-encoding",
+ "png",
  "regex",
  "reqwest 0.12.15",
  "serde",

@@ -139,6 +139,10 @@ contextBridge.exposeInMainWorld('electronAPI', {
     setWindowTitle: (title) => ipcRenderer.invoke('set-window-title', title),
     getWindowTitle: () => ipcRenderer.invoke('get-window-title'),
 
+    // Screenshot API — capture a region of the current window as PNG buffer
+    // rect is optional {x, y, width, height} — if omitted, captures the full visible page
+    capturePage: (rect) => ipcRenderer.invoke('capture-page', rect),
+
     // Clipboard APIs
     clipboardReadText: () => ipcRenderer.invoke('clipboard-read-text'),
     clipboardWriteText: (text) => ipcRenderer.invoke('clipboard-write-text', text),
