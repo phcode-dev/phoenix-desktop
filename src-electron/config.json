@@ -4,5 +4,5 @@
   "productName": "Phoenix Code Experimental Build",
   "phoenixLoadURL": "phtauri://localhost/src/",
   "trustedElectronDomains": ["phtauri://localhost/", "https://phcode.dev/"],
-  "gaMetricsURL": "phtauri://localhost/src/desktop-metrics.html"
+  "gaMetricsURL": "http://localhost:8000/src/desktop-metrics.html"
 }
