@@ -25,6 +25,7 @@
         "_ci-releaseElectronApp": "cd src-electron && npm run build:appimage && cd ..",
         "_ci-update-phcode-build": "node src-build/update-phcode-build.js",
         "serve": "node src-build/serveForPlatform.js",
+        "serve:dist": "node src-build/serveForPlatform.js --dist",
         "serve:tauri": "node src-build/serveForPlatform.js tauri",
         "serve:electron": "node src-build/serveForPlatform.js electron",
         "postinstall": "node ./src-build/downloadNodeBinary.js && node ./src-build/setupElectron.js",

@@ -32,14 +32,15 @@ function createTauriDevConfig() {
 }
 
 // Get target from CLI arg, or detect from platform
-const cliArg = process.argv[2];
+const cliArgs = process.argv.slice(2).filter(arg => !arg.startsWith('--'));
+const cliArg = cliArgs[0];
 let target;
 
 if (cliArg === 'tauri' || cliArg === 'electron') {
     target = cliArg;
 } else if (cliArg) {
     console.error(`Unknown target: ${cliArg}`);
-    console.error('Usage: npm run serve [tauri|electron]');
+    console.error('Usage: npm run serve [tauri|electron] [--dist]');
     process.exit(1);
 } else {
     // Auto-detect: Linux uses Electron, Windows/Mac use Tauri
@@ -79,6 +80,7 @@ if (target === "tauri") {
     console.log('Starting Tauri dev server...');
     await execa("npx", ["tauri", "dev", "--config", "./src-tauri/tauri-local.conf.json"], {stdio: "inherit"});
 } else {
+    const serveDist = process.argv.includes('--dist');
     const srcNodePath = resolve("../phoenix/src-node");
     console.log(`Running "npm install" in ${srcNodePath}`);
     await execa("npm", ["install"], {cwd: srcNodePath, stdio: "inherit"});
@@ -95,6 +97,13 @@ if (target === "tauri") {
     const packageJson = JSON.parse(readFileSync(packageJsonPath, 'utf8'));
     const effectiveConfig = JSON.parse(readFileSync(configDest, 'utf8'));
     effectiveConfig.version = packageJson.version;
+
+    // When --dist flag is passed, serve from ../phoenix/dist instead of ../phoenix/src
+    if (serveDist) {
+        console.log('Serving from ../phoenix/dist (--dist mode)');
+        effectiveConfig.phoenixLoadURL = effectiveConfig.phoenixLoadURL.replace('/src/', '/dist/');
+    }
+
     writeFileSync(configDest, JSON.stringify(effectiveConfig, null, 2));
 
     console.log('Starting Electron...');
