@@ -66,6 +66,13 @@ if (target !== recommendedTarget) {
     console.warn(y(`╚${border}╝\n`));
 }
 
+const serveDist = process.argv.includes('--dist');
+
+if (serveDist && target === "tauri") {
+    console.error('Error: --dist flag is only supported with Electron, not Tauri.');
+    process.exit(1);
+}
+
 console.log(`Platform: ${platform}, target: ${target}`);
 
 // Run platform-specific command
@@ -80,7 +87,6 @@ if (target === "tauri") {
     console.log('Starting Tauri dev server...');
     await execa("npx", ["tauri", "dev", "--config", "./src-tauri/tauri-local.conf.json"], {stdio: "inherit"});
 } else {
-    const serveDist = process.argv.includes('--dist');
     const srcNodePath = resolve("../phoenix/src-node");
     console.log(`Running "npm install" in ${srcNodePath}`);
     await execa("npm", ["install"], {cwd: srcNodePath, stdio: "inherit"});
