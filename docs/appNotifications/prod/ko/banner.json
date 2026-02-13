@@ -5,9 +5,9 @@
     "FOR_VERSIONS": ">=3.0.0",
     "PLATFORM" : "allBrowser"
   },
-  "LIFETIME_DEAL_V_5_0_0_DEAL": {
+  "LIFETIME_DEAL_V_5_0_0_DEAL_1": {
     "DANGER_SHOW_ON_EVERY_BOOT": false,
-    "HTML_CONTENT": "<div style='display:flex;align-items:center;gap:10px;'><div><div style='font-weight:600;'>Phoenix Pro 평생 이용권</div><div style='opacity:0.85;font-size:0.9em;'>한 번의 결제로 <a href='https://phcode.io/pricing' target='_blank' rel='noopener' class='phoenix-pro-title phoenix-pro'>Phoenix Pro<i class='fa-solid fa-feather orange-gold' style='margin-left: 3px;'></i></a> 를 평생 사용하세요. 11일 후 종료됩니다.</div></div><button class='btn primary notification_ack' onclick=\"Phoenix.app.openURLInDefaultBrowser('https://phcode.io/pricing')\">자세히 보기</button></div>",
+    "HTML_CONTENT": "<div style='display:flex;align-items:center;gap:10px;'><div><div style='font-weight:600;'>Phoenix Pro 평생 이용권</div><div style='opacity:0.85;font-size:0.9em;'>한 번의 결제로 <a href='https://phcode.io/pricing' target='_blank' rel='noopener' class='phoenix-pro-title phoenix-pro'>Phoenix Pro<i class='fa-solid fa-feather orange-gold' style='margin-left: 3px;'></i></a> 를 평생 사용하세요. 5일 후 종료됩니다.</div></div><button class='btn primary notification_ack' onclick=\"Phoenix.app.openURLInDefaultBrowser('https://phcode.io/pricing')\">자세히 보기</button></div>",
     "FOR_VERSIONS": ">=5.0.0",
     "PLATFORM": "allDesktop",
     "USER_TYPE": ["trial"]
