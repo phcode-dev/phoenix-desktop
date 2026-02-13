@@ -53,7 +53,7 @@ dialog = "0.3.0"
 objc = "0.2.7"
 block = "0.1"
 cocoa = "0.25"
-tauri-plugin-deep-link = "0.1.2"
+tauri-plugin-deep-link = "2.0.0"
 lazy_static = "1.4"
 native-dialog = "0.7.0"
 
