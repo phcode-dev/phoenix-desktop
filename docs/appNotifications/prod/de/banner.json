@@ -7,7 +7,7 @@
   },
   "LIFETIME_DEAL_V_5_0_0_DEAL_1": {
     "DANGER_SHOW_ON_EVERY_BOOT": false,
-    "HTML_CONTENT": "<div style='display:flex;align-items:center;gap:10px;'><div><div style='font-weight:600;'>Phoenix Pro Lifetime-Angebot</div><div style='opacity:0.85;font-size:0.9em;'>Besitzen Sie <a href='https://phcode.io/pricing' target='_blank' rel='noopener' class='phoenix-pro-title phoenix-pro'>Phoenix Pro<i class='fa-solid fa-feather orange-gold' style='margin-left: 3px;'></i></a> dauerhaft mit einer einmaligen Zahlung. Endet in 5 Tagen.</div></div><button class='btn primary notification_ack' onclick=\"Phoenix.app.openURLInDefaultBrowser('https://phcode.io/pricing')\">Angebot ansehen</button></div>",
+    "HTML_CONTENT": "<div style='display:flex;align-items:center;gap:10px;'><div><div style='font-weight:600;'>Phoenix Pro Lifetime-Angebot</div><div style='opacity:0.85;font-size:0.9em;'>Besitzen Sie <a href='https://phcode.io/pricing' target='_blank' rel='noopener' class='phoenix-pro-title phoenix-pro'>Phoenix Pro<i class='fa-solid fa-feather orange-gold' style='margin-left: 3px;'></i></a> dauerhaft mit einer einmaligen Zahlung. Endet in 3 Tagen.</div></div><button class='btn primary notification_ack' onclick=\"Phoenix.app.openURLInDefaultBrowser('https://phcode.io/pricing')\">Angebot ansehen</button></div>",
     "FOR_VERSIONS": ">=5.0.0",
     "PLATFORM": "allDesktop",
     "USER_TYPE": ["trial"]
