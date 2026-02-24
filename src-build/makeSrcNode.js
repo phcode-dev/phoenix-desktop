@@ -34,6 +34,10 @@ function setupTarget(srcPath, destPath) {
     execSync(`shx rm -f ${destPath}/node_modules/@msgpackr-extract/msgpackr-extract-linux-*/*.musl.node`, { stdio: 'pipe' });
     execSync(`shx rm -f ${destPath}/node_modules/@lmdb/lmdb-linux-*/*.musl.node`, { stdio: 'pipe' });
 
+    // Remove JetBrains plugin (not needed in Phoenix Code, contains unsigned native binaries that block macOS notarization)
+    console.log('Removing claude-code JetBrains plugin...');
+    execSync(`shx rm -rf ${destPath}/node_modules/@anthropic-ai/claude-code/vendor/claude-code-jetbrains-plugin`, { stdio: 'pipe' });
+
     console.log(`${destPath} setup complete!`);
 }
 

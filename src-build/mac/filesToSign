@@ -10,3 +10,11 @@ src-tauri/src-node/node_modules/@msgpackr-extract/msgpackr-extract-darwin-x64/no
 src-node/node_modules/@msgpackr-extract/msgpackr-extract-darwin-arm64/node.abi108.glibc.node
 src-tauri/src-node/node_modules/@msgpackr-extract/msgpackr-extract-darwin-x64/node.napi.glibc.node
 src-node/node_modules/@msgpackr-extract/msgpackr-extract-darwin-arm64/node.napi.glibc.node
+src-node/node_modules/@anthropic-ai/claude-code/vendor/ripgrep/x64-darwin/ripgrep.node
+src-node/node_modules/@anthropic-ai/claude-code/vendor/ripgrep/x64-darwin/rg
+src-node/node_modules/@anthropic-ai/claude-code/vendor/ripgrep/arm64-darwin/ripgrep.node
+src-node/node_modules/@anthropic-ai/claude-code/vendor/ripgrep/arm64-darwin/rg
+src-node/node_modules/@img/sharp-darwin-x64/lib/sharp-darwin-x64.node
+src-node/node_modules/@img/sharp-libvips-darwin-x64/lib/libvips-cpp.42.dylib
+src-node/node_modules/@img/sharp-darwin-arm64/lib/sharp-darwin-arm64.node
+src-node/node_modules/@img/sharp-libvips-darwin-arm64/lib/libvips-cpp.42.dylib
