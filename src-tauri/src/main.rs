@@ -819,6 +819,25 @@ fn main() {
 
                     app.emit_all("single-instance", Payload { args: argv, cwd }).unwrap();
                 }))
+        .on_page_load(|window, _payload| {
+            // Disable browser accelerator keys (F5 reload, Ctrl+R, etc.) in all webviews
+            // to prevent the window from reloading on F5 key press
+            #[cfg(target_os = "windows")]
+            {
+                let _ = window.with_webview(|webview| {
+                    unsafe {
+                        use webview2_com::Microsoft::Web::WebView2::Win32::ICoreWebView2Settings3;
+                        use windows::core::Interface;
+                        let core_webview = webview.controller().CoreWebView2().unwrap();
+                        let settings = core_webview.Settings().unwrap();
+                        let settings3: ICoreWebView2Settings3 = settings.cast().unwrap();
+                        settings3.SetAreBrowserAcceleratorKeysEnabled(false).unwrap();
+                    }
+                });
+            }
+            #[cfg(not(target_os = "windows"))]
+            let _ = window; // suppress unused warning on non-windows
+        })
         .on_window_event(|event| {
             // Get the trust state from the app handle
             let app_handle = event.window().app_handle();
