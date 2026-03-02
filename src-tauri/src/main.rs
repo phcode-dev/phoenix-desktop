@@ -47,7 +47,6 @@ mod boot_config;
 use trash;
 
 mod platform;
-use tauri_plugin_window_state::StateFlags;
 
 use keyring::Entry;
 use whoami;
@@ -352,8 +351,20 @@ fn process_window_event(event: &GlobalWindowEvent, trust_state: &State<WindowAes
             println!("AES trust removed for closing window: {}", window_label);
         }
 
-        // this does nothing and is here if in future you need to persist something on window close.
-        boot_config::write_boot_config(1);
+        // Save main window position/size so it can be restored on next launch
+        if window_label == "main" {
+            let window = event.window();
+            let maximized = window.is_maximized().unwrap_or(false);
+            let (x, y) = match window.outer_position() {
+                Ok(pos) => (pos.x, pos.y),
+                Err(_) => (0, 0),
+            };
+            let (width, height) = match window.outer_size() {
+                Ok(size) => (size.width, size.height),
+                Err(_) => (0, 0),
+            };
+            boot_config::write_boot_config(1, x, y, width, height, maximized);
+        }
     }
 }
 
@@ -813,7 +824,6 @@ fn main() {
             Ok(response)
         })
         .plugin(tauri_plugin_fs_extra::init())
-        .plugin(tauri_plugin_window_state::Builder::default().with_state_flags(StateFlags::all() & !StateFlags::VISIBLE).build())
         .plugin(tauri_plugin_single_instance::init(|app, argv, cwd| {
                     println!("{}, {argv:?}, {cwd}", app.package_info().name);
 

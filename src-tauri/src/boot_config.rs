@@ -15,7 +15,12 @@ pub static APP_CONSTANTS: OnceCell<AppConstants> = OnceCell::new();
 
 #[derive(Serialize)]
 pub struct BootConfig {
-    pub version: u32
+    pub version: u32,
+    pub last_window_x: i32,
+    pub last_window_y: i32,
+    pub last_window_width: u32,
+    pub last_window_height: u32,
+    pub last_window_maximized: bool,
 }
 static BOOT_CONFIG_FILE_NAME: &'static str = "boot_config.json";
 
@@ -30,11 +35,36 @@ fn _set_boot_config(boot_config: &mut BootConfig, value: &Value) {
         Some(value) => value as u32,
         None => 0
     };
+    boot_config.last_window_x = match value["last_window_x"].as_i64() {
+        Some(v) => v as i32,
+        None => 0
+    };
+    boot_config.last_window_y = match value["last_window_y"].as_i64() {
+        Some(v) => v as i32,
+        None => 0
+    };
+    boot_config.last_window_width = match value["last_window_width"].as_u64() {
+        Some(v) => v as u32,
+        None => 0
+    };
+    boot_config.last_window_height = match value["last_window_height"].as_u64() {
+        Some(v) => v as u32,
+        None => 0
+    };
+    boot_config.last_window_maximized = match value["last_window_maximized"].as_bool() {
+        Some(v) => v,
+        None => false
+    };
 }
 
 pub fn read_boot_config() -> BootConfig {
     let mut boot_config = BootConfig {
-        version: 1
+        version: 1,
+        last_window_x: 0,
+        last_window_y: 0,
+        last_window_width: 0,
+        last_window_height: 0,
+        last_window_maximized: false,
     };
     if let Some(app_constants) = APP_CONSTANTS.get() {
         let boot_config_file_path = get_boot_config_file_path(&app_constants.app_local_data_dir);
@@ -62,8 +92,13 @@ fn _write_boot_config(boot_config: &BootConfig) {
 }
 
 // WARNING: If there are multiple windows, this will be called on each window close.
-pub fn write_boot_config(version: u32) {
+pub fn write_boot_config(version: u32, x: i32, y: i32, width: u32, height: u32, maximized: bool) {
     _write_boot_config(&BootConfig {
-         version
-     })
+        version,
+        last_window_x: x,
+        last_window_y: y,
+        last_window_width: width,
+        last_window_height: height,
+        last_window_maximized: maximized,
+    })
 }
