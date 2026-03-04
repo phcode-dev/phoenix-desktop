@@ -359,9 +359,24 @@ fn process_window_event(event: &GlobalWindowEvent, trust_state: &State<WindowAes
                 Ok(pos) => (pos.x, pos.y),
                 Err(_) => (0, 0),
             };
-            let (width, height) = match window.outer_size() {
-                Ok(size) => (size.width, size.height),
-                Err(_) => (0, 0),
+            // On Windows, set_size() sets the inner (client) area, so we must save
+            // inner_size() to avoid the window growing by the decoration size on each restart.
+            // On macOS, outer_size()/set_size() are consistent, so we keep outer_size().
+            let (width, height) = {
+                #[cfg(target_os = "windows")]
+                {
+                    match window.inner_size() {
+                        Ok(size) => (size.width, size.height),
+                        Err(_) => (0, 0),
+                    }
+                }
+                #[cfg(not(target_os = "windows"))]
+                {
+                    match window.outer_size() {
+                        Ok(size) => (size.width, size.height),
+                        Err(_) => (0, 0),
+                    }
+                }
             };
             boot_config::write_boot_config(1, x, y, width, height, maximized);
         }
