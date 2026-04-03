@@ -26,3 +26,11 @@ src-tauri/src-node/node_modules/@img/sharp-darwin-arm64/lib/sharp-darwin-arm64.n
 src-node/node_modules/@img/sharp-darwin-arm64/lib/sharp-darwin-arm64.node
 src-tauri/src-node/node_modules/@img/sharp-libvips-darwin-arm64/lib/libvips-cpp.42.dylib
 src-node/node_modules/@img/sharp-libvips-darwin-arm64/lib/libvips-cpp.42.dylib
+src-tauri/src-node/node_modules/node-pty/prebuilds/darwin-x64/pty.node
+src-node/node_modules/node-pty/prebuilds/darwin-x64/pty.node
+src-tauri/src-node/node_modules/node-pty/prebuilds/darwin-x64/spawn-helper
+src-node/node_modules/node-pty/prebuilds/darwin-x64/spawn-helper
+src-tauri/src-node/node_modules/node-pty/prebuilds/darwin-arm64/pty.node
+src-node/node_modules/node-pty/prebuilds/darwin-arm64/pty.node
+src-tauri/src-node/node_modules/node-pty/prebuilds/darwin-arm64/spawn-helper
+src-node/node_modules/node-pty/prebuilds/darwin-arm64/spawn-helper
