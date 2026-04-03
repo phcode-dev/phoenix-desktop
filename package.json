@@ -1,7 +1,7 @@
 {
     "name": "phoenix-code-ide",
     "private": true,
-    "version": "5.1.4",
+    "version": "5.1.5",
     "type": "module",
     "scripts": {
         "tauri": "tauri",
@@ -48,6 +48,6 @@
     "phoenixRepo": {
         "gitClonrUrl": "https://github.com/phcode-dev/phoenix.git",
         "branch": "tauri",
-        "commit": "cd1d3c85338c863d811ceb642de4cd704fde0a59"
+        "commit": "31ea5ae5623623586d8d39d84e43cc61af9b3b05"
     }
 }
