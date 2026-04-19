@@ -829,8 +829,12 @@ fn main() {
             #[cfg(not(windows))]
                 let window_origin = "phtauri://localhost";
 
+            // Wildcard ACAO so CORS succeeds for null-origin sandboxed iframes (the
+            // markdown viewer is sandboxed without allow-same-origin to contain
+            // untrusted markdown). Safe: phtauri://localhost isn't reachable from
+            // outside the Tauri webview, and these responses carry no credentials.
             let builder = ResponseBuilder::new()
-                .header("Access-Control-Allow-Origin", window_origin)
+                .header("Access-Control-Allow-Origin", "*")
                 .header("Origin", window_origin)
                 .header("Cache-Control", "private, max-age=7776000, immutable") // 3 month cache age expiry
                 .mimetype(&asset.mime_type);
