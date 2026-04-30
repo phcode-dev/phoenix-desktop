@@ -11,7 +11,7 @@ rust-version = "1.70"
 # See more keys and their definitions at https://doc.rust-lang.org/cargo/reference/manifest.html
 
 [build-dependencies]
-tauri-build = { version = "1.5.1", features = [] }
+tauri-build = { version = "2.0.0", features = [] }
 
 [dependencies]
 reqwest = { version = "0.12", features = ["json"] }
@@ -27,7 +27,7 @@ trash = "5"
 webbrowser = "1.0"
 backtrace = "0.3.73"
 serde = { version = "1.0.200", features = ["derive"] }
-tauri = { version = "1.6.2", features = [ "updater", "cli", "api-all", "devtools", "linux-protocol-headers"] }
+tauri = { version = "2.0.0", features = [ "updater", "cli", "api-all", "devtools", "linux-protocol-headers"] }
 winapi = { version = "0.3.9", features = ["fileapi", "wingdi", "winuser", "windef"] }
 png = "0.17"
 tauri-plugin-fs-extra = { git = "https://github.com/tauri-apps/plugins-workspace", branch = "v1" }
