@@ -48,6 +48,6 @@
     "phoenixRepo": {
         "gitClonrUrl": "https://github.com/phcode-dev/phoenix.git",
         "branch": "tauri",
-        "commit": "28a97522a6e852ed5f6da59053f1c5ddd966ad14"
+        "commit": "c0e3776e806c2c9d153b4b7bd8d35b153cc68361"
     }
 }
