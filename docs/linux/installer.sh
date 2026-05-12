@@ -9,15 +9,20 @@ set -euo pipefail
 # is attempted — the system already has every shared library Phoenix Code
 # needs at startup, regardless of which package name provides it.
 #
-# Two things are checked independently of the --version probe:
-#   - gnome-keyring daemon presence (libsecret needs the daemon for keytar
-#     credential storage; --version exits before keytar is required).
-#   - AppArmor unprivileged-userns profile on Ubuntu 24.04+ / Debian 13+
-#     (required for Chromium's sandbox; --version exits before the zygote).
+# Beyond the --version probe, the installer also checks for the gnome-keyring
+# daemon binary — libsecret needs the daemon for keytar credential storage,
+# and --version exits before keytar is require()d. Sudo is only requested if
+# libs or the keyring daemon are actually missing.
 #
-# Sudo is only requested if at least one of the three checks fails, and only
-# the missing piece gets installed. Also wires up a desktop entry + `phcode`
-# wrapper script that handles AppImage launch fallbacks.
+# On Ubuntu 24.04+ / Debian 13+, Chromium's unprivileged userns sandbox can
+# be blocked by the kernel sysctl. The app still launches because the wrapper
+# script falls back to --no-sandbox; we no longer install an AppArmor profile
+# to keep the kernel sandbox enabled (the renderer-RCE-to-syscall threat the
+# kernel sandbox guards against is narrow, and Phoenix Code's actual attack
+# surface flows through the IPC bridge which the kernel sandbox doesn't gate).
+#
+# Also wires up a desktop entry + `phcode` wrapper script that handles
+# AppImage launch fallbacks.
 
 DESKTOP_DIR=$HOME/.local/share/applications
 UPDATE_JSON_URL="https://updates.phcode.io/tauri/update-latest-experimental-build.json"
@@ -30,7 +35,6 @@ DESKTOP_ENTRY="$DESKTOP_DIR/$DESKTOP_ENTRY_NAME"
 SCRIPT_NAME="phcode"
 BINARY_NAME="phoenix-code"
 APPIMAGE_NAME="phoenix-code.AppImage"
-APPARMOR_PROFILE_PATH="/etc/apparmor.d/phoenix-code"
 
 declare -a MIME_TYPES=(
     "text/html"
@@ -106,11 +110,10 @@ check_architecture() {
 # Runtime-library probe: ask the AppImage to print its version and exit. This
 # is handled at src-electron/main.js:23-26, but `require('electron')` runs
 # before that handler — which means Chromium initializes its sandbox bits even
-# for --version. On Ubuntu 24.04+ / Debian 13+ without our AppArmor profile,
-# that init can SIGTRAP. Pass --no-sandbox so the probe ALSO works on systems
-# where the AppArmor profile isn't installed yet — this isolates the probe to
-# "are the system shared libraries present and loadable?" and decouples it
-# from the AppArmor concern (which is handled separately).
+# for --version. On Ubuntu 24.04+ / Debian 13+ where unprivileged user
+# namespaces are restricted, that init can SIGTRAP. Pass --no-sandbox so the
+# probe isolates to "are the system shared libraries present and loadable?"
+# regardless of the kernel's userns policy.
 #
 # The `{ … } 2>/dev/null` wrapper suppresses bash's own "Trace/breakpoint trap
 # (core dumped)" report when the subprocess dies on signal — those messages
@@ -124,15 +127,6 @@ verify_appimage_launches() {
 # so we need an independent presence check.
 gnome_keyring_present() {
   command -v gnome-keyring-daemon >/dev/null 2>&1
-}
-
-# Returns 0 if this system's kernel restricts unprivileged user namespaces
-# (Ubuntu 24.04+ / Debian 13+ / Kali rolling default), which blocks Chromium's
-# sandbox inside Electron AppImages unless an AppArmor profile grants userns.
-apparmor_userns_restricted() {
-  [ -d /etc/apparmor.d ] || return 1
-  command -v apparmor_parser >/dev/null 2>&1 || return 1
-  [ "$(sysctl -n kernel.apparmor_restrict_unprivileged_userns 2>/dev/null || echo 0)" = "1" ]
 }
 
 downloadLatestReleaseInfo() {
@@ -179,11 +173,11 @@ create_invocation_script() {
 APPIMAGE="$install_dir/$APPIMAGE_NAME"
 ERR=\$(mktemp)
 if ! "\$APPIMAGE" "\$@" 2>"\$ERR"; then
-  if grep -qiE 'fuse|libfuse|dlopen' "\$ERR"; then
+  if grep -qiE 'fuse|libfuse|fusermount|/dev/fuse' "\$ERR"; then
     rm -f "\$ERR"
     exec "\$APPIMAGE" --appimage-extract-and-run "\$@"
   fi
-  if grep -qiE 'userns|apparmor|sandbox|setuid|namespace' "\$ERR"; then
+  if grep -qiE 'userns|apparmor|sandbox|setuid|namespace|Check failed' "\$ERR"; then
     rm -f "\$ERR"
     exec "\$APPIMAGE" --no-sandbox "\$@"
   fi
@@ -209,32 +203,6 @@ gnome_keyring_pkg_if_needed() {
     echo ""
   else
     echo "gnome-keyring"
-  fi
-}
-
-# Installs an AppArmor profile that allows the AppImage to use unprivileged
-# user namespaces. Required on Ubuntu 24.04+ / Debian 13+ where the kernel knob
-# kernel.apparmor_restrict_unprivileged_userns=1 blocks Chromium's sandbox in
-# every Electron AppImage. No-op elsewhere, and a no-op if the profile is
-# already present (idempotent across re-runs and --upgrade).
-install_apparmor_profile_if_needed() {
-  apparmor_userns_restricted || return 0
-  [ -f "$APPARMOR_PROFILE_PATH" ] && return 0
-
-  sudo tee "$APPARMOR_PROFILE_PATH" >/dev/null <<EOF
-# Auto-generated by the Phoenix Code installer.
-# Required on Ubuntu 24.04+ / Debian 13+ where unprivileged user namespaces are
-# restricted by default, which would otherwise block Chromium's sandbox in the
-# Phoenix Code AppImage.
-abi <abi/4.0>,
-include <tunables/global>
-profile phoenix-code "$INSTALL_DIR/$APPIMAGE_NAME" flags=(unconfined) {
-  userns,
-  include if exists <local/phoenix-code>
-}
-EOF
-  if ! sudo apparmor_parser -r "$APPARMOR_PROFILE_PATH" 2>/dev/null; then
-    echo -e "${YELLOW}AppArmor profile reload failed; the wrapper will fall back to --no-sandbox if needed.${RESET}"
   fi
 }
 
@@ -304,11 +272,8 @@ install_packages_for_distro() {
 #      mounts the AppImage and AFTER the Electron binary loads its NEEDED libs.
 #   2. gnome-keyring daemon — binary-presence check; `--version` doesn't
 #      exercise keytar so it can't verify libsecret/Secret Service end-to-end.
-#   3. AppArmor unprivileged-userns profile — Chromium sandbox prereq on
-#      Ubuntu 24.04+ / Debian 13+. Independent of the other two.
 #
-# Sudo is requested ONLY if at least one of the three probes fails, and only
-# the failing pieces are installed.
+# Sudo is requested ONLY if at least one of the probes fails.
 ensure_runtime_dependencies() {
   local appimage="$1"
   if [ ! -f /etc/os-release ]; then
@@ -326,49 +291,30 @@ ensure_runtime_dependencies() {
   esac
   local keyring; keyring=$(gnome_keyring_pkg_if_needed)
 
-  local libs_ok=1 keyring_ok=1 apparmor_ok=1
+  local libs_ok=1 keyring_ok=1
   verify_appimage_launches "$appimage" || libs_ok=0
   if [ -n "$keyring" ] && ! gnome_keyring_present; then keyring_ok=0; fi
-  case "$distro" in
-    ubuntu|debian|linuxmint|kali|neon)
-      if apparmor_userns_restricted && [ ! -f "$APPARMOR_PROFILE_PATH" ]; then
-        apparmor_ok=0
-      fi
-      ;;
-  esac
 
-  if [ "$libs_ok" = 1 ] && [ "$keyring_ok" = 1 ] && [ "$apparmor_ok" = 1 ]; then
+  if [ "$libs_ok" = 1 ] && [ "$keyring_ok" = 1 ]; then
     echo -e "${GREEN}All runtime dependencies already present.${RESET}"
     return 0
   fi
 
-  local need_pkgs=0
-  [ "$libs_ok" = 0 ] || [ "$keyring_ok" = 0 ] && need_pkgs=1
-  if [ "$need_pkgs" = 1 ] && [ "$apparmor_ok" = 0 ]; then
-    echo "Installing runtime packages and AppArmor sandbox profile..."
-  elif [ "$libs_ok" = 0 ]; then
+  if [ "$libs_ok" = 0 ]; then
     echo "Installing missing runtime libraries..."
-  elif [ "$keyring_ok" = 0 ]; then
-    echo "Installing system keychain daemon..."
   else
-    echo "Installing AppArmor sandbox profile (keeps Chromium's sandbox enabled on Ubuntu 24.04+)..."
+    echo "Installing system keychain daemon..."
   fi
   echo "This step requires administrative access."
   if ! sudo -n true 2>/dev/null; then
     echo "Please enter your password to proceed."
   fi
 
-  if [ "$need_pkgs" = 1 ]; then
-    install_packages_for_distro "$distro" "$keyring"
-    # Re-probe libraries; if still failing, surface a clear warning but don't
-    # abort — the AppImage may have a runtime-specific issue we can't fix here.
-    if [ "$libs_ok" = 0 ] && ! verify_appimage_launches "$appimage"; then
-      echo -e "${YELLOW}WARN: AppImage still fails --version after dep install.${RESET}"
-    fi
-  fi
-
-  if [ "$apparmor_ok" = 0 ]; then
-    install_apparmor_profile_if_needed
+  install_packages_for_distro "$distro" "$keyring"
+  # Re-probe libraries; if still failing, surface a clear warning but don't
+  # abort — the AppImage may have a runtime-specific issue we can't fix here.
+  if [ "$libs_ok" = 0 ] && ! verify_appimage_launches "$appimage"; then
+    echo -e "${YELLOW}WARN: AppImage still fails --version after dep install.${RESET}"
   fi
 }
 
@@ -552,7 +498,7 @@ install() {
     echo -e "${YELLOW}Phoenix Code appears to be already installed.${RESET}"
     if [ ! -t 0 ]; then
       echo -e "${GREEN}Reinstalling Phoenix Code...${RESET}"
-      uninstall keep_apparmor
+      uninstall
       downloadAndInstall
       copyFilesToDestination
     else
@@ -560,7 +506,7 @@ install() {
       case "$response" in
         [Yy]* )
           echo -e "${GREEN}Reinstalling Phoenix Code...${RESET}"
-          uninstall keep_apparmor
+          uninstall
           downloadAndInstall
           copyFilesToDestination
           ;;
@@ -595,7 +541,7 @@ upgrade() {
   if [ -n "$latest_version" ] && [ "$(printf '%s\n' "$latest_version" "$current_version" | sort -V | tail -n1)" = "$latest_version" ] && [ "$latest_version" != "$current_version" ]; then
     echo -e "${YELLOW}A newer version of Phoenix Code is available. Proceeding with the upgrade...${RESET}"
     downloadAndInstall
-    uninstall keep_apparmor
+    uninstall
     copyFilesToDestination
     echo -e "${GREEN}Upgrade completed successfully. Phoenix Code has been updated to the latest version.${RESET}"
   else
@@ -604,15 +550,6 @@ upgrade() {
 }
 
 uninstall() {
-  # mode:
-  #   "full"          (default) — remove every artifact, including the
-  #                   system-level AppArmor profile under /etc/apparmor.d/.
-  #                   Used by the --uninstall CLI entry-point.
-  #   "keep_apparmor" — remove user-scope artifacts only; leave the AppArmor
-  #                   profile in place. Used by the internal reinstall and
-  #                   --upgrade flows so a routine version bump doesn't need
-  #                   sudo just to recreate the same profile content.
-  local mode="${1:-full}"
   echo -e "${YELLOW}Starting uninstallation of Phoenix Code...${RESET}"
   uninstallBetaAppImage
 
@@ -648,14 +585,6 @@ uninstall() {
     rm -rf "$INSTALL_DIR"
   else
     echo -e "${RED}Installation directory not found. Skipping...${RESET}"
-  fi
-
-  if [ "$mode" != "keep_apparmor" ] && [ -f "$APPARMOR_PROFILE_PATH" ]; then
-    echo -e "${YELLOW}Removing AppArmor profile...${RESET}"
-    sudo rm -f "$APPARMOR_PROFILE_PATH" || true
-    if command -v apparmor_parser >/dev/null 2>&1; then
-      sudo apparmor_parser -R "$APPARMOR_PROFILE_PATH" 2>/dev/null || true
-    fi
   fi
 
   echo -e "${GREEN}Uninstallation of Phoenix Code completed.${RESET}"
