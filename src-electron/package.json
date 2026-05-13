@@ -8,6 +8,7 @@
   ],
   "version": "5.1.8",
   "productName": "Phoenix Code Experimental Build",
+  "desktopName": "phoenix-code",
   "description": "Phoenix Code Experimental Build",
   "main": "main.js",
   "scripts": {
@@ -19,7 +20,7 @@
     "keytar": "^7.9.0"
   },
   "devDependencies": {
-    "electron": "^41.1.1",
+    "electron": "^41.5.1",
     "electron-builder": "^24.13.3"
   }
 }
