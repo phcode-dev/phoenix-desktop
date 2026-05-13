@@ -118,7 +118,9 @@ async function createWindow() {
             contextIsolation: true,
             nodeIntegration: false
         },
-        icon: path.join(__dirname, '..', 'src-tauri', 'icons', 'icon.png')
+        icon: app.isPackaged
+            ? path.join(process.resourcesPath, 'icon.png')
+            : path.join(__dirname, '..', 'src-tauri', 'icons', 'icon.png')
     });
 
     // Track window state for persistence
