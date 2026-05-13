@@ -125,11 +125,11 @@ export function patchElectronStageBranding(electronDir, productName) {
 
     const builderPath = path.join(electronDir, 'electron-builder.yml');
     const builderYml = fs.readFileSync(builderPath, 'utf8');
-    const patched = builderYml.replace(/^productName:.*$/m, `productName: ${appId}`);
-    if (patched === builderYml) {
+    const productNameRegex = /^productName:.*$/m;
+    if (!productNameRegex.test(builderYml)) {
         throw new Error(`Could not find productName line in ${builderPath}`);
     }
-    fs.writeFileSync(builderPath, patched);
+    fs.writeFileSync(builderPath, builderYml.replace(productNameRegex, `productName: ${appId}`));
 }
 
 export function patchTauriConfigWithMetricsHTML(tauriConf, useClonedPhoenix) {
