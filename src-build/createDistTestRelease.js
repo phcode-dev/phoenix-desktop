@@ -4,7 +4,7 @@ import { dirname, join } from 'path';
 import fs from 'fs';
 import * as os from 'os';
 import chalk from 'chalk';
-import { getPlatformDetails } from './utils.js';
+import { getPlatformDetails, patchElectronStageBranding } from './utils.js';
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = dirname(__filename);
@@ -160,6 +160,8 @@ function createElectronConfig() {
     console.log('gaMetricsURL:', effectiveConfig.gaMetricsURL);
     console.log('version:', effectiveConfig.version);
     fs.writeFileSync(configEffectivePath, JSON.stringify(effectiveConfig, null, 2));
+
+    patchElectronStageBranding(electronDir, effectiveConfig.productName);
 }
 
 function buildElectron() {

@@ -9,7 +9,7 @@ import {
 import { EOL } from "os";
 import os from "os";
 import fs from 'fs';
-import {patchTauriConfigWithMetricsHTML} from "./utils.js";
+import {patchTauriConfigWithMetricsHTML, patchElectronStageBranding} from "./utils.js";
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = dirname(__filename);
@@ -182,6 +182,8 @@ function createElectronReleaseAssets() {
     console.log('gaMetricsURL:', effectiveConfig.gaMetricsURL);
     console.log('version:', effectiveConfig.version);
     fs.writeFileSync(configEffectivePath, JSON.stringify(effectiveConfig, null, 2));
+
+    patchElectronStageBranding(electronDir, effectiveConfig.productName);
 }
 
 ciCreateTauriDistReleaseConfig();

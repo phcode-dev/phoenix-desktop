@@ -103,6 +103,35 @@ const METRIC_URL_FOR_STAGE = {
     "production": "https://phcode.dev/desktop-metrics.html"
 };
 
+/**
+ * Patches the electron build inputs so each stage has a unique app identity:
+ *   - src-electron/package.json `desktopName` (Electron 41.5+ uses this as the Wayland app_id)
+ *   - src-electron/electron-builder.yml `productName` (becomes the .desktop StartupWMClass + binary name)
+ * Both are set to the kebab-case form of `productName` so they match. Without matching values,
+ * the running window can't be paired to its .desktop entry and falls back to the generic Electron icon.
+ *
+ * @param {string} electronDir - absolute path to src-electron/
+ * @param {string} productName - stage-specific display name from config-effective.json
+ *                               (e.g. "Phoenix Code", "Phoenix Code Pre-release", "Phoenix Code Experimental Build")
+ */
+export function patchElectronStageBranding(electronDir, productName) {
+    const appId = productName.toLowerCase().trim().replace(/\s+/g, '-');
+    console.log(`Patching electron stage branding -> ${appId}`);
+
+    const pkgPath = path.join(electronDir, 'package.json');
+    const pkg = JSON.parse(fs.readFileSync(pkgPath));
+    pkg.desktopName = appId;
+    fs.writeFileSync(pkgPath, JSON.stringify(pkg, null, 2));
+
+    const builderPath = path.join(electronDir, 'electron-builder.yml');
+    const builderYml = fs.readFileSync(builderPath, 'utf8');
+    const patched = builderYml.replace(/^productName:.*$/m, `productName: ${appId}`);
+    if (patched === builderYml) {
+        throw new Error(`Could not find productName line in ${builderPath}`);
+    }
+    fs.writeFileSync(builderPath, patched);
+}
+
 export function patchTauriConfigWithMetricsHTML(tauriConf, useClonedPhoenix) {
     const platform = getPlatformDetails().platform;
     let phoenixConfigPath = (platform === "win") ? `${__dirname}\\..\\..\\phoenix\\dist\\config.json`
