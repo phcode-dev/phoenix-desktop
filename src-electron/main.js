@@ -40,11 +40,17 @@ protocol.registerSchemesAsPrivileged([
         }
     },
     {
-        // asset:// is for serving static files only - minimal privileges to match Tauri's security posture
-        // No standard/secure/corsEnabled - just enough for fetch() to read local assets
+        // asset:// serves static files (extensions, themes, user assets) from appLocalData/assets/.
+        // Needs standard+secure+corsEnabled so the phtauri:// app origin can XHR/fetch these files
+        // (RequireJS text plugin, $.getJSON for requirejs-config.json/keymap.json/snippets.json, etc.).
+        // Without these privileges Chromium blocks cross-origin requests to asset:// with a CORS error.
+        // This matches Tauri's wry asset protocol, which is also CORS-enabled.
         scheme: 'asset',
         privileges: {
+            standard: true,
+            secure: true,
             supportFetchAPI: true,
+            corsEnabled: true,
             stream: true
         }
     }
@@ -326,7 +332,7 @@ app.whenReady().then(async () => {
     const appDataDir = getAppDataDir();
     const assetsDir = path.join(appDataDir, 'assets');
 
-    protocol.handle('asset', (request) => {
+    protocol.handle('asset', async (request) => {
         try {
             const url = new URL(request.url);
             // Decode the path from URL encoding
@@ -341,13 +347,17 @@ app.whenReady().then(async () => {
             // Security: Ensure path is under assets directory (prevent directory traversal)
             if (!normalizedRequested.startsWith(normalizedAssetsDir)) {
                 console.error('Asset access denied - path not under assets dir:', requestedPath);
-                return new Response('Access denied', { status: 403 });
+                return new Response('Access denied', { status: 403, headers: { 'Access-Control-Allow-Origin': '*' } });
             }
 
-            return net.fetch(`file://${normalizedRequested}`);
+            const response = await net.fetch(`file://${normalizedRequested}`);
+            // Mirror Tauri's wry asset protocol: allow the phtauri:// app origin to XHR/fetch these files.
+            const headers = new Headers(response.headers);
+            headers.set('Access-Control-Allow-Origin', '*');
+            return new Response(response.body, { status: response.status, statusText: response.statusText, headers });
         } catch (err) {
             console.error('Asset protocol error:', err);
-            return new Response('Not found', { status: 404 });
+            return new Response('Not found', { status: 404, headers: { 'Access-Control-Allow-Origin': '*' } });
         }
     });
 
