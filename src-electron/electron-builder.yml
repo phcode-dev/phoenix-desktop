@@ -27,6 +27,8 @@ extraResources:
     to: "bin"
   - from: "phoenix-dist"
     to: "phoenix-dist"
+  - from: "../src-tauri/icons/icon.png"
+    to: "icon.png"
 
 extraMetadata:
   main: main.js
