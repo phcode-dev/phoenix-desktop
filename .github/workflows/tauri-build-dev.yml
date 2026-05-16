@@ -76,7 +76,7 @@ jobs:
     needs: [create-release, build-mac-m1-node-modules]
     permissions:
       contents: write
-    timeout-minutes: 60
+    timeout-minutes: 100
     strategy:
       fail-fast: false
       matrix:
@@ -276,7 +276,7 @@ jobs:
     needs: [ create-release ]
     permissions:
       contents: write
-    timeout-minutes: 60
+    timeout-minutes: 100
     runs-on: ubuntu-22.04
     steps:
       - uses: actions/checkout@v4
