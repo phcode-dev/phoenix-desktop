@@ -253,10 +253,26 @@ ipcMain.handle('is-packaged', (event) => {
     return app.isPackaged;
 });
 
-// Get executable path (path to the AppImage on Linux)
+// Path to the running Electron binary. On Linux AppImages this is the
+// FUSE-mounted binary (/tmp/.mount_*/...), not the .AppImage file —
+// use 'get-installed-app-path' if you need the user-visible install path.
 ipcMain.handle('get-executable-path', (event) => {
     assertTrusted(event);
     return process.execPath;
+});
+
+// Path of the installed app, or null if not running from an installed build.
+// - Linux AppImage: process.env.APPIMAGE (set by AppRun to the .AppImage path)
+// - Other / dev / unpacked: null (auto-update not supported yet)
+ipcMain.handle('get-installed-app-path', (event) => {
+    assertTrusted(event);
+    if (!app.isPackaged) {
+        return null;
+    }
+    if (process.platform === 'linux') {
+        return process.env.APPIMAGE || null;
+    }
+    return null;
 });
 
 // Update scheduled state - shared across windows for multi-window update persistence
