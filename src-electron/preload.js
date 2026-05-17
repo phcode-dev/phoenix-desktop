@@ -173,6 +173,7 @@ contextBridge.exposeInMainWorld('electronAPI', {
     getAppVersion: () => ipcRenderer.invoke('get-app-version'),
     isPackaged: () => ipcRenderer.invoke('is-packaged'),
     getExecutablePath: () => ipcRenderer.invoke('get-executable-path'),
+    getInstalledAppPath: () => ipcRenderer.invoke('get-installed-app-path'),
     setUpdateScheduled: (scheduled) => ipcRenderer.invoke('set-update-scheduled', scheduled),
     getUpdateScheduled: () => ipcRenderer.invoke('get-update-scheduled')
 });
