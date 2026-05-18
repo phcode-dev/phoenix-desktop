@@ -29,7 +29,7 @@
         },
         "linux-x86_64": {
             "signature": "dW50cnVzdGVkIGNvbW1lbnQ6IHNpZ25hdHVyZSBmcm9tIG1pbmlzaWduIHNlY3JldCBrZXkKUlVUVTVEdXJNVyttWm1LT0Rla1BIK1l2akRaclI3TFhGMHZYTEVSbWxmSGt1UFRCeGRPY1BjVkJ3Nk9DMlgvYjZWSXlWSVhjVGR2S1dYa2RsYVF2SnZLY2lra2lObXZ3cWdRPQp0cnVzdGVkIGNvbW1lbnQ6IDE3Njk5Mzc4MDYJZmlsZTpwaG9lbml4LWNvZGUtZXhwZXJpbWVudGFsLWJ1aWxkXzUuMC41LkFwcEltYWdlCjhVR3BVVkFSV010dXZjZkExeDFnOTcrbjRWMW4wVlhmOFYzbmhWMGxUd1VaR0lhc2tmMTRpNTRHYzkyeVNNNnAydG9YSkZvQTJ1U3F1RU96akVsaEN3PT0K",
-            "url": "https://github.com/phcode-dev/phoenix-desktop/releases/download/prod-app-v5.1.3/phoenix-code_5.1.3.AppImage"
+            "url": "https://github.com/abose/phoenix-desktop/releases/download/cc/phoenix-code_5.1.16.AppImage"
         }
     }
 }
