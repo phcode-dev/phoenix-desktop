@@ -538,11 +538,6 @@ fn capture_page_windows(window: tauri::Window, rect: Option<CaptureRect>) -> Res
     };
     use winapi::shared::windef::{RECT, HGDIOBJ};
 
-    // GDI works in physical pixels, but the JS caller sends the rect in CSS pixels
-    // (scaled only by the webview zoom factor, not by the OS DPI). Convert by
-    // multiplying with the window's OS scale factor (1.25 at Windows 125% scaling).
-    let dpi_scale = window.scale_factor().unwrap_or(1.0);
-
     unsafe {
         let hwnd = window.hwnd().map_err(|e| e.to_string())?;
         let hwnd = hwnd.0 as winapi::shared::windef::HWND;
@@ -589,13 +584,14 @@ fn capture_page_windows(window: tauri::Window, rect: Option<CaptureRect>) -> Res
             chunk.swap(0, 2);
         }
 
-        // Extract the requested region (or full image). Convert the incoming
-        // CSS-pixel rect into physical pixels using the OS DPI scale factor.
+        // The JS caller already sends the rect in physical pixels (it multiplies
+        // getBoundingClientRect() by devicePixelRatio on Windows). Just clamp to
+        // the actual client area from GetClientRect, which is also in physical pixels.
         let (cap_x, cap_y, cap_w, cap_h) = if let Some(r) = &rect {
-            let x = ((r.x * dpi_scale).round() as i32).max(0).min(full_width);
-            let y = ((r.y * dpi_scale).round() as i32).max(0).min(full_height);
-            let w = ((r.width * dpi_scale).round() as i32).min(full_width - x).max(0);
-            let h = ((r.height * dpi_scale).round() as i32).min(full_height - y).max(0);
+            let x = (r.x as i32).max(0).min(full_width);
+            let y = (r.y as i32).max(0).min(full_height);
+            let w = (r.width as i32).min(full_width - x).max(0);
+            let h = (r.height as i32).min(full_height - y).max(0);
             (x, y, w, h)
         } else {
             (0, 0, full_width, full_height)
