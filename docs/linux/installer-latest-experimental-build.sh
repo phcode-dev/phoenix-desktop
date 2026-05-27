@@ -35,6 +35,7 @@ DESKTOP_ENTRY="$DESKTOP_DIR/$DESKTOP_ENTRY_NAME"
 SCRIPT_NAME="phcode"
 BINARY_NAME="phoenix-code"
 APPIMAGE_NAME="phoenix-code.AppImage"
+MIN_GLIBC_VERSION="2.35"
 
 declare -a MIME_TYPES=(
     "text/html"
@@ -488,12 +489,62 @@ downloadAndInstall() {
   ensure_runtime_dependencies "$TMP_DIR/$APPIMAGE_NAME"
 }
 
+# Returns 0 if the system GLIBC is >= MIN_GLIBC_VERSION, 1 otherwise.
+# Uses the same ldd + awk pattern the old GLIBC-matched installer used.
+glibc_compatible() {
+  local cur_ver
+  cur_ver=$(ldd --version | grep "ldd" | awk '{print $NF}')
+  echo "Current GLIBC version: $cur_ver"
+  awk -v min="$MIN_GLIBC_VERSION" -v cur="$cur_ver" \
+    'BEGIN { min += 0; cur += 0; exit !(min <= cur) }'
+}
+
+# On systems whose GLIBC is too old for the new AppImage, disable auto-update
+# in the old installation's config so it stops trying to upgrade to a binary
+# that cannot run here.
+disable_auto_update_old_version() {
+  local config_path=""
+  local primary="$HOME/.local/share/io.phcode/phcode.json"
+  local xdg="${XDG_DATA_HOME:-$HOME/.local/share}/io.phcode/phcode.json"
+
+  if [ -f "$primary" ]; then
+    config_path="$primary"
+  elif [ "$xdg" != "$primary" ] && [ -f "$xdg" ]; then
+    config_path="$xdg"
+  fi
+
+  if [ -z "$config_path" ]; then
+    config_path="$primary"
+    echo "Creating $config_path..."
+    mkdir -p "$(dirname "$config_path")"
+    echo '{"autoUpdate": false}' > "$config_path"
+    echo -e "${GREEN}Auto-update disabled in $config_path${RESET}"
+    return 0
+  fi
+
+  echo "Disabling auto-update in $config_path..."
+  if grep -q '"autoUpdate"' "$config_path"; then
+    sed -i 's/"autoUpdate"[[:space:]]*:[[:space:]]*[^,}]*/"autoUpdate": false/' "$config_path"
+  elif grep -q '"' "$config_path"; then
+    sed -i '0,/{/ s/{/{\n    "autoUpdate": false,/' "$config_path"
+  else
+    echo '{"autoUpdate": false}' > "$config_path"
+  fi
+  echo -e "${GREEN}Auto-update disabled in $config_path${RESET}"
+}
+
 # Temporary cleanup for files from older installer versions.
 uninstallBetaAppImage() {
   rm -f "$LINK_DIR"/phoenix_icon.png
 }
 
 install() {
+  if ! glibc_compatible; then
+    echo -e "${RED}This system's GLIBC is older than $MIN_GLIBC_VERSION. The new AppImage cannot run here.${RESET}"
+    disable_auto_update_old_version
+    exit 1
+  fi
+
   if [ -f "$LINK_DIR/$SCRIPT_NAME" ] || [ -d "$INSTALL_DIR" ]; then
     echo -e "${YELLOW}Phoenix Code appears to be already installed.${RESET}"
     if [ ! -t 0 ]; then
@@ -524,6 +575,12 @@ install() {
 
 upgrade() {
   echo -e "${YELLOW}Checking for upgrades to Phoenix Code...${RESET}"
+
+  if ! glibc_compatible; then
+    echo -e "${RED}This system's GLIBC is older than $MIN_GLIBC_VERSION. The new AppImage cannot run here.${RESET}"
+    disable_auto_update_old_version
+    exit 1
+  fi
 
   if [ ! -f "$LINK_DIR/$SCRIPT_NAME" ] && [ ! -d "$INSTALL_DIR" ]; then
     echo -e "${RED}Phoenix Code is not installed. Please install it first.${RESET}"
