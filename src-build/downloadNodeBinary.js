@@ -187,7 +187,7 @@ function unzipFile(zipFilePath, extractPath) {
         }
 
         if (!zipEntry.isDirectory) {
-            zip.extractEntryTo(zipEntry.entryName, extractPath);
+            zip.extractEntryTo(zipEntry.entryName, extractPath, /*maintainEntryPath*/true, /*overwrite*/true);
         }
     });
 
