@@ -456,7 +456,7 @@ EOF
   print_keyring_hint_if_locked
 }
 
-downloadAndInstall() {
+downloadAndVerifyDeps() {
   echo "Using temporary directory $TMP_DIR for processing"
   downloadLatestReleaseInfo > /dev/null
   check_architecture
@@ -549,16 +549,16 @@ install() {
     echo -e "${YELLOW}Phoenix Code appears to be already installed.${RESET}"
     if [ ! -t 0 ]; then
       echo -e "${GREEN}Reinstalling Phoenix Code...${RESET}"
+      downloadAndVerifyDeps
       uninstall
-      downloadAndInstall
       copyFilesToDestination
     else
       read -r -p "Would you like to reinstall it? (y/N): " response
       case "$response" in
         [Yy]* )
           echo -e "${GREEN}Reinstalling Phoenix Code...${RESET}"
+          downloadAndVerifyDeps
           uninstall
-          downloadAndInstall
           copyFilesToDestination
           ;;
         * )
@@ -568,7 +568,7 @@ install() {
       esac
     fi
   else
-    downloadAndInstall
+    downloadAndVerifyDeps
     copyFilesToDestination
   fi
 }
@@ -597,7 +597,7 @@ upgrade() {
 
   if [ -n "$latest_version" ] && [ "$(printf '%s\n' "$latest_version" "$current_version" | sort -V | tail -n1)" = "$latest_version" ] && [ "$latest_version" != "$current_version" ]; then
     echo -e "${YELLOW}A newer version of Phoenix Code is available. Proceeding with the upgrade...${RESET}"
-    downloadAndInstall
+    downloadAndVerifyDeps
     uninstall
     copyFilesToDestination
     echo -e "${GREEN}Upgrade completed successfully. Phoenix Code has been updated to the latest version.${RESET}"
