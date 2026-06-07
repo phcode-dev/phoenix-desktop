@@ -265,6 +265,38 @@ install_packages_for_distro() {
   esac
 }
 
+# Resolves the running distro to one of the package-manager families the
+# installer knows how to drive: ubuntu/debian (apt), fedora/rhel (dnf), or arch
+# (pacman). Directly-named IDs map to themselves; derivative distros that aren't
+# listed explicitly — TUXEDO OS (tuxedo), Pop!_OS (pop), Zorin, elementary,
+# EndeavourOS, Nobara, Raspbian, … — resolve through their ID_LIKE chain, and
+# as a last resort we key off whichever package manager is actually installed.
+# Echoes the family on success; returns 1 only for a truly unknown system.
+resolve_distro_family() {
+  local id="$1" id_like="$2" token
+  # 1. IDs the per-distro install logic already handles by name.
+  case "$id" in
+    ubuntu|debian|linuxmint|kali|neon|fedora|rhel|centos|arch|manjaro|cachyos)
+      echo "$id"; return 0 ;;
+  esac
+  # 2. Walk ID_LIKE (space-separated, most-derived first) for a known base.
+  #    e.g. TUXEDO OS ships ID_LIKE="ubuntu debian" -> ubuntu.
+  # shellcheck disable=SC2086
+  for token in $id_like; do
+    case "$token" in
+      ubuntu|debian|fedora|rhel|centos|arch) echo "$token"; return 0 ;;
+    esac
+  done
+  # 3. Fall back to the installed package manager. Package *names* differ
+  #    between families but are identical within one (the apt branch picks
+  #    libfuse2 vs libfuse2t64 by repo query), so any apt host can be driven as
+  #    debian, any dnf host as fedora, any pacman host as arch.
+  if command -v apt-get >/dev/null 2>&1; then echo debian; return 0; fi
+  if command -v dnf     >/dev/null 2>&1; then echo fedora; return 0; fi
+  if command -v pacman  >/dev/null 2>&1; then echo arch;   return 0; fi
+  return 1
+}
+
 # Decides what (if anything) the user's system is missing for Phoenix Code to
 # run, then installs only the missing piece(s). Three independent probes:
 #
@@ -283,13 +315,14 @@ ensure_runtime_dependencies() {
   fi
   . /etc/os-release
   local distro="${ID:-}"
-  case "$distro" in
-    ubuntu|debian|linuxmint|kali|neon|fedora|rhel|centos|arch|manjaro|cachyos) ;;
-    *)
-      echo -e "${RED}Unsupported distribution: $distro. Please install libfuse2/fuse2, libsecret, and (on non-KDE) gnome-keyring manually.${RESET}"
-      exit 1
-      ;;
-  esac
+  local family
+  if ! family=$(resolve_distro_family "$distro" "${ID_LIKE:-}"); then
+    echo -e "${RED}Unsupported distribution: ${distro:-unknown}. Please install libfuse2/fuse2, libsecret, and (on non-KDE) gnome-keyring manually.${RESET}"
+    exit 1
+  fi
+  if [ "$family" != "$distro" ]; then
+    echo -e "${GREEN}Detected '$distro'; installing dependencies as '$family'-compatible.${RESET}"
+  fi
   local keyring; keyring=$(gnome_keyring_pkg_if_needed)
 
   local libs_ok=1 keyring_ok=1
@@ -311,7 +344,7 @@ ensure_runtime_dependencies() {
     echo "Please enter your password to proceed."
   fi
 
-  install_packages_for_distro "$distro" "$keyring"
+  install_packages_for_distro "$family" "$keyring"
   # Re-probe libraries; if still failing, surface a clear warning but don't
   # abort — the AppImage may have a runtime-specific issue we can't fix here.
   if [ "$libs_ok" = 0 ] && ! verify_appimage_launches "$appimage"; then
@@ -367,29 +400,24 @@ print_keyring_hint_if_locked() {
 set_default_application() {
   local desktop_file="$DESKTOP_ENTRY_NAME"
 
-  if [ "${KDE_SESSION_VERSION:-0}" -gt 0 ] && ! command -v qtpaths &> /dev/null; then
-    local qtpaths_locations=(
-      "/usr/lib/qt6/bin"
-      "/usr/lib/qt5/bin"
-      "/usr/lib64/qt6/bin"
-      "/usr/lib64/qt5/bin"
-      "/opt/qt6/bin"
-      "/opt/qt5/bin"
-    )
-    for qtpath_dir in "${qtpaths_locations[@]}"; do
-      if [ -x "$qtpath_dir/qtpaths" ] || [ -x "$qtpath_dir/qtpaths6" ]; then
-        export PATH="$qtpath_dir:$PATH"
-        break
-      fi
-    done
-  fi
-
+  # `xdg-mime default` sets the system default opener by writing [Default
+  # Applications] to ~/.config/mimeapps.list (its generic backend), which works on
+  # every desktop. On KDE it ALSO runs a qtpaths-based backend that is redundant
+  # for us; on Qt6-only systems (TUXEDO OS, Ubuntu 24.04 KDE, Fedora KDE) the
+  # `qtpaths` CLI is absent, so that backend prints a harmless "qtpaths: not found"
+  # per mimetype while the default is still set correctly. Collect stderr and drop
+  # only that cosmetic line, letting any genuine error through.
+  local mime_err
+  mime_err=$(mktemp)
   for mime_type in "${MIME_TYPES[@]}"; do
     if [ "$mime_type" = "text/html" ]; then
       continue
     fi
-    xdg-mime default "$desktop_file" "$mime_type"
+    xdg-mime default "$desktop_file" "$mime_type" 2>>"$mime_err"
   done
+  grep -vE 'qtpaths.*not found' "$mime_err" >&2 || true
+  rm -f "$mime_err"
+
   echo -e "${GREEN}Success! You can now right-click on files in your file manager and choose Phoenix Code to edit them.${RESET}"
 }
 
