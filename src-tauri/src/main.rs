@@ -425,6 +425,84 @@ struct CaptureRect {
     height: f64,
 }
 
+// macOS native screen eyedropper for the styles-bar color picker. WebKit (the
+// app's WKWebView) does not implement the web EyeDropper API, so the previewed
+// page routes here through the editor. Shows the system color sampler
+// (NSColorSampler, macOS 10.15+) and resolves with the picked color as
+// "#rrggbb", or "" when the user dismisses the sampler without choosing.
+#[tauri::command]
+async fn pick_screen_color(window: tauri::Window) -> Result<String, String> {
+    #[cfg(not(target_os = "macos"))]
+    {
+        let _ = &window;
+        return Err("pick_screen_color is only implemented on macOS".to_string());
+    }
+
+    #[cfg(target_os = "macos")]
+    {
+        let (tx, rx) = tokio::sync::oneshot::channel::<Result<String, String>>();
+
+        // with_webview runs the closure on the main (UI) thread, which
+        // NSColorSampler requires; the webview pointer itself is unused — the
+        // sampler is a screen-wide system picker independent of the webview.
+        window.with_webview(move |_webview| {
+            unsafe {
+                let cls = match objc::runtime::Class::get("NSColorSampler") {
+                    Some(c) => c,
+                    None => {
+                        let _ = tx.send(Err(
+                            "NSColorSampler is unavailable on this macOS version".to_string()));
+                        return;
+                    }
+                };
+                // `new` returns a +1-retained instance; intentionally never
+                // released so it outlives the async selection handler.
+                let sampler: cocoa::base::id = msg_send![cls, new];
+
+                // Wrap the sender so the handler closure is Fn (not FnOnce).
+                let tx = std::sync::Arc::new(std::sync::Mutex::new(Some(tx)));
+
+                let handler = block::ConcreteBlock::new(move |color: cocoa::base::id| {
+                    let mut guard = tx.lock().unwrap();
+                    let tx = match guard.take() {
+                        Some(tx) => tx,
+                        None => return,
+                    };
+                    if color.is_null() {
+                        // dismissed without choosing a color
+                        let _ = tx.send(Ok(String::new()));
+                        return;
+                    }
+                    // Normalize to sRGB before reading components — the sampled
+                    // color can arrive in an arbitrary color space.
+                    let srgb_space: cocoa::base::id =
+                        msg_send![class!(NSColorSpace), sRGBColorSpace];
+                    let srgb: cocoa::base::id = msg_send![color, colorUsingColorSpace: srgb_space];
+                    if srgb.is_null() {
+                        let _ = tx.send(Ok(String::new()));
+                        return;
+                    }
+                    let r: f64 = msg_send![srgb, redComponent];
+                    let g: f64 = msg_send![srgb, greenComponent];
+                    let b: f64 = msg_send![srgb, blueComponent];
+                    let to_byte = |v: f64| -> u8 {
+                        let n = (v * 255.0).round();
+                        if n < 0.0 { 0 } else if n > 255.0 { 255 } else { n as u8 }
+                    };
+                    let hex = format!("#{:02x}{:02x}{:02x}", to_byte(r), to_byte(g), to_byte(b));
+                    let _ = tx.send(Ok(hex));
+                });
+                let handler = handler.copy();
+                let selection_handler: &block::Block<(cocoa::base::id,), ()> = &handler;
+
+                let () = msg_send![sampler, showSamplerWithSelectionHandler: selection_handler];
+            }
+        }).map_err(|e| e.to_string())?;
+
+        return rx.await.map_err(|_| "Color picker channel closed".to_string())?;
+    }
+}
+
 #[tauri::command]
 async fn capture_page(window: tauri::Window, rect: Option<CaptureRect>) -> Result<Vec<u8>, String> {
     #[cfg(target_os = "linux")]
@@ -883,7 +961,7 @@ fn main() {
             put_item, get_item, get_all_items, delete_item,
             trust_window_aes_key, remove_trust_window_aes_key,
             _get_windows_drives, _rename_path, show_in_folder, move_to_trash, zoom_window,
-            _get_clipboard_files, _open_url_in_browser_win, capture_page])
+            _get_clipboard_files, _open_url_in_browser_win, capture_page, pick_screen_color])
         .setup(|app| {
             init::init_app(app);
             #[cfg(target_os = "linux")]
