@@ -1,4 +1,10 @@
 {
+  "CRITICAL_WINDOWS_UPDATE_5_2_0": {
+    "DANGER_SHOW_ON_EVERY_BOOT": true,
+    "HTML_CONTENT": "<div style='display:flex;align-items:center;gap:10px;'><div><div style='font-weight:600;'>중요 업데이트가 필요합니다</div><div style='opacity:0.85;font-size:0.9em;'>이 버전의 Windows용 Phoenix Code에는 심각한 안정성 문제가 있습니다. phcode.io에서 최신 버전을 다운로드하여 설치하세요.</div></div><button class='btn primary' onclick=\"Phoenix.app.openURLInDefaultBrowser('https://phcode.io')\">다운로드</button></div>",
+    "FOR_VERSIONS": "<=5.2.0",
+    "PLATFORM": "win"
+  },
   "DESKTOP_APP_BANNER": {
     "DANGER_SHOW_ON_EVERY_BOOT" : false,
     "HTML_CONTENT": "<div>Windows, Mac 및 Linux용 <b>소개</b> Phoenix Code <b>데스크톱 앱</b>. <a class='notification_ack' href='https://phcode.io' _target='_blank'> 지금 다운로드하려면 여기를 클릭하세요!</a></div>",

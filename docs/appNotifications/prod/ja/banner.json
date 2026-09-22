@@ -1,4 +1,10 @@
 {
+  "CRITICAL_WINDOWS_UPDATE_5_2_0": {
+    "DANGER_SHOW_ON_EVERY_BOOT": true,
+    "HTML_CONTENT": "<div style='display:flex;align-items:center;gap:10px;'><div><div style='font-weight:600;'>重要なアップデートが必要です</div><div style='opacity:0.85;font-size:0.9em;'>このバージョンの Windows 版 Phoenix Code には重大な安定性の問題があります。phcode.io から最新バージョンをダウンロードしてインストールしてください。</div></div><button class='btn primary' onclick=\"Phoenix.app.openURLInDefaultBrowser('https://phcode.io')\">ダウンロード</button></div>",
+    "FOR_VERSIONS": "<=5.2.0",
+    "PLATFORM": "win"
+  },
   "DESKTOP_APP_BANNER": {
     "DANGER_SHOW_ON_EVERY_BOOT" : false,
     "HTML_CONTENT": "<div>Windows、Mac、Linux 用の <b>Phoenix Code の<b>デスクトップ アプリ</b>を紹介</b>します。 <a class='notification_ack' href='https://phcode.io' _target='_blank'> ここをクリックして今すぐ入手してください。</a></div>",
