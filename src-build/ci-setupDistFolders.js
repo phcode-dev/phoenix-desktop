@@ -10,6 +10,7 @@ import { EOL } from "os";
 import os from "os";
 import fs from 'fs';
 import {patchTauriConfigWithMetricsHTML, patchElectronStageBranding} from "./utils.js";
+import {patchTauriConfigWithInstallerTranslations} from "./win/nsis-languages.js";
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = dirname(__filename);
@@ -115,6 +116,10 @@ function ciCreateTauriDistReleaseConfig() {
     configJson.tauri.bundle.identifier = bundleIdentifier;
 
     patchTauriConfigWithMetricsHTML(configJson, true);
+    if(os.platform() === 'win32'){
+        patchTauriConfigWithInstallerTranslations(configJson, join(__dirname, '..', 'phoenix'),
+            join(__dirname, '..', 'src-tauri', 'nsis-languages'));
+    }
 
     console.log("Product update endpoints are: ", configJson.tauri.updater.endpoints);
     console.log("Writing new dist config json ", tauriConfigPath, configJson);
