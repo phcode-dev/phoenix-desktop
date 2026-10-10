@@ -5,6 +5,7 @@ import fs from 'fs';
 import * as os from 'os';
 import chalk from 'chalk';
 import { getPlatformDetails, patchTauriConfigWithMetricsHTML, patchElectronStageBranding } from './utils.js';
+import { patchTauriConfigWithInstallerTranslations } from './win/nsis-languages.js';
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = dirname(__filename);
@@ -113,6 +114,10 @@ function createDistConfig() {
     }
 
     patchTauriConfigWithMetricsHTML(configJson);
+    if (os.platform() === 'win32') {
+        patchTauriConfigWithInstallerTranslations(configJson, join(projectRoot, '..', 'phoenix'),
+            join(projectRoot, 'src-tauri', 'nsis-languages'));
+    }
     console.log('Window Boot url:', configJson.tauri.windows[0].url);
     console.log('Writing new local config json:', tauriLocalConfigPath);
     fs.writeFileSync(tauriLocalConfigPath, JSON.stringify(configJson, null, 4));
