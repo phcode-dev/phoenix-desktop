@@ -1137,10 +1137,24 @@ Function SetupPhcode
 
 FunctionEnd
 
+; Bundled dependencies are one release unit. Overlaying upgrades leaves removed nested
+; packages on disk, where Node can resolve them instead of the new release's dependencies.
+; Never defer this cleanup until reboot: that would allow a mixed dependency tree to launch.
+!macro CleanBundledNodeResources
+  ${If} ${FileExists} "$INSTDIR\src-node\*.*"
+    ClearErrors
+    RMDir /r "$INSTDIR\src-node"
+    ${If} ${Errors}
+      Abort "$(unableToUninstall)"
+    ${EndIf}
+  ${EndIf}
+!macroend
+
 Section Install
   SetOutPath $INSTDIR
 
   !insertmacro CheckIfAppIsRunning
+  !insertmacro CleanBundledNodeResources
 
   ; Copy main executable
   File "${MAINBINARYSRCPATH}"
