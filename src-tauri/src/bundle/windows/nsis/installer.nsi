@@ -354,9 +354,25 @@ FunctionEnd
 !insertmacro MUI_LANGUAGE "{{this}}"
 {{/each}}
 !insertmacro MUI_RESERVEFILE_LANGDLL
+
+; Tauri's strings are blank in languages without a translation, so give every language the English
+; ones first. The language files below overwrite them where a translation exists.
+!pragma warning push
+!pragma warning disable 6030
+!define TAURI_ORIGINAL_LANG_ENGLISH ${LANG_ENGLISH}
+!macro TauriEnglishFallback LANGNAME
+  !define /redef LANG_ENGLISH ${LANG_${LANGNAME}}
+  !include "English.nsh"
+!macroend
+{{#each languages}}
+!insertmacro TauriEnglishFallback "{{this}}"
+{{/each}}
+!define /redef LANG_ENGLISH ${TAURI_ORIGINAL_LANG_ENGLISH}
+
 {{#each language_files}}
   !include "{{this}}"
 {{/each}}
+!pragma warning pop
 
 !macro SetContext
   !if "${INSTALLMODE}" == "currentUser"
