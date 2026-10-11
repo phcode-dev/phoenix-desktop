@@ -1,4 +1,10 @@
 {
+  "CRITICAL_WINDOWS_UPDATE_5_2_0": {
+    "DANGER_SHOW_ON_EVERY_BOOT": true,
+    "HTML_CONTENT": "<div style='display:flex;align-items:center;gap:10px;'><div><div style='font-weight:600;'>Kritisches Update erforderlich</div><div style='opacity:0.85;font-size:0.9em;'>Diese Version von Phoenix Code für Windows weist ein kritisches Stabilitätsproblem auf. Bitte laden Sie die neueste Version von phcode.io herunter und installieren Sie sie.</div></div><button class='btn primary' onclick=\"Phoenix.app.openURLInDefaultBrowser('https://phcode.io')\">Herunterladen</button></div>",
+    "FOR_VERSIONS": "<=5.2.0",
+    "PLATFORM": "win"
+  },
   "DESKTOP_APP_BANNER": {
     "DANGER_SHOW_ON_EVERY_BOOT" : false,
     "HTML_CONTENT": "<div><b>Wir stellen vor</b> Phoenix Code <b>Desktop-Apps</b> für Windows, Mac und Linux. <a class='notification_ack' href='https://phcode.io' _target='_blank'> Klicken Sie hier, um es jetzt zu erhalten!</a></div>",
