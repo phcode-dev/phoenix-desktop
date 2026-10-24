@@ -866,6 +866,26 @@ fn main() {
     // fix that https://github.com/tauri-apps/fix-path-env-rs
     let _ = fix_path_env::fix();
 
+    // WebView2 moves iframes sandboxed without allow-same-origin (the markdown viewer) out of process when
+    // IsolateSandboxedIframes is on. wry 0.24 registers the phtauri filter without request source kinds, so
+    // those frames' scripts/styles bypass the protocol handler and the viewer never loads. Microsoft currently
+    // turns the feature off by server config, but it is on for fresh profiles and can be re-enabled any time.
+    // An env var (appended to wry's own args) applies the same args to every window, as WebView2 requires.
+    // Note: while it is set, WebView2 skips its registry-based loader overrides for this app.
+    #[cfg(target_os = "windows")]
+    {
+        const WEBVIEW2_ARGS_ENV: &str = "WEBVIEW2_ADDITIONAL_BROWSER_ARGUMENTS";
+        // Only IsolateSandboxedIframes is new. The first three are wry's own defaults (Edge's text-selection
+        // "mini menu" for pages/PDFs and SmartScreen; see wry#535, tauri#1345). WebView2 merges repeated
+        // --disable-features lists, but they are repeated so they stay off even if a runtime ever stops merging.
+        let isolation_off = "--disable-features=msWebOOUI,msPdfOOUI,msSmartScreenProtection,IsolateSandboxedIframes";
+        let browser_args = match env::var(WEBVIEW2_ARGS_ENV) {
+            Ok(existing) if !existing.trim().is_empty() => format!("{} {}", existing, isolation_off),
+            _ => isolation_off.to_string(),
+        };
+        env::set_var(WEBVIEW2_ARGS_ENV, browser_args);
+    }
+
     tauri::Builder::default()
         .manage(Storage {
                 map: Mutex::new(HashMap::new()),
