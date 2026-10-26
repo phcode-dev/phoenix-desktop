@@ -6,7 +6,7 @@
     "phtauri://localhost/",
     "https://phcode.dev/"
   ],
-  "version": "5.5.8",
+  "version": "5.5.9",
   "productName": "Phoenix Code Experimental Build",
   "desktopName": "phoenix-code-experimental-build",
   "description": "Phoenix Code Experimental Build",
