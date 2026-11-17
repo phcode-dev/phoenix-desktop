@@ -1,6 +1,6 @@
 {
     "SHOW_$_COSTS": {
-        "isExperimenting": true,
-        "finalValueEnable$": true
+        "isExperimenting": false,
+        "finalValueEnable$": false
     }
 }
