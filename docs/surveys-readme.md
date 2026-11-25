@@ -60,3 +60,10 @@ Use the `browser` object to override settings for browser deployments. All prope
 - **Power User Survey**: First shown 14 days after initial boot, then repeats at configured interval.
   - Survey URL selection priority: `powerUserPaid` (if paid subscriber) → `powerUserLoggedIn` (if logged in) → `powerUser` (fallback)
 - **Fallback**: If browser-specific config exists, native app uses main config, browser uses browser config with fallback to main.
+
+## Disabling Surveys
+
+A survey is skipped when its URL is missing or `null`. To disable all surveys, set `newUser`, `powerUser`
+(and `powerUserLoggedIn` / `powerUserPaid` if present) to `null` in **both** the top-level config and the
+`browser` object. Because the browser config falls back to the top-level values, leaving a URL set in either
+place will still show that survey in the browser app.

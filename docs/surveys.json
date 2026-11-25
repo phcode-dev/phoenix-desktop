@@ -1,11 +1,11 @@
 {
-  "newUser": "https://s.surveyplanet.com/9y5p5azy",
-  "powerUser": "https://s.surveyplanet.com/dfy15wgk",
+  "newUser": null,
+  "powerUser": null,
   "newUserShowDelayMS": 1200000,
   "powerUserShowIntervalDays": 45,
   "browser": {
-    "newUser": "https://s.surveyplanet.com/d7vk6wq5",
-    "powerUser": "https://s.surveyplanet.com/e3r7fm8c",
+    "newUser": null,
+    "powerUser": null,
     "newUserShowDelayMS": 1200000,
     "powerUserShowIntervalDays": 45
   }
